@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+      .table {
+        width: 300px;
+      }
+      .container {
+          width: 100%;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -12,7 +20,7 @@
         <div class="col-md-12">
           <h1>CyberBrokers Mech Auto Assembler</h1>
 
-          <p id="info">Enter wallet address to detect TPL Mech Parts.</p>
+          <p id="info">Enter wallet address to detect TPL Mech Parts. (Requires Metamask but no need to connect or sign to use this tool)</p>
 
           <div id="prepare">
             <input id="address" type="text" value="">
@@ -23,49 +31,66 @@
 
           <div id="connected" style="display: none">
 
-            <hr>
+            <div class="col-md-3">
+              <h3>TPL Mech Parts <span id="part_count">0</span></h3>
 
-            <h3>Full Model Mechs</h3>
+              <table class="table table-listing">
+                <thead>
+                  <th style="width:20%">Image</th>
+                  <th>Part</th>
+                  <th>Model</th>
+                  <th>Count</th>
+                </thead>
 
-            <table class="table table-full">
-              <thead>
-                <th>Model</th>
-                <th>Count</th>
-              </thead>
+                <tbody id="accounts">
+                </tbody>
+              </table>
+            </div>
 
-              <tbody id="full">
-              </tbody>
-            </table>
+            <div class="col-md-3">
+              <h3>TPL Afterglows <span id="afterglow_count">0</span></h3>
 
-            <hr>
+              <table class="table table-listing">
+                <thead>
+                  <th style="width:20%">Image</th>
+                  <th>Name</th>
+                  <th>Count</th>
+                </thead>
 
-            <!-- <h3> Mixed Model Mechs (Minus Full)</h3>
+                <tbody id="afterglow">
+                </tbody>
+              </table>
+            </div>
 
-            <table class="table table-mixed">
-              <thead>
-                <th>Model</th>
-                <th>Count</th>
-              </thead>
+            <div class="col-md-3">
+              <h3>Full Mechs <span id="full_count">0</span></h3>
 
-              <tbody id="mixed">
-              </tbody>
-            </table>
+              <table class="table table-full">
+                <thead>
+                  <th style="width:20%">Image</th>
+                  <th>Model</th>
+                  <th>Count</th>
+                </thead>
 
-            <hr> -->
+                <tbody id="full">
+                </tbody>
+              </table>
+            </div>
 
-            <h3>TPL Mech Parts</h3>
+            <div class="col-md-3">
+              <h3> Mixed Mechs <span id="mixed_count">0</span></h3>
 
-            <table class="table table-listing">
-              <thead>
-                <th>Part</th>
-                <th>Model</th>
-                <th>Count</th>
-              </thead>
+              <table class="table table-mixed">
+                <thead>
+                  <th style="width:20%">Image</th>
+                  <th>Model</th>
+                  <th>Count</th>
+                </thead>
 
-              <tbody id="accounts">
-              </tbody>
-            </table>
-
+                <tbody id="mixed">
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>
@@ -76,6 +101,7 @@
     <div id="templates" style="display: none">
       <template id="template-balance">
         <tr>
+          <td class="image"></td>
           <td class="part"></td>
           <td class="model"></td>
           <td class="count"></td>
@@ -83,13 +109,22 @@
       </template>
       <template id="template-full">
         <tr>
+          <td class="image"></td>
           <td class="model"></td>
           <td class="count"></td>
         </tr>
       </template>
       <template id="template-mixed">
         <tr>
+          <td class="image"></td>
           <td class="model"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
+      <template id="template-afterglow">
+        <tr>
+          <td class="image"></td>
+          <td class="name"></td>
           <td class="count"></td>
         </tr>
       </template>
