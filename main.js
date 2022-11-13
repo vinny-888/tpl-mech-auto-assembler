@@ -31,6 +31,30 @@
       "stateMutability": "view",
       "type": "function"
     },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "accounts",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "ids",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "balanceOfBatch",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
   ];
 
  const parts = [
@@ -248,19 +272,37 @@ async function fetchAccountData() {
   let totalFullParts = 0;
   let totalMixed = 0;
   // Get the 26 TPL Mech Part Balances
+  let addresses = [];
+  let cards = [];
   for(let i=1; i<=26; i++){
-    walletParts.push(parts[i-1]);
-    walletParts[i-1].count = await getMechTokenBalance(address, i);
-    totalParts += walletParts[i-1].count;
+    addresses.push(address);
+    cards.push(i);
+  }
+  let res = await getMechTokenBalanceBatch(addresses, cards);
+  console.log(res);
+  for(let i=0; i<26; i++){
+    walletParts.push(parts[i]);
+    // walletParts[i-1].count = await getMechTokenBalance(address, i);
+    walletParts[i].count = parseInt(res[i]);
+    totalParts += walletParts[i].count;
   }
   document.querySelector("#part_count").innerHTML = '('+totalParts+')';
 
   document.querySelector("#info").innerHTML = 'Getting TPL Afterglows Balances, this may take a few seconds... Please Wait!';
 
+  addresses = [];
+  cards = [];
   for(let i=1; i<=38; i++){
-    walletAfterglows.push(afterglows[i-1]);
-    walletAfterglows[i-1].count = await getAfterglowTokenBalance(address, i);
-    totalAfterglows += walletAfterglows[i-1].count;
+    addresses.push(address);
+    cards.push(i);
+  }
+  res = await getAfterglowTokenBalanceBatch(addresses, cards);
+  
+  for(let i=0; i<38; i++){
+    walletAfterglows.push(afterglows[i]);
+    walletAfterglows[i].count = parseInt(res[i]);
+    // walletAfterglows[i-1].count = await getAfterglowTokenBalance(address, i);
+    totalAfterglows += walletAfterglows[i].count;
   }
   document.querySelector("#afterglow_count").innerHTML = '('+totalAfterglows+')';
 
@@ -447,6 +489,18 @@ async function getMechTokenBalance(address, card) {
   }
 }
 
+async function getMechTokenBalanceBatch(addresses, cards) {
+  try{
+    let result = await mechContract.methods.balanceOfBatch(addresses, cards).call();
+    
+    console.log('getMechTokenBalanceBatch: ', result);
+    return result;
+  }catch(e){
+    console.log('getMechTokenBalance Error:',e)
+    return [];
+  }
+}
+
 async function getAfterglowTokenBalance(address, card) {
   try{
     let result = await afterglowContract.methods.balanceOf(address, card).call();
@@ -456,6 +510,18 @@ async function getAfterglowTokenBalance(address, card) {
   }catch(e){
     console.log('getAfterglowTokenBalance Error:',e)
     return 0;
+  }
+}
+
+async function getAfterglowTokenBalanceBatch(addresses, cards) {
+  try{
+    let result = await afterglowContract.methods.balanceOfBatch(addresses, cards).call();
+    
+    console.log('getAfterglowTokenBalanceBatch: ',  result);
+    return result;
+  }catch(e){
+    console.log('getAfterglowTokenBalanceBatch Error:',e)
+    return [];
   }
 }
 
