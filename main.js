@@ -310,20 +310,24 @@ async function fetchAccountData() {
   };
   walletParts.forEach((part)=>{
     fullModelMechs[part.model][part.part] = part.count;
-    const clone = template.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + part.model + '_' + part.part + '.png" />';
-    clone.querySelector(".part").textContent = part.part;
-    clone.querySelector(".model").textContent = part.model;
-    clone.querySelector(".count").textContent = part.count;
-    accountContainer.appendChild(clone);
+    if(part.count > 0){
+      const clone = template.content.cloneNode(true);
+      clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + part.model + '_' + part.part + '.png" />';
+      clone.querySelector(".part").textContent = part.part;
+      clone.querySelector(".model").textContent = part.model;
+      clone.querySelector(".count").textContent = part.count;
+      accountContainer.appendChild(clone);
+    }
   });
 
   walletAfterglows.forEach((afterglow)=>{
-    const clone = templateAfterglow.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/afterglows/' + afterglow.name + '.avif" />';
-    clone.querySelector(".name").textContent = afterglow.name;
-    clone.querySelector(".count").textContent = afterglow.count;
-    afterglowContainer.appendChild(clone);
+    if(afterglow.count > 0){
+      const clone = templateAfterglow.content.cloneNode(true);
+      clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/afterglows/' + afterglow.name + '.avif" />';
+      clone.querySelector(".name").textContent = afterglow.name;
+      clone.querySelector(".count").textContent = afterglow.count;
+      afterglowContainer.appendChild(clone);
+    }
   });
 
   let fullModelMechCounts = {
@@ -352,11 +356,13 @@ async function fetchAccountData() {
       fullModelMechCounts[model] = remainingAfterglows;
       remainingAfterglows = 0;
     }
-    const clone = templateFull.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_Engine.png" />';
-    clone.querySelector(".model").textContent = model;
-    clone.querySelector(".count").textContent = min;
-    fullContainer.appendChild(clone);
+    if(min > 0){
+      const clone = templateFull.content.cloneNode(true);
+      clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_Engine.png" />';
+      clone.querySelector(".model").textContent = model;
+      clone.querySelector(".count").textContent = min;
+      fullContainer.appendChild(clone);
+    }
     totalFullParts += min;
   })
   document.querySelector("#full_count").innerHTML = '('+totalFullParts+')';
@@ -413,11 +419,13 @@ async function fetchAccountData() {
         }
       }
     }
-    const clone = templateMixed.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_Engine.png" />';
-    clone.querySelector(".model").textContent = model;
-    clone.querySelector(".count").textContent = mixedModelMechCounts[model];
-    mixedContainer.appendChild(clone);
+    if(mixedModelMechCounts[model] > 0){
+      const clone = templateMixed.content.cloneNode(true);
+      clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_Engine.png" />';
+      clone.querySelector(".model").textContent = model;
+      clone.querySelector(".count").textContent = mixedModelMechCounts[model];
+      mixedContainer.appendChild(clone);
+    }
     totalMixed += mixedModelMechCounts[model];
   })
   document.querySelector("#mixed_count").innerHTML = '('+totalMixed+')';
