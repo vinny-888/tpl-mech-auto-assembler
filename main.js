@@ -414,7 +414,7 @@ async function fetchAccountData() {
       }
     }
     const clone = templateMixed.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_engine.png" />';
+    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_Engine.png" />';
     clone.querySelector(".model").textContent = model;
     clone.querySelector(".count").textContent = mixedModelMechCounts[model];
     mixedContainer.appendChild(clone);
