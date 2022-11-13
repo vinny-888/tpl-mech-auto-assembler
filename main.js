@@ -353,7 +353,7 @@ async function fetchAccountData() {
       remainingAfterglows = 0;
     }
     const clone = templateFull.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_engine.png" />';
+    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_Engine.png" />';
     clone.querySelector(".model").textContent = model;
     clone.querySelector(".count").textContent = min;
     fullContainer.appendChild(clone);
