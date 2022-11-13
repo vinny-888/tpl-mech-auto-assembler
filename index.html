@@ -12,19 +12,16 @@
         <div class="col-md-12">
           <h1>CyberBrokers Mech Auto Assembler</h1>
 
-          <p id="info">No wallet connected. Connect wallet to detect TPL Mech Parts.</p>
+          <p id="info">Enter wallet address to detect TPL Mech Parts.</p>
 
           <div id="prepare">
-            <button class="btn btn-primary" id="btn-connect">
-              Connect wallet
+            <input id="address" type="text" value="">
+            <button class="btn btn-primary" id="btn-query">
+              Load Wallet
             </button>
           </div>
 
           <div id="connected" style="display: none">
-
-            <button class="btn btn-primary" id="btn-disconnect">
-              Disconnect wallet
-            </button>
 
             <hr>
 
@@ -99,9 +96,6 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script>
-    <script type="text/javascript" src="https://unpkg.com/evm-chains@0.2.0/dist/umd/index.min.js"></script>
-
     <script type="text/javascript" src="./main.js"></script>
   </body>
 </html>
