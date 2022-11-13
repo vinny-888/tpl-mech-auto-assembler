@@ -192,18 +192,19 @@ async function fetchAccountData() {
     alert('You must enter a wallet address first!');
     return;
   }
-
+  let walletParts = [];
   // Get the 26 TPL Mech Part Balances
   for(let i=1; i<=26; i++){
-    parts[i-1].count = await getTokenBalance(address, i);
+    walletParts.push(parts[i-1]);
+    walletParts[i-1].count = await getTokenBalance(address, i);
   }
 
   /* Combine lupis arms with pirate lupis arms */
-  parts[1].count += parts[19].count;
-  parts.splice(19, 1);
+  walletParts[1].count += walletParts[19].count;
+  walletParts.splice(19, 1);
 
   /* Sort by Model and Part in Rarity Order not Alphabetical */
-  parts.sort((a, b) => {
+  walletParts.sort((a, b) => {
     if(a.model == b.model){
       return a.part.localeCompare(b.part);
     }
@@ -242,7 +243,7 @@ async function fetchAccountData() {
     Behemoth: {},
     Nexus: {}
   };
-  parts.forEach((part)=>{
+  walletParts.forEach((part)=>{
     fullModelMechs[part.model][part.part] = part.count;
     const clone = template.content.cloneNode(true);
     clone.querySelector(".part").textContent = part.part;
@@ -297,7 +298,6 @@ async function fetchAccountData() {
   */
   document.querySelector("#info").innerHTML = '';
 
-  document.querySelector("#prepare").style.display = "none";
   document.querySelector("#connected").style.display = "block";
 }
 
@@ -315,7 +315,6 @@ async function getTokenBalance(address, card) {
 
 async function refreshAccountData() {
   document.querySelector("#connected").style.display = "none";
-  document.querySelector("#prepare").style.display = "block";
 
   document.querySelector("#info").innerHTML = 'Getting TPL Mech Part Balances, this may take a few seconds... Please Wait!';
 
