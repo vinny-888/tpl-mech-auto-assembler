@@ -1,5 +1,9 @@
 # tpl-mech-auto-assembler
 
+## Live Demo
+
+[Demo](https://vinny-888.github.io/tpl-mech-auto-assembler/)
+
 ## Running Locally
 
 ```
