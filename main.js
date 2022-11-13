@@ -311,7 +311,7 @@ async function fetchAccountData() {
   walletParts.forEach((part)=>{
     fullModelMechs[part.model][part.part] = part.count;
     const clone = template.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="/images/parts/' + part.model + '_' + part.part + '.png" />';
+    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + part.model + '_' + part.part + '.png" />';
     clone.querySelector(".part").textContent = part.part;
     clone.querySelector(".model").textContent = part.model;
     clone.querySelector(".count").textContent = part.count;
@@ -320,7 +320,7 @@ async function fetchAccountData() {
 
   walletAfterglows.forEach((afterglow)=>{
     const clone = templateAfterglow.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="/images/afterglows/' + afterglow.name + '.avif" />';
+    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/afterglows/' + afterglow.name + '.avif" />';
     clone.querySelector(".name").textContent = afterglow.name;
     clone.querySelector(".count").textContent = afterglow.count;
     afterglowContainer.appendChild(clone);
@@ -353,7 +353,7 @@ async function fetchAccountData() {
       remainingAfterglows = 0;
     }
     const clone = templateFull.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="/images/parts/' + model + '_engine.png" />';
+    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_engine.png" />';
     clone.querySelector(".model").textContent = model;
     clone.querySelector(".count").textContent = min;
     fullContainer.appendChild(clone);
@@ -414,7 +414,7 @@ async function fetchAccountData() {
       }
     }
     const clone = templateMixed.content.cloneNode(true);
-    clone.querySelector(".image").innerHTML = '<img height="60px" src="/images/parts/' + model + '_engine.png" />';
+    clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_engine.png" />';
     clone.querySelector(".model").textContent = model;
     clone.querySelector(".count").textContent = mixedModelMechCounts[model];
     mixedContainer.appendChild(clone);
