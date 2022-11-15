@@ -3,7 +3,7 @@
  const provider = web3.currentProvider;
  const mechTokenContract = "0xf4bacb2375654ef2459f427c8c6cf34573f75154";
  const afterglowTokenContract = "0xa47fb7c4edd3475ce66f49a66b9bf1edbc61e52d";
-
+ const rarityOrder = ['Nexus', 'Behemoth', 'Lupis', 'Ravenger', 'Enforcer'];
  const balanceOfABI = [
     {
       "constant": true,
@@ -244,7 +244,6 @@ async function fetchAccountData() {
   const template = document.querySelector("#template-balance");
   const accountContainer = document.querySelector("#accounts");
 
-
   const templateFull = document.querySelector("#template-full");
   const fullContainer = document.querySelector("#full");
 
@@ -254,11 +253,18 @@ async function fetchAccountData() {
   const templateAfterglow = document.querySelector("#template-afterglow");
   const afterglowContainer = document.querySelector("#afterglow");
 
+  const templateMixedMech = document.querySelector("#template-mech");
+  const mixedmechContainer = document.querySelector("#mechs");
+
+  const templateRemainingMech = document.querySelector("#template-remaining");
+  const remainingContainer = document.querySelector("#remaining");
+
   // Purge UI elements any previously loaded accounts
   accountContainer.innerHTML = '';
   afterglowContainer.innerHTML = '';
   fullContainer.innerHTML = '';
   mixedContainer.innerHTML = '';
+  mixedmechContainer.innerHTML = '';
 
   let address = document.querySelector("#address").value;
   if(address == ''){
@@ -317,28 +323,28 @@ async function fetchAccountData() {
     }
     let aVal = 0;
     if(a.model == 'Enforcer'){
-      aVal = 1;
+      aVal = 5;
     } else if(a.model == 'Ravenger'){
-      aVal = 2;
+      aVal = 4;
     } else if(a.model == 'Lupis'){
       aVal = 3;
     } else if(a.model == 'Behemoth'){
-      aVal = 4;
+      aVal = 2;
     } else if(a.model == 'Nexus'){
-      aVal = 5;
+      aVal = 1;
     }
 
     let bVal = 0;
     if(b.model == 'Enforcer'){
-      bVal = 1;
+      bVal = 5;
     } else if(b.model == 'Ravenger'){
-      bVal = 2;
+      bVal = 4;
     } else if(b.model == 'Lupis'){
       bVal = 3;
     } else if(b.model == 'Behemoth'){
-      bVal = 4;
+      bVal = 2;
     } else if(b.model == 'Nexus'){
-      bVal = 5;
+      bVal = 1;
     }
     return aVal - bVal;
   })
@@ -350,9 +356,12 @@ async function fetchAccountData() {
     Behemoth: {},
     Nexus: {}
   };
+
+  // All Parts
   walletParts.forEach((part)=>{
     fullModelMechs[part.model][part.part] = part.count;
     if(part.count > 0){
+      // Build Table
       const clone = template.content.cloneNode(true);
       clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + part.model + '_' + part.part + '.png" />';
       clone.querySelector(".part").textContent = part.part;
@@ -362,8 +371,10 @@ async function fetchAccountData() {
     }
   });
 
+  // All Afterglows
   walletAfterglows.forEach((afterglow)=>{
     if(afterglow.count > 0){
+      // Build Table
       const clone = templateAfterglow.content.cloneNode(true);
       clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/afterglows/' + afterglow.name + '.avif" />';
       clone.querySelector(".name").textContent = afterglow.name;
@@ -372,17 +383,20 @@ async function fetchAccountData() {
     }
   });
 
+  // Full Mechs
   let fullModelMechCounts = {
-    Enforcer: 0,
-    Ravenger: 0,
-    Lupis: 0,
+    Nexus: 0,
     Behemoth: 0,
-    Nexus: 0
+    Lupis: 0,
+    Ravenger: 0,
+    Enforcer: 0
   };
+
   let remainingAfterglows = totalAfterglows;
-  Object.keys(fullModelMechs).forEach((model)=>{
+  rarityOrder.forEach((model)=>{
+    let mechParts = Object.keys(fullModelMechs[model]);
     let min = 99999;
-    Object.keys(fullModelMechs[model]).forEach((part)=>{
+    mechParts.forEach((part)=>{
       let count = parseInt(fullModelMechs[model][part]);
       if(part == 'Arm'){
         count = Math.floor(count/2);
@@ -398,6 +412,7 @@ async function fetchAccountData() {
       fullModelMechCounts[model] = remainingAfterglows;
       remainingAfterglows = 0;
     }
+    // Build Table
     if(min > 0){
       const clone = templateFull.content.cloneNode(true);
       clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_Engine.png" />';
@@ -412,6 +427,7 @@ async function fetchAccountData() {
   let mixedPartCount = totalParts - totalFullParts;
   document.querySelector("#mixed_count").innerHTML = '('+mixedPartCount+')';
   
+  // Mixed Mechs
   let mixedModelMechCounts = {
     Enforcer: 0,
     Ravenger: 0,
@@ -419,9 +435,16 @@ async function fetchAccountData() {
     Behemoth: 0,
     Nexus: 0
   };
+  let mixedModelMechCountParts = {
+    Enforcer: [],
+    Ravenger: [],
+    Lupis: [],
+    Behemoth: [],
+    Nexus: []
+  };
 
-  let min = 99999;
-  Object.keys(fullModelMechs).forEach((model)=>{
+  rarityOrder.forEach((model)=>{
+    let fullMechParts = fullModelMechs[model];
     let partCounts = {
       Arm: 0,
       Legs: 0,
@@ -429,8 +452,8 @@ async function fetchAccountData() {
       Body: 0,
       Engine: 0
     };
-    Object.keys(fullModelMechs[model]).forEach((part)=>{
-      let count = parseInt(fullModelMechs[model][part]);
+    Object.keys(fullMechParts).forEach((part)=>{
+      let count = parseInt(fullMechParts[part]);
       if(part != 'Arm'){
         partCounts[part] = count - fullModelMechCounts[model];
       } else {
@@ -439,28 +462,44 @@ async function fetchAccountData() {
     });
 
     let engineCount = partCounts['Engine'];
-    let partOne = false;
-    let partTwo = false;
     for(let i=0; i< engineCount; i++){
+      let partOne = '';
+      let partTwo = '';
       Object.keys(partCounts).forEach((part)=>{
         if(part != 'Engine'){
-          if(partOne == false && partCounts[part] > 0){
-            partCounts[part]--;
-            partOne = true;
-          } else if(partTwo == false  && partCounts[part] > 0){
-            partCounts[part]--;
-            partTwo = true;
+          if(partOne == '' && partCounts[part] > 0){
+            partOne = part;
+          } else if(partTwo == ''  && partCounts[part] > 0){
+            if(partOne != part || (partOne == partTwo && partCounts[part] > 1)){
+              partTwo = part;
+            }
           }
         }
       })
 
       if(remainingAfterglows > 0){
-        if(partOne && partTwo){
+        if(partOne != '' && partTwo != ''){
           mixedModelMechCounts[model]++;
+          if(!mixedModelMechCountParts[model]){
+            mixedModelMechCountParts[model] = [];
+          }
+          partCounts[partOne]--;
+          partCounts[partTwo]--;
+          mixedModelMechCountParts[model].push([
+            {
+              model: model,
+              part: partOne
+            },
+            {
+              model: model,
+              part: partTwo
+            },
+          ]);
           remainingAfterglows--;
         }
       }
     }
+    // Build Table
     if(mixedModelMechCounts[model] > 0){
       const clone = templateMixed.content.cloneNode(true);
       clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_Engine.png" />';
@@ -470,11 +509,143 @@ async function fetchAccountData() {
     }
     totalMixed += mixedModelMechCounts[model];
   })
+
+  // Mixed Mech Parts
+  let mixedMechs = buildMechs(fullModelMechs, fullModelMechCounts, mixedModelMechCountParts);
+  mixedMechs[0].forEach((mech)=>{
+    const clone = templateMixedMech.content.cloneNode(true);
+    
+    clone.querySelector(".engine").innerHTML = '<img height="60px" src="./images/parts/' + mech.Engine + '_Engine.png" />';
+    clone.querySelector(".head").innerHTML = '<img height="60px" src="./images/parts/' + mech.Head + '_Head.png" />';
+    clone.querySelector(".body").innerHTML = '<img height="60px" src="./images/parts/' + mech.Body + '_Body.png" />';
+    clone.querySelector(".legs").innerHTML = '<img height="60px" src="./images/parts/' + mech.Legs + '_Legs.png" />';
+    clone.querySelector(".left_arm").innerHTML = '<img height="60px" src="./images/parts/' + mech.left_arm + '_Arm.png" />';
+    clone.querySelector(".right_arm").innerHTML = '<img height="60px" src="./images/parts/' + mech.right_arm + '_Arm.png" />';
+    
+    mixedmechContainer.appendChild(clone);
+  })
+  let remainingCount = 0;
+  // remaining parts
+  rarityOrder.forEach((model)=>{
+    if(mixedMechs[1][model]){
+      Object.keys(mixedMechs[1][model]).forEach((part)=>{
+        if(mixedMechs[1][model][part] > 0){
+          const clone = templateRemainingMech.content.cloneNode(true);
+        
+          clone.querySelector(".image").innerHTML = '<img height="60px" src="./images/parts/' + model + '_' + part + '.png" />';
+          clone.querySelector(".part").textContent = part;
+          clone.querySelector(".model").textContent = model;
+          clone.querySelector(".count").textContent = mixedMechs[1][model][part];
+          remainingContainer.appendChild(clone);
+          remainingCount += mixedMechs[1][model][part];
+        }
+      });
+    }
+  });
+  document.querySelector("#remaining_count").innerHTML = '('+remainingCount+')';
   document.querySelector("#mixed_count").innerHTML = '('+totalMixed+')';
+  document.querySelector("#mixed_count2").innerHTML = '('+totalMixed+')';
   
   document.querySelector("#info").innerHTML = '';
 
   document.querySelector("#connected").style.display = "block";
+}
+
+function buildMechs(fullModelMechs, fullModelMechCounts, mixedModelMechCountParts){
+  let mixedModelMechs = {
+    Enforcer: {},
+    Ravenger: {},
+    Lupis: {},
+    Behemoth: {},
+    Nexus: {}
+  };
+
+  Object.keys(mixedModelMechCountParts).forEach((mech)=>{
+    mixedModelMechCountParts[mech].forEach((parts)=>{
+      parts.forEach((part)=>{
+        if(!mixedModelMechs[part.model][part.part]){
+          mixedModelMechs[part.model][part.part] = 0;
+        }
+        mixedModelMechs[part.model][part.part]++;
+      });
+    })
+  })
+
+  let mixedMechs = [];
+
+  let remainingParts = {};
+  Object.keys(fullModelMechs).forEach((model)=>{
+    let fullMechParts = fullModelMechs[model];
+    remainingParts[model] = {
+      Arm: fullMechParts['Arm'] - fullModelMechCounts[model]*2 - (mixedModelMechs[model]['Arm'] ? mixedModelMechs[model]['Arm'] : 0),
+      Legs: fullMechParts['Legs'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Legs'] ? mixedModelMechs[model]['Legs'] : 0),
+      Head: fullMechParts['Head'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Head'] ? mixedModelMechs[model]['Head']  : 0),
+      Body: fullMechParts['Body'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Body'] ? mixedModelMechs[model]['Body']  : 0),
+      Engine: fullMechParts['Engine'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Engine'] ?  mixedModelMechs[model]['Engine'] : 0)
+    };
+  });
+
+  rarityOrder.forEach((model)=>{
+    let baseParts = mixedModelMechCountParts[model];
+    if(baseParts.length > 0){
+      // TODO build the mechs
+      // partOne
+      // partTwo
+
+      baseParts.forEach((mech)=>{
+        let fullMech = {
+          Engine: model
+        };
+        let remainingPartNames = ['Head', 'Body', 'Legs', 'Arm', 'Arm'];
+        mech.forEach((modelPart)=>{
+          var index = remainingPartNames.indexOf(modelPart.part);
+          if (index !== -1) {
+            remainingPartNames.splice(index, 1);
+            if(modelPart.part == 'Arm' && !fullMech['left_arm']){
+              fullMech['left_arm'] = model;
+            } else if(modelPart.part == 'Arm' && fullMech['left_arm']){
+              fullMech['right_arm'] = model;
+            } else if(modelPart.part != 'Arm'){
+              fullMech[modelPart.part] = model;
+            }
+          }
+        })
+        console.log('remainingPartNames:', remainingPartNames);
+        remainingPartNames.forEach((part)=>{
+          // Remove part from inventory
+          for(let i=0; i < rarityOrder.length; i++){
+            let model = rarityOrder[i];
+            if(remainingParts[model][part] > 0){
+              remainingParts[model][part]--;
+              // Still need a left arm
+              if(part == 'Arm' && !fullMech['left_arm']){
+                fullMech['left_arm'] = model
+                break;
+              } 
+              // already got the left arm
+              else if(part == 'Arm' && fullMech['left_arm']){
+                fullMech['right_arm'] = model;
+                break;
+              } 
+              // Not an arm
+              else if(part != 'Arm') {
+                fullMech[part] = model;
+                break;
+              }
+              console.log('Using part: ', model + ' ' + part, 'Remaining: ', mechParts[part]);
+            }
+          }
+        })
+        mixedMechs.push(fullMech);
+      });
+    }
+  });
+
+  return [mixedMechs, remainingParts];
+}
+
+function hasPart(){
+
 }
 
 async function getMechTokenBalance(address, card) {
