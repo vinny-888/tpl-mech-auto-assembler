@@ -265,6 +265,7 @@ async function fetchAccountData() {
   fullContainer.innerHTML = '';
   mixedContainer.innerHTML = '';
   mixedmechContainer.innerHTML = '';
+  remainingContainer.innerHTML = '';
 
   let address = document.querySelector("#address").value;
   if(address == ''){
