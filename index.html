@@ -6,11 +6,37 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
-      .table {
-        width: 300px;
-      }
       .container {
           width: 100%;
+      }
+      .table {
+        font-size: 14px;
+        width: 300px;
+        max-width: 100%;
+        margin-bottom: 4px;
+      }
+      .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+        padding: 2px;
+      }
+      .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+        padding-right: 4px;
+        padding-left: 4px;
+      }
+      .borderDiv {
+        padding-right: 4px;
+        padding-left: 4px;
+        border: 1px solid #8c8c8c;
+      }
+      .containerDiv{
+        float: left;
+        margin-left: 4px;
+      }
+      .col {
+        float: left;
+        padding-right: 4px;
+        padding-left: 4px;
+        margin-left: 4px;
+        border: 1px solid #8c8c8c;
       }
     </style>
   </head>
@@ -31,8 +57,8 @@
 
           <div id="connected" style="display: none">
 
-            <div class="col-md-3">
-              <h3>TPL Mech Parts <span id="part_count">0</span></h3>
+            <div class="col">
+              <h4>TPL Mech Parts <span id="part_count">0</span></h4>
 
               <table class="table table-listing">
                 <thead>
@@ -47,8 +73,8 @@
               </table>
             </div>
 
-            <div class="col-md-3">
-              <h3>TPL Afterglows <span id="afterglow_count">0</span></h3>
+            <div class="col">
+              <h4>TPL Afterglows <span id="afterglow_count">0</span></h4>
 
               <table class="table table-listing">
                 <thead>
@@ -62,35 +88,74 @@
               </table>
             </div>
 
-            <div class="col-md-3">
-              <h3>Full Mechs <span id="full_count">0</span></h3>
+            <div class="containerDiv">
+              <div class="borderDiv">
+                <h4> Full Mechs <span id="full_count">0</span></h4>
 
-              <table class="table table-full">
-                <thead>
-                  <th style="width:20%">Image</th>
-                  <th>Model</th>
-                  <th>Count</th>
-                </thead>
+                <table class="table table-full">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Model</th>
+                    <th>Count</th>
+                  </thead>
 
-                <tbody id="full">
-                </tbody>
-              </table>
+                  <tbody id="full">
+                  </tbody>
+                </table>
+              </div>
+              <div class="borderDiv" style="margin-top: 4px;">
+                <h4> Possible <span id="mixed_count">0</span></h4>
+  
+                <table class="table table-mixed">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Model</th>
+                    <th>Count</th>
+                  </thead>
+  
+                  <tbody id="mixed">
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-            <div class="col-md-3">
-              <h3> Engine & 2+ Parts <span id="mixed_count">0</span></h3>
+            
+              <div class="containerDiv">
+                <div class="borderDiv">
+                  <h4> Mixed Mechs <span id="mixed_count2">0</span></h4>
 
-              <table class="table table-mixed">
-                <thead>
-                  <th style="width:20%">Image</th>
-                  <th>Model</th>
-                  <th>Count</th>
-                </thead>
+                  <table class="table table-mixed" style="width: 370px;">
+                    <thead>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                    </thead>
 
-                <tbody id="mixed">
-                </tbody>
-              </table>
+                    <tbody id="mechs">
+                    </tbody>
+                  </table>
+                </div>
+                <div class="borderDiv">
+                  <h4>Remaining Parts <span id="remaining_count">0</span></h4>
+    
+                  <table class="table table-listing">
+                    <thead>
+                      <th style="width:20%">Image</th>
+                      <th>Part</th>
+                      <th>Model</th>
+                      <th>Count</th>
+                    </thead>
+    
+                    <tbody id="remaining">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
+
           </div>
 
         </div>
@@ -128,9 +193,27 @@
           <td class="count"></td>
         </tr>
       </template>
+      <template id="template-mech">
+        <tr>
+          <td class="engine"></td>
+          <td class="head"></td>
+          <td class="body"></td>
+          <td class="legs"></td>
+          <td class="left_arm"></td>
+          <td class="right_arm"></td>
+        </tr>
+      </template>
+      <template id="template-remaining">
+        <tr>
+          <td class="image"></td>
+          <td class="part"></td>
+          <td class="model"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./main.js?v=0.2"></script>
+    <script type="text/javascript" src="./main.js"></script>
   </body>
 </html>
