@@ -8,11 +8,11 @@
     <style>
       #prepare{
         margin-left: 4px;
+        margin-bottom: 4px;
       }
       #info{
         border: solid 1px #ccc;
         background-color:  #cbffc9;
-        margin-left: 4px;
         width: 550px;
         display: inline-block;
         height: 160px;
@@ -30,7 +30,6 @@
         padding: 4px;
       }
       #instructions{
-        margin-left: 4px;
         width: 550px;
       }
       .container {
@@ -57,6 +56,7 @@
       .containerDiv{
         float: left;
         margin-left: 4px;
+        background-color: #fff;
       }
       .col {
         float: left;
@@ -64,6 +64,7 @@
         padding-left: 4px;
         margin-left: 4px;
         border: 1px solid #8c8c8c;
+        background-color: #fff;
       }
       [tip] .tooltip {
         position: fixed;
@@ -106,13 +107,45 @@
         border: solid 2px;
         font-size: 16px;
       }
+      .subtitle {
+        margin-top: -10px;
+        margin-left: 20px;
+        color: rgb(134, 134, 134);
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      h3 {
+        margin-left: 20px;
+        color: #ff1c4e;
+        margin-top: 0px;
+        padding-top: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .btn {
+        padding: 2px 4px;
+        margin-top: -3px;
+      }
+      .header{
+        width: 100%;
+        height: 80px;
+        background-color: #000;
+      }
+      .container{
+        padding-top: 20px;
+      }
+      body{
+        background-color: #dfdfdf;
+      }
     </style>
   </head>
   <body>
+    <div class="header">
+      <h3>CYBERBROKERS</h3>
+      <div class="subtitle">Unofficial Mech Auto Assembler</div>
+    </div>
     <div class="container">
-      <div class="row">
+      <div class="">
         <div class="col-md-12">
-          <h3>CyberBrokers Mech Auto Assembler</h3>
           <div>
           <div id="info">
             <b>Each TPL Mech requires the following:</b><br><br>
@@ -368,6 +401,6 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./main.js?v=0.7"></script>
+    <script type="text/javascript" src="./main.js?v=0.8"></script>
   </body>
 </html>
