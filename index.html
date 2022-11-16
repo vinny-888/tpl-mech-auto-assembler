@@ -6,6 +6,33 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
+      #prepare{
+        margin-left: 4px;
+      }
+      #info{
+        border: solid 1px #ccc;
+        background-color:  #cbffc9;
+        margin-left: 4px;
+        width: 550px;
+        display: inline-block;
+        height: 160px;
+        vertical-align: top;
+        padding: 4px;
+      }
+      #info2{
+        border: solid 1px #ccc;
+        background-color: #cbffc9;
+        margin-left: 4px;
+        width: 150px;
+        display: inline-block;
+        height: 160px;
+        vertical-align: top;
+        padding: 4px;
+      }
+      #instructions{
+        margin-left: 4px;
+        width: 550px;
+      }
       .container {
           width: 100%;
       }
@@ -38,15 +65,80 @@
         margin-left: 4px;
         border: 1px solid #8c8c8c;
       }
+      [tip] .tooltip {
+        position: fixed;
+        font-size: 16px;
+        max-width: 300px;
+        line-height: 20px;
+        padding: 5px;
+        background: white;
+        border: 1px solid #ccc;
+        visibility: hidden;
+        box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition:
+          opacity 0.3s,
+          visiblity 0s;
+      }
+      [tip]:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      [tip] button {
+        display: block;
+        cursor: pointer;
+        padding: 8px 15px;
+        border: 1px solid gray;
+        border-radius: 4px;
+        margin: 50px;
+        font-size: 18px;
+        background: white;
+      }
+      [tip] button:hover {
+        border-color: dodgerblue;
+      }
+
+      .tooltipBtn {
+        background-color: #fff;
+        border-radius: 16px;
+        color: #0075ff;
+        border: solid 2px;
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1>CyberBrokers Mech Auto Assembler</h1>
+          <h3>CyberBrokers Mech Auto Assembler</h3>
+          <div>
+          <div id="info">
+            <b>Each TPL Mech requires the following:</b><br><br>
 
-          <p id="info">Enter wallet address to detect TPL Mech Parts. (Requires Metamask but no need to connect or sign to use this tool)</p>
+            1 Engine + 2 other parts (of the same model)<br><br>
+
+            1x Engine + 1x Head + 1x Body + 1x Legs + 2x Arms + 1x Afterglow<br><br>
+
+            To Pilot a Mech you will need a <a href="https://opensea.io/collection/cyberbrokers">CyberBroker</a>
+          </div>
+          <div id="info2">
+            <b>Required Parts:</b><br>
+            <ul>
+              <li>1 <a href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Engine">Engine</a></li>
+              <li>1 <a href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Head">Head</a></li>
+              <li>1 <a href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Body">Body</a></li>
+              <li>1 <a href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Leg">Legs</a></li>
+              <li>2 <a href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Arm">Arms</a></li>
+              <li>1 <a href="https://opensea.io/collection/tpl-mech-afterglow">Afterglow</a></li>
+            </ul>
+          </div>
+        </div>
+          <p id="instructions">
+            Enter a wallet address to detect TPL Mech Parts. <br>
+            (Requires Metamask, you do not need to connect or sign to use this tool)
+          </p>
 
           <div id="prepare">
             <input id="address" type="text" value="">
@@ -56,25 +148,43 @@
           </div>
 
           <div id="connected" style="display: none">
+            <div class="containerDiv">
+              <div class="borderDiv">
+                <h4> Part Counts <button class="tooltipBtn" tip="Table showing part counts for each model type.">?</button></h4>
+  
+                <table class="table table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Engine</th>
+                    <th>Head</th>
+                    <th>Body</th>
+                    <th>Legs</th>
+                    <th>Arms</th>
+                  </thead>
+  
+                  <tbody id="counts">
+                  </tbody>
+                </table>
+              </div>
+              <div class="borderDiv" style="margin-top: 4px;">
+                <h4> Mech Parts <span id="part_count">0</span> <button class="tooltipBtn" tip="All Parts owned by this wallet.">?</button></h4>
 
-            <div class="col">
-              <h4>TPL Mech Parts <span id="part_count">0</span></h4>
+                <table class="table table-listing">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Part</th>
+                    <th>Model</th>
+                    <th>Count</th>
+                  </thead>
 
-              <table class="table table-listing">
-                <thead>
-                  <th style="width:20%">Image</th>
-                  <th>Part</th>
-                  <th>Model</th>
-                  <th>Count</th>
-                </thead>
-
-                <tbody id="accounts">
-                </tbody>
-              </table>
+                  <tbody id="accounts">
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <div class="col">
-              <h4>TPL Afterglows <span id="afterglow_count">0</span></h4>
+              <h4> Afterglows <span id="afterglow_count">0</span> <button class="tooltipBtn" tip="All Afterglows owned by this wallet.">?</button></h4>
 
               <table class="table table-listing">
                 <thead>
@@ -90,7 +200,7 @@
 
             <div class="containerDiv">
               <div class="borderDiv">
-                <h4> Full Mechs <span id="full_count">0</span></h4>
+                <h4> Single Model Mechs <span id="full_count">0</span> <button class="tooltipBtn" tip="These Mechs have all the same Model Parts and can be built as they have all required parts and an Afterglow.">?</button></h4>
 
                 <table class="table table-full">
                   <thead>
@@ -103,8 +213,8 @@
                   </tbody>
                 </table>
               </div>
-              <div class="borderDiv" style="display: none;margin-top: 4px;">
-                <h4> Possible <span id="mixed_count">0</span></h4>
+              <div class="borderDiv" style="margin-top: 4px;">
+                <h4> Possible <span id="mixed_count">0</span> <button class="tooltipBtn" tip="">?</button></h4>
   
                 <table class="table table-mixed">
                   <thead>
@@ -118,7 +228,7 @@
                 </table>
               </div>
               <div class="borderDiv" style="margin-top: 4px;">
-                <h4>Remaining Parts <span id="remaining_count">0</span></h4>
+                <h4> Remaining Parts <span id="remaining_count">0</span> <button class="tooltipBtn" tip="Left over parts not used to create Single Model or Mixed Model Mechs.">?</button></h4>
   
                 <table class="table table-listing">
                   <thead>
@@ -137,7 +247,7 @@
             
               <div class="containerDiv">
                 <div class="borderDiv">
-                  <h4> Mixed Mechs + Afterglow <span id="mixed_count2">0</span></h4>
+                  <h4> Mixed Mechs + Afterglow <span id="mixed_count2">0</span> <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow.">?</button></h4>
 
                   <table class="table table-mixed" style="width: 370px;">
                     <thead>
@@ -155,7 +265,7 @@
                 </div>
 
                 <div class="borderDiv" style="margin-top: 4px;">
-                  <h4> Mixed Mechs + No Afterglow <span id="noafterglow_count">0</span></h4>
+                  <h4> Mixed Mechs + No Afterglow <span id="noafterglow_count">0</span> <button class="tooltipBtn" tip="These cannot be built without aquiring an Afterglow.">?</button></h4>
     
                   <table class="table table-listing">
                     <thead>
@@ -173,7 +283,7 @@
                 </div>
 
                 <div class="borderDiv" style="margin-top: 4px;">
-                  <h4>Engine & 2+ Parts Partials <span id="partial_count">0</span></h4>
+                  <h4> Engine & 2+ Parts Partials <span id="partial_count">0</span> <button class="tooltipBtn" tip="These cannot be built without aquiring more parts. They do have 1 Engine + 2 matching parts so your almost there.">?</button></h4>
     
                   <table class="table table-listing">
                     <thead>
@@ -237,6 +347,16 @@
           <td class="right_arm"></td>
         </tr>
       </template>
+      <template id="template-counts">
+        <tr>
+          <td class="model"></td>
+          <td class="Engine"></td>
+          <td class="Head"></td>
+          <td class="Body"></td>
+          <td class="Legs"></td>
+          <td class="Arm"></td>
+        </tr>
+      </template>
       <template id="template-remaining">
         <tr>
           <td class="image"></td>
@@ -248,6 +368,6 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./main.js?v=0.5"></script>
+    <script type="text/javascript" src="./main.js?v=0.6"></script>
   </body>
 </html>
