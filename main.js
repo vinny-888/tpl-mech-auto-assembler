@@ -545,8 +545,40 @@ async function fetchAccountData() {
     totalMixed += mixedModelMechCounts[model];
   })
 
+  let mixedModelMechs = {
+    Enforcer: {},
+    Ravenger: {},
+    Lupis: {},
+    Behemoth: {},
+    Nexus: {}
+  };
+
+  Object.keys(mixedModelMechCountParts).forEach((mech)=>{
+    mixedModelMechCountParts[mech].forEach((parts)=>{
+      parts.forEach((part)=>{
+        if(!mixedModelMechs[part.model][part.part]){
+          mixedModelMechs[part.model][part.part] = 0;
+        }
+        mixedModelMechs[part.model][part.part]++;
+      });
+    })
+  })
+
+  let remainingParts = {};
+  // Create remaining parts
+  Object.keys(fullModelMechs).forEach((model)=>{
+    let fullMechParts = fullModelMechs[model];
+    remainingParts[model] = {
+      Arm: fullMechParts['Arm'] - fullModelMechCounts[model]*2 - (mixedModelMechs[model]['Arm'] ? mixedModelMechs[model]['Arm'] : 0),
+      Legs: fullMechParts['Legs'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Legs'] ? mixedModelMechs[model]['Legs'] : 0),
+      Head: fullMechParts['Head'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Head'] ? mixedModelMechs[model]['Head']  : 0),
+      Body: fullMechParts['Body'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Body'] ? mixedModelMechs[model]['Body']  : 0),
+      Engine: fullMechParts['Engine'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Engine'] ?  mixedModelMechs[model]['Engine'] : 0)
+    };
+  });
+
   // Mixed Mech Parts
-  let mixedMechs = buildMechs(fullModelMechs, fullModelMechCounts, mixedModelMechCountParts, false);
+  let mixedMechs = buildMechs(mixedModelMechCountParts, false, remainingParts);
   mixedMechs[0].forEach((mech)=>{
     const clone = templateMixedMech.content.cloneNode(true);
     
@@ -563,7 +595,7 @@ async function fetchAccountData() {
   document.querySelector("#mixed_count").innerHTML = '('+mixedMechs[0].length+')';
 
   // No Afterglow
-  let mixedMechsNoAfterglow = buildMechs(fullModelMechs, fullModelMechCounts, mixedModelMechCountPartsNoAfterglow, false);
+  let mixedMechsNoAfterglow = buildMechs(mixedModelMechCountPartsNoAfterglow, false, remainingParts);
   mixedMechsNoAfterglow[0].forEach((mech)=>{
     const clone = templateMixedMech.content.cloneNode(true);
     
@@ -579,7 +611,7 @@ async function fetchAccountData() {
   document.querySelector("#noafterglow_count").innerHTML = '('+mixedMechsNoAfterglow[0].length+')';
 
   // Partial
-  let mixedMechsPartial = buildMechs(fullModelMechs, fullModelMechCounts, mixedModelMechCountPartsNoAfterglow, true);
+  let mixedMechsPartial = buildMechs(mixedModelMechCountPartsNoAfterglow, true, remainingParts);
   mixedMechsPartial[0].forEach((mech)=>{
     const clone = templateMixedMech.content.cloneNode(true);
     
@@ -647,39 +679,8 @@ async function fetchAccountData() {
   document.querySelector("#connected").style.display = "block";
 }
 
-function buildMechs(fullModelMechs, fullModelMechCounts, mixedModelMechCountParts, allowPartial){
-  let mixedModelMechs = {
-    Enforcer: {},
-    Ravenger: {},
-    Lupis: {},
-    Behemoth: {},
-    Nexus: {}
-  };
-
-  Object.keys(mixedModelMechCountParts).forEach((mech)=>{
-    mixedModelMechCountParts[mech].forEach((parts)=>{
-      parts.forEach((part)=>{
-        if(!mixedModelMechs[part.model][part.part]){
-          mixedModelMechs[part.model][part.part] = 0;
-        }
-        mixedModelMechs[part.model][part.part]++;
-      });
-    })
-  })
-
+function buildMechs(mixedModelMechCountParts, allowPartial, remainingParts){
   let mixedMechs = [];
-
-  let remainingParts = {};
-  Object.keys(fullModelMechs).forEach((model)=>{
-    let fullMechParts = fullModelMechs[model];
-    remainingParts[model] = {
-      Arm: fullMechParts['Arm'] - fullModelMechCounts[model]*2 - (mixedModelMechs[model]['Arm'] ? mixedModelMechs[model]['Arm'] : 0),
-      Legs: fullMechParts['Legs'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Legs'] ? mixedModelMechs[model]['Legs'] : 0),
-      Head: fullMechParts['Head'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Head'] ? mixedModelMechs[model]['Head']  : 0),
-      Body: fullMechParts['Body'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Body'] ? mixedModelMechs[model]['Body']  : 0),
-      Engine: fullMechParts['Engine'] - fullModelMechCounts[model] - (mixedModelMechs[model]['Engine'] ?  mixedModelMechs[model]['Engine'] : 0)
-    };
-  });
 
   rarityOrder.forEach((model)=>{
     let baseParts = mixedModelMechCountParts[model];
@@ -735,10 +736,12 @@ function buildMechs(fullModelMechs, fullModelMechCounts, mixedModelMechCountPart
           }
         // })
         }
-        if(allowPartial 
-          || (fullMech.Head && fullMech.Body 
+        if((allowPartial && (!fullMech.Head || !fullMech.Body 
+          || !fullMech.Legs || !fullMech.left_arm 
+          || !fullMech.right_arm || !fullMech.Engine))
+          || (!allowPartial && (fullMech.Head && fullMech.Body 
             && fullMech.Legs && fullMech.left_arm 
-            && fullMech.right_arm && fullMech.Engine)){
+            && fullMech.right_arm && fullMech.Engine))){
           mixedMechs.push(fullMech);
         }
       });
