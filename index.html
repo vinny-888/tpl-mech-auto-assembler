@@ -101,7 +101,7 @@
       }
 
       .tooltipBtn {
-        background-color: #fff;
+        background-color: transparent;
         border-radius: 16px;
         color: #0075ff;
         border: solid 2px;
@@ -137,6 +137,33 @@
       body{
         background-color: #dfdfdf;
       }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      h4{
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: -4px;
+        margin-right: -4px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 12px;
+        padding-right: 4px;
+        background-color: #000;
+        color: #fff;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 8px;
+      }
+
+      .image{
+        text-align: center;
+      }
+
+      tr:nth-child(even) {background-color: #f2f2f2;}
     </style>
   </head>
   <body>
@@ -399,9 +426,14 @@
           <td class="count"></td>
         </tr>
       </template>
+      <template id="template-empty">
+        <tr>
+          <td class="empty" colspan="3">No Data</td>
+        </tr>
+      </template>
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./main.js?v=0.8"></script>
+    <script type="text/javascript" src="./main.js?v=0.9"></script>
   </body>
 </html>
