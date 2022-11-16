@@ -4,6 +4,7 @@
  const mechTokenContract = "0xf4bacb2375654ef2459f427c8c6cf34573f75154";
  const afterglowTokenContract = "0xa47fb7c4edd3475ce66f49a66b9bf1edbc61e52d";
  const rarityOrder = ['Nexus', 'Behemoth', 'Lupis', 'Ravenger', 'Enforcer'];
+ const partOrder = ['Engine', 'Head', 'Body', 'Legs', 'Arm'];
  const balanceOfABI = [
     {
       "constant": true,
@@ -218,6 +219,27 @@ function init() {
     alert.style.display = "block";
     return;
   }
+
+  // tooltip
+  Array.from(document.querySelectorAll('[tip]')).forEach(el => {
+    let tip = document.createElement('div');
+    tip.classList.add('tooltip');
+    tip.innerText = el.getAttribute('tip');
+    let delay = el.getAttribute('tip-delay');
+    if (delay) {
+      tip.style.transitionDelay = delay + 's';
+    }
+    tip.style.transform =
+      'translate(' +
+        (el.hasAttribute('tip-left') ? 'calc(-100% - 5px)' : '15px') + ', ' +
+        (el.hasAttribute('tip-top') ? '-100%' : '0') +
+      ')';
+    el.appendChild(tip);
+    el.onmousemove = e => {
+      tip.style.left = (e.clientX-140) + 'px'
+      tip.style.top = (e.clientY+20) + 'px';
+    };
+  });
 }
 
 /**
@@ -262,6 +284,8 @@ async function fetchAccountData() {
   const mixedmechNoAfterglowContainer = document.querySelector("#mechsNoAfterglow");
   const mixedmechPartialContainer = document.querySelector("#mechsPartial");
 
+  const templateCounts = document.querySelector("#template-counts");
+  const countsContainer = document.querySelector("#counts");
   
 
   // Purge UI elements any previously loaded accounts
@@ -273,6 +297,7 @@ async function fetchAccountData() {
   remainingContainer.innerHTML = '';
   mixedmechNoAfterglowContainer.innerHTML = '';
   mixedmechPartialContainer.innerHTML = '';
+  countsContainer.innerHTML = '';
 
   let address = document.querySelector("#address").value;
   if(address == ''){
@@ -296,13 +321,10 @@ async function fetchAccountData() {
   console.log(res);
   for(let i=0; i<26; i++){
     walletParts.push(parts[i]);
-    // walletParts[i-1].count = await getMechTokenBalance(address, i);
     walletParts[i].count = parseInt(res[i]);
     totalParts += walletParts[i].count;
   }
   document.querySelector("#part_count").innerHTML = '('+totalParts+')';
-
-  document.querySelector("#info").innerHTML = 'Getting TPL Afterglows Balances, this may take a few seconds... Please Wait!';
 
   addresses = [];
   cards = [];
@@ -315,7 +337,6 @@ async function fetchAccountData() {
   for(let i=0; i<38; i++){
     walletAfterglows.push(afterglows[i]);
     walletAfterglows[i].count = parseInt(res[i]);
-    // walletAfterglows[i-1].count = await getAfterglowTokenBalance(address, i);
     totalAfterglows += walletAfterglows[i].count;
   }
   document.querySelector("#afterglow_count").innerHTML = '('+totalAfterglows+')';
@@ -365,6 +386,7 @@ async function fetchAccountData() {
     Nexus: {}
   };
 
+
   // All Parts
   walletParts.forEach((part)=>{
     fullModelMechs[part.model][part.part] = part.count;
@@ -378,6 +400,15 @@ async function fetchAccountData() {
       accountContainer.appendChild(clone);
     }
   });
+
+  rarityOrder.forEach((model)=>{
+    const clone = templateCounts.content.cloneNode(true);
+    clone.querySelector(".model").textContent = model;
+    partOrder.forEach((part)=>{
+      clone.querySelector("."+part).textContent = fullModelMechs[model][part];
+    });
+    countsContainer.appendChild(clone);
+  }) 
 
   // All Afterglows
   walletAfterglows.forEach((afterglow)=>{
@@ -431,12 +462,6 @@ async function fetchAccountData() {
     totalFullParts += min;
   })
   document.querySelector("#full_count").innerHTML = '('+totalFullParts+')';
-
-  // let mixedPartCount = totalParts - totalFullParts;
-  // if(remainingAfterglows < mixedPartCount){
-  //   mixedPartCount = remainingAfterglows;
-  // }
-  // document.querySelector("#mixed_count").innerHTML = '('+mixedPartCount+')';
   
   // Mixed Mechs
   let mixedModelMechCounts = {
@@ -495,7 +520,6 @@ async function fetchAccountData() {
         }
       })
 
-      
         if(partOne != '' && partTwo != ''){
           if(!mixedModelMechCountParts[model]){
             mixedModelMechCountParts[model] = [];
@@ -674,7 +698,9 @@ async function fetchAccountData() {
   });
   document.querySelector("#remaining_count").innerHTML = '('+remainingCount+')';
   
-  document.querySelector("#info").innerHTML = '';
+  document.querySelector("#info").display = 'none';
+  document.querySelector("#info2").display = 'none';
+  document.querySelector("#instructions").display = 'none';
 
   document.querySelector("#connected").style.display = "block";
 }
@@ -685,9 +711,6 @@ function buildMechs(mixedModelMechCountParts, allowPartial, remainingParts){
   rarityOrder.forEach((model)=>{
     let baseParts = mixedModelMechCountParts[model];
     if(baseParts.length > 0){
-      // TODO build the mechs
-      // partOne
-      // partTwo
 
       baseParts.forEach((mech)=>{
         let fullMech = {
@@ -801,8 +824,9 @@ async function getAfterglowTokenBalanceBatch(addresses, cards) {
 
 async function refreshAccountData() {
   document.querySelector("#connected").style.display = "none";
-
-  document.querySelector("#info").innerHTML = 'Getting TPL Mech Part Balances, this may take a few seconds... Please Wait!';
+  document.querySelector("#info").style.display = "none";
+  document.querySelector("#info2").style.display = "none";
+  document.querySelector("#instructions").style.display = "none";
 
   await fetchAccountData(provider);
 }
