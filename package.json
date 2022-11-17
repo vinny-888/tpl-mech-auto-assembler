@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "name": "tpl-mech-auto-assembler",
+  "description": "## Live Demo",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "serve": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinny-888/tpl-mech-auto-assembler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vinny-888/tpl-mech-auto-assembler/issues"
+  },
+  "homepage": "https://github.com/vinny-888/tpl-mech-auto-assembler#readme"
+}
