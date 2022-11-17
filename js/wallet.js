@@ -14,19 +14,19 @@ function initContracts(){
 async function getMechTokenBalance(address, card) {
     try{
         let result = await mechContract.methods.balanceOf(address, card).call();
-  
-        console.log('getMechTokenBalance: ',  parts[card-1].model + ' ' + parts[card-1].part, result);
+
+        console.log('getMechTokenBalance: ',  PARTS_LIST[card-1].model + ' ' + PARTS_LIST[card-1].part, result);
         return parseInt(result);
     }catch(e){
         console.log('getMechTokenBalance Error:',e)
         return 0;
     }
 }
-  
+
 async function getMechTokenBalanceBatch(addresses, cards) {
     try{
         let result = await mechContract.methods.balanceOfBatch(addresses, cards).call();
-  
+
         console.log('getMechTokenBalanceBatch: ', result);
         return result;
     }catch(e){
@@ -34,23 +34,23 @@ async function getMechTokenBalanceBatch(addresses, cards) {
         return [];
     }
 }
-  
+
 async function getAfterglowTokenBalance(address, card) {
     try{
         let result = await afterglowContract.methods.balanceOf(address, card).call();
-  
-        console.log('getAfterglowTokenBalance: ',  afterglows[card-1], result);
+
+        console.log('getAfterglowTokenBalance: ',  AFTERGLOWS[card-1], result);
         return parseInt(result);
     }catch(e){
         console.log('getAfterglowTokenBalance Error:',e)
         return 0;
     }
 }
-  
+
 async function getAfterglowTokenBalanceBatch(addresses, cards) {
     try{
         let result = await afterglowContract.methods.balanceOfBatch(addresses, cards).call();
-  
+
         console.log('getAfterglowTokenBalanceBatch: ',  result);
         return result;
     }catch(e){
@@ -63,17 +63,17 @@ async function populateWalletMechParts(address){
     let walletParts = [];
     let res = await getMechTokenBalanceBatch(getAddressArr(address, 26), getCardArr(26));
     for(let i=0; i<26; i++){
-        walletParts.push(parts[i]);
+        walletParts.push(PARTS_LIST[i]);
         walletParts[i].count = parseInt(res[i]);
     }
     return walletParts;
 }
-  
+
 async function populateWalletAfterglows(address){
     let walletAfterglows = [];
     let res = await getAfterglowTokenBalanceBatch(getAddressArr(address, 38), getCardArr(38));
     for(let i=0; i<38; i++){
-        walletAfterglows.push(afterglows[i]);
+        walletAfterglows.push(AFTERGLOWS[i]);
         walletAfterglows[i].count = parseInt(res[i]);
     }
     return walletAfterglows;

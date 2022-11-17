@@ -1,14 +1,15 @@
 
- const rarityOrder = ['Nexus', 'Behemoth', 'Lupis', 'Ravenger', 'Enforcer'];
- const partOrder = ['Engine', 'Head', 'Body', 'Legs', 'Arm'];
- const weights = {
-  Enforcer: 5,
-  Ravenger: 4,
-  Lupis: 3,
-  Behemoth: 2,
+ const RARITY_ORDER = ['Nexus', 'Behemoth', 'Lupis', 'Ravenger', 'Enforcer'];
+ const PARTS_ORDER = ['Engine', 'Head', 'Body', 'Legs', 'Arm'];
+ const MODEL_WEIGHTS = {
   Nexus: 1,
+  Behemoth: 2,
+  Lupis: 3,
+  Ravenger: 4,
+  Enforcer: 5,
 };
-const parts = [
+
+const PARTS_LIST = [
   {
     model: 'Enforcer',
     part: 'Arm'
@@ -114,8 +115,8 @@ const parts = [
     part: 'Legs'
   }
 ];
-  
-let afterglows = [
+
+const AFTERGLOWS = [
     {name: 'ShaDAO Black'},
     {name: 'Starter Green'},
     {name: 'Common Lavender'},
@@ -154,8 +155,7 @@ let afterglows = [
     {name: 'Deva\'s Breath'},
     {name: 'True Belief'},
     {name: 'The One'}
-  ];
-afterglows = afterglows.reverse();
+  ].reverse();
 
 const template = document.querySelector("#template-balance");
 const accountContainer = document.querySelector("#accounts");
