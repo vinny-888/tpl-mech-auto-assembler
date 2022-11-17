@@ -103,7 +103,7 @@ function buildMixedModelMechsSummaryTable(mixedMechs){
                     modelCounts[model] = 0;
                 }
                 modelCounts[model]++;
-                totalMixed += mech[model];
+                totalMixed++;
             }
         })
     });
