@@ -7,11 +7,11 @@
 ## Running Locally
 
 ```
-npm i http-server-ssl
-http-server-ssl -S
+npm install
+npm run serve
 ```
 
-Open https://127.0.0.1:8080/ in browser
+Open http://127.0.0.1:8080/ in browser
 
 ## Based on
 
