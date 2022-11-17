@@ -164,6 +164,12 @@
       }
 
       tr:nth-child(even) {background-color: #f2f2f2;}
+
+      td img {
+        object-fit: cover;
+        width: 60px;
+        height: 60px;
+      }
     </style>
   </head>
   <body>
@@ -180,9 +186,9 @@
 
             1 Engine + 2 other parts (of the same model)<br><br>
 
-            To Operate a Mech in the <a target="_blank" href="https://opensea.io/collection/cyberbrokers">CyberBroker</a> universe, 
+            To Operate a Mech in the <a target="_blank" href="https://opensea.io/collection/cyberbrokers">CyberBroker</a> universe,
             you will need a CyberBroker, Drifter, or potentially something else.
-            
+
           </div>
           <div id="info2">
             <b>Required Parts:</b><br>
@@ -212,7 +218,7 @@
             <div class="containerDiv">
               <div class="borderDiv">
                 <h4> Part Counts <button class="tooltipBtn" tip="Table showing part counts for each model type.">?</button></h4>
-  
+
                 <table class="table table-full">
                   <thead>
                     <th>Model</th>
@@ -222,7 +228,7 @@
                     <th>Legs</th>
                     <th>Arms</th>
                   </thead>
-  
+
                   <tbody id="counts">
                   </tbody>
                 </table>
@@ -276,21 +282,21 @@
               </div>
               <div class="borderDiv" style="margin-top: 4px;">
                 <h4> Mixed Model Mechs <span id="mixed_count">0</span> <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow. This is a summary of the more detailed Mixed Model Mechs Parts table.">?</button></h4>
-  
+
                 <table class="table table-mixed">
                   <thead>
                     <th style="width:20%">Image</th>
                     <th>Model</th>
                     <th>Count</th>
                   </thead>
-  
+
                   <tbody id="mixed">
                   </tbody>
                 </table>
               </div>
               <div class="borderDiv" style="margin-top: 4px;">
                 <h4> Unused Parts <span id="remaining_count">0</span> <button class="tooltipBtn" tip="Left over parts not used to create Single Model or Mixed Model Mechs.">?</button></h4>
-  
+
                 <table class="table table-listing">
                   <thead>
                     <th style="width:20%">Image</th>
@@ -298,14 +304,14 @@
                     <th>Model</th>
                     <th>Count</th>
                   </thead>
-  
+
                   <tbody id="remaining">
                   </tbody>
                 </table>
               </div>
             </div>
 
-            
+
               <div class="containerDiv">
                 <div class="borderDiv">
                   <h4> Mixed Model Mechs Parts <span id="mixed_count2">0</span> <button class="tooltipBtn" tip="Model and Parts Details for Mixed Model Mechs. These can be built as they have all required parts and an Afterglow.">?</button></h4>
@@ -327,7 +333,7 @@
 
                 <div class="borderDiv" style="margin-top: 4px;">
                   <h4> Mixed Model Mechs (No Afterglow) <span id="noafterglow_count">0</span> <button class="tooltipBtn" tip="These cannot be built yet without acquiring an Afterglow.">?</button></h4>
-    
+
                   <table class="table table-listing" style="width: 390px;">
                     <thead>
                       <th>Engine</th>
@@ -337,7 +343,7 @@
                       <th>Left Arm</th>
                       <th>Right Arm</th>
                     </thead>
-    
+
                     <tbody id="mechsNoAfterglow">
                     </tbody>
                   </table>
@@ -345,7 +351,7 @@
 
                 <div class="borderDiv" style="margin-top: 4px;">
                   <h4> Partial Mechs (Engine & 2+ Parts) <span id="partial_count">0</span> <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do have 1 Engine + 2 matching parts so you are almost there.">?</button></h4>
-    
+
                   <table class="table table-listing" style="width: 390px;">
                     <thead>
                       <th>Engine</th>
@@ -355,7 +361,7 @@
                       <th>Left Arm</th>
                       <th>Right Arm</th>
                     </thead>
-    
+
                     <tbody id="mechsPartial">
                     </tbody>
                   </table>
