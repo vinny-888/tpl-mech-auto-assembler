@@ -25,11 +25,11 @@ function buildTablesAndMechs(){
     buildPartCountsTable();
     buildAfterglowTable();
     buildFullMechTable();
-
-    buildFullMixedMechs();
     
     countMixedModelMechParts();
     countRemainingParts();
+
+    buildFullMixedMechs();
 
     let mixedMechs = buildPartialMixedMechs(dataModel.mixedModelMechCountParts, false);
     buildMixedMechsTable(mixedMechs);
