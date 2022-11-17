@@ -93,22 +93,32 @@ function buildFullMechTable(){
 }
 
 
-function buildMixedModelMechsSummaryTable(){
+function buildMixedModelMechsSummaryTable(mixedMechs){
     let totalMixed = 0;
+    let modelCounts = {};
     rarityOrder.forEach((model)=>{
-        if(dataModel.mixedModelMechCounts[model] > 0){
-            const clone = templateMixed.content.cloneNode(true);
-            clone.querySelector(".image").innerHTML = partsImage("Engine", model);
-            clone.querySelector(".model").textContent = model;
-            clone.querySelector(".count").textContent = dataModel.mixedModelMechCounts[model];
-            mixedContainer.appendChild(clone);
-            totalMixed += dataModel.mixedModelMechCounts[model];
-        }
+        mixedMechs.forEach((mech)=>{
+            if(mech['Engine'] == model){
+                if(!modelCounts[model]){
+                    modelCounts[model] = 0;
+                }
+                modelCounts[model]++;
+                totalMixed += mech[model];
+            }
+        })
     });
+    Object.keys(modelCounts).forEach((model)=>{
+        const clone = templateMixed.content.cloneNode(true);
+        clone.querySelector(".image").innerHTML = partsImage("Engine", model);
+        clone.querySelector(".model").textContent = model;
+        clone.querySelector(".count").textContent = modelCounts[model];
+        mixedContainer.appendChild(clone);
+    })
     if(totalMixed == 0){
         const clone = templateEmpty.content.cloneNode(true);
         mixedContainer.appendChild(clone);
     }
+    document.querySelector("#mixed_count").innerHTML = '('+totalMixed+')';
 }
 
 function buildMixedMechsTable(mixedMechs){
@@ -129,7 +139,6 @@ function buildMixedMechsTable(mixedMechs){
         mixedmechContainer.appendChild(clone);
     })
     document.querySelector("#mixed_count2").innerHTML = '('+mixedMechs.length+')';
-    document.querySelector("#mixed_count").innerHTML = '('+mixedMechs.length+')';
 }
 
 function buildMixedMechNoAfterglowTable(mixedMechsNoAfterglow){
