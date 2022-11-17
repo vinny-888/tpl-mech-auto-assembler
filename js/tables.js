@@ -94,6 +94,7 @@ function buildFullMechTable(){
 
 
 function buildMixedModelMechsSummaryTable(){
+    let totalMixed = 0;
     rarityOrder.forEach((model)=>{
         if(dataModel.mixedModelMechCounts[model] > 0){
             const clone = templateMixed.content.cloneNode(true);
@@ -101,8 +102,13 @@ function buildMixedModelMechsSummaryTable(){
             clone.querySelector(".model").textContent = model;
             clone.querySelector(".count").textContent = dataModel.mixedModelMechCounts[model];
             mixedContainer.appendChild(clone);
+            totalMixed += dataModel.mixedModelMechCounts[model];
         }
     });
+    if(totalMixed == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        mixedContainer.appendChild(clone);
+    }
 }
 
 function buildMixedMechsTable(mixedMechs){

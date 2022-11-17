@@ -48,8 +48,6 @@ function buildTablesAndMechs(){
     displayTables();
 }
 
-
-
 function resetWalletAndTables(){
   dataModel.remainingParts = {};
   dataModel.fullModelMechs = {

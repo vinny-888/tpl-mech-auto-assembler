@@ -73,7 +73,6 @@ function buildPartialMixedMechs(mixedModelMechCountParts, allowPartial){
   
 
 function buildFullMixedMechs(){
-    let totalMixed = 0;
     rarityOrder.forEach((model)=>{
         let fullMechParts = dataModel.fullModelMechs[model];
         let partCounts = {
@@ -144,20 +143,7 @@ function buildFullMixedMechs(){
                 }
             }
         }
-        // Build Table
-        if(dataModel.mixedModelMechCounts[model] > 0){
-            const clone = templateMixed.content.cloneNode(true);
-            clone.querySelector(".image").innerHTML = partsImage("Engine", model);
-            clone.querySelector(".model").textContent = model;
-            clone.querySelector(".count").textContent = dataModel.mixedModelMechCounts[model];
-            mixedContainer.appendChild(clone);
-        }
-
-        totalMixed += dataModel.mixedModelMechCounts[model];
     })
 
-    if(totalMixed == 0){
-        const clone = templateEmpty.content.cloneNode(true);
-        mixedContainer.appendChild(clone);
-    }
+
 }
