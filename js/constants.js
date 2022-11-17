@@ -1,10 +1,10 @@
 
- const rarityOrder = ['Nexus', 'Behemoth', 'Lupis', 'Ravenger', 'Enforcer'];
+ const rarityOrder = ['Nexus', 'Lupis', 'Behemoth', 'Ravenger', 'Enforcer'];
  const partOrder = ['Engine', 'Head', 'Body', 'Legs', 'Arm'];
  const weights = {
   Enforcer: 5,
-  Ravenger: 4,
-  Lupis: 3,
+  Lupis: 4,
+  Ravenger: 3,
   Behemoth: 2,
   Nexus: 1,
 };
