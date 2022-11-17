@@ -6,65 +6,71 @@ function buildPartialMixedMechs(mixedModelMechCountParts, allowPartial){
         let baseParts = mixedModelMechCountParts[model];
         if(baseParts.length > 0){
 
-        baseParts.forEach((mech)=>{
-            let fullMech = {
-                Engine: model
-            };
-            tempRemainingParts[model]['Engine']--;
-            let remainingPartNames = ['Head', 'Body', 'Legs', 'Arm', 'Arm'];
-            mech.forEach((modelPart)=>{
-            var index = remainingPartNames.indexOf(modelPart.part);
-            if (index !== -1) {
-                remainingPartNames.splice(index, 1);
-                if(modelPart.part == 'Arm' && !fullMech['left_arm']){
-                    fullMech['left_arm'] = model;
-                    tempRemainingParts[model]['Arm']--;
-                } else if(modelPart.part == 'Arm' && fullMech['left_arm']){
-                    fullMech['right_arm'] = model;
-                    tempRemainingParts[model]['Arm']--;
-                } else if(modelPart.part != 'Arm'){
-                    fullMech[modelPart.part] = model;
-                    tempRemainingParts[model][modelPart.part]--;
+            baseParts.forEach((mech)=>{
+                let fullMech = {
+                    Engine: model
+                };
+                tempRemainingParts[model]['Engine']--;
+                let remainingPartNames = ['Head', 'Body', 'Legs', 'Arm', 'Arm'];
+                mech.forEach((modelPart)=>{
+                    var index = remainingPartNames.indexOf(modelPart.part);
+                    if (index !== -1) {
+                        remainingPartNames.splice(index, 1);
+                        if(modelPart.part == 'Arm' && !fullMech['left_arm']){
+                            if(tempRemainingParts[model]['Arm'] > 0){
+                                fullMech['left_arm'] = model;
+                                tempRemainingParts[model]['Arm']--;
+                            }
+                        } else if(modelPart.part == 'Arm' && fullMech['left_arm']){
+                            if(tempRemainingParts[model]['Arm'] > 0){
+                                fullMech['right_arm'] = model;
+                                tempRemainingParts[model]['Arm']--;
+                            }
+                        } else if(modelPart.part != 'Arm'){
+                            if(tempRemainingParts[model][modelPart.part] > 0){
+                                fullMech[modelPart.part] = model;
+                                tempRemainingParts[model][modelPart.part]--;
+                            }
+                        }
+                    }
+                })
+                console.log('remainingPartNames:', remainingPartNames);
+                for(let j=0; j < remainingPartNames.length; j++){
+                    let part = remainingPartNames[j];
+                    // Remove part from inventory
+                    for(let i=0; i < rarityOrder.length; i++){
+                        let model = rarityOrder[i];
+                        if(tempRemainingParts[model][part] > 0){
+                            tempRemainingParts[model][part]--;
+                            // Still need a left arm
+                            if(part == 'Arm' && !fullMech['left_arm']){
+                                fullMech['left_arm'] = model
+                                break;
+                            }
+                            // already got the left arm
+                            else if(part == 'Arm' && fullMech['left_arm']){
+                                fullMech['right_arm'] = model;
+                                break;
+                            }
+                            // Not an arm
+                            else if(part != 'Arm') {
+                                fullMech[part] = model;
+                                break;
+                            }
+                            console.log('Using part: ', model + ' ' + part);
+                        }
+                    }
                 }
-            }
-            })
-            console.log('remainingPartNames:', remainingPartNames);
-            for(let j=0; j < remainingPartNames.length; j++){
-            let part = remainingPartNames[j];
-            // Remove part from inventory
-            for(let i=0; i < rarityOrder.length; i++){
-                let model = rarityOrder[i];
-                if(tempRemainingParts[model][part] > 0){
-                    tempRemainingParts[model][part]--;
-                    // Still need a left arm
-                    if(part == 'Arm' && !fullMech['left_arm']){
-                        fullMech['left_arm'] = model
-                        break;
-                    }
-                    // already got the left arm
-                    else if(part == 'Arm' && fullMech['left_arm']){
-                        fullMech['right_arm'] = model;
-                        break;
-                    }
-                    // Not an arm
-                    else if(part != 'Arm') {
-                        fullMech[part] = model;
-                        break;
-                    }
-                    console.log('Using part: ', model + ' ' + part);
+                if((allowPartial && (!fullMech.Head || !fullMech.Body
+                || !fullMech.Legs || !fullMech.left_arm
+                || !fullMech.right_arm || !fullMech.Engine))
+                || (!allowPartial && (fullMech.Head && fullMech.Body
+                    && fullMech.Legs && fullMech.left_arm
+                    && fullMech.right_arm && fullMech.Engine))){
+                    mixedMechs.push(fullMech);
+                    dataModel.remainingParts = tempRemainingParts;
                 }
-            }
-            }
-            if((allowPartial && (!fullMech.Head || !fullMech.Body
-            || !fullMech.Legs || !fullMech.left_arm
-            || !fullMech.right_arm || !fullMech.Engine))
-            || (!allowPartial && (fullMech.Head && fullMech.Body
-                && fullMech.Legs && fullMech.left_arm
-                && fullMech.right_arm && fullMech.Engine))){
-                mixedMechs.push(fullMech);
-                dataModel.remainingParts = tempRemainingParts;
-            }
-        });
+            });
         }
     });
 
@@ -101,7 +107,7 @@ function buildFullMixedMechs(){
                     partOne = part;
                 } else if(partTwo == ''  && partCounts[part] > 0){
                     if(partOne != part || (partOne == partTwo && partCounts[part] > 1)){
-                    partTwo = part;
+                        partTwo = part;
                     }
                 }
                 }
@@ -144,6 +150,4 @@ function buildFullMixedMechs(){
             }
         }
     })
-
-
 }
