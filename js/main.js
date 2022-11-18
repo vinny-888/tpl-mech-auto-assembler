@@ -48,15 +48,8 @@ function buildTablesAndMechs(){
     displayTables();
 }
 
-function resetWalletAndTables(){
-  dataModel.remainingParts = {};
-  dataModel.fullModelMechs = {
-    Enforcer: {},
-    Ravenger: {},
-    Lupis: {},
-    Behemoth: {},
-    Nexus: {}
-  };
+function reset(){
+  resetModel();
   // Purge UI elements any previously loaded accounts
   accountContainer.innerHTML = '';
   afterglowContainer.innerHTML = '';
@@ -91,8 +84,8 @@ async function fetchAccountData() {
     return;
   }
 
-  // reset model and tables
-  resetWalletAndTables();
+  // reset model, data and tables
+  reset();
 
   dataModel.walletParts = await populateWalletMechParts(address);
   dataModel.totalParts = countParts(dataModel.walletParts);
