@@ -104,15 +104,19 @@ function buildFullMixedMechs(){
             let partTwo = '';
             Object.keys(partCounts).forEach((part)=>{
                 if(part != 'Engine'){
-                if(partOne == '' && partCounts[part] > 0){
-                    partOne = part;
-                } else if(partTwo == ''  && partCounts[part] > 0){
-                    if(partOne != part || (partOne == partTwo && partCounts[part] > 1)){
+                    if(partOne == '' && partCounts[part] > 0){
+                        partOne = part;
+                        partCounts[partOne]--;
+                    } else if(partTwo == ''  && partCounts[part] > 0){
                         partTwo = part;
+                        partCounts[partTwo]--;
                     }
                 }
-                }
             })
+            // Increment the partOne if partTwo is missing
+            if(partOne != '' && partTwo == ''){
+                partCounts[partOne]++;
+            }
 
             if(partOne != '' && partTwo != ''){
                 if(!dataModel.mixedModelMechCountParts[model]){
@@ -121,8 +125,7 @@ function buildFullMixedMechs(){
                 if(!dataModel.mixedModelMechCountPartsNoAfterglow[model]){
                     dataModel.mixedModelMechCountPartsNoAfterglow[model] = [];
                 }
-                partCounts[partOne]--;
-                partCounts[partTwo]--;
+                
                 if(dataModel.remainingAfterglows == 0){
                     dataModel.mixedModelMechCountPartsNoAfterglow[model].push([
                         {
