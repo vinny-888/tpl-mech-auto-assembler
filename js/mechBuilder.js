@@ -40,8 +40,8 @@ function buildPartialMixedMechs(mixedModelMechCountParts, allowPartial){
                 for(let j=0; j < remainingPartNames.length; j++){
                     let part = remainingPartNames[j];
                     // Remove part from inventory
-                    for(let i=0; i < rarityOrder.length; i++){
-                        let model = rarityOrder[i];
+                    for(let i=0; i < RARITY_ORDER.length; i++){
+                        let model = RARITY_ORDER[i];
                         if(tempRemainingParts[model][part] > 0){
                             tempRemainingParts[model][part]--;
                             // Still need a left arm
