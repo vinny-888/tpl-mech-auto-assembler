@@ -2,7 +2,6 @@ function buildPartialMixedMechs(mixedModelMechCountParts, allowPartial){
     let mixedMechs = [];
 
     RARITY_ORDER.forEach((model)=>{
-        let tempRemainingParts = JSON.parse(JSON.stringify(dataModel.remainingParts));
         let baseParts = mixedModelMechCountParts[model];
         if(baseParts.length > 0){
 

@@ -21,25 +21,36 @@ async function refreshAccountData() {
 }
 
 function buildTablesAndMechs(){
+    // Builds the wallet inventory parts tables
     buildPartsTable();
     buildPartCountsTable();
     buildAfterglowTable();
+
+    // Create all possible full mechs of same model
     buildFullMechTable();
     
+    // Count how many mixed mechs can be made
     countMixedModelMechParts();
+
+    // Count the remaining parts
     countRemainingParts();
 
+    // Build the mixed mechs
     buildFullMixedMechs();
 
+    // Build partial mechs **with** afterglow
     let mixedMechs = buildPartialMixedMechs(dataModel.mixedModelMechCountParts, false);
     buildMixedMechsTable(mixedMechs);
     buildMixedModelMechsSummaryTable(mixedMechs);
 
+    // Build partial mechs **without** afterglows
     let mixedMechsNoAfterglow = buildPartialMixedMechs(dataModel.mixedModelMechCountPartsNoAfterglow, false);
     buildMixedMechNoAfterglowTable(mixedMechsNoAfterglow);
 
+    // Calcualte the possible mechs again
     calculatePossibleMechsFromRemainingParts();
 
+    // Build partial mechs and show missing parts
     let mixedMechsPartial = buildPartialMixedMechs(dataModel.partialMechCountParts, true);
     buildPartialMechTable(mixedMechsPartial);
 
