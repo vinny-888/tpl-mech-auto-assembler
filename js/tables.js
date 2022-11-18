@@ -21,10 +21,10 @@ function buildPartsTable(){
 }
 
 function buildPartCountsTable(){
-    rarityOrder.forEach((model)=>{
+    RARITY_ORDER.forEach((model)=>{
         const clone = templateCounts.content.cloneNode(true);
         clone.querySelector(".model").textContent = model;
-        partOrder.forEach((part)=>{
+        PARTS_ORDER.forEach((part)=>{
             clone.querySelector("."+part).textContent = dataModel.fullModelMechs[model][part];
         });
         countsContainer.appendChild(clone);
@@ -55,7 +55,7 @@ function buildAfterglowTable(){
 function buildFullMechTable(){
     let totalFullParts = 0;
     dataModel.remainingAfterglows = dataModel.totalAfterglows;
-    rarityOrder.forEach((model)=>{
+    RARITY_ORDER.forEach((model)=>{
         let mechParts = Object.keys(dataModel.fullModelMechs[model]);
         let min = 99999;
         mechParts.forEach((part)=>{
@@ -96,7 +96,7 @@ function buildFullMechTable(){
 function buildMixedModelMechsSummaryTable(mixedMechs){
     let totalMixed = 0;
     let modelCounts = {};
-    rarityOrder.forEach((model)=>{
+    RARITY_ORDER.forEach((model)=>{
         mixedMechs.forEach((mech)=>{
             if(mech['Engine'] == model){
                 if(!modelCounts[model]){
@@ -148,14 +148,14 @@ function buildMixedMechNoAfterglowTable(mixedMechsNoAfterglow){
       }
       mixedMechsNoAfterglow.forEach((mech)=>{
         const clone = templateMixedMech.content.cloneNode(true);
-    
+
         clone.querySelector(".engine").innerHTML = partsImage('Engine', mech.Engine);
         clone.querySelector(".head").innerHTML = partsImage('Head', mech.Head);
         clone.querySelector(".body").innerHTML = partsImage('Body', mech.Body);
         clone.querySelector(".legs").innerHTML = partsImage('Legs', mech.Legs);
         clone.querySelector(".left_arm").innerHTML = partsImage('Arm', mech.left_arm);
         clone.querySelector(".right_arm").innerHTML = partsImage('Arm', mech.right_arm);
-    
+
         mixedmechNoAfterglowContainer.appendChild(clone);
       })
       document.querySelector("#noafterglow_count").innerHTML = '('+mixedMechsNoAfterglow.length+')';
@@ -212,7 +212,7 @@ function buildPartialMechTable(mixedMechsPartial){
 
 function buildRemainingPartsTable(){
     let remainingCount = 0;
-    rarityOrder.forEach((model)=>{
+    RARITY_ORDER.forEach((model)=>{
         if(dataModel.remainingParts[model]){
             Object.keys(dataModel.remainingParts[model]).forEach((part)=>{
             if(dataModel.remainingParts[model][part] > 0){

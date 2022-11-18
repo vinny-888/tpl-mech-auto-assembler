@@ -73,7 +73,7 @@ function fixAndSortParts(){
     if(a.model == b.model){
       return a.part.localeCompare(b.part);
     }
-    return weights[a.model] - weights[b.model];
+    return MODEL_WEIGHTS[a.model] - MODEL_WEIGHTS[b.model];
   })
 }
 
@@ -131,7 +131,7 @@ function countRemainingParts(){
 }
 
 function calculatePossibleMechsFromRemainingParts(){
-  rarityOrder.forEach((model)=>{
+  RARITY_ORDER.forEach((model)=>{
     let fullMechParts = dataModel.remainingParts[model];
     let partCounts = {
       Arm: 0,
