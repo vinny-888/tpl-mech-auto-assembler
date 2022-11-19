@@ -54,22 +54,27 @@ function buildAfterglowTable(){
 
 function buildFullMechTable(fullMechs){
     let count = 0;
-    Object.keys(fullMechs).forEach((model)=>{
+    RARITY_ORDER.forEach((model)=>{
         let fullModelMechs = fullMechs[model];
         // Build Table
-        let allowedDismantle = fullModelMechs.length > 0 ? '' : 'disabled';
+        let allowedDismantle = 'disabled';
         let allowedAssemble = dataModel.dismantled[model] > 0 ? '' : 'disabled';
+        let countOfMechs = 0;
+        if(fullModelMechs){
+            allowedDismantle = fullModelMechs.length > 0 ? '' : 'disabled';
+            countOfMechs = fullModelMechs.length;
+        }
         const clone = templateFull.content.cloneNode(true);
         clone.querySelector(".image").innerHTML = partsImage("Engine", model);
         clone.querySelector(".model").textContent = model;
-        clone.querySelector(".count").textContent = fullModelMechs.length;
+        clone.querySelector(".count").textContent = countOfMechs;
 
         clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
             <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
             <button class="btn btn-assemble${allowedAssemble}"" id="btn-query" onclick="assemble('${model}')" ${allowedAssemble}>+</button>
         </div>`;
         fullContainer.appendChild(clone);
-        count += fullModelMechs.length;
+        count += countOfMechs;
     })
 
     if(count == 0){
