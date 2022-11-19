@@ -49,7 +49,10 @@ function buildMixedMechs(afterglowRequired, allowPartial){
         for(let i=0; i< engineCount; i++){
             let partOne = '';
             let partTwo = '';
-            Object.keys(tempRemainingParts[model]).forEach((part)=>{
+            let remainingParts = Object.keys(tempRemainingParts[model]);
+
+            remainingParts = changePartOrderBasedOnAvailability(model, remainingParts);
+            remainingParts.forEach((part)=>{
                 if(part != 'Engine'){
                     if(partOne == '' && tempRemainingParts[model][part] > 0){
                         partOne = part;
@@ -102,29 +105,28 @@ function buildMixedMechs(afterglowRequired, allowPartial){
                 })
                 for(let j=0; j < remainingPartNames.length; j++){
                     let part = remainingPartNames[j];
+                    let orderRarityOrder = changeRarityOrderBasedOnModel(model);
                     // Remove part from inventory
-                    for(let i=0; i < RARITY_ORDER.length; i++){
-                        let model2 = RARITY_ORDER[i];
-                        if(model != model2){
-                            if(tempRemainingParts[model2][part] > 0){
-                                // Still need a left arm
-                                if(part == 'Arm' && !mixedMech['left_arm']){
-                                    mixedMech['left_arm'] = model2;
-                                    tempRemainingParts[model2][part]--;
-                                    break;
-                                }
-                                // already got the left arm
-                                else if(part == 'Arm' && mixedMech['left_arm']){
-                                    mixedMech['right_arm'] = model2;
-                                    tempRemainingParts[model2][part]--;
-                                    break;
-                                }
-                                // Not an arm
-                                else if(part != 'Arm') {
-                                    mixedMech[part] = model2;
-                                    tempRemainingParts[model2][part]--;
-                                    break;
-                                }
+                    for(let i=0; i < orderRarityOrder.length; i++){
+                        let model2 = orderRarityOrder[i];
+                        if(tempRemainingParts[model2][part] > 0){
+                            // Still need a left arm
+                            if(part == 'Arm' && !mixedMech['left_arm']){
+                                mixedMech['left_arm'] = model2;
+                                tempRemainingParts[model2][part]--;
+                                break;
+                            }
+                            // already got the left arm
+                            else if(part == 'Arm' && mixedMech['left_arm']){
+                                mixedMech['right_arm'] = model2;
+                                tempRemainingParts[model2][part]--;
+                                break;
+                            }
+                            // Not an arm
+                            else if(part != 'Arm') {
+                                mixedMech[part] = model2;
+                                tempRemainingParts[model2][part]--;
+                                break;
                             }
                         }
                     }
@@ -159,4 +161,37 @@ function isPartialMech(mech){
     return !mech.Head || !mech.Body
         || !mech.Legs || !mech.left_arm
         || !mech.right_arm || !mech.Engine
+}
+
+function changeRarityOrderBasedOnModel(model){
+    let newOrder = [].concat(RARITY_ORDER);
+    let indexOfModel = newOrder.indexOf(model);
+    newOrder.splice(indexOfModel, 1);
+    newOrder.push(model);
+    return newOrder;
+}
+
+function changePartOrderBasedOnAvailability(modelType, remainingParts){
+    let otherPartCountMax = {};
+    remainingParts.forEach((part)=>{
+        let isOnlyModelPart = false;
+        RARITY_ORDER.forEach((model)=>{
+            if(modelType != model){
+                PARTS_ORDER.forEach((part)=>{
+                    if(!otherPartCountMax[part]){
+                        otherPartCountMax[part] = dataModel.modelParts[model][part];
+                    } else {
+                        otherPartCountMax[part] += dataModel.modelParts[model][part];
+                    }
+                })
+            }
+        })
+    })
+    let partNameByOrder = getSortedKeys(otherPartCountMax);
+    return partNameByOrder;
+}
+
+function getSortedKeys(obj) {
+    var keys = Object.keys(obj);
+    return keys.sort(function(a,b){return obj[a]-obj[b]});
 }

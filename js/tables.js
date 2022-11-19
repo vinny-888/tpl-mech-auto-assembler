@@ -57,7 +57,7 @@ function buildFullMechTable(fullMechs){
     Object.keys(fullMechs).forEach((model)=>{
         let fullModelMechs = fullMechs[model];
         // Build Table
-        let allowedDismantle = fullModelMechs.length - dataModel.dismantled[model] > 0 ? '' : 'disabled';
+        let allowedDismantle = fullModelMechs.length > 0 ? '' : 'disabled';
         let allowedAssemble = dataModel.dismantled[model] > 0 ? '' : 'disabled';
         const clone = templateFull.content.cloneNode(true);
         clone.querySelector(".image").innerHTML = partsImage("Engine", model);
