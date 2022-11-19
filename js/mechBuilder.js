@@ -12,7 +12,7 @@ function buildFullMechs(){
                 min = count;
             }
         });
-        for(let i=0; i<min; i++){
+        for(let i=0; i<min-dataModel.dismantled[model]; i++){
             if(dataModel.remainingAfterglows > 0){
                 let fullMech = {
                     Engine: model,
@@ -104,25 +104,27 @@ function buildMixedMechs(afterglowRequired, allowPartial){
                     let part = remainingPartNames[j];
                     // Remove part from inventory
                     for(let i=0; i < RARITY_ORDER.length; i++){
-                        let model = RARITY_ORDER[i];
-                        if(tempRemainingParts[model][part] > 0){
-                            // Still need a left arm
-                            if(part == 'Arm' && !mixedMech['left_arm']){
-                                mixedMech['left_arm'] = model
-                                tempRemainingParts[model][part]--;
-                                break;
-                            }
-                            // already got the left arm
-                            else if(part == 'Arm' && mixedMech['left_arm']){
-                                mixedMech['right_arm'] = model;
-                                tempRemainingParts[model][part]--;
-                                break;
-                            }
-                            // Not an arm
-                            else if(part != 'Arm') {
-                                mixedMech[part] = model;
-                                tempRemainingParts[model][part]--;
-                                break;
+                        let model2 = RARITY_ORDER[i];
+                        if(model != model2){
+                            if(tempRemainingParts[model2][part] > 0){
+                                // Still need a left arm
+                                if(part == 'Arm' && !mixedMech['left_arm']){
+                                    mixedMech['left_arm'] = model2;
+                                    tempRemainingParts[model2][part]--;
+                                    break;
+                                }
+                                // already got the left arm
+                                else if(part == 'Arm' && mixedMech['left_arm']){
+                                    mixedMech['right_arm'] = model2;
+                                    tempRemainingParts[model2][part]--;
+                                    break;
+                                }
+                                // Not an arm
+                                else if(part != 'Arm') {
+                                    mixedMech[part] = model2;
+                                    tempRemainingParts[model2][part]--;
+                                    break;
+                                }
                             }
                         }
                     }

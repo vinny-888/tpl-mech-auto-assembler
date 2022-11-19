@@ -15,6 +15,13 @@ let dataModel = {
     Lupis: [],
     Behemoth: [],
     Nexus: []
+  },
+  dismantled: {
+    Enforcer: 0,
+    Ravenger: 0,
+    Lupis: 0,
+    Behemoth: 0,
+    Nexus: 0
   }
 };
 
@@ -35,5 +42,12 @@ function resetModel(){
     Lupis: [],
     Behemoth: [],
     Nexus: []
+  };
+  dismantled = {
+    Enforcer: 0,
+    Ravenger: 0,
+    Lupis: 0,
+    Behemoth: 0,
+    Nexus: 0
   };
 }

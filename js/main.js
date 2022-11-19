@@ -117,3 +117,13 @@ function displayTables(){
   document.querySelector("#instructions").display = 'none';
   document.querySelector("#connected").style.display = "block";
 }
+
+function dismantle(model){
+  dataModel.dismantled[model]++;
+  refreshAccountData();
+}
+
+function assemble(model){
+  dataModel.dismantled[model]--;
+  refreshAccountData();
+}

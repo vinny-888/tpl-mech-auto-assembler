@@ -57,13 +57,18 @@ function buildFullMechTable(fullMechs){
     Object.keys(fullMechs).forEach((model)=>{
         let fullModelMechs = fullMechs[model];
         // Build Table
-        if(fullModelMechs.length > 0){
-            const clone = templateFull.content.cloneNode(true);
-            clone.querySelector(".image").innerHTML = partsImage("Engine", model);
-            clone.querySelector(".model").textContent = model;
-            clone.querySelector(".count").textContent = fullModelMechs.length;
-            fullContainer.appendChild(clone);
-        }
+        let allowedDismantle = fullModelMechs.length - dataModel.dismantled[model] > 0 ? '' : 'disabled';
+        let allowedAssemble = dataModel.dismantled[model] > 0 ? '' : 'disabled';
+        const clone = templateFull.content.cloneNode(true);
+        clone.querySelector(".image").innerHTML = partsImage("Engine", model);
+        clone.querySelector(".model").textContent = model;
+        clone.querySelector(".count").textContent = fullModelMechs.length;
+
+        clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
+            <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
+            <button class="btn btn-assemble${allowedAssemble}"" id="btn-query" onclick="assemble('${model}')" ${allowedAssemble}>+</button>
+        </div>`;
+        fullContainer.appendChild(clone);
         count += fullModelMechs.length;
     })
 
