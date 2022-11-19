@@ -22,38 +22,28 @@ async function refreshAccountData() {
 
 function buildTablesAndMechs(){
     // Builds the wallet inventory parts tables
-    buildPartsTable();
     buildPartCountsTable();
+    buildPartsTable();
     buildAfterglowTable();
 
-    // Create all possible full mechs of same model
-    buildFullMechTable();
-    
-    // Count how many mixed mechs can be made
-    countMixedModelMechParts();
+    // Build *full* mechs of same model table
+    let fullMechs = buildFullMechs();
+    buildFullMechTable(fullMechs);
 
-    // Count the remaining parts
-    countRemainingParts();
-
-    // Build the mixed mechs
-    buildFullMixedMechs();
-
-    // Build partial mechs **with** afterglow
-    let mixedMechs = buildPartialMixedMechs(dataModel.mixedModelMechCountParts, false);
+    // Build *mixed* mechs **with** afterglow
+    let mixedMechs = buildMixedMechs(true, false);
     buildMixedMechsTable(mixedMechs);
     buildMixedModelMechsSummaryTable(mixedMechs);
 
-    // Build partial mechs **without** afterglows
-    let mixedMechsNoAfterglow = buildPartialMixedMechs(dataModel.mixedModelMechCountPartsNoAfterglow, false);
+    // Build *mixed* mechs **without** afterglows
+    let mixedMechsNoAfterglow = buildMixedMechs(false, false);
     buildMixedMechNoAfterglowTable(mixedMechsNoAfterglow);
 
-    // Calcualte the possible mechs again
-    calculatePossibleMechsFromRemainingParts();
-
-    // Build partial mechs and show missing parts
-    let mixedMechsPartial = buildPartialMixedMechs(dataModel.partialMechCountParts, true);
+    // Build *partial* mechs and show missing parts
+    let mixedMechsPartial = buildMixedMechs(false, true);
     buildPartialMechTable(mixedMechsPartial);
 
+    // Build remaining parts table
     buildRemainingPartsTable();
 
     displayTables();
@@ -99,104 +89,20 @@ async function fetchAccountData() {
   reset();
 
   dataModel.walletParts = await populateWalletMechParts(address);
-  dataModel.totalParts = countParts(dataModel.walletParts);
-  document.querySelector("#part_count").innerHTML = '('+dataModel.totalParts+')';
+  let totalParts = countParts(dataModel.walletParts);
+  document.querySelector("#part_count").innerHTML = '('+totalParts+')';
 
   dataModel.walletAfterglows = await populateWalletAfterglows(address);
-  dataModel.totalAfterglows = countParts(dataModel.walletAfterglows);
-  document.querySelector("#afterglow_count").innerHTML = '('+dataModel.totalAfterglows+')';
+  dataModel.remainingAfterglows = countParts(dataModel.walletAfterglows);
+  document.querySelector("#afterglow_count").innerHTML = '('+dataModel.remainingAfterglows+')';
 
   // Combine lupis arms and sort by rarity
   fixAndSortParts();
 
   // Build the model part count map
   dataModel.walletParts.forEach((part)=>{
-    dataModel.fullModelMechs[part.model][part.part] = part.count;
+    dataModel.modelParts[part.model][part.part] = part.count;
   });
-}
-
-function countMixedModelMechParts(){
-  Object.keys(dataModel.mixedModelMechCountParts).forEach((mech)=>{
-    dataModel.mixedModelMechCountParts[mech].forEach((parts)=>{
-      parts.forEach((part)=>{
-        if(!dataModel.mixedModelMechs[part.model][part.part]){
-          dataModel.mixedModelMechs[part.model][part.part] = 0;
-        }
-        dataModel.mixedModelMechs[part.model][part.part]++;
-      });
-    })
-  })
-}
-
-function countRemainingParts(){
-  Object.keys(dataModel.fullModelMechs).forEach((model)=>{
-    let fullMechParts = dataModel.fullModelMechs[model];
-    dataModel.remainingParts[model] = {
-      Arm: fullMechParts['Arm'] - dataModel.fullModelMechCounts[model]*2 - (dataModel.mixedModelMechs[model]['Arm'] ? dataModel.mixedModelMechs[model]['Arm'] : 0),
-      Legs: fullMechParts['Legs'] - dataModel.fullModelMechCounts[model] - (dataModel.mixedModelMechs[model]['Legs'] ? dataModel.mixedModelMechs[model]['Legs'] : 0),
-      Head: fullMechParts['Head'] - dataModel.fullModelMechCounts[model] - (dataModel.mixedModelMechs[model]['Head'] ? dataModel.mixedModelMechs[model]['Head']  : 0),
-      Body: fullMechParts['Body'] - dataModel.fullModelMechCounts[model] - (dataModel.mixedModelMechs[model]['Body'] ? dataModel.mixedModelMechs[model]['Body']  : 0),
-      Engine: fullMechParts['Engine'] - dataModel.fullModelMechCounts[model] - (dataModel.mixedModelMechs[model]['Engine'] ?  dataModel.mixedModelMechs[model]['Engine'] : 0)
-    };
-  });
-}
-
-function calculatePossibleMechsFromRemainingParts(){
-  RARITY_ORDER.forEach((model)=>{
-    let fullMechParts = dataModel.remainingParts[model];
-    let partCounts = {
-      Arm: 0,
-      Legs: 0,
-      Head: 0,
-      Body: 0,
-      Engine: 0
-    };
-    Object.keys(fullMechParts).forEach((part)=>{
-      let count = parseInt(fullMechParts[part]);
-      if(part != 'Arm'){
-        partCounts[part] = count;
-      } else {
-        partCounts[part] = count;
-      }
-    });
-
-    let engineCount = partCounts['Engine'];
-    for(let i=0; i< engineCount; i++){
-      let partOne = '';
-      let partTwo = '';
-      Object.keys(partCounts).forEach((part)=>{
-        if(part != 'Engine'){
-          if(partOne == '' && partCounts[part] > 0){
-            partOne = part;
-          } else if(partTwo == ''  && partCounts[part] > 0){
-            if(partOne != part || (partOne == partTwo && partCounts[part] > 1)){
-              partTwo = part;
-            }
-          }
-        }
-      })
-
-      if(partOne != '' && partTwo != ''){
-        if(!dataModel.partialMechCountParts[model]){
-          dataModel.partialMechCountParts[model] = [];
-        }
-        partCounts[partOne]--;
-        partCounts[partTwo]--;
-        dataModel.partialMechCounts[model]++;
-        dataModel.partialMechCountParts[model].push([
-          {
-            model: model,
-            part: partOne
-          },
-          {
-            model: model,
-            part: partTwo
-          },
-        ]);
-        dataModel.remainingAfterglows--;
-      }
-    }
-  })
 }
 
 function displayTables(){

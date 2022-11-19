@@ -27,3 +27,7 @@ function countParts(parts){
     parts.forEach((part)=>count+=part.count);
     return count
 }
+
+function countMechs(model){
+    return dataModel.modelParts[model].length;
+}

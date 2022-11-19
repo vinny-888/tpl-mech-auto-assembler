@@ -15,7 +15,7 @@ async function getMechTokenBalance(address, card) {
     try{
         let result = await mechContract.methods.balanceOf(address, card).call();
 
-        console.log('getMechTokenBalance: ',  PARTS_LIST[card-1].model + ' ' + PARTS_LIST[card-1].part, result);
+        // console.log('getMechTokenBalance: ',  PARTS_LIST[card-1].model + ' ' + PARTS_LIST[card-1].part, result);
         return parseInt(result);
     }catch(e){
         console.log('getMechTokenBalance Error:',e)
@@ -27,7 +27,7 @@ async function getMechTokenBalanceBatch(addresses, cards) {
     try{
         let result = await mechContract.methods.balanceOfBatch(addresses, cards).call();
 
-        console.log('getMechTokenBalanceBatch: ', result);
+        // console.log('getMechTokenBalanceBatch: ', result);
         return result;
     }catch(e){
         console.log('getMechTokenBalance Error:',e)
@@ -39,7 +39,7 @@ async function getAfterglowTokenBalance(address, card) {
     try{
         let result = await afterglowContract.methods.balanceOf(address, card).call();
 
-        console.log('getAfterglowTokenBalance: ',  AFTERGLOWS[card-1], result);
+        // console.log('getAfterglowTokenBalance: ',  AFTERGLOWS[card-1], result);
         return parseInt(result);
     }catch(e){
         console.log('getAfterglowTokenBalance Error:',e)
@@ -51,7 +51,7 @@ async function getAfterglowTokenBalanceBatch(addresses, cards) {
     try{
         let result = await afterglowContract.methods.balanceOfBatch(addresses, cards).call();
 
-        console.log('getAfterglowTokenBalanceBatch: ',  result);
+        // console.log('getAfterglowTokenBalanceBatch: ',  result);
         return result;
     }catch(e){
         console.log('getAfterglowTokenBalanceBatch Error:',e)
