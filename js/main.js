@@ -21,6 +21,12 @@ async function refreshAccountData() {
 }
 
 function buildTablesAndMechs(){
+    let useBehemoth = document.querySelector('#use_behemoth').checked;
+    // Switch the rarity order when enabled
+    if(useBehemoth){
+      RARITY_ORDER = RARITY_ORDER_BEHEMOTH;
+      MODEL_WEIGHTS = MODEL_WEIGHTS_BEHEMOTH;
+    }
     // Builds the wallet inventory parts tables
     buildPartCountsTable();
     buildPartsTable();

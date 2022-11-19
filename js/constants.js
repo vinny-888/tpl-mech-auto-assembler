@@ -1,11 +1,17 @@
-
-
-const RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravenger', 'Enforcer'];
+let RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravenger', 'Enforcer'];
+const RARITY_ORDER_BEHEMOTH = ['Nexus', 'Behemoth', 'Lupis', 'Ravenger', 'Enforcer'];
 const PARTS_ORDER = ['Engine', 'Head', 'Body', 'Legs', 'Arm'];
-const MODEL_WEIGHTS = {
+let MODEL_WEIGHTS = {
   Nexus: 1,
   Lupis: 2,
   Behemoth: 3,
+  Ravenger: 4,
+  Enforcer: 5,
+};
+const MODEL_WEIGHTS_BEHEMOTH = {
+  Nexus: 1,
+  Behemoth: 2,
+  Lupis: 3,
   Ravenger: 4,
   Enforcer: 5,
 };
