@@ -26,6 +26,9 @@ function buildTablesAndMechs(){
     if(useBehemoth){
       RARITY_ORDER = RARITY_ORDER_BEHEMOTH;
       MODEL_WEIGHTS = MODEL_WEIGHTS_BEHEMOTH;
+    } else {
+      RARITY_ORDER = ORIGINAL_RARITY_ORDER;
+      MODEL_WEIGHTS = ORIGINAL_MODEL_WEIGHTS;
     }
     // Builds the wallet inventory parts tables
     buildPartCountsTable();
