@@ -217,7 +217,7 @@ function buildPartialMechTable(mixedMechsPartial){
         }
     });
 
-    if(mixedMechsPartial.length == 0){
+    if(count == 0){
         const clone = templateEmpty.content.cloneNode(true);
         mixedmechPartialContainer.appendChild(clone);
     }

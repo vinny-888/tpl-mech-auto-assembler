@@ -1,6 +1,6 @@
 #prepare{
-    margin-left: 4px;
-    margin-bottom: 4px;
+    margin-left: 8px;
+    margin-bottom: 8px;
 }
 
 #info{
@@ -11,12 +11,13 @@
     height: 160px;
     vertical-align: top;
     padding: 4px;
+    margin-left: 8px;
 }
 
 #info2{
     border: solid 1px #578c87;
     background-color: #1f3331;
-    margin-left: 4px;
+    margin-left: 8px;
     width: 150px;
     display: inline-block;
     height: 160px;
@@ -25,7 +26,14 @@
 }
 
 #instructions{
+    margin-top: 8px;
     width: 550px;
+    color: #fff;
+    margin-left: 8px;
+}
+
+.important{
+    color: rgb(255 184 0);
 }
 
 .container {
@@ -57,14 +65,14 @@
 
 .containerDiv{
     float: left;
-    margin-left: 4px;
+    margin-left: 8px;
 }
 
 .col {
     float: left;
     padding-right: 4px;
     padding-left: 4px;
-    margin-left: 4px;
+    margin-left: 8px;
     border: solid 1px #578c87;
     background-color: #1f3331;
 }
@@ -113,14 +121,14 @@
 
 .subtitle {
     margin-top: -10px;
-    margin-left: 20px;
+    margin-left: 24px;
     color: #47736f;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 h3 {
-    margin-left: 20px;
+    margin-left: 24px;
     color: rgb(155, 255, 245);
     margin-top: 0px;
     padding-top: 20px;
