@@ -4,8 +4,8 @@
 }
 
 #info{
-    border: solid 1px #ccc;
-    background-color:  #cbffc9;
+    border: solid 1px #578c87;
+    background-color:  #1f3331;
     width: 550px;
     display: inline-block;
     height: 160px;
@@ -14,8 +14,8 @@
 }
 
 #info2{
-    border: solid 1px #ccc;
-    background-color: #cbffc9;
+    border: solid 1px #578c87;
+    background-color: #1f3331;
     margin-left: 4px;
     width: 150px;
     display: inline-block;
@@ -51,8 +51,8 @@
 .borderDiv {
     padding-right: 4px;
     padding-left: 4px;
-    border: 1px solid #8c8c8c;
-    background-color: #fff;
+    border: solid 1px #578c87;
+    background-color: #1f3331;
 }
 
 .containerDiv{
@@ -65,8 +65,8 @@
     padding-right: 4px;
     padding-left: 4px;
     margin-left: 4px;
-    border: 1px solid #8c8c8c;
-    background-color: #fff;
+    border: solid 1px #578c87;
+    background-color: #1f3331;
 }
 
 [tip] .tooltip {
@@ -106,7 +106,7 @@
 .tooltipBtn {
     background-color: transparent;
     border-radius: 16px;
-    color: #0075ff;
+    color: #578c87;
     border: solid 2px;
     font-size: 16px;
 }
@@ -114,14 +114,14 @@
 .subtitle {
     margin-top: -10px;
     margin-left: 20px;
-    color: rgb(134, 134, 134);
+    color: #47736f;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 h3 {
     margin-left: 20px;
-    color: #ff1c4e;
+    color: rgb(155, 255, 245);
     margin-top: 0px;
     padding-top: 20px;
     font-weight: bold;
@@ -136,7 +136,7 @@ h3 {
 .header{
     width: 100%;
     height: 80px;
-    background-color: #000;
+    border-bottom: solid 1px #9bfff4;
 }
 
 .container{
@@ -144,7 +144,8 @@ h3 {
 }
 
 body{
-    background-color: #dfdfdf;
+    background-color: #101918;
+    color: #9bfff4;
 }
 
 table {
@@ -161,8 +162,9 @@ h4{
     padding-bottom: 10px;
     padding-left: 12px;
     padding-right: 4px;
-    background-color: #000;
-    color: #fff;
+    color: rgb(155, 255, 245);
+    border-bottom: solid 1px #9bfff4;
+    
 }
 
 th, td {
@@ -175,7 +177,7 @@ th, td {
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #2d4844;
 }
 
 td img {
@@ -186,7 +188,7 @@ td img {
 
 .btn-dismantle {
     color: #fff;
-    background-color: #c50000;
+    background-color: #790000;
     border-color: rgb(76 0 0);
     padding: 2px 7px;
     margin-top: 15px;
@@ -194,7 +196,7 @@ td img {
 
 .btn-dismantledisabled {
     color: #fff;
-    background-color: #bdbdbd;
+    background-color: #696969;
     border-color: rgb(76 0 0);
     padding: 2px 7px;
     margin-top: 15px;
@@ -202,7 +204,7 @@ td img {
 
 .btn-assemble {
     color: #fff;
-    background-color: #00c500;
+    background-color: #006900;
     border-color: rgb(0, 76, 8);
     padding: 2px 7px;
     margin-top: 15px;
@@ -210,8 +212,52 @@ td img {
 
 .btn-assembledisabled {
     color: #fff;
-    background-color: #bdbdbd;
+    background-color: #696969;
     border-color: rgb(0, 76, 8);
     padding: 2px 7px;
     margin-top: 15px;
+}
+
+.btn-primary {
+    background-color: #1f3331;
+    border: solid 1px #578c87;
+}
+
+.btn-primary:hover {
+    color: #9bfff4;
+    background-color: #2d4844;
+    border-color: #578c87;
+}
+
+.btn-primary.focus, .btn-primary:focus {
+    color: #9bfff4;
+    background-color: #2d4844;
+    border-color: #578c87;
+}
+
+input {
+    background-color: #1f3331;
+    border: solid 1px #578c87;
+}
+
+input:focus-visible {
+    outline-color: #537f7a;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    border-top: 1px solid #578c87;
+}
+
+.table>thead>tr>th {
+    border-bottom: 2px solid #578c87;
+}
+
+thead, tbody, tfoot {
+    border-top: none;
+    border-bottom: none;
+}
+
+a {
+    color: #fff;
+    text-decoration: underline;
 }
