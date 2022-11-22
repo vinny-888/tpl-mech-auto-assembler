@@ -1,4 +1,5 @@
 let dataModel = {
+  useLowest: false,
   walletParts: [],
   walletAfterglows: [],
   remainingAfterglows: 0,
@@ -26,6 +27,7 @@ let dataModel = {
 };
 
 function resetModel(){
+  useLowest = false;
   dataModel.walletParts = [];
   dataModel.walletAfterglows = [];
   dataModel.remainingAfterglows = 0;

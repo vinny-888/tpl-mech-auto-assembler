@@ -22,6 +22,7 @@ async function refreshAccountData() {
 
 function buildTablesAndMechs(){
     let useBehemoth = document.querySelector('#use_behemoth').checked;
+    dataModel.useLowest = document.querySelector('#use_lowest').checked;
     // Switch the rarity order when enabled
     if(useBehemoth){
       RARITY_ORDER = RARITY_ORDER_BEHEMOTH;

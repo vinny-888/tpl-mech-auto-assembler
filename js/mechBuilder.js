@@ -165,7 +165,9 @@ function isPartialMech(mech){
 
 function changeRarityOrderBasedOnModel(model){
     let newOrder = [].concat(RARITY_ORDER);
-    newOrder.reverse();
+    if(dataModel.useLowest){
+        newOrder.reverse();
+    }
     let indexOfModel = newOrder.indexOf(model);
     newOrder.splice(indexOfModel, 1);
     newOrder.push(model);
