@@ -44,9 +44,9 @@ function buildFullMechs(){
 function buildMixedMechs(afterglowRequired, allowPartial){
     let mixedMechs = {};
     RARITY_ORDER.forEach((model)=>{
-        let tempRemainingParts = JSON.parse(JSON.stringify(dataModel.modelParts));
-        let engineCount = tempRemainingParts[model]['Engine'];
+        let engineCount = dataModel.modelParts[model]['Engine'];
         for(let i=0; i< engineCount; i++){
+            let tempRemainingParts = JSON.parse(JSON.stringify(dataModel.modelParts));
             let partOne = '';
             let partTwo = '';
             let remainingParts = Object.keys(tempRemainingParts[model]);
