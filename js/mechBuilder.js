@@ -56,6 +56,9 @@ function buildMixedMechs(afterglowRequired, allowPartial){
                 if(part != 'Engine'){
                     if(partOne == '' && tempRemainingParts[model][part] > 0){
                         partOne = part;
+                        if(part == 'Arm' && tempRemainingParts[model][part] > 1){
+                            partTwo = part;
+                        }
                     } else if(partTwo == ''  && tempRemainingParts[model][part] > 0){
                         partTwo = part;
                     }
