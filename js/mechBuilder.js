@@ -138,6 +138,7 @@ function buildMixedMechs(afterglowRequired, allowPartial, allowNoModel){
                     }
                 }
                 if(allowNoModel && !hasTwoMatchingParts(mixedMech, mixedMech.Engine)){
+                    tempRemainingParts[model]['Engine']++;
                     delete mixedMech.Engine;
                 }
                 if(!allowNoModel || (allowNoModel && hasThreeParts(mixedMech))){
