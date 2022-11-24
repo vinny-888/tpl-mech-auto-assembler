@@ -41,11 +41,14 @@ function buildFullMechs(){
     return fullMechs;
 }
 
-function buildMixedMechs(afterglowRequired, allowPartial){
+function buildMixedMechs(afterglowRequired, allowPartial, allowNoModel){
     let mixedMechs = {};
     RARITY_ORDER.forEach((model)=>{
-        let engineCount = dataModel.modelParts[model]['Engine'];
-        for(let i=0; i< engineCount; i++){
+        let partCount = dataModel.modelParts[model]['Engine'];
+        if(allowNoModel){
+            partCount = getMostParts(dataModel.modelParts[model]);
+        }
+        for(let i=0; i< partCount; i++){
             let tempRemainingParts = JSON.parse(JSON.stringify(dataModel.modelParts));
             let partOne = '';
             let partTwo = '';
@@ -66,7 +69,7 @@ function buildMixedMechs(afterglowRequired, allowPartial){
             })
 
             // Engine + 2 part available
-            if(partOne != '' && partTwo != ''){
+            if(allowNoModel || (partOne != '' && partTwo != '')){
                 let mech = [
                     {
                         model: model,
@@ -134,17 +137,22 @@ function buildMixedMechs(afterglowRequired, allowPartial){
                         }
                     }
                 }
-                if( (allowPartial && isPartialMech(mixedMech))
-                    || (!allowPartial && isFullMech(mixedMech))){
-                    if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
-                        if(!mixedMechs[model]){
-                            mixedMechs[model] = [];
-                        }
-                        mixedMechs[model].push(mixedMech);
-                        dataModel.modelParts = tempRemainingParts;
+                if(allowNoModel && !hasTwoMatchingParts(mixedMech, mixedMech.Engine)){
+                    delete mixedMech.Engine;
+                }
+                if(!allowNoModel || (allowNoModel && hasThreeParts(mixedMech))){
+                    if( (allowPartial && isPartialMech(mixedMech))
+                        || (!allowPartial && isFullMech(mixedMech))){
+                        if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
+                            if(!mixedMechs[model]){
+                                mixedMechs[model] = [];
+                            }
+                            mixedMechs[model].push(mixedMech);
+                            dataModel.modelParts = tempRemainingParts;
 
-                        if(afterglowRequired){
-                            dataModel.remainingAfterglows--;
+                            if(afterglowRequired){
+                                dataModel.remainingAfterglows--;
+                            }
                         }
                     }
                 }
@@ -164,6 +172,30 @@ function isPartialMech(mech){
     return !mech.Head || !mech.Body
         || !mech.Legs || !mech.left_arm
         || !mech.right_arm || !mech.Engine
+}
+
+function hasTwoMatchingParts(mech, model){
+    let count = 0;
+    Object.keys(mech).forEach((part)=>{
+        if(part != 'Engine' && mech[part] == model){
+            count++;
+        }
+    });
+    return count >= 2;
+}
+
+function getMostParts(parts){
+    let max = 0;
+    Object.keys(parts).forEach((part)=>{
+        if(parts[part] > max){
+            max = parts[part];
+        }
+    });
+    return max;
+}
+
+function hasThreeParts(mech){
+    return Object.keys(mech).length >= 3;
 }
 
 function changeRarityOrderBasedOnModel(model){

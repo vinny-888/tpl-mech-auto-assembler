@@ -224,6 +224,62 @@ function buildPartialMechTable(mixedMechsPartial){
     document.querySelector("#partial_count").innerHTML = '('+count+')';
 }
 
+function buildPartialMechNoModelTable(mixedMechsPartial){
+    let count = 0;
+    RARITY_ORDER.forEach((model)=>{
+        if(mixedMechsPartial[model]){
+            mixedMechsPartial[model].forEach((mech)=>{
+                const clone = templateMixedMech.content.cloneNode(true);
+                let model = getMostMatchingParts(mech);
+
+                if(mech.Engine){
+                    clone.querySelector(".engine").innerHTML = partsImage('Engine', mech.Engine);
+                }else{
+                    clone.querySelector(".engine").innerHTML = partsImage('Engine', model, 'Missing ' + model + ' Engine');
+                }
+
+                if(mech.Head){
+                    clone.querySelector(".head").innerHTML = partsImage('Head', mech.Head);
+                }else{
+                    clone.querySelector(".head").innerHTML = partsImage('Head', model, 'Missing ' + model + ' Head');
+                }
+
+                if(mech.Body){
+                    clone.querySelector(".body").innerHTML = partsImage('Body', mech.Body);
+                }else{
+                    clone.querySelector(".body").innerHTML = partsImage('Body', model, 'Missing ' + model + ' Body');
+                }
+
+                if(mech.Legs){
+                    clone.querySelector(".legs").innerHTML = partsImage('Legs', mech.Legs);
+                }else{
+                    clone.querySelector(".legs").innerHTML = partsImage('Legs', model, 'Missing ' + model + ' Legs');
+                }
+
+                if(mech.left_arm){
+                    clone.querySelector(".left_arm").innerHTML = partsImage('Arm', mech.left_arm);
+                }else{
+                    clone.querySelector(".left_arm").innerHTML = partsImage('Arm', model, 'Missing ' + model + ' Arm');
+                }
+
+                if(mech.right_arm){
+                    clone.querySelector(".right_arm").innerHTML = partsImage('Arm', mech.right_arm);
+                }else{
+                    clone.querySelector(".right_arm").innerHTML = partsImage('Arm', model, 'Missing ' + model + 'Arm');
+                }
+                mixedmechPartialNoModelContainer.appendChild(clone);
+                count++;
+            })
+        }
+    });
+
+    if(count == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        mixedmechPartialNoModelContainer.appendChild(clone);
+    }
+    document.querySelector("#partial_no_model_count").innerHTML = '('+count+')';
+}
+
 function buildRemainingPartsTable(){
     let remainingCount = 0;
     RARITY_ORDER.forEach((model)=>{

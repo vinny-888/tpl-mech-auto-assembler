@@ -41,17 +41,21 @@ function buildTablesAndMechs(){
     buildFullMechTable(fullMechs);
 
     // Build *mixed* mechs **with** afterglow
-    let mixedMechs = buildMixedMechs(true, false);
+    let mixedMechs = buildMixedMechs(true, false, false);
     buildMixedMechsTable(mixedMechs);
     buildMixedModelMechsSummaryTable(mixedMechs);
 
     // Build *mixed* mechs **without** afterglows
-    let mixedMechsNoAfterglow = buildMixedMechs(false, false);
+    let mixedMechsNoAfterglow = buildMixedMechs(false, false, false);
     buildMixedMechNoAfterglowTable(mixedMechsNoAfterglow);
 
     // Build *partial* mechs and show missing parts
-    let mixedMechsPartial = buildMixedMechs(false, true);
+    let mixedMechsPartial = buildMixedMechs(false, true, false);
     buildPartialMechTable(mixedMechsPartial);
+
+    // Build *partial* mechs and show missing parts
+    let mixedMechsPartialNoModel = buildMixedMechs(false, true, true);
+    buildPartialMechNoModelTable(mixedMechsPartialNoModel);
 
     // Build remaining parts table
     buildRemainingPartsTable();
@@ -70,6 +74,7 @@ function reset(){
   remainingContainer.innerHTML = '';
   mixedmechNoAfterglowContainer.innerHTML = '';
   mixedmechPartialContainer.innerHTML = '';
+  mixedmechPartialNoModelContainer.innerHTML = '';
   countsContainer.innerHTML = '';
 }
 

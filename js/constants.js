@@ -192,6 +192,7 @@ const remainingContainer = document.querySelector("#remaining");
 
 const mixedmechNoAfterglowContainer = document.querySelector("#mechsNoAfterglow");
 const mixedmechPartialContainer = document.querySelector("#mechsPartial");
+const mixedmechPartialNoModelContainer = document.querySelector("#mechsPartialNoModel");
 
 const templateCounts = document.querySelector("#template-counts");
 const countsContainer = document.querySelector("#counts");
