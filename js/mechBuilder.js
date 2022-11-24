@@ -41,6 +41,74 @@ function buildFullMechs(){
     return fullMechs;
 }
 
+function buildFullModelMechStyles(){
+    let fullMechs = {};
+    RARITY_ORDER.forEach((model)=>{
+        STYLE_ORDER.forEach((style)=>{
+            let min = 99999;
+            // Find the lowest count part - taking arms in 2s
+            PARTS_ORDER.forEach((part)=>{
+                if(dataModel.modelParts[model][part][style]){
+                    let count = parseInt(dataModel.modelParts[model][part][style]);
+                    if(part == 'Arm'){
+                        count = Math.floor(count/2);
+                    }
+                    if(count < min){
+                        min = count;
+                    }
+                }
+            });
+            for(let i=0; i<min-dataModel.dismantled[model]; i++){
+                if(dataModel.remainingAfterglows > 0){
+                    let fullMech = {
+                        Engine: {
+                            model,
+                            style
+                        },
+                        Head: {
+                            model,
+                            style
+                        },
+                        Body: {
+                            model,
+                            style
+                        },
+                        Legs: {
+                            model,
+                            style
+                        },
+                        left_arm: {
+                            model,
+                            style
+                        },
+                        right_arm: {
+                            model,
+                            style
+                        }
+                    }
+                    if(!fullMechs[model]){
+                        fullMechs[model] = {};
+                    }
+                    if(!fullMechs[model][style]){
+                        fullMechs[model][style] = [];
+                    }
+                    // Remove the parts from the inventory
+                    Object.keys(dataModel.modelParts[model]).forEach((part)=>{
+                        if(part == 'Arm'){
+                            dataModel.modelParts[model][part][style]-=2;
+                        }else {
+                            dataModel.modelParts[model][part][style]--;
+                        }
+                    });
+                    fullMechs[model][style].push(fullMech);
+                    dataModel.remainingAfterglows--;
+                }
+            }
+        });
+    })
+    return fullMechs;
+}
+
 function buildMixedMechs(afterglowRequired, allowPartial){
     let mixedMechs = {};
     RARITY_ORDER.forEach((model)=>{

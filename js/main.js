@@ -11,6 +11,9 @@ window.addEventListener('load', async () => {
 });
 
 async function refreshAccountData() {
+  dataModel.useBehemoth = document.querySelector('#use_behemoth').checked;
+  dataModel.useLowest = document.querySelector('#use_lowest').checked;
+  dataModel.useStyles = document.querySelector('#use_styles').checked;
   document.querySelector("#connected").style.display = "none";
   document.querySelector("#info").style.display = "none";
   document.querySelector("#info2").style.display = "none";
@@ -21,10 +24,8 @@ async function refreshAccountData() {
 }
 
 function buildTablesAndMechs(){
-    let useBehemoth = document.querySelector('#use_behemoth').checked;
-    dataModel.useLowest = document.querySelector('#use_lowest').checked;
     // Switch the rarity order when enabled
-    if(useBehemoth){
+    if(dataModel.useBehemoth){
       RARITY_ORDER = RARITY_ORDER_BEHEMOTH;
       MODEL_WEIGHTS = MODEL_WEIGHTS_BEHEMOTH;
     } else {
@@ -37,8 +38,15 @@ function buildTablesAndMechs(){
     buildAfterglowTable();
 
     // Build *full* mechs of same model table
-    let fullMechs = buildFullMechs();
-    buildFullMechTable(fullMechs);
+    let fullMechs = [];
+    
+    if(dataModel.useStyles){
+      fullMechs = buildFullModelMechStyles();
+      buildFullMechStylesTable(fullMechs);
+    } else {
+      fullMechs = buildFullMechs();
+      buildFullMechTable(fullMechs);
+    }
 
     // Build *mixed* mechs **with** afterglow
     let mixedMechs = buildMixedMechs(true, false);
@@ -111,8 +119,36 @@ async function fetchAccountData() {
 
   // Build the model part count map
   dataModel.walletParts.forEach((part)=>{
-    dataModel.modelParts[part.model][part.part] = part.count;
+    if(dataModel.useStyles){
+      if(!dataModel.modelParts[part.model][part.part]){
+        dataModel.modelParts[part.model][part.part] = {};
+      }
+      for(let i=0; i< part.count; i++){
+        let style = getRandomStyle();
+        if(!dataModel.modelParts[part.model][part.part][style]){
+          dataModel.modelParts[part.model][part.part][style] = 0;
+        }
+        dataModel.modelParts[part.model][part.part][style]++;
+      }
+    } else {
+      dataModel.modelParts[part.model][part.part] = part.count;
+    }
   });
+}
+
+function getRandomStyle(){
+  let style = '';
+  let random = Math.random();
+  if(random < 0.7){
+    style = 'Common';
+  } else if(random < 0.9){
+    style = 'Rare';
+  } else if(random < 0.95){
+    style = 'VeryRare';
+  } else {
+    style = 'Legendary';
+  }
+  return style;
 }
 
 function displayTables(){

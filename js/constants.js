@@ -2,6 +2,7 @@ const ORIGINAL_RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravenger', 'Enforc
 let RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravenger', 'Enforcer'];
 const RARITY_ORDER_BEHEMOTH = ['Nexus', 'Behemoth', 'Lupis', 'Ravenger', 'Enforcer'];
 const PARTS_ORDER = ['Engine', 'Head', 'Body', 'Legs', 'Arm'];
+const STYLE_ORDER = ['Common','Rare','VeryRare','Legendary'];
 let ORIGINAL_MODEL_WEIGHTS = {
   Nexus: 1,
   Lupis: 2,

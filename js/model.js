@@ -1,5 +1,7 @@
 let dataModel = {
+  useBehemoth: false,
   useLowest: false,
+  useStyles: false,
   walletParts: [],
   walletAfterglows: [],
   remainingAfterglows: 0,
@@ -27,7 +29,9 @@ let dataModel = {
 };
 
 function resetModel(){
+  useBehemoth = false;
   useLowest = false;
+  useStyles = false;
   dataModel.walletParts = [];
   dataModel.walletAfterglows = [];
   dataModel.remainingAfterglows = 0;

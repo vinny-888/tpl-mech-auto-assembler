@@ -53,6 +53,7 @@ function buildAfterglowTable(){
 }
 
 function buildFullMechTable(fullMechs){
+    document.getElementById('full_style').display = 'none';
     let count = 0;
     RARITY_ORDER.forEach((model)=>{
         let fullModelMechs = fullMechs[model];
@@ -67,14 +68,55 @@ function buildFullMechTable(fullMechs){
         const clone = templateFull.content.cloneNode(true);
         clone.querySelector(".image").innerHTML = partsImage("Engine", model);
         clone.querySelector(".model").textContent = model;
+        clone.querySelector(".style").display = 'none';
         clone.querySelector(".count").textContent = countOfMechs;
 
         clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
             <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
-            <button class="btn btn-assemble${allowedAssemble}"" id="btn-query" onclick="assemble('${model}')" ${allowedAssemble}>+</button>
+            <button class="btn btn-assemble${allowedAssemble}" id="btn-query" onclick="assemble('${model}')" ${allowedAssemble}>+</button>
         </div>`;
         fullContainer.appendChild(clone);
         count += countOfMechs;
+    })
+
+    if(count == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        fullContainer.appendChild(clone);
+    }
+    document.querySelector("#full_count").innerHTML = '('+count+')';
+}
+
+function buildFullMechStylesTable(fullMechs){
+    document.getElementById('full_style').display = 'block';
+    let count = 0;
+    RARITY_ORDER.forEach((model)=>{
+        STYLE_ORDER.forEach((style)=>{
+            if(fullMechs[model] && fullMechs[model][style]){
+                let fullModelMechs = fullMechs[model][style];
+                // Build Table
+                let allowedDismantle = 'disabled';
+                let allowedAssemble = dataModel.dismantled[model] > 0 ? '' : 'disabled';
+                let countOfMechs = 0;
+                if(fullModelMechs){
+                    allowedDismantle = fullModelMechs.length > 0 ? '' : 'disabled';
+                    countOfMechs = fullModelMechs.length;
+                }
+                const clone = templateFull.content.cloneNode(true);
+                clone.querySelector(".image").innerHTML = partsImage("Engine", model);
+                clone.querySelector(".image").classList.add(style);
+                clone.querySelector(".model").textContent = model;
+                clone.querySelector(".style").display = 'block';
+                clone.querySelector(".style").textContent = style;
+                clone.querySelector(".count").textContent = countOfMechs;
+
+                clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
+                    <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
+                    <button class="btn btn-assemble${allowedAssemble}" id="btn-query" onclick="assemble('${model}')" ${allowedAssemble}>+</button>
+                </div>`;
+                fullContainer.appendChild(clone);
+                count += countOfMechs;
+            }
+        });
     })
 
     if(count == 0){
