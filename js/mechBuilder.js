@@ -56,7 +56,7 @@ function buildMixedMechs(afterglowRequired, allowPartial, allowNoModel){
 
             remainingParts = changePartOrderBasedOnAvailability(model, remainingParts);
             remainingParts.forEach((part)=>{
-                if(part != 'Engine'){
+                if(part != 'Engine' || allowNoModel){
                     if(partOne == '' && tempRemainingParts[model][part] > 0){
                         partOne = part;
                         if(part == 'Arm' && tempRemainingParts[model][part] > 1){
@@ -137,11 +137,11 @@ function buildMixedMechs(afterglowRequired, allowPartial, allowNoModel){
                         }
                     }
                 }
-                if(allowNoModel && !hasTwoMatchingParts(mixedMech, mixedMech.Engine)){
+                if(allowNoModel && !hasTwoMatchingParts(mixedMech, mixedMech.Engine) && isFullMech(mixedMech)){
                     tempRemainingParts[model]['Engine']++;
                     delete mixedMech.Engine;
                 }
-                if(!allowNoModel || (allowNoModel && hasThreeParts(mixedMech))){
+                if(!allowNoModel || (allowNoModel && countParts(mixedMech) >= 2)){
                     if( (allowPartial && isPartialMech(mixedMech))
                         || (!allowPartial && isFullMech(mixedMech))){
                         if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
@@ -195,8 +195,8 @@ function getMostParts(parts){
     return max;
 }
 
-function hasThreeParts(mech){
-    return Object.keys(mech).length >= 3;
+function countParts(mech){
+    return Object.keys(mech).length;
 }
 
 function changeRarityOrderBasedOnModel(model){
