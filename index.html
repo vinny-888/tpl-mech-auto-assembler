@@ -58,9 +58,14 @@
           <div id="connected" style="display: none">
             <div class="containerDiv">
               <div class="borderDiv">
-                <h4> Part Counts <button class="tooltipBtn" tip="Table showing part counts for each model type.">?</button></h4>
+                <h4> Part Counts 
+                  <button class="tooltipBtn" tip="Table showing part counts for each model type.">?</button>
+                  <div id="countsTableToggle" class="toggle" onclick="toggleTable('countsTable')">
+                    &#8212;
+                  </div>
+                </h4>
 
-                <table class="table table-full">
+                <table id="countsTable" class="table table-full">
                   <thead>
                     <th>Model</th>
                     <th>Engine</th>
@@ -75,9 +80,14 @@
                 </table>
               </div>
               <div class="borderDiv" style="margin-top: 8px;">
-                <h4> Mech Parts <span id="part_count">0</span> <button class="tooltipBtn" tip="All Parts owned by this wallet.">?</button></h4>
+                <h4> Mech Parts <span id="part_count">0</span> 
+                  <button class="tooltipBtn" tip="All Parts owned by this wallet.">?</button>
+                  <div id="accountsTableToggle" class="toggle" onclick="toggleTable('accountsTable')">
+                    &#8212;
+                  </div>
+                </h4>
 
-                <table class="table table-listing">
+                <table id="accountsTable" class="table table-listing">
                   <thead>
                     <th style="width:20%">Image</th>
                     <th>Part</th>
@@ -92,9 +102,14 @@
             </div>
 
             <div class="col">
-              <h4> Afterglows <span id="afterglow_count">0</span> <button class="tooltipBtn" tip="All Afterglows owned by this wallet.">?</button></h4>
+              <h4> Afterglows <span id="afterglow_count">0</span> 
+                <button class="tooltipBtn" tip="All Afterglows owned by this wallet.">?</button>
+                <div id="afterglowTableToggle" class="toggle" onclick="toggleTable('afterglowTable')">
+                  &#8212;
+                </div>
+              </h4>
 
-              <table class="table table-listing">
+              <table id="afterglowTable" class="table table-listing">
                 <thead>
                   <th style="width:20%">Image</th>
                   <th>Name</th>
@@ -108,9 +123,14 @@
 
             <div class="containerDiv">
               <div class="borderDiv">
-                <h4> Single Model Mechs <span id="full_count">0</span> <button class="tooltipBtn" tip="These Mechs have all the same Model Parts and can be built as they have all required parts and an Afterglow.">?</button></h4>
+                <h4> Single Model Mechs <span id="full_count">0</span> 
+                  <button class="tooltipBtn" tip="These Mechs have all the same Model Parts and can be built as they have all required parts and an Afterglow.">?</button>
+                  <div id="fullTableToggle" class="toggle" onclick="toggleTable('fullTable')">
+                    &#8212;
+                  </div>
+                </h4>
 
-                <table class="table table-full">
+                <table id="fullTable" class="table table-full">
                   <thead>
                     <th style="width:20%">Image</th>
                     <th>Model</th>
@@ -123,9 +143,14 @@
                 </table>
               </div>
               <div class="borderDiv" style="margin-top: 8px;">
-                <h4> Mixed Model Mechs <span id="mixed_count">0</span> <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow. This is a summary of the more detailed Mixed Model Mechs Parts table.">?</button></h4>
+                <h4> Mixed Model Mechs <span id="mixed_count">0</span> 
+                  <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow. This is a summary of the more detailed Mixed Model Mechs Parts table.">?</button>
+                  <div id="mixedTableToggle" class="toggle" onclick="toggleTable('mixedTable')">
+                    &#8212;
+                  </div>
+                </h4>
 
-                <table class="table table-mixed">
+                <table id="mixedTable" class="table table-mixed">
                   <thead>
                     <th style="width:20%">Image</th>
                     <th>Model</th>
@@ -137,9 +162,14 @@
                 </table>
               </div>
               <div class="borderDiv" style="margin-top: 8px;">
-                <h4> Unused Parts <span id="remaining_count">0</span> <button class="tooltipBtn" tip="Left over parts not used to create Single Model or Mixed Model Mechs.">?</button></h4>
+                <h4> Unused Parts <span id="remaining_count">0</span> 
+                  <button class="tooltipBtn" tip="Left over parts not used to create Single Model or Mixed Model Mechs.">?</button>
+                  <div id="remainingTableToggle" class="toggle" onclick="toggleTable('remainingTable')">
+                    &#8212;
+                  </div>
+                </h4>
 
-                <table class="table table-listing">
+                <table id="remainingTable" class="table table-listing">
                   <thead>
                     <th style="width:20%">Image</th>
                     <th>Part</th>
@@ -155,10 +185,15 @@
 
 
               <div class="containerDiv">
-                <div class="borderDiv">
-                  <h4> Mixed Model Mechs Parts <span id="mixed_count2">0</span> <button class="tooltipBtn" tip="Model and Parts Details for Mixed Model Mechs. These can be built as they have all required parts and an Afterglow.">?</button></h4>
+                <div class="borderDiv" style="min-width: 410px;">
+                  <h4> Mixed Model Mechs Parts <span id="mixed_count2">0</span> 
+                    <button class="tooltipBtn" tip="Model and Parts Details for Mixed Model Mechs. These can be built as they have all required parts and an Afterglow.">?</button>
+                    <div id="mechsTableToggle" class="toggle" onclick="toggleTable('mechsTable')">
+                      &#8212;
+                    </div>
+                  </h4>
 
-                  <table class="table table-mixed" style="width: 400px;">
+                  <table id="mechsTable" class="table table-mixed" style="width: 400px;">
                     <thead>
                       <th>Engine</th>
                       <th>Head</th>
@@ -173,10 +208,15 @@
                   </table>
                 </div>
 
-                <div class="borderDiv" style="margin-top: 8px;">
-                  <h4> Mixed Model Mechs (No Afterglow) <span id="noafterglow_count">0</span> <button class="tooltipBtn" tip="These cannot be built yet without acquiring an Afterglow.">?</button></h4>
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                  <h4> Mixed Model Mechs (No Afterglow) <span id="noafterglow_count">0</span> 
+                    <button class="tooltipBtn" tip="These cannot be built yet without acquiring an Afterglow.">?</button>
+                    <div id="mechsNoAfterglowTableToggle" class="toggle" onclick="toggleTable('mechsNoAfterglowTable')">
+                      &#8212;
+                    </div>
+                  </h4>
 
-                  <table class="table table-listing" style="width: 400px;">
+                  <table id="mechsNoAfterglowTable" class="table table-listing" style="width: 400px;">
                     <thead>
                       <th>Engine</th>
                       <th>Head</th>
@@ -191,10 +231,15 @@
                   </table>
                 </div>
 
-                <div class="borderDiv" style="margin-top: 8px;">
-                  <h4> Partial Mechs (Engine & 2+ Parts) <span id="partial_count">0</span> <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do have 1 Engine + 2 matching parts so you are almost there.">?</button></h4>
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                  <h4> Partial Mechs (Engine & 2+ Parts) <span id="partial_count">0</span> 
+                    <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do have 1 Engine + 2 matching parts so you are almost there.">?</button>
+                    <div id="mechsPartialTableToggle" class="toggle" onclick="toggleTable('mechsPartialTable')">
+                      &#8212;
+                    </div>
+                  </h4>
 
-                  <table class="table table-listing" style="width: 400px;">
+                  <table id="mechsPartialTable" class="table table-listing" style="width: 400px;">
                     <thead>
                       <th>Engine</th>
                       <th>Head</th>
@@ -209,10 +254,15 @@
                   </table>
                 </div>
 
-                <div class="borderDiv" style="margin-top: 8px;">
-                  <h4> Partial Mechs - 2+ Matching Parts <span id="partial_no_model_count">0</span> <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do not have 1 Engine + 2 matching parts so the model is not yet known.">?</button></h4>
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                  <h4> Partial Mechs - 2+ Matching Parts <span id="partial_no_model_count">0</span> 
+                    <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do not have 1 Engine + 2 matching parts so the model is not yet known.">?</button>
+                    <div id="mechsPartialNoModelTableToggle" class="toggle" onclick="toggleTable('mechsPartialNoModelTable')">
+                      &#8212;
+                    </div>
+                  </h4>
 
-                  <table class="table table-listing" style="width: 400px;">
+                  <table id="mechsPartialNoModelTable" class="table table-listing" style="width: 400px;">
                     <thead>
                       <th>Engine</th>
                       <th>Head</th>
@@ -301,14 +351,14 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/abi/ERC1155.js?v=1.7"></script>
-    <script type="text/javascript" src="./js/constants.js?v=1.7"></script>
-    <script type="text/javascript" src="./js/tooltip.js?v=1.7"></script>
-    <script type="text/javascript" src="./js/wallet.js?v=1.7"></script>
-    <script type="text/javascript" src="./js/model.js?v=1.7"></script>
-    <script type="text/javascript" src="./js/utils.js?v=1.7"></script>
-    <script type="text/javascript" src="./js/tables.js?v=1.7"></script>
-    <script type="text/javascript" src="./js/mechBuilder.js?v=1.7"></script>
-    <script type="text/javascript" src="./js/main.js?v=1.7"></script>
+    <script type="text/javascript" src="./js/abi/ERC1155.js?v=1.8"></script>
+    <script type="text/javascript" src="./js/constants.js?v=1.8"></script>
+    <script type="text/javascript" src="./js/tooltip.js?v=1.8"></script>
+    <script type="text/javascript" src="./js/wallet.js?v=1.8"></script>
+    <script type="text/javascript" src="./js/model.js?v=1.8"></script>
+    <script type="text/javascript" src="./js/utils.js?v=1.8"></script>
+    <script type="text/javascript" src="./js/tables.js?v=1.8"></script>
+    <script type="text/javascript" src="./js/mechBuilder.js?v=1.8"></script>
+    <script type="text/javascript" src="./js/main.js?v=1.8"></script>
   </body>
 </html>

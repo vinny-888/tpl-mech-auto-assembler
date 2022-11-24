@@ -57,6 +57,7 @@
 }
 
 .borderDiv {
+    min-width: 310px;
     padding-right: 4px;
     padding-left: 4px;
     border: solid 1px #578c87;
@@ -69,6 +70,7 @@
 }
 
 .col {
+    min-width: 310px;
     float: left;
     padding-right: 4px;
     padding-left: 4px;
@@ -268,4 +270,10 @@ thead, tbody, tfoot {
 a {
     color: #fff;
     text-decoration: underline;
+}
+
+.toggle {
+    float: right;
+    margin-right: 4px;
+    cursor: pointer;
 }
