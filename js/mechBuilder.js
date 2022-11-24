@@ -18,7 +18,7 @@ function buildFullMechs(){
                     Engine: model,
                     Head: model,
                     Body: model,
-                    Legs: model,
+                    Leg: model,
                     left_arm: model,
                     right_arm: model
                 }
@@ -86,7 +86,7 @@ function buildMixedMechs(afterglowRequired, allowPartial, allowNoModel){
                     mixedMech['Engine'] = model;
                     tempRemainingParts[model]['Engine']--;
                 }
-                let remainingPartNames = ['Head', 'Body', 'Legs', 'Arm', 'Arm'];
+                let remainingPartNames = ['Head', 'Body', 'Leg', 'Arm', 'Arm'];
                 mech.forEach((modelPart)=>{
                     var index = remainingPartNames.indexOf(modelPart.part);
                     if (index !== -1) {
@@ -141,7 +141,7 @@ function buildMixedMechs(afterglowRequired, allowPartial, allowNoModel){
                     tempRemainingParts[model]['Engine']++;
                     delete mixedMech.Engine;
                 }
-                if(!allowNoModel || (allowNoModel && countParts(mixedMech) >= 2)){
+                if(!allowNoModel || (allowNoModel && countMechParts(mixedMech) >= 2)){
                     if( (allowPartial && isPartialMech(mixedMech))
                         || (!allowPartial && isFullMech(mixedMech))){
                         if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
@@ -165,13 +165,13 @@ function buildMixedMechs(afterglowRequired, allowPartial, allowNoModel){
 
 function isFullMech(mech){
     return mech.Head && mech.Body
-        && mech.Legs && mech.left_arm
+        && mech.Leg && mech.left_arm
         && mech.right_arm && mech.Engine;
 }
 
 function isPartialMech(mech){
     return !mech.Head || !mech.Body
-        || !mech.Legs || !mech.left_arm
+        || !mech.Leg || !mech.left_arm
         || !mech.right_arm || !mech.Engine
 }
 
@@ -195,7 +195,7 @@ function getMostParts(parts){
     return max;
 }
 
-function countParts(mech){
+function countMechParts(mech){
     return Object.keys(mech).length;
 }
 

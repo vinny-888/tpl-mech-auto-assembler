@@ -5,21 +5,21 @@ let dataModel = {
   remainingAfterglows: 0,
   modelParts: {
     Enforcer: {},
-    Ravenger: {},
+    Ravager: {},
     Lupis: {},
     Behemoth: {},
     Nexus: {}
   },
   mechs: {
     Enforcer: [],
-    Ravenger: [],
+    Ravager: [],
     Lupis: [],
     Behemoth: [],
     Nexus: []
   },
   dismantled: {
     Enforcer: 0,
-    Ravenger: 0,
+    Ravager: 0,
     Lupis: 0,
     Behemoth: 0,
     Nexus: 0
@@ -33,21 +33,21 @@ function resetModel(){
   dataModel.remainingAfterglows = 0;
   dataModel.modelParts = {
     Enforcer: {},
-    Ravenger: {},
+    Ravager: {},
     Lupis: {},
     Behemoth: {},
     Nexus: {}
   };
   mechs = {
     Enforcer: [],
-    Ravenger: [],
+    Ravager: [],
     Lupis: [],
     Behemoth: [],
     Nexus: []
   };
   dismantled = {
     Enforcer: 0,
-    Ravenger: 0,
+    Ravager: 0,
     Lupis: 0,
     Behemoth: 0,
     Nexus: 0

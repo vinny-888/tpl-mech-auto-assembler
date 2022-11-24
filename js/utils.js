@@ -1,11 +1,21 @@
-function partsImage(part, model, title) {
-    let missing = false;
-    if(!title){
-        title = [part, model].join(' ');
-    } else {
-        missing = true;
-    }
-    return '<img height="60px" src="./images/parts/' + model + '_' + part + (missing ? '_missing' : '') + '.png" title="'+title+'" />';
+function partsImage(part, model) {
+    return '<img height="60px" src="./images/parts/' + model + '_' + part + '.png" title="'+[part, model].join(' ')+'" />';
+}
+
+function partModelImageMissing(part, model) {
+    return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="./images/parts/' + model + '_' + part + '_missing.png" title="Missing ' + model + ' Head" /></a>';
+}
+
+function partImageMissing(part) {
+    return '<a target="_blank" href="'+buildOpenSeaPartURL(part)+'"><img height="60px" src="./images/parts/missing_' + part + '.png" title="Missing ' + part + '" /></a>';
+}
+
+function buildOpenSeaModelPartURL(model, part){
+    return 'https://opensea.io/collection/tpl-mecha-part?search[stringTraits][0][name]=Model&search[stringTraits][0][values][0]=' + model + '&search[stringTraits][1][name]=Part&search[stringTraits][1][values][0]=' + part;
+}
+
+function buildOpenSeaPartURL(part){
+    return 'https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=' + part;
 }
 
 function afterglowImage(afterglow) {

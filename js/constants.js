@@ -1,26 +1,26 @@
-const ORIGINAL_RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravenger', 'Enforcer'];
-let RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravenger', 'Enforcer'];
-const RARITY_ORDER_BEHEMOTH = ['Nexus', 'Behemoth', 'Lupis', 'Ravenger', 'Enforcer'];
-const PARTS_ORDER = ['Engine', 'Head', 'Body', 'Legs', 'Arm'];
+const ORIGINAL_RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravager', 'Enforcer'];
+let RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravager', 'Enforcer'];
+const RARITY_ORDER_BEHEMOTH = ['Nexus', 'Behemoth', 'Lupis', 'Ravager', 'Enforcer'];
+const PARTS_ORDER = ['Engine', 'Head', 'Body', 'Leg', 'Arm'];
 let ORIGINAL_MODEL_WEIGHTS = {
   Nexus: 1,
   Lupis: 2,
   Behemoth: 3,
-  Ravenger: 4,
+  Ravager: 4,
   Enforcer: 5,
 };
 let MODEL_WEIGHTS = {
   Nexus: 1,
   Lupis: 2,
   Behemoth: 3,
-  Ravenger: 4,
+  Ravager: 4,
   Enforcer: 5,
 };
 const MODEL_WEIGHTS_BEHEMOTH = {
   Nexus: 1,
   Behemoth: 2,
   Lupis: 3,
-  Ravenger: 4,
+  Ravager: 4,
   Enforcer: 5,
 };
 
@@ -38,7 +38,7 @@ const PARTS_LIST = [
     part: 'Engine'
   },
   {
-    model: 'Ravenger',
+    model: 'Ravager',
     part: 'Engine'
   },
   {
@@ -58,7 +58,7 @@ const PARTS_LIST = [
     part: 'Head'
   },
   {
-    model: 'Ravenger',
+    model: 'Ravager',
     part: 'Head'
   },
   {
@@ -78,7 +78,7 @@ const PARTS_LIST = [
     part: 'Body'
   },
   {
-    model: 'Ravenger',
+    model: 'Ravager',
     part: 'Body'
   },
   {
@@ -94,7 +94,7 @@ const PARTS_LIST = [
     part: 'Body'
   },
   {
-    model: 'Ravenger',
+    model: 'Ravager',
     part: 'Arm'
   },
   {
@@ -111,23 +111,23 @@ const PARTS_LIST = [
   },
   {
     model: 'Enforcer',
-    part: 'Legs'
+    part: 'Leg'
   },
   {
-    model: 'Ravenger',
-    part: 'Legs'
+    model: 'Ravager',
+    part: 'Leg'
   },
   {
     model: 'Behemoth',
-    part: 'Legs'
+    part: 'Leg'
   },
   {
     model: 'Lupis',
-    part: 'Legs'
+    part: 'Leg'
   },
   {
     model: 'Nexus',
-    part: 'Legs'
+    part: 'Leg'
   }
 ];
 
