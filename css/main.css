@@ -145,7 +145,7 @@ h3 {
 
 .header{
     width: 100%;
-    height: 80px;
+    height: 90px;
     border-bottom: solid 1px #9bfff4;
 }
 
@@ -276,4 +276,12 @@ a {
     float: right;
     margin-right: 4px;
     cursor: pointer;
+}
+
+.activeLink{
+    color: #9bfff4;
+}
+
+.navLinks{
+    margin-left: 24px;
 }

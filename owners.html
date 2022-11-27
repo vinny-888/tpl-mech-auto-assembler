@@ -1,0 +1,148 @@
+<html>
+  <head>
+    <title>CyberBrokers Mech Auto Assembler</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/owners.css">
+  </head>
+  <body>
+    <div class="header">
+      <h3>CYBERBROKERS</h3>
+      <div class="subtitle">
+        <span>Owner Mech Part Analyzer</span>
+      </div>
+      <div class="navLinks">
+        <span><a href="index.html">Home</a></span>
+        <span class="activeLink">Owner Stats</span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="">
+        <div class="col-md-12">
+
+          <div id="connected" style="display: none">
+            <div class="containerDiv">
+                <div class="borderDiv">
+                  <h4> Mech Stats 
+                    <button class="tooltipBtn" tip="Table showing completed mech counts for each model type based on wallet contents at time of snapshot.">?</button>
+                    <div id="countsTableToggle" class="toggle" onclick="toggleTable('mechCountsTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+  
+                  <table id="mechCountsTable" class="table table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th>Full</th>
+                      <th>Mixed</th>
+                      <!-- <th>Mixed No Afterglow</th> -->
+                    </thead>
+  
+                    <tbody id="mech-counts">
+                    </tbody>
+                  </table>
+                </div>
+
+              <div id="prepare" style="margin-top: 16px;">
+                <button class="btn btn-primary" id="btn-query">
+                  Load All 4439 Wallets
+                </button>
+                <!-- <button class="btn btn-primary" onclick="download()">
+                  Download
+                </button>
+                <a id="downloadAnchorElem" style="display:none"></a> -->
+                <span>Snapshot (Nov 27 2022)</span>
+                <span id="progress"></span>
+              </div>
+
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Wallet Counts
+                  <button class="tooltipBtn" tip="Table showing completed mech counts for each address based on wallet contents at time of snapshot.">?</button>
+                  <div id="countsTableToggle" class="toggle" onclick="toggleTable('countsTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="countsTable" class="table table-full">
+                  <thead>
+                    <th>Row</th>
+                    <th>Wallet</th>
+                    <th>Count</th>
+                    <th>Engine</th>
+                    <th>Head</th>
+                    <th>Body</th>
+                    <th>Leg</th>
+                    <th>Arm</th>
+                    <th>Afterglows</th>
+                    <th>Full Mechs</th>
+                    <th>Mixed Mechs</th>
+                    <th>Mixed Mechs (No Afterglow)</th>
+                    <th>Engine & 2+ Parts</th>
+                    <th>2+ Matching Parts</th>
+                    <th>Unused Parts</th>
+                  </thead>
+
+                  <tbody id="counts">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- We use simple <template> templating for the example -->
+    <div id="templates" style="display: none">
+      <template id="template-counts">
+        <tr>
+          <td class="row"></td>
+          <td class="wallet"></td>
+          <td class="count"></td>
+          <td class="Engine"></td>
+          <td class="Head"></td>
+          <td class="Body"></td>
+          <td class="Leg"></td>
+          <td class="Arm"></td>
+          <td class="afterglows"></td>
+          <td class="full"></td>
+          <td class="mixed"></td>
+          <td class="mixed_no_afterglow"></td>
+          <td class="engine_two"></td>
+          <td class="two_plus"></td>
+          <td class="unused"></td>
+        </tr>
+      </template>
+      <template id="template-mech-counts">
+        <tr>
+          <td class="model"></td>
+          <td class="full"></td>
+          <td class="mixed"></td>
+          <!-- <td class="mixed_no_afterglow"></td> -->
+        </tr>
+      </template>
+      <template id="template-empty">
+        <tr>
+          <td class="empty" colspan="3">No Data</td>
+        </tr>
+      </template>
+    </div>
+
+    <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
+    <script type="text/javascript" src="./js/abi/ERC1155.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/constants.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/tooltip.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/wallet.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/model.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/utils.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/tables.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/mechBuilderOwners.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/owners_wallets.js?v=0.1"></script>
+    <!-- <script type="text/javascript" src="./js/allData.js?v=0.1"></script> -->
+    <script type="text/javascript" src="./js/data.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/owners.js?v=0.1"></script>
+  </body>
+</html>

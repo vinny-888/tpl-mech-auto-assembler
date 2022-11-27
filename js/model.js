@@ -1,4 +1,5 @@
 let dataModel = {
+  owners: {},
   useLowest: false,
   walletParts: [],
   walletAfterglows: [],
@@ -27,6 +28,7 @@ let dataModel = {
 };
 
 function resetModel(){
+  owners = {},
   useLowest = false;
   dataModel.walletParts = [];
   dataModel.walletAfterglows = [];
