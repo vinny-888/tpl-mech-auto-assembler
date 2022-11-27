@@ -125,6 +125,8 @@ function countMechModels(){
   RARITY_ORDER.forEach((model)=>{
     buildMechCountsTable(totalFullMechs, totalMixedMechs, model);
   });
+
+  buildMechCountsTable(totalFullMechs, totalMixedMechs, 'Total');
 }
 
 function countMechModels2(){
@@ -252,8 +254,21 @@ function buildPartCountsTable(row, address, totalParts, totalAfterglows, partsCo
 function buildMechCountsTable(fullMechs, mixedMechs, model){
   const clone = templateMechCounts.content.cloneNode(true);
   clone.querySelector(".model").textContent = model;
-  clone.querySelector(".full").textContent = fullMechs[model];
-  clone.querySelector(".mixed").textContent = mixedMechs[model];
+  if(model != 'Total'){
+    clone.querySelector(".full").textContent = fullMechs[model];
+    clone.querySelector(".mixed").textContent = mixedMechs[model];
+    clone.querySelector(".total").textContent = fullMechs[model]+mixedMechs[model];
+  } else {
+    let totalFull = 0;
+    let totalMixed = 0;
+    RARITY_ORDER.forEach((model)=>{
+      totalFull += fullMechs[model];
+      totalMixed += mixedMechs[model]
+    });
+    clone.querySelector(".full").textContent = totalFull;
+    clone.querySelector(".mixed").textContent = totalMixed;
+    clone.querySelector(".total").textContent = totalFull+totalMixed;
+  }
   mechCountsContainer.appendChild(clone);
 }
 
