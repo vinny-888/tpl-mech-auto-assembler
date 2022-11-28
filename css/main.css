@@ -245,6 +245,11 @@ td img {
     border-color: #578c87;
 }
 
+:focus, a:hover {
+    color: #ffb800;
+    text-decoration: underline;
+}
+
 input {
     background-color: #1f3331;
     border: solid 1px #578c87;
