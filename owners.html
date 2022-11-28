@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/main.css?v=0.3">
-    <link rel="stylesheet" href="./css/owners.css?v=0.3">
+    <link rel="stylesheet" href="./css/main.css?v=0.4">
+    <link rel="stylesheet" href="./css/owners.css?v=0.4">
   </head>
   <body>
     <div class="header">
@@ -24,9 +24,13 @@
         <div class="">
           <div id="connected" style="display: none">
             <div class="col-md-12">
+              <div style="margin-left: 4px;margin-top:-8px;margin-bottom: 8px;">
+              <span class="important">Snapshot Nov 27 2022</span>
+
+              </div>
               <div class="col-md-6">
                 <div class="borderDiv">
-                  <h4> Mech Stats 
+                  <h4> Mech Wallet Stats 
                     <button class="tooltipBtn" tip="Table showing completed mech counts for each model type based on wallet contents at time of snapshot.">?</button>
                     <div id="countsTableToggle" class="toggle" onclick="toggleTable('mechCountsTable')">
                       &#8212;
@@ -50,7 +54,7 @@
 
               <div class="col-md-6">
                 <div class="borderDiv">
-                  <h4> Claimed Part Counts 
+                  <h4> Claimed Mech Parts 
                     <button class="tooltipBtn" tip="Table showing claimed part counts for each model type.">?</button>
                     <div id="countsTableToggle" class="toggle" onclick="toggleTable('partCountsTable')">
                       &#8212;
@@ -80,12 +84,12 @@
                 <button class="btn btn-primary" id="btn-query">
                   Load All 4439 Wallets
                 </button>
+
+                <span id="progress"></span>
                 <!-- <button class="btn btn-primary" onclick="download()">
                   Download
                 </button>
                 <a id="downloadAnchorElem" style="display:none"></a> -->
-                <span>Snapshot (Nov 27 2022)</span>
-                <span id="progress"></span>
               </div>
             </div>
 
@@ -178,17 +182,17 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/abi/ERC1155.js?v=0.3"></script>
-    <script type="text/javascript" src="./js/constants.js?v=0.3"></script>
-    <script type="text/javascript" src="./js/tooltip.js?v=0.3"></script>
-    <!-- <script type="text/javascript" src="./js/wallet.js?v=0.3"></script> -->
-    <script type="text/javascript" src="./js/model.js?v=0.3"></script>
-    <script type="text/javascript" src="./js/utils.js?v=0.3"></script>
-    <script type="text/javascript" src="./js/tables.js?v=0.3"></script>
-    <script type="text/javascript" src="./js/mechBuilderOwners.js?v=0.3"></script>
-    <script type="text/javascript" src="./js/owners_wallets.js?v=0.3"></script>
-    <!-- <script type="text/javascript" src="./js/allData.js?v=0.3"></script> -->
-    <script type="text/javascript" src="./js/data.js?v=0.3"></script>
-    <script type="text/javascript" src="./js/owners.js?v=0.3"></script>
+    <script type="text/javascript" src="./js/abi/ERC1155.js?v=0.4"></script>
+    <script type="text/javascript" src="./js/constants.js?v=0.4"></script>
+    <script type="text/javascript" src="./js/tooltip.js?v=0.4"></script>
+    <!-- <script type="text/javascript" src="./js/wallet.js?v=0.4"></script> -->
+    <script type="text/javascript" src="./js/model.js?v=0.4"></script>
+    <script type="text/javascript" src="./js/utils.js?v=0.4"></script>
+    <script type="text/javascript" src="./js/tables.js?v=0.4"></script>
+    <script type="text/javascript" src="./js/mechBuilderOwners.js?v=0.4"></script>
+    <script type="text/javascript" src="./js/owners_wallets.js?v=0.4"></script>
+    <!-- <script type="text/javascript" src="./js/allData.js?v=0.4"></script> -->
+    <script type="text/javascript" src="./js/data.js?v=0.4"></script>
+    <script type="text/javascript" src="./js/owners.js?v=0.4"></script>
   </body>
 </html>

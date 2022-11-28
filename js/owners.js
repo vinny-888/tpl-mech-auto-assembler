@@ -19,6 +19,7 @@ window.addEventListener('load', async () => {
   init();
   progressDiv = document.getElementById('progress');
   // refreshAccountData();
+  loadTop100();
   document.querySelector("#btn-query").addEventListener("click", refreshAccountData);
   if(loadCached){
     countMechModels();
@@ -61,6 +62,15 @@ function downloadLive(){
   dlAnchorElem.click();
 }
 
+function loadTop100(){
+  displayTables();
+  for(let i =0; i<100; i++){
+    let data = walletOwnerData[i];
+    setTimeout(()=>{
+      updateTable((i+1), data.address, data);
+    },0);
+  }
+}
 async function refreshAccountData() {
   reset();
   displayTables();
