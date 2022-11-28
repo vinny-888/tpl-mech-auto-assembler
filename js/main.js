@@ -7,6 +7,12 @@ function init() {
 
 window.addEventListener('load', async () => {
   init();
+  var url = new URL(window.location);
+  var wallet = url.searchParams.get("wallet");
+  if(wallet){
+    document.querySelector("#address").value = wallet;
+    refreshAccountData();
+  }
   document.querySelector("#btn-query").addEventListener("click", refreshAccountData);
 });
 

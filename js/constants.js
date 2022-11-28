@@ -198,4 +198,6 @@ const templateCounts = document.querySelector("#template-counts");
 const countsContainer = document.querySelector("#counts");
 const templateMechCounts = document.querySelector("#template-mech-counts");
 const mechCountsContainer = document.querySelector("#mech-counts");
+const templatePartCounts = document.querySelector("#template-part-counts");
+const partCountsContainer = document.querySelector("#part-counts");
 const templateEmpty = document.querySelector("#template-empty");

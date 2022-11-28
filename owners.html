@@ -21,10 +21,10 @@
     </div>
     <div class="container">
       <div class="">
-        <div class="col-md-12">
-
+        <div class="">
           <div id="connected" style="display: none">
-            <div class="containerDiv">
+            <div class="col-md-12">
+              <div class="col-md-6">
                 <div class="borderDiv">
                   <h4> Mech Stats 
                     <button class="tooltipBtn" tip="Table showing completed mech counts for each model type based on wallet contents at time of snapshot.">?</button>
@@ -38,15 +38,44 @@
                       <th>Model</th>
                       <th>Full</th>
                       <th>Mixed</th>
+                      <th>Mixed (No Afterglow)</th>
                       <th>Total</th>
-                      <!-- <th>Mixed No Afterglow</th> -->
                     </thead>
   
                     <tbody id="mech-counts">
                     </tbody>
                   </table>
                 </div>
+              </div>
 
+              <div class="col-md-6">
+                <div class="borderDiv" style="">
+                  <h4> Part Counts 
+                    <button class="tooltipBtn" tip="Table showing claimed part counts for each model type.">?</button>
+                    <div id="countsTableToggle" class="toggle" onclick="toggleTable('partCountsTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+  
+                  <table id="partCountsTable" class="table table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Leg</th>
+                      <th>Arms</th>
+                      <th>Total</th>
+                    </thead>
+  
+                    <tbody id="part-counts">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
               <div id="prepare" style="margin-top: 16px;">
                 <button class="btn btn-primary" id="btn-query">
                   Load All 4439 Wallets
@@ -58,37 +87,41 @@
                 <span>Snapshot (Nov 27 2022)</span>
                 <span id="progress"></span>
               </div>
+            </div>
 
-              <div class="borderDiv" style="margin-top: 8px;">
-                <h4> Wallet Counts
-                  <button class="tooltipBtn" tip="Table showing completed mech counts for each address based on wallet contents at time of snapshot.">?</button>
-                  <div id="countsTableToggle" class="toggle" onclick="toggleTable('countsTable')">
-                    &#8212;
-                  </div>
-                </h4>
+            <div class="col-md-12">
+              <div class="col-md-12">
+                <div class="borderDiv" style="margin-top: 8px;">
+                  <h4> Wallet Counts
+                    <button class="tooltipBtn" tip="Table showing completed mech counts for each address based on wallet contents at time of snapshot.">?</button>
+                    <div id="countsTableToggle" class="toggle" onclick="toggleTable('countsTable')">
+                      &#8212;
+                    </div>
+                  </h4>
 
-                <table id="countsTable" class="table table-full">
-                  <thead>
-                    <th>Row</th>
-                    <th>Wallet</th>
-                    <th>Count</th>
-                    <th>Engine</th>
-                    <th>Head</th>
-                    <th>Body</th>
-                    <th>Leg</th>
-                    <th>Arm</th>
-                    <th>Afterglows</th>
-                    <th>Full Mechs</th>
-                    <th>Mixed Mechs</th>
-                    <th>Mixed Mechs (No Afterglow)</th>
-                    <th>Engine & 2+ Parts</th>
-                    <th>2+ Matching Parts</th>
-                    <th>Unused Parts</th>
-                  </thead>
+                  <table id="countsTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Row</th>
+                      <th>Wallet</th>
+                      <th>Count</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Leg</th>
+                      <th>Arm</th>
+                      <th>Afterglows</th>
+                      <th>Full Mechs</th>
+                      <th>Mixed Mechs</th>
+                      <th>Mixed Mechs (No Afterglow)</th>
+                      <th>Engine & 2+ Parts</th>
+                      <th>2+ Matching Parts</th>
+                      <th>Unused Parts</th>
+                    </thead>
 
-                  <tbody id="counts">
-                  </tbody>
-                </table>
+                    <tbody id="counts">
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -122,8 +155,19 @@
           <td class="model"></td>
           <td class="full"></td>
           <td class="mixed"></td>
+          <td class="mixed_no_afterglow"></td>
           <td class="total"></td>
-          <!-- <td class="mixed_no_afterglow"></td> -->
+        </tr>
+      </template>
+      <template id="template-part-counts">
+        <tr>
+          <td class="model"></td>
+          <td class="Engine"></td>
+          <td class="Head"></td>
+          <td class="Body"></td>
+          <td class="Leg"></td>
+          <td class="Arm"></td>
+          <td class="total"></td>
         </tr>
       </template>
       <template id="template-empty">

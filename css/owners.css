@@ -1,6 +1,26 @@
+.tableWide {
+    width: 100%;
+}
+
+.containerDiv {
+    width: 500px;
+    float: none;
+}
+
+.containerDivWide {
+    width: 100%;
+}
+
 .table {
     width: 100%;
 }
-.containerDiv {
-    width: 100%;
+
+.inner {
+    overflow: hidden;
+    width: 1050px;
+}
+
+.floatLeft {
+    float: left;
+    min-width: 500px;
 }
