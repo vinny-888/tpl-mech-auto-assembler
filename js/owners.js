@@ -11,7 +11,7 @@ let remainingParts = 0;
 let progressDiv = null;
 let loadCached = true;
 function init() {
-  initContracts();
+  // initContracts();
   initTooltip();
 }
 
