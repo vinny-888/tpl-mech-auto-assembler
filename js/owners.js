@@ -547,7 +547,7 @@ function highlightZeros(){
 
 function highlightTotal(){
   let color = '#71d0c6';
-  let backgroundColor = '#71d0c7';
+  let backgroundColor = '#181818';
   var table1 = document.getElementById("mechCountsTable");
   var table2 = document.getElementById("partCountsTable");
   var table3 = document.getElementById("unclaimedPartCountsTable");
