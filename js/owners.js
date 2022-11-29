@@ -319,7 +319,8 @@ function updateTable(row, address, cachedData){
       }
     }
 
-    showZeros();
+    highlightZeros();
+    highlightTotal();
     displayTables();
     progressDiv.innerHTML = ' - Loaded ' + row + '/4439';
 }
@@ -534,12 +535,52 @@ function countAfterglows(address){
   return afterglowCount;
 }
 
-function showZeros(){
+function highlightZeros(){
   var table = document.getElementById("countsTable");
   var cells = table.getElementsByTagName("td");
   for (var i = 0; i < cells.length; i++) {
     if (parseInt(cells[i].textContent, 10) === 0 && cells[i].textContent.indexOf('0x') == -1) {
       cells[i].style.color = "orange";
     }
+  }
+}
+
+function highlightTotal(){
+  let color = '#71d0c6';
+  let backgroundColor = '#71d0c7';
+  var table1 = document.getElementById("mechCountsTable");
+  var table2 = document.getElementById("partCountsTable");
+  var table3 = document.getElementById("unclaimedPartCountsTable");
+  var cells1 = table1.getElementsByTagName("tr");
+  cells1[cells1.length-1].style.backgroundColor = backgroundColor;
+  cells1[cells1.length-1].style.color = color;
+  cells1[cells1.length-1].style.fontWeight = 'bold';
+  var cells1a = table1.getElementsByTagName("td");
+  for (var i = 4; i < cells1a.length; i+=5) {
+    cells1a[i].style.backgroundColor = backgroundColor;
+    cells1a[i].style.color = color;
+    cells1a[i].style.fontWeight = 'bold';
+  }
+  
+  var cells2 = table2.getElementsByTagName("tr");
+  cells2[cells2.length-1].style.backgroundColor = backgroundColor;
+  cells2[cells2.length-1].style.color = color;
+  cells2[cells2.length-1].style.fontWeight = 'bold';
+  var cells2a = table2.getElementsByTagName("td");
+  for (var i = 6; i < cells2a.length; i+=7) {
+    cells2a[i].style.backgroundColor = backgroundColor;
+    cells2a[i].style.color = color;
+    cells2a[i].style.fontWeight = 'bold';
+  }
+
+  var cells3 = table3.getElementsByTagName("tr");
+  cells3[cells3.length-1].style.backgroundColor = backgroundColor;
+  cells3[cells3.length-1].style.color = color;
+  cells3[cells3.length-1].style.fontWeight = 'bold';
+  var cells3a = table3.getElementsByTagName("td");
+  for (var i = 6; i < cells3a.length; i+=7) {
+    cells3a[i].style.backgroundColor = backgroundColor;
+    cells3a[i].style.color = color;
+    cells3a[i].style.fontWeight = 'bold';
   }
 }
