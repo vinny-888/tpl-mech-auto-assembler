@@ -168,6 +168,13 @@ function countMechModelsCached(){
         totalParts[model][part] += modelParts[model][part];
       })
     });
+
+    if(data.address == '0xa6B750fbb80FFDB9e77458466562a4c5627877ba'){
+      RARITY_ORDER.forEach((model)=>{
+        buildUnclaimedPartCountsTotalTable(data.modelParts, model);
+      });
+      buildTotalUnclaimedPartCountsTotalTable(data.modelParts);
+    }
   });
 
   console.log('totalFullMechs', totalFullMechs);
@@ -227,6 +234,7 @@ function countMechModelsLive(){
         totalParts[model][part] += modelParts[model][part];
       })
     });
+    
   });
 
   console.log('totalFullMechs', totalFullMechs);
@@ -239,19 +247,20 @@ function countMechModelsLive(){
     buildTotalPartCountsTable(totalParts, model);
   });
   buildTotalPartCountsTotalTable(totalParts);
+
 }
 
 function updateTable(row, address, cachedData){
     if(cachedData){
-      wallets[address] = cachedData.totalParts;
-      totalFullMechs += cachedData.fullMechsCount;
-      totalMixedMechs += cachedData.mixedMechsCount;
-      totalMixedMechsNoAfterglow += cachedData.mixedMechsNoAfterglowCount;
-      totalMixedMechsPartial += cachedData.mixedMechsPartialCount;
-      totalMixedMechsPartialNoModel += cachedData.mixedMechsPartialNoModelCount;
-      
-      buildPartCountsTable(row, address, cachedData.totalParts, cachedData.totalAfterglows, cachedData.partsCount, cachedData.fullMechsCount, cachedData.mixedMechsCount, cachedData.mixedMechsNoAfterglowCount, cachedData.mixedMechsPartialCount, cachedData.mixedMechsPartialNoModelCount, cachedData.remainingParts);
-    } else {
+        wallets[address] = cachedData.totalParts;
+        totalFullMechs += cachedData.fullMechsCount;
+        totalMixedMechs += cachedData.mixedMechsCount;
+        totalMixedMechsNoAfterglow += cachedData.mixedMechsNoAfterglowCount;
+        totalMixedMechsPartial += cachedData.mixedMechsPartialCount;
+        totalMixedMechsPartialNoModel += cachedData.mixedMechsPartialNoModelCount;
+        
+        buildPartCountsTable(row, address, cachedData.totalParts, cachedData.totalAfterglows, cachedData.partsCount, cachedData.fullMechsCount, cachedData.mixedMechsCount, cachedData.mixedMechsNoAfterglowCount, cachedData.mixedMechsPartialCount, cachedData.mixedMechsPartialNoModelCount, cachedData.remainingParts);
+      } else {
       let modelParts = JSON.parse(JSON.stringify(dataModel.owners[address].modelParts));
       let totalParts = getRemainingParts(address);
       let totalAfterglows = countAfterglows(address);
@@ -392,6 +401,40 @@ function buildTotalPartCountsTotalTable(modelParts){
   });
   clone.querySelector(".total").textContent = total;
   partCountsContainer.appendChild(clone);
+}
+
+function buildUnclaimedPartCountsTotalTable(modelParts, model){
+  const clone = templateUnclaimedPartCounts.content.cloneNode(true);
+  clone.querySelector(".model").textContent = model;
+  let total = 0;
+  PARTS_ORDER.forEach((part)=>{
+      clone.querySelector("."+part).textContent = modelParts[model][part];
+      total += modelParts[model][part];
+  });
+  clone.querySelector(".total").textContent = total;
+  unclaimedPartCountsContainer.appendChild(clone);
+}
+
+function buildTotalUnclaimedPartCountsTotalTable(modelParts){
+  const clone = templateUnclaimedPartCounts.content.cloneNode(true);
+  clone.querySelector(".model").textContent = 'Total';
+  let totals = {};
+  RARITY_ORDER.forEach((model)=>{
+    PARTS_ORDER.forEach((part)=>{
+        if(!totals[part]){
+          totals[part] = 0;
+        }
+        totals[part] += modelParts[model][part];
+    });
+  });
+
+  let total = 0;
+  PARTS_ORDER.forEach((part)=>{
+    clone.querySelector("."+part).textContent = totals[part];
+    total += totals[part];
+  });
+  clone.querySelector(".total").textContent = total;
+  unclaimedPartCountsContainer.appendChild(clone);
 }
 
 function countMechs(mechs){

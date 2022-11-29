@@ -1,4 +1,5 @@
-let owners_wallets = ['0xaa0e4fe56aa160827b7484722add5dfec351cc24',
+let owners_wallets = ['0xa6B750fbb80FFDB9e77458466562a4c5627877ba',
+	'0xaa0e4fe56aa160827b7484722add5dfec351cc24',
 	'0x931e8194d361571cc8476b15f8ce2f6e72d593f5',
 	'0x6067cb9ea66b96438a55efdbd4c0070966a74d22',
 	'0xdc3cdca82be7a69028827b55dddbbb51d18fc23d',
