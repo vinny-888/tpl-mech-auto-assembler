@@ -70,6 +70,48 @@ function loadTop100(){
       updateTable((i+1), data.address, data);
     },0);
   }
+
+  let engineCount = 0;
+  let armCount = 0;
+  let neverClaimed = {};
+  let accountsCount =0;
+  walletOwnerData.forEach((data)=>{
+    if(data){
+      let count = 0;
+      let count2 = 0;
+      Object.keys(data.modelParts).forEach((model)=>{
+        ['Head', 'Body', 'Leg'].forEach((part)=>{
+          count += data.modelParts[model][part];
+        });
+        ['Engine', 'Arm'].forEach((part)=>{
+          count2 += data.modelParts[model][part];
+        });
+      })
+      // Has not claimed any parts
+      if(count == 0 && count2 != 0){
+        accountsCount++;
+        Object.keys(data.modelParts).forEach((model)=>{
+          if(!neverClaimed[model]){
+            neverClaimed[model] = {};
+          }
+          if(!neverClaimed[model]['Engine']){
+            neverClaimed[model]['Engine'] = 0;
+          }
+          if(!neverClaimed[model]['Arm']){
+            neverClaimed[model]['Arm'] = 0;
+          }
+          neverClaimed[model]['Engine'] += data.modelParts[model]['Engine'];
+          neverClaimed[model]['Arm'] += data.modelParts[model]['Arm'];
+          engineCount += data.modelParts[model]['Engine'];
+          armCount += data.modelParts[model]['Arm'];
+        });
+      }
+    }
+  })
+
+  console.log('engineCount', engineCount, 'armCount', armCount);
+  console.log('accountsCount', accountsCount,'neverClaimed', neverClaimed);
+
 }
 async function refreshAccountData() {
   reset();
