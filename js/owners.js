@@ -11,7 +11,10 @@ let remainingParts = 0;
 let progressDiv = null;
 let loadCached = true;
 function init() {
-  // initContracts();
+  if(!loadCached){
+    document.getElementById('download').style.display = 'block';
+    initContracts();
+  }
   initTooltip();
 }
 
@@ -32,30 +35,24 @@ function getSortedKeysTotalParts(obj) {
   return keys.sort(function(a,b){return obj[b].totalParts-obj[a].totalParts});
 }
 
-function download(){
-  if(loadCached){
-    downloadCached();
-  } else {
-    downloadLive();
-  }
-}
-
-function downloadCached(){
-  let keys = getSortedKeysTotalParts(allWalletData);
+function getSortedWallets(walletData){
+  let keys = getSortedKeysTotalParts(walletData);
   let sortedWallets = [];
   keys.forEach((address)=>{
-    allWalletData[address].address = address;
-    sortedWallets.push(allWalletData[address]);
+    walletData[address].address = address;
+    sortedWallets.push(walletData[address]);
   })
-  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sortedWallets));
-  var dlAnchorElem = document.getElementById('downloadAnchorElem');
-  dlAnchorElem.setAttribute("href",     dataStr     );
-  dlAnchorElem.setAttribute("download", "data.js");
-  dlAnchorElem.click();
+  // var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sortedWallets));
+  // var dlAnchorElem = document.getElementById('downloadAnchorElem');
+  // dlAnchorElem.setAttribute("href",     dataStr     );
+  // dlAnchorElem.setAttribute("download", "data.js");
+  // dlAnchorElem.click();
+  return sortedWallets;
 }
 
-function downloadLive(){
-  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData));
+function download(){
+  let sortedWallets = getSortedWallets(allData)
+  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sortedWallets));
   var dlAnchorElem = document.getElementById('downloadAnchorElem');
   dlAnchorElem.setAttribute("href",     dataStr     );
   dlAnchorElem.setAttribute("download", "data.js");
@@ -65,7 +62,7 @@ function downloadLive(){
 function loadTop100(){
   displayTables();
   for(let i =0; i<100; i++){
-    let data = walletOwnerData[i];
+    let data = orderedCachedWalletData[i];
     setTimeout(()=>{
       updateTable((i+1), data.address, data);
     },0);
@@ -75,7 +72,7 @@ function loadTop100(){
   let armCount = 0;
   let neverClaimed = {};
   let accountsCount =0;
-  walletOwnerData.forEach((data)=>{
+  orderedCachedWalletData.forEach((data)=>{
     if(data){
       let count = 0;
       let count2 = 0;
@@ -117,7 +114,7 @@ async function refreshAccountData() {
   reset();
   displayTables();
   if(loadCached){
-    walletOwnerData.forEach((data, index)=>{
+    orderedCachedWalletData.forEach((data, index)=>{
       setTimeout(()=>{
         updateTable((index+1), data.address, data);
       },0);
@@ -160,19 +157,11 @@ async function refreshAccountData() {
 }
 
 function countMechModels(){
-  // if(loadCached){
-    countMechModelsCached();
-  // } else {
-  //   countMechModelsLive();
-  // }
-}
-
-function countMechModelsCached(){
   let totalFullMechs = {};
   let totalMixedMechs = {};
   let totalMixedMechsNoAfterglow = {};
   let totalParts = {};
-  walletOwnerData.forEach((data)=>{
+  orderedCachedWalletData.forEach((data)=>{
     let fullMechs = data.fullMechs;
     let mixedMechs = data.mixedMechs;
     let mixedMechsNoAfterglow = data.mixedMechsNoAfterglow;
@@ -364,7 +353,7 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/4439';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/4440';
 }
 
 function buildPartCountsTable(row, address, totalParts, totalAfterglows, partsCount, fullMechsCount, mixedMechsCount, mixedMechsNoAfterglowCount, mixedMechsPartialCount, mixedMechsPartialNoModelCount, remainingParts){
