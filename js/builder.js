@@ -288,8 +288,8 @@ function selectCyberbroker(tokenId){
   let broker = dataModel.cyberBrokers.find((broker)=>broker.tokenId == tokenId);
   let mech = broker.mech ? broker.mech : 'missing';
   let afterglow = broker.afterglow ? broker.afterglow+'.avif' : 'missing.png';
-  document.querySelector("#engine_img").setAttribute('src', '/images/parts/'+mech+'_Engine.png');
-  document.querySelector("#afterglow_img").setAttribute('src', '/images/afterglows/'+afterglow);
+  document.querySelector("#engine_img").setAttribute('src', './images/parts/'+mech+'_Engine.png');
+  document.querySelector("#afterglow_img").setAttribute('src', './images/afterglows/'+afterglow);
   showBuilderDiv();
   Array.from(document.getElementsByClassName('clickable')).forEach((row)=>{
     row.classList.remove('selected');
