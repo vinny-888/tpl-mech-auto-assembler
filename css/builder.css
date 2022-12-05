@@ -21,3 +21,8 @@ img{
 .selected{
     background-color: #3e60a2 !important;
 }
+
+td img {
+    width: 100px;
+    height: 100px;
+}

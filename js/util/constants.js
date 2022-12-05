@@ -207,6 +207,6 @@ const templateUnclaimedPartCounts = document.querySelector("#template-unclaimed-
 const unclaimedPartCountsContainer = document.querySelector("#unclaimed-part-counts");
 
 const templateCyberbrokerCounts = document.querySelector("#template-cyberbroker-counts");
-const cyberbrokerCountsContainer = document.querySelector("#cyberbroker-counts");
+const cyberbrokerCountsContainer = document.querySelector("#cyberbrokers-counts");
 
 const templateEmpty = document.querySelector("#template-empty");

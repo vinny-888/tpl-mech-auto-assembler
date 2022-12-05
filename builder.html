@@ -45,7 +45,7 @@
                 <div class="borderDiv" style="width: 100%;">
                   <h4> Completed Mechs <span id="mech_count">0</span> 
                     <button class="tooltipBtn" tip="Table showing completed mech counts for each model type based on wallet contents.">?</button>
-                    <div id="countsTableToggle" class="toggle" onclick="toggleTable('mechCountsTable')">
+                    <div id="mechCountsTableToggle" class="toggle" onclick="toggleTable('mechCountsTable')">
                       &#8212;
                     </div>
                   </h4>
@@ -67,14 +67,14 @@
                 <div class="borderDiv" style="margin-top: 8px;overflow: scroll;max-height: 500px;">
                   <h4> CyberBrokers <span id="cyberbroker_count">0</span> 
                     <button class="tooltipBtn" tip="All CyberBrokers owned by this wallet.">?</button>
-                    <div id="cyberbrokerTableToggle" class="toggle" onclick="toggleTable('cyberbrokerTable')">
+                    <div id="cyberbroker-countsToggle" class="toggle" onclick="toggleTable('cyberbroker-counts')">
                       &#8212;
                     </div>
                   </h4>
 
                   <table id="cyberbroker-counts" class="table table-listing">
                     <thead>
-                      <th style="width:20%">Image</th>
+                      <th style="width:20%">CyberBroker</th>
                       <th>Mech</th>
                       <th>Afterglow</th>
                       <th>Talent</th>
@@ -83,7 +83,6 @@
                       <th>Mind</th>
                       <th>Body</th>
                       <th>Soul</th>
-                      <!-- <th>Count</th> -->
                     </thead>
 
                     <tbody id="cyberbrokers-counts">
@@ -96,7 +95,7 @@
                 <div class="borderDiv" style="width: 100%;">
                   <h4> Builder 
                     <button class="tooltipBtn" tip="Put your CyberBroker Mech together.">?</button>
-                    <div id="countsTableToggle" class="toggle" onclick="toggleTable('builderDiv')">
+                    <div id="builderDivToggle" class="toggle" onclick="toggleTable('builderDiv')">
                       &#8212;
                     </div>
                   </h4>
@@ -105,28 +104,26 @@
                     Select a CyberBroker on the left to configure it.
                   </div>
                   <div id="builderDiv" style="display: none;">
-                    <!-- <div class="col-md-12"> -->
-                      <div class="col-md-4">
-                        <div style="padding: 20px;">
-                          <h5>CyberBroker</h5>
-                          <img id="builder_img" src="https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/246.svg" width="200" height="200">
-                        </div>
+                    <div class="col-md-4">
+                      <div style="padding: 20px;">
+                        <h5>CyberBroker</h5>
+                        <img id="builder_img" src="https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/246.svg" width="200" height="200">
                       </div>
-                      <div class="col-md-8">
-                        <div style="padding: 20px;" class="col-md-6">
-                          <h5>Mech
-                            <select id="mech_model" class="dropdown"></select>
-                          </h5>
-                          <img id="engine_img" src="./images/parts/Nexus_Engine.png" width="200" height="200">
-                        </div>
-                        <div style="padding: 20px;" class="col-md-6">
-                          <h5>Afterglow
-                            <select id="afterglow_type" class="dropdown"></select>
-                          </h5>
-                          <img id="afterglow_img" src="./images/afterglows/Fixer Plum.avif" width="200" height="200">
-                        </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div style="padding: 20px;" class="col-md-6">
+                        <h5>Mech
+                          <select id="mech_model" class="dropdown"></select>
+                        </h5>
+                        <img id="engine_img" src="./images/parts/Nexus_Engine.png" width="200" height="200">
                       </div>
-                    <!-- </div> -->
+                      <div style="padding: 20px;" class="col-md-6">
+                        <h5>Afterglow
+                          <select id="afterglow_type" class="dropdown"></select>
+                        </h5>
+                        <img id="afterglow_img" src="./images/afterglows/Fixer Plum.avif" width="200" height="200">
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -158,7 +155,6 @@
           <td class="mind"></td>
           <td class="body"></td>
           <td class="soul"></td>
-          <!-- <td class="count"></td> -->
         </tr>
       </template>
       <template id="template-empty">

@@ -188,7 +188,7 @@ async function fetchAccountData(address) {
 function reset(){
   resetModel();
   // Purge UI elements any previously loaded accounts
-  mechCountsContainer.innerHTML = '';
+  cyberbrokerCountsContainer.innerHTML = '';
 }
 
 function countMechModels(fullMechs, mixedMechs, mixedMechsNoAfterglow){
