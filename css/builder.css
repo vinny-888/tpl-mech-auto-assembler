@@ -1,0 +1,23 @@
+#builderDiv{
+    min-height: 400px;
+}
+
+img{
+    object-fit: cover;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.clickable:hover{
+    background-color: #43736e;
+}
+
+.dropdown {
+    background-color: #1f3331;
+}
+
+.selected{
+    background-color: #3e60a2 !important;
+}

@@ -68,3 +68,47 @@ function getMostMatchingParts(mech){
 
     return model;
 }
+
+function getAttributeValue(attributes, trait){
+    let val = '';
+    attributes.forEach((attribute)=>{
+        if(attribute.trait_type == trait){
+            val = attribute.value;
+        }
+    });
+    return val;
+}
+
+function getNextMech(fullMechs, mixedMechs, mixedMechsNoAfterglow){
+    let modelUsed = '';
+    for(let i=0;i<RARITY_ORDER.length; i++){
+        let model = RARITY_ORDER[i];
+        if(fullMechs[model] && fullMechs[model].length > 0){
+            fullMechs[model].splice(fullMechs[model].length-1, 1);
+            modelUsed = model;
+            break;
+        } else if(mixedMechs[model] && mixedMechs[model].length > 0){
+            mixedMechs[model].splice(mixedMechs[model].length-1, 1);
+            modelUsed = model;
+            break;
+        } else if(mixedMechsNoAfterglow[model] && mixedMechsNoAfterglow[model].length > 0){
+            mixedMechsNoAfterglow[model].splice(mixedMechsNoAfterglow[model].length-1, 1);
+            modelUsed = model;
+            break;
+        }
+    }
+    return modelUsed;
+}
+
+function getNextAfterglow(afterglows){
+    let afterglowUsed = '';
+    for(let i=0; i<afterglows.length; i++){
+        let afterglow = afterglows[i];
+        if(afterglow.count > 0){
+            afterglow.count--;
+            afterglowUsed = afterglow.name;
+            break;
+        }
+    }
+    return afterglowUsed;
+}

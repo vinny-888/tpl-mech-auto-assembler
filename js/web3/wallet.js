@@ -1,14 +1,41 @@
 const provider = web3.currentProvider;
 const mechTokenContract = "0xf4bacb2375654ef2459f427c8c6cf34573f75154";
 const afterglowTokenContract = "0xa47fb7c4edd3475ce66f49a66b9bf1edbc61e52d";
+const cyberbrokerTokenContract = "0x892848074ddea461a15f337250da3ce55580ca85";
 let mechContract = null;
 let afterglowContract = null;
+let cyberbrokerContract = null;
 
 function initContracts(){
     console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
     const web3 = new Web3(provider);
     mechContract = new web3.eth.Contract(balanceOfABI, mechTokenContract);
     afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
+    cyberbrokerContract = new web3.eth.Contract(tokenBalanceABI, cyberbrokerTokenContract);
+}
+
+async function getCyberbrokerTokenBalance(address) {
+    try{
+        let result = await cyberbrokerContract.methods.getTokens(address).call();
+
+        console.log('getCyberbrokerTokenBalance: ', result);
+        return result;
+    }catch(e){
+        console.log('getCyberbrokerTokenBalance Error:',e)
+        return 0;
+    }
+}
+
+async function getCyberbrokerTokenURI(tokenId) {
+    try{
+        let result = await cyberbrokerContract.methods.tokenURI(tokenId).call();
+
+        console.log('getCyberbrokerTokenURI: ', result);
+        return result;
+    }catch(e){
+        console.log('getCyberbrokerTokenURI Error:',e)
+        return 0;
+    }
 }
 
 async function getMechTokenBalance(address, card) {

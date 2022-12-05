@@ -1,4 +1,5 @@
 let dataModel = {
+  cyberBrokers: [],
   owners: {},
   useLowest: false,
   walletParts: [],
@@ -28,7 +29,8 @@ let dataModel = {
 };
 
 function resetModel(){
-  owners = {},
+  cyberBrokers = [];
+  owners = {};
   useLowest = false;
   dataModel.walletParts = [];
   dataModel.walletAfterglows = [];

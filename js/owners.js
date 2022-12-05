@@ -360,6 +360,7 @@ function buildPartCountsTable(row, address, totalParts, totalAfterglows, partsCo
   const clone = templateCounts.content.cloneNode(true);
   clone.querySelector(".row").textContent = row;
   clone.querySelector(".wallet").innerHTML = '<a href="index.html?wallet=' + address + '">' + address + '</a>';
+  clone.querySelector(".builder").innerHTML = '<a href="builder.html?wallet=' + address + '">Builder</a>';
   clone.querySelector(".count").textContent = totalParts;
   
   Object.keys(partsCount).forEach((part)=>{

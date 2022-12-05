@@ -245,7 +245,7 @@ td img {
     border-color: #578c87;
 }
 
-:focus, a:hover {
+a:focus, a:hover {
     color: #ffb800;
     text-decoration: underline;
 }
@@ -289,4 +289,8 @@ a {
 
 .navLinks{
     margin-left: 24px;
+}
+
+a:focus, a:hover {
+    color: #ffed69;
 }

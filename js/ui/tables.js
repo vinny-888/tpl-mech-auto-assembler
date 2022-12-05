@@ -20,6 +20,40 @@ function buildPartsTable(){
     }
 }
 
+function buildCyberbrokerTable(){
+    cyberbrokerCountsContainer.innerHTML = '';
+    let brokerCount = 0;
+    // All Parts
+    dataModel.cyberBrokers.forEach((broker)=>{
+        // Build Table
+        const clone = templateCyberbrokerCounts.content.cloneNode(true);
+        clone.querySelector(".image").innerHTML = '<div><img src="https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/'+broker.tokenId+'.svg" /></div><div>'+broker.uri.name+'</div';
+        let mech = broker.mech ? broker.mech : 'missing';
+        clone.querySelector(".mech").innerHTML = '<div><img src="/images/parts/'+mech+'_Engine.png" /></div><div>'+mech+'</div';
+        let afterglowSrc = broker.afterglow ? broker.afterglow+'.avif' : 'missing_Engine.png';
+        let afterglow = broker.afterglow ? broker.afterglow : 'missing';
+        clone.querySelector(".afterglow").innerHTML = '<div><img src="/images/afterglows/'+afterglowSrc+'" /></div><div>'+afterglow+'</div';
+        clone.querySelector(".talent").textContent = getAttributeValue(broker.uri.attributes, 'Talent');
+        clone.querySelector(".species").textContent = getAttributeValue(broker.uri.attributes, 'Species');
+        clone.querySelector(".class").textContent = getAttributeValue(broker.uri.attributes, 'Class');
+        clone.querySelector(".mind").textContent = getAttributeValue(broker.uri.attributes, 'Mind');
+        clone.querySelector(".body").textContent = getAttributeValue(broker.uri.attributes, 'Body');
+        clone.querySelector(".soul").textContent = getAttributeValue(broker.uri.attributes, 'Soul');
+
+        clone.childNodes[1].addEventListener("click", ()=>{selectCyberbroker(broker.tokenId)});
+        clone.childNodes[1].id = 'cyberbroker_'+broker.tokenId;
+        // clone.querySelector(".count").textContent = part.count;
+        cyberbrokerCountsContainer.appendChild(clone);
+        brokerCount++;
+    });
+
+    document.getElementById('cyberbroker_count').innerHTML = brokerCount;
+    if(brokerCount == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        cyberbrokerCountsContainer.appendChild(clone);
+    }
+}
+
 function buildPartCountsTable(){
     RARITY_ORDER.forEach((model)=>{
         const clone = templateCounts.content.cloneNode(true);
