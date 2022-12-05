@@ -23,6 +23,7 @@ window.addEventListener('load', async () => {
 
 async function refreshAccountData() {
   document.querySelector("#connected").style.display = "none";
+  document.querySelector("#instructions").style.display = "none";
 
   let address = document.querySelector("#address").value;
   if(address == ''){
