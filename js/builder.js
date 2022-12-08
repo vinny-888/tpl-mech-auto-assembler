@@ -30,6 +30,12 @@ async function refreshAccountData() {
     alert('You must enter a wallet address first!');
     return;
   }
+  var url = new URL(window.location);
+  var wallet = url.searchParams.get("wallet");
+  if(!wallet){
+    window.history.pushState("", "", window.location.href + '?wallet=' + address);
+  }
+  document.getElementById('home_url').href = 'index.html?wallet='+address;
 
   await fetchAccountData(address);
   updateTable( address);
