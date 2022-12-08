@@ -2,6 +2,47 @@
 let completedMechs = {};
 let selectedBroker = null;
 let progressDiv = null;
+
+let afterglowColors = {
+  'The One': ['#4D00FF', '#FFD700'],
+  'True Belief': ['#FF1493', '#DBD4D4'],
+  'Deva\'s Breath': ['#FF00FF', '#CEFF00'], 
+  'Wildstyle Monarch': ['#18F905', '#00DFFF'], 
+  'Singularity Prophet': ['#808000', '#9D2B8B'], 
+  'Quid Pro Quo': ['#8B0000', '#ECA506'], 
+  'Blood Money': ['#FF0000', '#CF0039'], 
+  'Xenoform Unknown': ['#BBFF00', '#2155FF'], 
+  'Pink Parser': ['#FFC3D6', '#2D4460'], 
+  'Bone and Flesh': ['#FFFFFF', '#BD3943'], 
+  'Circuit Overload': ['#000080', '#00FF00'], 
+  'Ethereal Dream': ['#ABFBFB', '#D92AD9'], 
+  'Double Spend': ['#FF8C00', '#FFE200'], 
+  'Tsujigiri Slash': ['#FF0000', '#1A1A1A'], 
+  'Institutional Pedigree': ['#1E90FF', '#E6E6E6'], 
+  'Eldritch Descent': ['#9510AC', '#1A37E6'], 
+  'Closed Captioning': ['#00FFFF', '#1A1A1A'], 
+  'Hallowed Grounds': ['#000000', '#007300'], 
+  'Cosmic Squid Pink': ['#FF00FF'],
+  'Stationary Green': ['#18F905'],
+  'Broken Sky Blue': ['#00FFFF'],
+  'Precious Cargo Green': ['#BBFF00'],
+  'Enigma Yellow': ['#FFF000'],
+  'Reaction Time Red': ['#FF0000'],
+  'Phising Gold': ['#FAC710'],
+  'Existential Pink': ['#FFC3D6'],
+  'Lost-in-the-crowd Orange': ['#FF8C00'],
+  'Escapist Magenta': ['#FF1493'],
+  'Stonefaced Sapphire': ['#1E90FF'],
+  'Fixer Plum': ['#9510AC'],
+  'Backdoor Burgundy': ['#8B0000'],
+  'Takedown Green': ['#808000'],
+  'Seeker Green': ['#00806A'],
+  'Abundant Blue': ['#000080'],
+  'Tabula Rasa White': ['#FFFFFF'],
+  'Common Lavender': ['#E6B6E6'],
+  'Starter Green': ['#1DC267'],
+  'ShaDAO Black': ['#000000']
+};
 function init() {
   initContracts()
   initTooltip();
@@ -289,10 +330,21 @@ function highlightTotal(){
 function selectCyberbroker(tokenId){
   console.log('Selected CyberBroker', tokenId);
 
-  document.querySelector("#builder_img").setAttribute('src', 'https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/'+tokenId+'.svg');
+  // document.querySelector("#builder_img").setAttribute('src', 'https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/'+tokenId+'.svg');
 
   let broker = dataModel.cyberBrokers.find((broker)=>broker.tokenId == tokenId);
   let mech = broker.mech ? broker.mech : 'missing';
+  let grid = document.getElementById('mechGrid')
+  grid.innerHTML = buildMechGrid(mech, tokenId);
+
+  let colors = afterglowColors[broker.afterglow];
+  let color = 'background-color: '+colors[0]+';';
+  if(colors.length == 2){
+    color = 'background-image: linear-gradient(to bottom, '+colors[0]+', '+colors[1]+');';
+    color += 'background-image: -webkit-linear-gradient(to bottom, '+colors[0]+', '+colors[1]+');';
+    color += 'background-image: -moz-linear-gradient(to bottom, '+colors[0]+', '+colors[1]+');';
+  }
+  grid.style = color;
   let afterglow = broker.afterglow ? broker.afterglow+'.avif' : 'missing.png';
   document.querySelector("#engine_img").setAttribute('src', './images/parts/'+mech+'_Engine.png');
   document.querySelector("#afterglow_img").setAttribute('src', './images/afterglows/'+afterglow);
@@ -335,4 +387,42 @@ function addEventlisteners(){
     refreshTables();
     selectCyberbroker(selectedBroker);
   })
+}
+
+function buildMechGrid(model, tokenId){
+
+  let head = './images/parts/'+model+'_Head.png';
+  let body = './images/parts/'+model+'_Body.png';
+  let engine = './images/parts/'+model+'_Engine.png';
+  let arm = './images/parts/'+model+'_Arm.png';
+  let leg = './images/parts/'+model+'_Leg.png';
+  let broker = 'https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/'+tokenId+'.svg'
+  
+
+  let html = `<div class="wrapper">
+                <div></div>
+                <div><img class="partGrid" src="${head}"></div>
+                <div></div>
+              </div>
+              <div class="wrapper">
+                <div><img class="partGrid" src="${arm}"></div>
+                <div><img class="partGrid" src="${broker}"></div>
+                <div><img class="partGrid" src="${arm}"></div>
+              </div>
+              <!--<div class="wrapper">
+                <div></div>
+                <div><img class="partGrid" src="${engine}"></div>
+                <div></div>
+              </div>-->
+              <div class="wrapper">
+                <div></div>
+                <div><img class="partGrid" src="${body}"></div>
+                <div></div>
+              </div>
+              <div class="wrapper">
+                <div></div>
+                <div><img class="partGrid" src="${leg}"></div>
+                <div></div>
+              </div>`;
+  return html;
 }

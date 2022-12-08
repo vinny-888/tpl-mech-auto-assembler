@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/main.css?v=2.1">
-    <link rel="stylesheet" href="./css/owners.css?v=2.1">
-    <link rel="stylesheet" href="./css/builder.css?v=2.1">
+    <link rel="stylesheet" href="./css/main.css?v=2.2">
+    <link rel="stylesheet" href="./css/owners.css?v=2.2">
+    <link rel="stylesheet" href="./css/builder.css?v=2.2">
   </head>
   <body>
     <div class="header">
@@ -92,7 +92,7 @@
               </div>
 
               <div class="col-md-7">
-                <div class="borderDiv" style="width: 100%;">
+                <div class="borderDiv" style="width: 100%;height: 733.5px;">
                   <h4> Builder 
                     <button class="tooltipBtn" tip="Put your CyberBroker Mech together.">?</button>
                     <div id="builderDivToggle" class="toggle" onclick="toggleTable('builderDiv')">
@@ -104,24 +104,26 @@
                     Select a CyberBroker on the left to configure it.
                   </div>
                   <div id="builderDiv" style="display: none;">
-                    <div class="col-md-4">
-                      <div style="padding: 20px;">
-                        <h5>CyberBroker</h5>
-                        <img id="builder_img" src="https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/246.svg" width="200" height="200">
+                    <div class="outer">
+                      <div class="selector">
+                        <div class="wrapper2">
+                          <div>
+                            <h5>Mech
+                            </h5>
+                            <img id="engine_img" src="./images/parts/Nexus_Engine.png" width="100" height="100"><br>
+                            <select id="mech_model" class="dropdown"></select>
+                          </div>
+                          <div style="margin-left: 10px;">
+                            <h5>Afterglow
+                            </h5>
+                            <img id="afterglow_img" src="./images/afterglows/Fixer Plum.avif" width="100" height="100"><br>
+                            <select id="afterglow_type" class="dropdown"></select>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-8">
-                      <div style="padding: 20px;" class="col-md-6">
-                        <h5>Mech
-                          <select id="mech_model" class="dropdown"></select>
-                        </h5>
-                        <img id="engine_img" src="./images/parts/Nexus_Engine.png" width="200" height="200">
-                      </div>
-                      <div style="padding: 20px;" class="col-md-6">
-                        <h5>Afterglow
-                          <select id="afterglow_type" class="dropdown"></select>
-                        </h5>
-                        <img id="afterglow_img" src="./images/afterglows/Fixer Plum.avif" width="200" height="200">
+                    <div class="outer">
+                      <div id="mechGrid" class="mech">
                       </div>
                     </div>
                   </div>
@@ -165,15 +167,15 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=2.1"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=2.2"></script>
     <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=0.6"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=2.1"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=2.1"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.1"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=2.1"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=2.1"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=2.1"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilder.js?v=2.1"></script>
-    <script type="text/javascript" src="./js/builder.js?v=2.1"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilder.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/builder.js?v=2.2"></script>
   </body>
 </html>
