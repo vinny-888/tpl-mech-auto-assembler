@@ -89,7 +89,7 @@ function buildAfterglowTable(){
         if(afterglow.count > 0){
             // Build Table
             const clone = templateAfterglow.content.cloneNode(true);
-            clone.querySelector(".image").innerHTML = afterglowImageUrl(afterglow.name);
+            clone.querySelector(".image").innerHTML = afterglowImageUrl(afterglow.name == 'Lost-in-the-Crowd Orange' ? 'Lost-in-the-crowd Orange' : afterglow.name);
             clone.querySelector(".name").textContent = afterglow.name;
             clone.querySelector(".count").textContent = afterglow.count + ' of ' + afterglow.total;
             afterglowContainer.appendChild(clone);
@@ -104,7 +104,7 @@ function buildAfterglowTable(){
         if(afterglow.count == 0){
             // Build Table
             const clone = templateAfterglow.content.cloneNode(true);
-            clone.querySelector(".image").innerHTML = afterglowImageUrl(afterglow.name);
+            clone.querySelector(".image").innerHTML = afterglowImageUrl(afterglow.name == 'Lost-in-the-Crowd Orange' ? 'Lost-in-the-crowd Orange' : afterglow.name);
             clone.querySelector(".name").textContent = afterglow.name;
             clone.querySelector(".count").textContent = afterglow.count + ' of ' + afterglow.total;
             afterglowContainer.appendChild(clone);
