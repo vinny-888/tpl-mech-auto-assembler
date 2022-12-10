@@ -1,5 +1,5 @@
 function partsImage(part, model) {
-    return '<img height="60px" src="./images/parts/' + model + '_' + part + '.png" title="'+[part, model].join(' ')+'" />';
+    return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="./images/parts/' + model + '_' + part + '.png" title="'+[part, model].join(' ')+'" /></a>';
 }
 
 function partModelImageMissing(part, model) {
@@ -8,6 +8,14 @@ function partModelImageMissing(part, model) {
 
 function partImageMissing(part) {
     return '<a target="_blank" href="'+buildOpenSeaPartURL(part)+'"><img height="60px" src="./images/parts/missing_' + part + '.png" title="Missing ' + part + '" /></a>';
+}
+
+function afterglowImageUrl(color) {
+    return '<a target="_blank" href="'+buildOpenSeaAfterglowURL(color)+'"><img height="60px" src="./images/afterglows/' +color+ '.avif" title="' + color + '" /></a>';
+}
+
+function buildOpenSeaAfterglowURL(color){
+    return 'https://opensea.io/collection/tpl-mech-afterglow?search[stringTraits][0][name]=Color&search[stringTraits][0][values][0]='+encodeURIComponent(color);
 }
 
 function buildOpenSeaModelPartURL(model, part){

@@ -1,4 +1,8 @@
 "use strict";
+let totalFullMechs = {};
+let totalMixedMechs = {};
+let totalMixedMechsNoAfterglow = {};
+let totalParts = {};
 
 function init() {
   initContracts()
@@ -7,6 +11,7 @@ function init() {
 
 window.addEventListener('load', async () => {
   init();
+  calculateTotals();
   var url = new URL(window.location);
   var wallet = url.searchParams.get("wallet");
   if(wallet){
@@ -146,4 +151,51 @@ function dismantle(model){
 function assemble(model){
   dataModel.dismantled[model]--;
   refreshAccountData();
+}
+
+function calculateTotals(){
+  orderedCachedWalletData.forEach((data)=>{
+    let fullMechs = data.fullMechs;
+    let mixedMechs = data.mixedMechs;
+    let mixedMechsNoAfterglow = data.mixedMechsNoAfterglow;
+    let modelParts = data.modelParts;
+
+    Object.keys(fullMechs).forEach((model)=>{
+      if(!totalFullMechs[model]){
+        totalFullMechs[model] = 0;
+      }
+      totalFullMechs[model] += fullMechs[model].length;
+    });
+
+    Object.keys(mixedMechs).forEach((model)=>{
+      if(!totalMixedMechs[model]){
+        totalMixedMechs[model] = 0;
+      }
+      totalMixedMechs[model] += mixedMechs[model].length;
+    });
+
+    Object.keys(mixedMechsNoAfterglow).forEach((model)=>{
+      if(!totalMixedMechsNoAfterglow[model]){
+        totalMixedMechsNoAfterglow[model] = 0;
+      }
+      totalMixedMechsNoAfterglow[model] += mixedMechsNoAfterglow[model].length;
+    });
+
+    Object.keys(modelParts).forEach((model)=>{
+      if(!totalParts[model]){
+        totalParts[model] = {};
+      }
+      PARTS_ORDER.forEach((part)=>{
+        if(!totalParts[model][part]){
+          totalParts[model][part] = 0;
+        }
+        totalParts[model][part] += modelParts[model][part];
+      })
+    });
+  });
+
+  console.log('totalFullMechs', totalFullMechs);
+  console.log('totalMixedMechs', totalMixedMechs);
+  console.log('totalMixedMechsNoAfterglow', totalMixedMechsNoAfterglow);
+  console.log('totalParts', totalParts);
 }

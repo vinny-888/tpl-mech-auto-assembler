@@ -8,7 +8,25 @@ function buildPartsTable(){
             clone.querySelector(".image").innerHTML = partsImage(part.part, part.model);
             clone.querySelector(".part").textContent = part.part;
             clone.querySelector(".model").textContent = part.model;
-            clone.querySelector(".count").textContent = part.count;
+            clone.querySelector(".count").textContent = part.count + ' of ' + totalParts[part.model][part.part];
+            accountContainer.appendChild(clone);
+            partCount++;
+        }
+    });
+
+
+    dataModel.walletParts.sort((a, b) => {
+        return a.count - b.count;
+    })
+
+    dataModel.walletParts.forEach((part)=>{
+        if(part.count == 0){
+            // Build Table
+            const clone = template.content.cloneNode(true);
+            clone.querySelector(".image").innerHTML = partsImage(part.part, part.model);
+            clone.querySelector(".part").textContent = part.part;
+            clone.querySelector(".model").textContent = part.model;
+            clone.querySelector(".count").textContent = part.count + ' of ' + totalParts[part.model][part.part];
             accountContainer.appendChild(clone);
             partCount++;
         }
@@ -67,16 +85,30 @@ function buildPartCountsTable(){
 
 function buildAfterglowTable(){
     let afterglowCount = 0;
-    // All Afterglows
     dataModel.walletAfterglows.forEach((afterglow)=>{
         if(afterglow.count > 0){
-        // Build Table
-        const clone = templateAfterglow.content.cloneNode(true);
-        clone.querySelector(".image").innerHTML = afterglowImage(afterglow.name);
-        clone.querySelector(".name").textContent = afterglow.name;
-        clone.querySelector(".count").textContent = afterglow.count;
-        afterglowContainer.appendChild(clone);
-        afterglowCount++;
+            // Build Table
+            const clone = templateAfterglow.content.cloneNode(true);
+            clone.querySelector(".image").innerHTML = afterglowImageUrl(afterglow.name);
+            clone.querySelector(".name").textContent = afterglow.name;
+            clone.querySelector(".count").textContent = afterglow.count + ' of ' + afterglow.total;
+            afterglowContainer.appendChild(clone);
+            afterglowCount++;
+        }
+    });
+    // All Afterglows
+    dataModel.walletAfterglows.sort((a, b) => {
+        return a.count - b.count;
+    })
+    dataModel.walletAfterglows.forEach((afterglow)=>{
+        if(afterglow.count == 0){
+            // Build Table
+            const clone = templateAfterglow.content.cloneNode(true);
+            clone.querySelector(".image").innerHTML = afterglowImageUrl(afterglow.name);
+            clone.querySelector(".name").textContent = afterglow.name;
+            clone.querySelector(".count").textContent = afterglow.count + ' of ' + afterglow.total;
+            afterglowContainer.appendChild(clone);
+            afterglowCount++;
         }
     });
 
@@ -101,7 +133,7 @@ function buildFullMechTable(fullMechs){
         const clone = templateFull.content.cloneNode(true);
         clone.querySelector(".image").innerHTML = partsImage("Engine", model);
         clone.querySelector(".model").textContent = model;
-        clone.querySelector(".count").textContent = countOfMechs;
+        clone.querySelector(".count").textContent = countOfMechs + ' of ' + totalFullMechs[model];
 
         clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
             <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
@@ -135,7 +167,7 @@ function buildMixedModelMechsSummaryTable(mixedMechs){
         const clone = templateMixed.content.cloneNode(true);
         clone.querySelector(".image").innerHTML = partsImage("Engine", model);
         clone.querySelector(".model").textContent = model;
-        clone.querySelector(".count").textContent = modelCounts[model];
+        clone.querySelector(".count").textContent = modelCounts[model] + ' of ' + totalMixedMechs[model];
         mixedContainer.appendChild(clone);
     })
     if(totalMixed == 0){
