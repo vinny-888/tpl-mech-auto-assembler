@@ -294,7 +294,6 @@ function getOffsetTop( elem )
 }
 
 function bigImg(e, elm, index){
-    var top1  = e.clientY  + "px";
     var top  = getOffsetTop(elm)  + "px";
     let url = 'https://metadata.lostparadigms.xyz/images-half/'+index+'.png';
     document.getElementById('full_size_image').setAttribute('src', url);

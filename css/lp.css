@@ -13,9 +13,9 @@ td img {
 }
 
 #viewer{
-    width: calc(100% - 295px);
+    width: calc(100% - 334px);
     top: 215px;
-    left: 275px;
+    left: 315px;
     right: 20px;
     bottom: 20px;
     position: absolute;
