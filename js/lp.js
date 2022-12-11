@@ -52,6 +52,7 @@ function filter(){
 
         document.getElementById('lp-tbody').innerHTML = '';
         document.getElementById('lp_count').innerHTML = data.length;
+        clearInterval(autoScroll);
         buildTable(data, 0, 1);
     }
 }
