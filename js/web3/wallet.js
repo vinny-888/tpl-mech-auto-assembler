@@ -2,9 +2,13 @@ const provider = web3.currentProvider;
 const mechTokenContract = "0xf4bacb2375654ef2459f427c8c6cf34573f75154";
 const afterglowTokenContract = "0xa47fb7c4edd3475ce66f49a66b9bf1edbc61e52d";
 const cyberbrokerTokenContract = "0x892848074ddea461a15f337250da3ce55580ca85";
+const wrapperTokenContract = "0x6158795c09E6C94080f66Eb9a11aD3d908209284";
+const lostParadigmsTokenContract = "0x067154450e59e81ed6bad1bbee459bd7cc2236ea";
+
 let mechContract = null;
 let afterglowContract = null;
 let cyberbrokerContract = null;
+let wrapperContract = null;
 
 function initContracts(){
     console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
@@ -12,6 +16,24 @@ function initContracts(){
     mechContract = new web3.eth.Contract(balanceOfABI, mechTokenContract);
     afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
     cyberbrokerContract = new web3.eth.Contract(tokenBalanceABI, cyberbrokerTokenContract);
+}
+
+function initLPContracts(){
+    console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
+    const web3 = new Web3(provider);
+    wrapperContract = new web3.eth.Contract(tokenWrapperABI, wrapperTokenContract);
+}
+
+async function getLostParadigmsTokenBalance(address) {
+    try{
+        let result = await wrapperContract.methods.getTokens(lostParadigmsTokenContract, address, 0, 3333).call();
+
+        console.log('getLostParadigmsTokenBalance: ', result);
+        return result;
+    }catch(e){
+        console.log('getLostParadigmsTokenBalance Error:',e)
+        return 0;
+    }
 }
 
 async function getCyberbrokerTokenBalance(address) {

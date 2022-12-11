@@ -5,7 +5,7 @@ let totalMixedMechsNoAfterglow = {};
 let totalParts = {};
 
 function init() {
-  initContracts()
+  initContracts();
   initTooltip();
 }
 
@@ -116,6 +116,7 @@ async function fetchAccountData() {
     window.history.pushState("", "", window.location.href + '?wallet=' + address);
   }
   document.getElementById('builder_url').href = 'builder.html?wallet='+address;
+  document.getElementById('lp_url').href = 'lp.html?wallet='+address;
   // reset model, data and tables
   reset();
 

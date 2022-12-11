@@ -17,6 +17,8 @@ img{
 .dropdown {
     background-color: #1f3331;
     margin-top: 10px;
+    height: 26px;
+    border-radius: 4px;
 }
 
 .selected{

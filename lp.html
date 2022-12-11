@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <title>Lost Paradigms</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/main.css?v=0.1">
+    <link rel="stylesheet" href="./css/lp.css?v=0.1">
+  </head>
+  <body>
+    <div class="header">
+      <h3>CYBERBROKERS</h3>
+      <div class="subtitle">
+        <span>Mech Viewer</span>
+      </div>
+      <div class="navLinks">
+        <span><a id="home_url" href="index.html">Home</a></span>&nbsp;|
+        <span><a id="builder_url" href="builder.html">Builder</a></span>&nbsp;|
+        <span><a href="owners.html">Stats</a></span>&nbsp;|
+        <span><a href="mechs.html">3D Viewer</a></span>&nbsp;|
+        <span><a href="ar.html">AR Viewer</a></span>&nbsp;|
+        <span class="activeLink">Lost Paradigms</span>
+      </div>
+    </div>
+    <div id="viewer" style="display: none;">
+      <img id="full_size_image" src="" class="fullsize">
+    </div>
+    <div id="tableDiv" class="container" style="margin-left: 4px;">
+      <div class="col-md-12">
+        <div id="prepare">
+          <input id="address" type="text" value="" spellcheck="false">
+          <button class="btn btn-primary" id="btn-query">
+            Load Wallet
+          </button>
+          <button class="btn btn-primary" id="btn-all">
+            Load All
+          </button>
+          <select class="dropdown" name="sort" id="sort" >
+            <option value="matching">Matching Traits</option>
+            <option value="rarity">Base Rarity</option>
+            <option value="extended_rarity">Extended Rarity</option>
+            <option value="destination">Destination</option>
+            <option value="planet">Planet</option>
+            <option value="road">Road</option>
+            <option value="sky">Sky</option>
+          </select>
+          <span id="progress"></span>
+        </div>
+        <div id="all_lps" class="borderDiv" style="margin-top: 8px;overflow: scroll;">
+          <h4> Lost Paradigms <span id="lp_count">3333</span> 
+            <button class="tooltipBtn" tip="Table showing Lost Paradigms sorted by selected method.">?</button>
+            <div id="lp-tbodyToggle" class="toggle" onclick="toggleTable('lp-tbody')">
+              &#8212;
+            </div>
+          </h4>
+
+          <table id="lp_table" class="table table-listing" style="width: 100%;">
+            <thead>
+              <th style="width:240px;">Token</th>
+              <th>Destination</th>
+              <th>East</th>
+              <th>West</th>
+              <th>Planet</th>
+              <th>Road</th>
+              <th>Sky</th>
+              <th>Misc</th>
+            </thead>
+
+            <tbody id="lp-tbody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <template id="template-lp">
+      <tr class="clickable">
+        <td class="token"></td>
+        <td class="destination"></td>
+        <td class="east"></td>
+        <td class="west"></td>
+        <td class="planet"></td>
+        <td class="road"></td>
+        <td class="sky"></td>
+        <td class="misc"></td>
+      </tr>
+    </template>
+    <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/data/lp_data.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/lp.js?v=0.1"></script>
+  </body>
+</html>
