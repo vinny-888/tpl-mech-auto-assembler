@@ -271,12 +271,13 @@ function smallImg(){
 }
 
 function buildTable(data, start, end){
-    data.splice(start, end).forEach((token)=>{
+    data.splice(start, end).forEach((token, i)=>{
         let index = token.name.split(' ')[2];
         const clone = templatelp.content.cloneNode(true);
         clone.querySelector(".token").innerHTML = '<a target="_blank" href="https://opensea.io/assets/ethereum/0x067154450e59e81ed6bad1bbee459bd7cc2236ea/'+index+'"><img onmouseover="bigImg(event, this, \''+index+'\')"  onmouseout="smallImg()" src="https://metadata.lostparadigms.xyz/images-half/'+index+'.png"></a>';
 
         clone.querySelector(".destination").textContent = getAttribute(token, 'Destination');
+        clone.querySelector(".rank").textContent = i+1;
 
         let east = [];
         if(getAttribute(token, 'East Landscape') != 'missing'){

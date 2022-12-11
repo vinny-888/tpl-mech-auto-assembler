@@ -1,4 +1,4 @@
-const provider = null;
+let provider = null;
 if(typeof web3 !== 'undefined'){
     provider = web3.currentProvider;
 }
