@@ -45,14 +45,14 @@
             <option value="road">Road</option>
             <option value="sky">Sky</option>
           </select>
-          <span id="progress"></span>
+          <span id="progress" class="important"></span>
         </div>
         <div id="all_lps" class="borderDiv" style="margin-top: 8px;overflow: scroll;">
           <h4> Lost Paradigms <span id="lp_count">3333</span> 
             <button class="tooltipBtn" tip="Table showing Lost Paradigms sorted by selected method.">?</button>
-            <div id="lp-tbodyToggle" class="toggle" onclick="toggleTable('lp-tbody')">
+            <!-- <div id="lp-tbodyToggle" class="toggle" onclick="toggleTable('lp-tbody')">
               &#8212;
-            </div>
+            </div> -->
           </h4>
 
           <table id="lp_table" class="table table-listing" style="width: 100%;">
@@ -89,6 +89,7 @@
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
     <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=0.1"></script>
     <script type="text/javascript" src="./js/web3/wallet.js?v=0.1"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=0.1"></script>
     <script type="text/javascript" src="./js/ui/tooltip.js?v=0.1"></script>
     <script type="text/javascript" src="./js/data/lp_data.js?v=0.1"></script>
     <script type="text/javascript" src="./js/lp.js?v=0.1"></script>

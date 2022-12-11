@@ -120,3 +120,15 @@ function getNextAfterglow(afterglows){
     }
     return afterglowUsed;
 }
+
+function toggleTable(id){
+    let table = document.getElementById(id);
+    let tableToggle = document.getElementById(id+'Toggle');
+    if(table.style.display == 'none'){
+        table.style.display = 'block';
+        tableToggle.innerHTML = '&#8212';
+    } else {
+        table.style.display = 'none';
+        tableToggle.innerHTML = '&#43';
+    }
+}
