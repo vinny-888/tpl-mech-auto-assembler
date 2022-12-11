@@ -1,4 +1,7 @@
-const provider = web3.currentProvider;
+const provider = null;
+if(typeof web3 !== 'undefined'){
+    provider = web3.currentProvider;
+}
 const mechTokenContract = "0xf4bacb2375654ef2459f427c8c6cf34573f75154";
 const afterglowTokenContract = "0xa47fb7c4edd3475ce66f49a66b9bf1edbc61e52d";
 const cyberbrokerTokenContract = "0x892848074ddea461a15f337250da3ce55580ca85";
@@ -11,17 +14,21 @@ let cyberbrokerContract = null;
 let wrapperContract = null;
 
 function initContracts(){
-    console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
-    const web3 = new Web3(provider);
-    mechContract = new web3.eth.Contract(balanceOfABI, mechTokenContract);
-    afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
-    cyberbrokerContract = new web3.eth.Contract(tokenBalanceABI, cyberbrokerTokenContract);
+    if(typeof web3 !== 'undefined'){
+        console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
+        const web3 = new Web3(provider);
+        mechContract = new web3.eth.Contract(balanceOfABI, mechTokenContract);
+        afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
+        cyberbrokerContract = new web3.eth.Contract(tokenBalanceABI, cyberbrokerTokenContract);
+    }
 }
 
 function initLPContracts(){
-    console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
-    const web3 = new Web3(provider);
-    wrapperContract = new web3.eth.Contract(tokenWrapperABI, wrapperTokenContract);
+    if(typeof web3 !== 'undefined'){
+        console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
+        const web3 = new Web3(provider);
+        wrapperContract = new web3.eth.Contract(tokenWrapperABI, wrapperTokenContract);
+    }
 }
 
 async function getLostParadigmsTokenBalance(address) {
