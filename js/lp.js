@@ -31,11 +31,16 @@ window.addEventListener('load', async () => {
 });
 
 function refresh(){
-    if(wallet){
-        document.querySelector("#address").value = wallet;
-        refreshAccountData();
+    let tokenID = document.getElementById('filter').value;
+    if(tokenID == ''){
+        if(wallet){
+            document.querySelector("#address").value = wallet;
+            refreshAccountData();
+        } else {
+            loadAll();
+        }
     } else {
-        loadAll();
+        filter();
     }
 }
 
@@ -58,8 +63,8 @@ function filter(){
 }
 
 function loadAll(){
+    document.getElementById('filter').value = '';
     wallet = null;
-    document.getElementById('btn-all').disabled = true;
     let el = document.getElementById('tableDiv');
     clearInterval(autoScroll);
     autoScroll = setInterval(()=>{
@@ -205,7 +210,6 @@ async function refreshAccountData() {
     clearInterval(autoScroll);
     document.getElementById('lp-tbody').innerHTML = '';
     document.getElementById('lp_count').innerHTML = data.length;
-    document.getElementById('btn-all').disabled = false;
     buildTable(data, 0, data.length);
 }
 
