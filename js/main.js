@@ -110,11 +110,7 @@ async function fetchAccountData() {
     alert('You must enter a wallet address first!');
     return;
   }
-  var url = new URL(window.location);
-  var wallet = url.searchParams.get("wallet");
-  if(!wallet){
-    window.history.pushState("", "", window.location.href + '?wallet=' + address);
-  }
+  window.history.pushState("", "", window.location.href.split('?')[0] + '?wallet=' + address);
   document.getElementById('builder_url').href = 'builder.html?wallet='+address;
   document.getElementById('lp_url').href = 'lp.html?wallet='+address;
   // reset model, data and tables

@@ -36,7 +36,6 @@ window.addEventListener('load', async () => {
 
 function loadAll(){
     wallet = null;
-    document.getElementById('btn-query').disabled = false;
     document.getElementById('btn-all').disabled = true;
     let el = document.getElementById('tableDiv');
     clearInterval(autoScroll);
@@ -159,12 +158,7 @@ async function refreshAccountData() {
       alert('You must enter a wallet address first!');
       return;
     }
-
-    var url = new URL(window.location);
-    let urlWallet = url.searchParams.get("wallet");
-    if(!urlWallet){
-      window.history.pushState("", "", window.location.href + '?wallet=' + address);
-    }
+    window.history.pushState("", "", window.location.href.split('?')[0] + '?wallet=' + address);
     document.getElementById('builder_url').href = 'builder.html?wallet='+address;
     document.getElementById('home_url').href = 'index.html?wallet='+address;
 
@@ -184,7 +178,6 @@ async function refreshAccountData() {
     clearInterval(autoScroll);
     document.getElementById('lp-tbody').innerHTML = '';
     document.getElementById('lp_count').innerHTML = data.length;
-    document.getElementById('btn-query').disabled = true;
     document.getElementById('btn-all').disabled = false;
     buildTable(data, 0, data.length);
 }
