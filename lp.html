@@ -50,6 +50,11 @@
         <div id="all_lps" class="borderDiv" style="margin-top: 8px;overflow: scroll;">
           <h4> Lost Paradigms <span id="lp_count">3333</span> 
             <button class="tooltipBtn" tip="Table showing Lost Paradigms sorted by selected method.">?</button>
+
+            <input style="margin-left: 8px;width: 60px;" id="filter" type="text" value="" spellcheck="false">
+            <button class="btn btn-primary" id="btn-filter">
+              Find Token
+            </button>
             <!-- <div id="lp-tbodyToggle" class="toggle" onclick="toggleTable('lp-tbody')">
               &#8212;
             </div> -->
@@ -57,8 +62,8 @@
 
           <table id="lp_table" class="table table-listing" style="width: 100%;">
             <thead>
-              <th style="width:240px;">Token</th>
               <th>Rank</th>
+              <th style="width:240px;">Token</th>
               <th>Destination</th>
               <th>East</th>
               <th>West</th>
@@ -77,8 +82,8 @@
 
     <template id="template-lp">
       <tr class="clickable">
-        <td class="token"></td>
         <td class="rank"></td>
+        <td class="token"></td>
         <td class="destination"></td>
         <td class="east"></td>
         <td class="west"></td>

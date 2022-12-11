@@ -21,18 +21,40 @@ window.addEventListener('load', async () => {
     wallet = url.searchParams.get("wallet");
     document.querySelector("#btn-query").addEventListener("click", refreshAccountData);
     document.querySelector("#btn-all").addEventListener("click", loadAll);
+    document.querySelector("#btn-filter").addEventListener("click", filter);
 
     // uniqueAttributes = getUniqueAttributes();
     templatelp = document.querySelector("#template-lp");
     lpContainer = document.querySelector("#lp-tbody");
 
+    refresh();
+});
+
+function refresh(){
     if(wallet){
         document.querySelector("#address").value = wallet;
         refreshAccountData();
     } else {
         loadAll();
     }
-});
+}
+
+function filter(){
+    let tokenID = document.getElementById('filter').value;
+    if(tokenID == ''){
+        refresh();
+    } else {
+        let data = [lp_data.find((token)=>token.name.split(' ')[2] == tokenID)];
+        let allData = sortData(lp_data);
+        data.forEach((token)=>{
+            token.rank = allData.indexOf(token);
+        });
+
+        document.getElementById('lp-tbody').innerHTML = '';
+        document.getElementById('lp_count').innerHTML = data.length;
+        buildTable(data, 0, 1);
+    }
+}
 
 function loadAll(){
     wallet = null;
@@ -175,11 +197,20 @@ async function refreshAccountData() {
         }
     });
     let data = sortData(myLPs);
+    let allData = sortData(lp_data);
+    data.forEach((token)=>{
+        token.rank = allData.indexOf(token);
+    });
     clearInterval(autoScroll);
     document.getElementById('lp-tbody').innerHTML = '';
     document.getElementById('lp_count').innerHTML = data.length;
     document.getElementById('btn-all').disabled = false;
     buildTable(data, 0, data.length);
+}
+
+function getIndex(data, token){
+    let index = token.name.split(' ')[2];
+    allData.find((t)=>t.name == token.name);
 }
 
 function loadMore(data){
@@ -277,7 +308,11 @@ function buildTable(data, start, end){
         clone.querySelector(".token").innerHTML = '<a target="_blank" href="https://opensea.io/assets/ethereum/0x067154450e59e81ed6bad1bbee459bd7cc2236ea/'+index+'"><img onmouseover="bigImg(event, this, \''+index+'\')"  onmouseout="smallImg()" src="https://metadata.lostparadigms.xyz/images-half/'+index+'.png"></a>';
 
         clone.querySelector(".destination").textContent = getAttribute(token, 'Destination');
-        clone.querySelector(".rank").textContent = i+1;
+        if(token.rank){
+            clone.querySelector(".rank").textContent = token.rank+1;
+        } else {
+            clone.querySelector(".rank").textContent = i+1;
+        }
 
         let east = [];
         if(getAttribute(token, 'East Landscape') != 'missing'){
@@ -371,12 +406,7 @@ function addEventlisteners(){
     document.querySelector("#sort").addEventListener('change', (event)=>{
         sort_type = document.querySelector("#sort").value;
         console.log('sort changed', sort_type);
-        if(wallet){
-            document.querySelector("#address").value = wallet;
-            refreshAccountData();
-        } else {
-            loadAll();
-        }
+        refresh();
     })
 }
 
