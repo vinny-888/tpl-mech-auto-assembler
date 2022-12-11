@@ -66,16 +66,22 @@ function loadAll(){
     document.getElementById('filter').value = '';
     wallet = null;
     let el = document.getElementById('tableDiv');
+
+    let allData = sortData(lp_data);
+    allData.forEach((token)=>{
+        token.rank = allData.indexOf(token);
+    });
+
     clearInterval(autoScroll);
     autoScroll = setInterval(()=>{
         if(el.scrollHeight - (window.innerHeight + document.body.scrollTop) < 500){
-            loadMore(data);
+            loadMore(allData);
         }
     }, 300)
-    let data = sortData(lp_data);
+
     document.getElementById('lp-tbody').innerHTML = '';
-    document.getElementById('lp_count').innerHTML = data.length;
-    buildTable(data, start, end);
+    document.getElementById('lp_count').innerHTML = allData.length;
+    buildTable(allData, start, end);
 }
 
 function sortData(data){
