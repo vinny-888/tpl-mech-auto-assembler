@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=0.6">
-    <link rel="stylesheet" href="./css/lp.css?v=0.6">
+    <link rel="stylesheet" href="./css/vanillaSelectBox.css">
+    <link rel="stylesheet" href="./css/main.css?v=0.7">
+    <link rel="stylesheet" href="./css/lp.css?v=0.7">
   </head>
   <body>
     <div class="header">
@@ -65,13 +66,48 @@
             <thead>
               <th style="width:40px;">Rank</th>
               <th style="width:240px;">Token</th>
-              <th>Destination</th>
-              <th>East</th>
-              <th>West</th>
-              <th>Planet</th>
-              <th>Road</th>
-              <th>Sky</th>
-              <th>Misc</th>
+              <th>
+                <div class="multiselect" style="display: none;">
+                  <select id="Destination" multiple="" size="3" style="display: inline-block;">
+                  </select>
+                </div>
+              </th>
+              <th>
+                <div class="multiselect" style="display: none;">
+                  <select id="East" multiple="" size="3" style="display: inline-block;">
+                  </select>
+                </div>
+              </th>
+              <th>
+                <div class="multiselect" style="display: none;">
+                  <select id="West" multiple="" size="3" style="display: inline-block;">
+                  </select>
+                </div>
+              </th>
+              <th>
+                <div class="multiselect" style="display: none;">
+                  <select id="Planet" multiple="" size="3" style="display: inline-block;">
+                  </select>
+                </div>
+              </th>
+              <th>
+                <div class="multiselect" style="display: none;">
+                  <select id="Road" multiple="" size="3" style="display: inline-block;">
+                  </select>
+                </div>
+              </th>
+              <th>
+                <div class="multiselect" style="display: none;">
+                  <select id="Sky" multiple="" size="3" style="display: inline-block;">
+                  </select>
+                </div>
+              </th>
+              <th>
+                <div class="multiselect" style="display: none;">
+                  <select id="Other" multiple="" size="3" style="display: inline-block;">
+                  </select>
+                </div>
+              </th>
             </thead>
 
             <tbody id="lp-tbody">
@@ -95,11 +131,13 @@
       </tr>
     </template>
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=0.6"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=0.6"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=0.6"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=0.6"></script>
-    <script type="text/javascript" src="./js/data/lp_data.js?v=0.6"></script>
-    <script type="text/javascript" src="./js/lp.js?v=0.6"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/data/lp_data.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/ui/vanillaSelectBox.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/ui/multiselect.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/lp.js?v=0.7"></script>
   </body>
 </html>

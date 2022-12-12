@@ -1,5 +1,7 @@
 let lostParadigmData = [];
 let uniqueAttributes = null;
+let uniqueValues = {};
+let selectBoxes = {};
 let templateAfterglow = null;
 let afterglowContainer = null;
 let start = 0;
@@ -10,27 +12,131 @@ let autoScroll = null;
 let sort_type = 'matching';
 let rarityStats = {};
 let wallet = null;
+let filters = {};
 
 window.addEventListener('load', async () => {
     initLPContracts();
     initTooltip();
+    // initMultiselects();
+
     addEventlisteners();
+
     getRarityCounts();
     getMissingRarityCounts();
+
     var url = new URL(window.location);
     wallet = url.searchParams.get("wallet");
     document.querySelector("#btn-query").addEventListener("click", refreshAccountData);
     document.querySelector("#btn-all").addEventListener("click", loadAll);
     document.querySelector("#btn-filter").addEventListener("click", filter);
 
-    // uniqueAttributes = getUniqueAttributes();
+    uniqueAttributes = getUniqueAttributes();
+    console.log('uniqueAttributes',uniqueAttributes);
+    uniqueValues = getUniqueValues();
+    console.log('uniqueValues',uniqueValues);
+
+    makeMultiselect(uniqueValues['Destination'], 'Destination');
+    document.querySelector("#Destination").addEventListener("change", destinationChanged);
+    makeMultiselect(uniqueValues['East Landscape'], 'East');
+    document.querySelector("#East").addEventListener("change", eastChanged);
+    makeMultiselect(uniqueValues['West Landscape'], 'West');
+    document.querySelector("#West").addEventListener("change", westChanged);
+    makeMultiselect(uniqueValues['Planet'], 'Planet');
+    document.querySelector("#Planet").addEventListener("change", planetChanged);
+    makeMultiselect(uniqueValues['Road'], 'Road');
+    document.querySelector("#Road").addEventListener("change", roadChanged);
+    makeMultiselect(uniqueValues['Sky'], 'Sky');
+    document.querySelector("#Sky").addEventListener("change", skyChanged);
+    makeNestedMultiselect(uniqueValues, 'Other');
+    document.querySelector("#Other").addEventListener("change", otherChanged);
+    Array.from(document.getElementsByClassName("grouped-option")).forEach((elm)=>{
+        elm.classList.add('checked');
+    })
+    
+
+    Array.from(document.getElementsByClassName('multiselect')).forEach((elm)=>{
+        elm.style.display = 'block';
+    })
+
     templatelp = document.querySelector("#template-lp");
     lpContainer = document.querySelector("#lp-tbody");
 
     refresh();
 });
 
+function destinationChanged(){
+    console.log('destinationChanged');
+    let destination = getValues('Destination');
+    console.log(destination);
+    filters['Destination'] = destination;
+    setTimeout(()=>{
+        refresh();
+    }, 0);
+}
+
+function eastChanged(){
+    console.log('eastChanged');
+    let east = getValues('East');
+    console.log(east);
+    filters['East'] = east;
+    setTimeout(()=>{
+        refresh();
+    }, 0);
+}
+
+function westChanged(){
+    console.log('westChanged');
+    let west = getValues('West');
+    console.log(west);
+    filters['West'] = west;
+    setTimeout(()=>{
+        refresh();
+    }, 0);
+}
+
+function planetChanged(){
+    console.log('planetChanged');
+    let planet = getValues('Planet');
+    console.log(planet);
+    filters['Planet'] = planet;
+    setTimeout(()=>{
+        refresh();
+    }, 0);
+}
+
+function roadChanged(){
+    console.log('roadChanged');
+    let road = getValues('Road');
+    console.log(road);
+    filters['Road'] = road;
+    setTimeout(()=>{
+        refresh();
+    }, 0);
+}
+
+function skyChanged(){
+    console.log('skyChanged');
+    let sky = getValues('Sky');
+    console.log(sky);
+    filters['Sky'] = sky;
+    setTimeout(()=>{
+        refresh();
+    }, 0);
+}
+
+function otherChanged(){
+    console.log('otherChanged');
+    let other = getNestedValues('Other');
+    console.log(other);
+    filters['Other'] = other;
+    setTimeout(()=>{
+        refresh();
+    }, 0);
+}
+
 function refresh(){
+    start = 0;
+    end = 20;
     let tokenID = document.getElementById('filter').value;
     if(tokenID == ''){
         if(wallet){
@@ -44,6 +150,16 @@ function refresh(){
     }
 }
 
+function toggleMultiSelect(elm){
+    let el = document.getElementById(elm)
+
+    if(el.style.display == 'none'){
+        document.getElementById(elm).style.display = 'block';
+    } else {
+        document.getElementById(elm).style.display = 'none';
+    }
+}
+
 function filter(){
     let tokenID = document.getElementById('filter').value;
     if(tokenID == ''){
@@ -54,11 +170,12 @@ function filter(){
         data.forEach((token)=>{
             token.rank = allData.indexOf(token);
         });
+        let filteredData = filterData(data);
 
         document.getElementById('lp-tbody').innerHTML = '';
-        document.getElementById('lp_count').innerHTML = data.length;
+        document.getElementById('lp_count').innerHTML = filteredData.length;
         clearInterval(autoScroll);
-        buildTable(data, 0, 1);
+        buildTable(filteredData, 0, 1);
     }
 }
 
@@ -71,17 +188,55 @@ function loadAll(){
     allData.forEach((token)=>{
         token.rank = allData.indexOf(token);
     });
+    let filteredData = filterData(allData);
 
     clearInterval(autoScroll);
     autoScroll = setInterval(()=>{
         if(el.scrollHeight - (window.innerHeight + document.body.scrollTop) < 500){
-            loadMore(allData);
+            loadMore(filteredData);
         }
     }, 300)
 
     document.getElementById('lp-tbody').innerHTML = '';
-    document.getElementById('lp_count').innerHTML = allData.length;
-    buildTable(allData, start, end);
+    document.getElementById('lp_count').innerHTML = filteredData.length;
+    buildTable(filteredData, start, end);
+}
+
+function filterData(data){
+    let filteredData = [];
+    data.forEach((token)=>{
+        if(!hasExcludedAttribute(token, 'Destination', filters['Destination'])
+            && !hasExcludedAttribute(token, 'East Landscape', filters['East']) && !hasExcludedAttribute(token, 'East City Scape', filters['East'])
+            && !hasExcludedAttribute(token, 'West Landscape', filters['West']) && !hasExcludedAttribute(token, 'West City Scape', filters['West'])
+            && !hasExcludedAttribute(token, 'Planet', filters['Planet'])
+            && !hasExcludedAttribute(token, 'Road', filters['Road'])
+            && !hasExcludedAttribute(token, 'Sky', filters['Sky'])
+            
+            && !hasExcludedAttribute(token, 'Aircraft', filters['Other'] ? filters['Other']['Aircraft'] : null)
+            && !hasExcludedAttribute(token, 'Atmosphere', filters['Other'] ? filters['Other']['Atmosphere'] : null)
+            && !hasExcludedAttribute(token, 'Center Stage', filters['Other'] ? filters['Other']['Center Stage'] : null)
+            && !hasExcludedAttribute(token, 'Challenger', filters['Other'] ? filters['Other']['Challenger'] : null)
+            && !hasExcludedAttribute(token, 'Crashed', filters['Other'] ? filters['Other']['Crashed'] : null)
+            && !hasExcludedAttribute(token, 'East Landmark', filters['Other'] ? filters['Other']['East Landmark'] : null)
+            && !hasExcludedAttribute(token, 'East Venue', filters['Other'] ? filters['Other']['East Venue'] : null)
+            && !hasExcludedAttribute(token, 'Encounter', filters['Other'] ? filters['Other']['Encounter'] : null)
+            && !hasExcludedAttribute(token, 'Incumbent', filters['Other'] ? filters['Other']['Incumbent'] : null)
+            && !hasExcludedAttribute(token, 'Interaction', filters['Other'] ? filters['Other']['Interaction'] : null)
+            && !hasExcludedAttribute(token, 'Mech', filters['Other'] ? filters['Other']['Mech'] : null)
+            && !hasExcludedAttribute(token, 'Parked', filters['Other'] ? filters['Other']['Parked'] : null)
+            && !hasExcludedAttribute(token, 'Pet', filters['Other'] ? filters['Other']['Pet'] : null)
+            && !hasExcludedAttribute(token, 'Rival', filters['Other'] ? filters['Other']['Rival'] : null)
+            && !hasExcludedAttribute(token, 'Stray', filters['Other'] ? filters['Other']['Stray'] : null)
+            && !hasExcludedAttribute(token, 'Traveler', filters['Other'] ? filters['Other']['Traveler'] : null)
+            && !hasExcludedAttribute(token, 'West Landmark', filters['Other'] ? filters['Other']['West Landmark'] : null)
+            && !hasExcludedAttribute(token, 'West Venue', filters['Other'] ? filters['Other']['West Venue'] : null)){
+            filteredData.push(token);
+        }
+        // if(!hasExcludedAttribute(token, 'Other', filters['Other'])){
+        //     filteredData.push(token);
+        // }
+    })
+    return filteredData;
 }
 
 function sortData(data){
@@ -213,10 +368,11 @@ async function refreshAccountData() {
     data.forEach((token)=>{
         token.rank = allData.indexOf(token);
     });
+    let filteredData = filterData(data);
     clearInterval(autoScroll);
     document.getElementById('lp-tbody').innerHTML = '';
-    document.getElementById('lp_count').innerHTML = data.length;
-    buildTable(data, 0, data.length);
+    document.getElementById('lp_count').innerHTML = filteredData.length;
+    buildTable(filteredData, 0, data.length);
 }
 
 function getIndex(data, token){
@@ -276,6 +432,33 @@ function getUniqueAttributes(){
     return uniqueAtt;
 }
 
+function getUniqueValues(){
+    let uniqueValues = {};
+    lp_data.forEach((token)=>{
+        token.attributes.forEach((att)=>{
+            if(!uniqueValues[att.trait_type]){
+                uniqueValues[att.trait_type] = [];
+            }
+            if(uniqueValues[att.trait_type].indexOf(att.value) == -1){
+                uniqueValues[att.trait_type].push(att.value);
+            }
+        })
+    });
+    return uniqueValues;
+}
+
+function getUniqueAttributes(){
+    let uniqueAtt = [];
+    lp_data.forEach((token)=>{
+        token.attributes.forEach((att)=>{
+            if(uniqueAtt.indexOf(att.trait_type) == -1){
+                uniqueAtt.push(att.trait_type);
+            }
+        })
+    });
+    return uniqueAtt;
+}
+
 function getAttribute(token, name){
     let value = null;
     for(let i=0; i<token.attributes.length; i++){
@@ -285,6 +468,34 @@ function getAttribute(token, name){
         }
     }
     return value ? value : 'missing';
+}
+
+function hasExcludedAttribute(token, name, attributes){
+    if(!attributes){
+        return false;
+    }
+    let hasExcludedAtt = false;
+    for(let i=0; i<token.attributes.length; i++){
+        if(token.attributes[i].trait_type == name){
+            hasExcludedAtt = attributes.indexOf(token.attributes[i].value) == -1;
+            break;
+        }
+    }
+    return hasExcludedAtt;
+}
+
+function hasAttribute(token, name, attributes){
+    if(!attributes){
+        return false;
+    }
+    let hasAtt = false;
+    for(let i=0; i<token.attributes.length; i++){
+        if(token.attributes[i].trait_type == name){
+            hasAtt = attributes.indexOf(token.attributes[i].value) != -1;
+            break;
+        }
+    }
+    return hasAtt;
 }
 
 function getOffsetTop( elem )
@@ -406,6 +617,9 @@ function buildTable(data, start, end){
         if(getAttribute(token, 'Crashed') != 'missing'){
             misc.push('<span class="att_label">Crashed:</span> '+getAttribute(token, 'Crashed'));
         }
+        if(getAttribute(token, 'Atmosphere') != 'missing'){
+            misc.push('<span class="att_label">Atmosphere:</span> '+getAttribute(token, 'Atmosphere'));
+        }
         clone.querySelector(".misc").innerHTML = misc.join('<br>');
 
         lpContainer.appendChild(clone);
@@ -456,4 +670,92 @@ function getMissingRarityCounts(){
             }
         });
     })
+}
+
+function initMultiselects(){
+    let columns = ['Destination', 'East', 'West', 'Planet', 'Road', 'Sky', 'Misc'];
+    let selectBoxDestination = new vanillaSelectBox("#Destination", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "Destination", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "Destination"}
+    });
+
+    let selectBoxEast = new vanillaSelectBox("#East", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "East", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "East"}
+    });
+
+    let selectBoxWest = new vanillaSelectBox("#West", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "West", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "West"}
+    });
+
+    let selectBoxPlanet = new vanillaSelectBox("#Planet", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "Planet", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "Planet"}
+    });
+
+    let selectBoxRoad = new vanillaSelectBox("#Road", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "items", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "Road"}
+    });
+
+    let selectBoxSky = new vanillaSelectBox("#Sky", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "Sky", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "Sky"}
+    });
+
+    let selectBoxOther = new vanillaSelectBox("#Other", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "Other", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "Other"}
+    });
+
+    Array.from(document.getElementsByClassName('multiselect')).forEach((elm)=>{
+        elm.style.display = 'block';
+    })
+}
+
+function makeMultiselect(data, elm){
+    let select = document.getElementById(elm);
+    for (var i = 0;i < data.length;i++) {
+        if(data[i] != ''){
+            var option = document.createElement("option");
+            option.value = data[i];
+            option.text = data[i];
+            option.setAttribute('selected', 'true')
+            select.appendChild(option);
+        }
+    }
+
+    selectBoxes[elm] = new vanillaSelectBox("#"+elm, { "translations": {"all": elm}, "keepInlineStyles":false,"maxHeight": 200,"maxWidth":178,"minWidth":178, "search": true, "placeHolder": elm });
+}
+
+function makeNestedMultiselect(data, elm){
+    let select = document.getElementById(elm);
+    Object.keys(data).forEach((att)=>{
+        if(att != 'Destination' && att != 'East Landscape' && att != 'East City Scape' && att != 'West Landscape' && att != 'West City Scape'
+        && att != 'Planet' && att != 'Road' && att != 'Sky' ){
+            console.log(att);
+            var optionGroup = document.createElement("optgroup");
+            optionGroup.label = att;
+            for (var i = 0;i < data[att].length;i++) {
+                if(data[att][i] != ''){
+                    var option = document.createElement("option");
+                    option.value = data[att][i];
+                    option.text = data[att][i];
+                    option.setAttribute('selected', 'true')
+                    optionGroup.appendChild(option);
+                }
+            }
+            select.appendChild(optionGroup);
+        }
+    })
+
+    selectBoxes[elm] = new vanillaSelectBox("#"+elm, { "translations": {"all": elm}, "keepInlineStyles":false,"maxHeight": 200,"maxWidth":178,"minWidth":178, "search": true, "placeHolder": elm });
 }
