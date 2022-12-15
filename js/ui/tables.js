@@ -45,7 +45,8 @@ function buildCyberbrokerTable(){
     dataModel.cyberBrokers.forEach((broker)=>{
         // Build Table
         const clone = templateCyberbrokerCounts.content.cloneNode(true);
-        clone.querySelector(".image").innerHTML = '<div><img src="https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/'+broker.tokenId+'.svg" /></div><div>'+broker.uri.name+'</div';
+        let brokerURL = 'https://github.com/CarTarL/CyberBrokers-assets/raw/main/nfts/png-card/cb-'+pad(broker.tokenId, 5)+'.png';
+        clone.querySelector(".image").innerHTML = '<div><img src="'+brokerURL+'" /></div><div>'+broker.uri.name+'</div';
         let mech = broker.mech ? broker.mech : 'missing';
         clone.querySelector(".mech").innerHTML = '<div><img src="./images/parts/'+mech+'_Engine.png" /></div><div>'+mech+'</div';
         let afterglowSrc = broker.afterglow ? broker.afterglow+'.avif' : 'missing.png';

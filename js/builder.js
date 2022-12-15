@@ -386,6 +386,11 @@ function addEventlisteners(){
   })
 }
 
+function pad(num, size) {
+  var s = "00000" + num;
+  return s.substring(s.length-size);
+}
+
 function buildMechGrid(model, tokenId){
 
   let head = './images/parts/'+model+'_Head.png';
@@ -393,8 +398,8 @@ function buildMechGrid(model, tokenId){
   let engine = './images/parts/'+model+'_Engine.png';
   let arm = './images/parts/'+model+'_Arm.png';
   let leg = './images/parts/'+model+'_Leg.png';
-  let broker = 'https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/'+tokenId+'.svg'
-  
+  // let broker = 'https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/'+tokenId+'.svg'
+  let broker = 'https://github.com/CarTarL/CyberBrokers-assets/raw/main/nfts/png-card/cb-'+pad(tokenId, 5)+'.png';
 
   let html = `<div class="wrapper">
                 <div></div>
