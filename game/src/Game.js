@@ -21,7 +21,7 @@ class Game{
 
         this.clock = new THREE.Clock();
 
-		this.assetsPath = '../tpl-mech-auto-assembler/game/assets/';
+		this.assetsPath = '../game/assets/';
         
 		this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 1000 );
         this.camera.position.set( xCameraOffset, yCameraOffset,  zCameraOffset );
