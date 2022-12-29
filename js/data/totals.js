@@ -9,7 +9,7 @@ let total_parts = {
     Ravager: {
         Arm: 7164,
         Head: 2752,
-        Leg: 5450,
+        Leg: 2529,
         Body: 2637,
         Engine: 2529
     },
