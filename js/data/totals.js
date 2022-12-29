@@ -11,7 +11,7 @@ let total_parts = {
         Head: 2752,
         Leg: 2529,
         Body: 2637,
-        Engine: 2529
+        Engine: 3001
     },
     Lupis: {
         Arm: 3228,
