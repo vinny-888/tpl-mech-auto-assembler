@@ -215,9 +215,9 @@ function countMechModels(){
 
   RARITY_ORDER.forEach((model)=>{
     buildMechCountsTable(totalFullMechs, totalMixedMechs, totalMixedMechsNoAfterglow, model);
-    buildTotalPartCountsTable(totalParts, model);
+    buildTotalPartCountsTable(model);
   });
-  buildTotalPartCountsTotalTable(totalParts);
+  buildTotalPartCountsTotalTable();
 
   buildMechCountsTable(totalFullMechs, totalMixedMechs, totalMixedMechsNoAfterglow, 'Total');
 }
@@ -275,9 +275,9 @@ function countMechModelsLive(){
 
   RARITY_ORDER.forEach((model)=>{
     buildMechCountsTable(totalFullMechs, totalMixedMechs, mixedMechsNoAfterglow, model);
-    buildTotalPartCountsTable(totalParts, model);
+    buildTotalPartCountsTable(model);
   });
-  buildTotalPartCountsTotalTable(totalParts);
+  buildTotalPartCountsTotalTable();
 
 }
 
@@ -402,19 +402,19 @@ function buildMechCountsTable(fullMechs, mixedMechs, mixedMechsNoAfterglow, mode
   mechCountsContainer.appendChild(clone);
 }
 
-function buildTotalPartCountsTable(modelParts, model){
+function buildTotalPartCountsTable(model){
   const clone = templatePartCounts.content.cloneNode(true);
   clone.querySelector(".model").textContent = model;
   let total = 0;
   PARTS_ORDER.forEach((part)=>{
-      clone.querySelector("."+part).textContent = modelParts[model][part];
-      total += modelParts[model][part];
+      clone.querySelector("."+part).textContent = total_parts[model][part];
+      total += total_parts[model][part];
   });
   clone.querySelector(".total").textContent = total;
   partCountsContainer.appendChild(clone);
 }
 
-function buildTotalPartCountsTotalTable(modelParts){
+function buildTotalPartCountsTotalTable(){
   const clone = templatePartCounts.content.cloneNode(true);
   clone.querySelector(".model").textContent = 'Total';
   let totals = {};
@@ -423,7 +423,7 @@ function buildTotalPartCountsTotalTable(modelParts){
         if(!totals[part]){
           totals[part] = 0;
         }
-        totals[part] += modelParts[model][part];
+        totals[part] += total_parts[model][part];
     });
   });
 
