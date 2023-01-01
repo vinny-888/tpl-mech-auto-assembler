@@ -60,6 +60,30 @@ function download(){
 }
 
 function loadTop100(){
+  let count1 = 0;
+  let count2 = 0;
+  // "partsCount":{"Engine":0,"Head":2897,"Body":3357,"Leg":3611,"Arm":3357}
+  orderedCachedWalletData.forEach((wallet)=>{
+    if(wallet.partsCount['Engine'] > 0 &&
+      wallet.partsCount['Head'] > 0 &&
+      wallet.partsCount['Body'] > 0 &&
+      wallet.partsCount['Leg'] > 0 &&
+      wallet.partsCount['Arm'] > 0 &&
+      wallet.totalAfterglows == 0){
+        count1+=wallet.partsCount['Engine'];
+    }
+    if((wallet.partsCount['Engine'] > 0 ||
+    wallet.partsCount['Head'] > 0 ||
+    wallet.partsCount['Body'] > 0 ||
+    wallet.partsCount['Leg'] > 0 ||
+    wallet.partsCount['Arm'] > 0) &&
+    wallet.totalAfterglows == 0){
+      count2+=wallet.partsCount['Engine'];
+    }
+  })
+  console.log('count1', count1);
+  console.log('count2', count2);
+
   displayTables();
   for(let i =0; i<100; i++){
     let data = orderedCachedWalletData[i];
@@ -353,7 +377,7 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/4405';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/4392';
 }
 
 function buildPartCountsTable(row, address, totalParts, totalAfterglows, partsCount, fullMechsCount, mixedMechsCount, mixedMechsNoAfterglowCount, mixedMechsPartialCount, mixedMechsPartialNoModelCount, remainingParts){
