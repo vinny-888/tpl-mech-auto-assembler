@@ -377,7 +377,7 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/4392';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/4371';
 }
 
 function buildPartCountsTable(row, address, totalParts, totalAfterglows, partsCount, fullMechsCount, mixedMechsCount, mixedMechsNoAfterglowCount, mixedMechsPartialCount, mixedMechsPartialNoModelCount, remainingParts){
