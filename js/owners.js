@@ -314,7 +314,22 @@ function updateTable(row, address, cachedData){
         totalMixedMechsPartial += cachedData.mixedMechsPartialCount;
         totalMixedMechsPartialNoModel += cachedData.mixedMechsPartialNoModelCount;
         
-        buildPartCountsTable(row, address, cachedData.totalParts, cachedData.totalAfterglows, cachedData.partsCount, cachedData.fullMechsCount, cachedData.mixedMechsCount, cachedData.mixedMechsNoAfterglowCount, cachedData.mixedMechsPartialCount, cachedData.mixedMechsPartialNoModelCount, cachedData.remainingParts);
+        buildPartCountsTable(row, 
+          address, 
+          cachedData.totalParts, 
+          cachedData.totalAfterglows, 
+          cachedData.partsCount, 
+          cachedData.fullMechsCount, 
+          cachedData.fullEnforcerMechsCount, 
+          cachedData.fullRavagerMechsCount,
+          cachedData.fullBehemothMechsCount,
+          cachedData.fullLupisMechsCount,
+          cachedData.fullNexusMechsCount,
+          cachedData.mixedMechsCount, 
+          cachedData.mixedMechsNoAfterglowCount, 
+          cachedData.mixedMechsPartialCount, 
+          cachedData.mixedMechsPartialNoModelCount, 
+          cachedData.remainingParts);
       } else {
       let modelParts = JSON.parse(JSON.stringify(dataModel.owners[address].modelParts));
       let totalParts = getRemainingParts(address);
@@ -343,6 +358,11 @@ function updateTable(row, address, cachedData){
       // Builds the wallet inventory parts tables
       wallets[address] = totalParts;
       let fullMechsCount = countMechs(fullMechs);
+      let fullEnforcerMechsCount = countMechs(fullMechs, 'Enforcer');
+      let fullRavagerMechsCount = countMechs(fullMechs, 'Ravager');
+      let fullBehemothMechsCount = countMechs(fullMechs, 'Behemoth');
+      let fullLupisMechsCount = countMechs(fullMechs, 'Lupis');
+      let fullNexusMechsCount = countMechs(fullMechs, 'Nexus');
       let mixedMechsCount = countMechs(mixedMechs);
       let mixedMechsNoAfterglowCount = countMechs(mixedMechsNoAfterglow);
       let mixedMechsPartialCount = countMechs(mixedMechsPartial);
@@ -352,7 +372,22 @@ function updateTable(row, address, cachedData){
       totalMixedMechsNoAfterglow += mixedMechsNoAfterglowCount;
       totalMixedMechsPartial += mixedMechsPartialCount;
       totalMixedMechsPartialNoModel += mixedMechsPartialNoModelCount;
-      buildPartCountsTable(row, address, totalParts, totalAfterglows, partsCount, fullMechsCount, mixedMechsCount, mixedMechsNoAfterglowCount, mixedMechsPartialCount, mixedMechsPartialNoModelCount, remainingParts);
+      buildPartCountsTable(row, 
+        address, 
+        totalParts, 
+        totalAfterglows, 
+        partsCount, 
+        fullMechsCount, 
+        fullEnforcerMechsCount, 
+        fullRavagerMechsCount,
+        fullBehemothMechsCount,
+        fullLupisMechsCount,
+        fullNexusMechsCount,
+        mixedMechsCount, 
+        mixedMechsNoAfterglowCount, 
+        mixedMechsPartialCount, 
+        mixedMechsPartialNoModelCount, 
+        remainingParts);
 
       if(localStorage.getItem(address) == null){
         allData[address] = {
@@ -360,6 +395,11 @@ function updateTable(row, address, cachedData){
           partsCount,
           totalAfterglows,
           fullMechsCount,
+          fullEnforcerMechsCount,
+          fullRavagerMechsCount,
+          fullBehemothMechsCount,
+          fullLupisMechsCount,
+          fullNexusMechsCount,
           mixedMechsCount,
           mixedMechsNoAfterglowCount,
           mixedMechsPartialCount,
@@ -377,10 +417,25 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/4371';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/4356';
 }
 
-function buildPartCountsTable(row, address, totalParts, totalAfterglows, partsCount, fullMechsCount, mixedMechsCount, mixedMechsNoAfterglowCount, mixedMechsPartialCount, mixedMechsPartialNoModelCount, remainingParts){
+function buildPartCountsTable(row, 
+  address, 
+  totalParts, 
+  totalAfterglows, 
+  partsCount, 
+  fullMechsCount, 
+  fullEnforcerMechsCount, 
+  fullRavagerMechsCount,
+  fullBehemothMechsCount,
+  fullLupisMechsCount,
+  fullNexusMechsCount,
+  mixedMechsCount, 
+  mixedMechsNoAfterglowCount, 
+  mixedMechsPartialCount, 
+  mixedMechsPartialNoModelCount, 
+  remainingParts){
   const clone = templateCounts.content.cloneNode(true);
   clone.querySelector(".row").textContent = row;
   clone.querySelector(".wallet").innerHTML = '<a href="index.html?wallet=' + address + '">' + address + '</a>';
@@ -393,6 +448,13 @@ function buildPartCountsTable(row, address, totalParts, totalAfterglows, partsCo
 
   clone.querySelector(".afterglows").textContent = totalAfterglows;
   clone.querySelector(".full").textContent = fullMechsCount;
+
+  clone.querySelector(".fullE").textContent = fullEnforcerMechsCount;
+  clone.querySelector(".fullR").textContent = fullRavagerMechsCount;
+  clone.querySelector(".fullB").textContent = fullBehemothMechsCount;
+  clone.querySelector(".fullL").textContent = fullLupisMechsCount;
+  clone.querySelector(".fullN").textContent = fullNexusMechsCount;
+
   clone.querySelector(".mixed").textContent = mixedMechsCount;
   clone.querySelector(".mixed_no_afterglow").textContent = mixedMechsNoAfterglowCount;
   clone.querySelector(".engine_two").textContent = mixedMechsPartialCount;
@@ -494,10 +556,12 @@ function buildTotalUnclaimedPartCountsTotalTable(modelParts){
   unclaimedPartCountsContainer.appendChild(clone);
 }
 
-function countMechs(mechs){
+function countMechs(mechs, type){
   let count = 0;
   Object.keys(mechs).forEach((model)=>{
-    count += mechs[model].length;
+    if(!type || model == type){
+      count += mechs[model].length;
+    }
   });
   return count;
 }
