@@ -75,21 +75,22 @@ function buildTablesAndMechs(){
     }
 
     // Build *mixed* mechs **with** afterglow
-    let mixedMechs = buildMixedMechs(true, false, false);
-    buildMixedMechsTable(mixedMechs);
-    buildMixedModelMechsSummaryTable(mixedMechs);
+    // let mixedMechs = buildMixedMechs(true, false, false);
+    // buildMixedMechsTable(mixedMechs);
+    // buildMixedModelMechsSummaryTable(mixedMechs);
 
-    // Build *mixed* mechs **without** afterglows
-    let mixedMechsNoAfterglow = buildMixedMechs(false, false, false);
-    buildMixedMechNoAfterglowTable(mixedMechsNoAfterglow);
-
-    // Build *partial* mechs and show missing parts
-    let mixedMechsPartial = buildMixedMechs(false, true, false);
-    buildPartialMechTable(mixedMechsPartial);
+    // // Build *mixed* mechs **without** afterglows
+    // let mixedMechsNoAfterglow = buildMixedMechs(false, false, false);
+    // buildMixedMechNoAfterglowTable(mixedMechsNoAfterglow);
 
     // Build *partial* mechs and show missing parts
-    let mixedMechsPartialNoModel = buildMixedMechs(false, true, true);
-    buildPartialMechNoModelTable(mixedMechsPartialNoModel);
+    // let mixedMechsPartial = buildMixedMechs(false, true, false);
+    let mixedMechsPartial = buildMixedMechsStyles(false, true, false);
+    buildPartialMechStylesTable(mixedMechsPartial);
+
+    // Build *partial* mechs and show missing parts
+    // let mixedMechsPartialNoModel = buildMixedMechs(false, true, true);
+    // buildPartialMechNoModelTable(mixedMechsPartialNoModel);
 
     // Build remaining parts table
     buildRemainingPartsTable();

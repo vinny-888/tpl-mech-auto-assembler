@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=2.8">
-    <link rel="stylesheet" href="./css/revealed.css?v=2.8">
+    <link rel="stylesheet" href="./css/main.css?v=2.9">
+    <link rel="stylesheet" href="./css/revealed.css?v=2.9">
   </head>
   <body>
     <div id="viewer" style="display: none;">
@@ -205,8 +205,8 @@
             </div>
 
 
-              <div class="containerDiv" style="display: none;">
-                <div class="borderDiv" style="min-width: 410px;">
+              <div class="containerDiv">
+                <div class="borderDiv" style="min-width: 410px;display: none;">
                   <h4> Mixed Model Mechs Parts <span id="mixed_count2">0</span> 
                     <button class="tooltipBtn" tip="Model and Parts Details for Mixed Model Mechs. These can be built as they have all required parts and an Afterglow.">?</button>
                     <div id="mechsTableToggle" class="toggle" onclick="toggleTable('mechsTable')">
@@ -229,7 +229,7 @@
                   </table>
                 </div>
 
-                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;display: none;">
                   <h4> Mixed Model Mechs (No Afterglow) <span id="noafterglow_count">0</span> 
                     <button class="tooltipBtn" tip="These cannot be built yet without acquiring an Afterglow.">?</button>
                     <div id="mechsNoAfterglowTableToggle" class="toggle" onclick="toggleTable('mechsNoAfterglowTable')">
@@ -252,7 +252,7 @@
                   </table>
                 </div>
 
-                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                <div class="borderDiv" style="margin-top: 0px;min-width: 410px;">
                   <h4> Partial Mechs (Engine & 2+ Parts) <span id="partial_count">0</span> 
                     <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do have 1 Engine + 2 matching parts so you are almost there.">?</button>
                     <div id="mechsPartialTableToggle" class="toggle" onclick="toggleTable('mechsPartialTable')">
@@ -374,19 +374,19 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilder.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/data/data.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=2.8"></script>
-    <script type="text/javascript" src="./js/revealed.js?v=2.8"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilder.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/data/data.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=2.9"></script>
+    <script type="text/javascript" src="./js/revealed.js?v=2.9"></script>
   </body>
 </html>

@@ -310,3 +310,145 @@ function buildFullModelMechStyles(){
     })
     return fullMechs;
 }
+
+function buildMixedMechsStyles(afterglowRequired, allowPartial, allowNoModel){
+    let mixedMechs = {};
+    RARITY_ORDER.forEach((model)=>{
+        STYLE_ORDER[model].forEach((style)=>{
+            let partCount = dataModel.modelParts[model]['Engine'][style];
+            for(let i=0; i< partCount; i++){
+                let tempRemainingParts = JSON.parse(JSON.stringify(dataModel.modelParts));
+                let partOne = '';
+                let partTwo = '';
+                let remainingParts = Object.keys(tempRemainingParts[model]);
+
+                remainingParts = changePartOrderBasedOnAvailability(model, remainingParts);
+                remainingParts.forEach((part)=>{
+                    if(part != 'Engine' || allowNoModel){
+                        if(partOne == '' && tempRemainingParts[model][part][style] > 0){
+                            partOne = part;
+                            if(part == 'Arm' && tempRemainingParts[model][part][style] > 1){
+                                partTwo = part;
+                            }
+                        } else if(partTwo == ''  && tempRemainingParts[model][part][style] > 0){
+                            partTwo = part;
+                        }
+                    }
+                })
+
+                // Engine + 2 part available
+                if(allowNoModel || (partOne != '' && partTwo != '')){
+                    let mech = [
+                        {
+                            model: model,
+                            part: partOne
+                        },
+                        {
+                            model: model,
+                            part: partTwo
+                        }
+                    ];
+                    
+                    let mixedMech = {};
+                    if(tempRemainingParts[model]['Engine'][style] > 0){
+                        mixedMech['Engine'] = {
+                            model,
+                            style
+                        };
+                        tempRemainingParts[model]['Engine'][style]--;
+                    }
+                    let remainingPartNames = ['Head', 'Body', 'Leg', 'Arm', 'Arm'];
+                    mech.forEach((modelPart)=>{
+                        var index = remainingPartNames.indexOf(modelPart.part);
+                        if (index !== -1) {
+                            remainingPartNames.splice(index, 1);
+                            if(modelPart.part == 'Arm' && !mixedMech['left_arm']){
+                                if(tempRemainingParts[model]['Arm'][style] > 0){
+                                    mixedMech['left_arm'] = {
+                                        model,
+                                        style
+                                    };
+                                    tempRemainingParts[model]['Arm'][style]--;
+                                }
+                            } else if(modelPart.part == 'Arm' && mixedMech['left_arm']){
+                                if(tempRemainingParts[model]['Arm'][style] > 0){
+                                    mixedMech['right_arm'] = {
+                                        model,
+                                        style
+                                    };
+                                    tempRemainingParts[model]['Arm'][style]--;
+                                }
+                            } else if(modelPart.part != 'Arm'){
+                                if(tempRemainingParts[model][modelPart.part][style] > 0){
+                                    mixedMech[modelPart.part] = {
+                                        model,
+                                        style
+                                    };
+                                    tempRemainingParts[model][modelPart.part][style]--;
+                                }
+                            }
+                        }
+                    })
+                    for(let j=0; j < remainingPartNames.length; j++){
+                        let part = remainingPartNames[j];
+                        let orderRarityOrder = changeRarityOrderBasedOnModel(model);
+                        // Remove part from inventory
+                        for(let i=0; i < orderRarityOrder.length; i++){
+                            let model2 = orderRarityOrder[i];
+                            if(tempRemainingParts[model2][part][style] > 0){
+                                // Still need a left arm
+                                if(part == 'Arm' && !mixedMech['left_arm']){
+                                    mixedMech['left_arm'] = {
+                                        model: model2,
+                                        style
+                                    };
+                                    tempRemainingParts[model2][part][style]--;
+                                    break;
+                                }
+                                // already got the left arm
+                                else if(part == 'Arm' && mixedMech['left_arm']){
+                                    mixedMech['right_arm'] = {
+                                        model: model2,
+                                        style
+                                    };
+                                    tempRemainingParts[model2][part][style]--;
+                                    break;
+                                }
+                                // Not an arm
+                                else if(part != 'Arm') {
+                                    mixedMech[part] = {
+                                        model: model2,
+                                        style
+                                    };
+                                    tempRemainingParts[model2][part][style]--;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if(allowNoModel && !hasTwoMatchingParts(mixedMech, mixedMech.Engine.model) && isFullMech(mixedMech)){
+                        tempRemainingParts[model]['Engine'][style]++;
+                        delete mixedMech.Engine;
+                    }
+                    if(!allowNoModel || (allowNoModel && countMechParts(mixedMech) >= 2)){
+                        if( (allowPartial && isPartialMech(mixedMech))
+                            || (!allowPartial && isFullMech(mixedMech))){
+                            if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
+                                if(!mixedMechs[model]){
+                                    mixedMechs[model] = [];
+                                }
+                                mixedMechs[model].push(mixedMech);
+                                dataModel.modelParts = tempRemainingParts;
+
+                                if(afterglowRequired){
+                                    dataModel.remainingAfterglows--;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    })
+    return mixedMechs;
+}
