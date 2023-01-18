@@ -10,7 +10,7 @@ function partsRevealedImage(part, model, style) {
 }
 
 function fullRevealedImage(style) {
-    if(style == 'camm-e'){
+    if(style == 'CAMM-E'){
         return '<img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-') + '.webp" title="'+[style].join(' ')+'" />';
     } else {
         return '<img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp" title="'+[style].join(' ')+'" />';
