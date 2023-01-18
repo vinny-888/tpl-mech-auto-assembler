@@ -295,3 +295,26 @@ function calculateTotals(){
   console.log('totalMixedMechsNoAfterglow', totalMixedMechsNoAfterglow);
   console.log('totalParts', totalParts);
 }
+
+function getOffsetTop( elem )
+{
+    var offsetTop = 0;
+    do {
+      if ( !isNaN( elem.offsetTop ) )
+      {
+        offsetTop += elem.offsetTop;
+      }
+    } while( elem = elem.offsetParent );
+    return offsetTop;
+}
+
+function bigImg(e, elm, url){
+  var top  = getOffsetTop(elm)  + "px";
+  document.getElementById('full_size_image').setAttribute('src', url);
+  document.getElementById('viewer').style.top = top;
+  document.getElementById('viewer').style.display = 'block';
+}
+
+function smallImg(){
+  document.getElementById('viewer').style.display = 'none';
+}

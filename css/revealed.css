@@ -6,3 +6,13 @@
     width: 200px;
     height: 200px;
 }
+
+#viewer{
+    /* width: calc(100% - 334px);
+    top: 215px; */
+    left: 248px;
+    /* right: 20px;
+    bottom: 20px; */
+    position: absolute;
+    z-index: 1;
+}
