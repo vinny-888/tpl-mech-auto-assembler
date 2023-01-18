@@ -151,40 +151,44 @@ async function fetchAccountData() {
       // let model = BODY_PART_MODEL_MAPPING[metadata.model];
       // let part = BODY_PART_MAPPING[metadata.partType];
       let tokenMetadata = revealedMetadata[''+tokenId];
-      let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
-      let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
-      if(part == 'Legs'){
-        part = 'Leg';
+      if(tokenMetadata){
+        let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
+        let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
+        if(part == 'Legs'){
+          part = 'Leg';
+        }
+        let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
+        if(!dataModel.modelParts[model]){
+          dataModel.modelParts[model] = {};
+        }
+        if(!dataModel.modelParts[model][part]){
+          dataModel.modelParts[model][part] = {};
+        }
+        if(!dataModel.modelParts[model][part][style]){
+          dataModel.modelParts[model][part][style] = 0;
+        }
+        dataModel.modelParts[model][part][style]++;
+        count++;
       }
-      let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
-      if(!dataModel.modelParts[model]){
-        dataModel.modelParts[model] = {};
-      }
-      if(!dataModel.modelParts[model][part]){
-        dataModel.modelParts[model][part] = {};
-      }
-      if(!dataModel.modelParts[model][part][style]){
-        dataModel.modelParts[model][part][style] = 0;
-      }
-      dataModel.modelParts[model][part][style]++;
-      count++;
     })
 
     revealedTokenIds.forEach((tokenId)=>{
       let tokenMetadata = revealedMetadata[''+tokenId];
-      let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
-      let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
-      if(part == 'Legs'){
-        part = 'Leg';
+      if(tokenMetadata){
+        let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
+        let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
+        if(part == 'Legs'){
+          part = 'Leg';
+        }
+        let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
+        dataModel.walletParts[tokenId] = {
+          tokenId,
+          model,
+          part,
+          style,
+          count: dataModel.modelParts[model][part][style]
+        };
       }
-      let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
-      dataModel.walletParts[tokenId] = {
-        tokenId,
-        model,
-        part,
-        style,
-        count: dataModel.modelParts[model][part][style]
-      };
     });
   } else {
     dataModel.walletParts = await populateWalletMechParts(address);
