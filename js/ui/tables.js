@@ -486,3 +486,66 @@ function buildPartialMechStylesTable(mixedMechsPartial){
     }
     document.querySelector("#partial_count").innerHTML = '('+count+')';
 }
+
+function buildPartsStylesTable(){
+    let partCount = 0;
+    // All Parts
+
+    RARITY_ORDER.forEach((model)=>{
+        PARTS_ORDER.forEach((part)=>{
+            STYLE_ORDER[model].forEach((style)=>{
+                if(dataModel.modelParts[model][part][style] > 0){
+                    // Build Table
+                    const clone = template.content.cloneNode(true);
+                    if(dataModel.useStyles){
+                        clone.querySelector(".image").innerHTML = partsRevealedImage(part, model, style);
+                    } else {
+                        clone.querySelector(".image").innerHTML = partsImage(part, model);
+                    }
+                    
+                    clone.querySelector(".part").textContent = part;
+                    clone.querySelector(".model").textContent = model;
+                    if(dataModel.useStyles){
+                        clone.querySelector(".style").textContent = style;
+                    }
+                    clone.querySelector(".count").textContent = dataModel.modelParts[model][part][style];// + ' of ' + totalParts[part.model][part.part];
+                    accountContainer.appendChild(clone);
+                    partCount+=dataModel.modelParts[model][part][style];
+                }
+            });
+        });
+    });
+
+
+    dataModel.walletParts.sort((a, b) => {
+        return a.count - b.count;
+    })
+
+    RARITY_ORDER.forEach((model)=>{
+        PARTS_ORDER.forEach((part)=>{
+            STYLE_ORDER[model].forEach((style)=>{
+                if(dataModel.modelParts[model][part][style] == 0){
+                    // Build Table
+                    const clone = template.content.cloneNode(true);
+                    if(dataModel.useStyles){
+                        clone.querySelector(".image").innerHTML = partsRevealedImage(part, model, style);
+                    } else {
+                        clone.querySelector(".image").innerHTML = partsImage(part, model);
+                    }
+                    clone.querySelector(".part").textContent = part;
+                    clone.querySelector(".model").textContent = model;
+                    if(dataModel.useStyles){
+                        clone.querySelector(".style").textContent = style;
+                    }
+                    clone.querySelector(".count").textContent = dataModel.modelParts[model][part][style];// + ' of ' + totalParts[part.model][part.part];
+                    accountContainer.appendChild(clone);
+                }
+            });
+        });
+    });
+
+    if(partCount == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        accountContainer.appendChild(clone);
+    }
+}

@@ -57,7 +57,7 @@ function buildTablesAndMechs(){
     }
     // Builds the wallet inventory parts tables
     buildPartCountsTable();
-    buildPartsTable();
+    buildPartsStylesTable();
     buildAfterglowTable();
 
     // Build *full* mechs of same model table
