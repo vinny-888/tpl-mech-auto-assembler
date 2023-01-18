@@ -224,13 +224,18 @@ function countMechModels(){
       })
     });
 
-    if(data.address == '0xa6B750fbb80FFDB9e77458466562a4c5627877ba'){
-      RARITY_ORDER.forEach((model)=>{
-        buildUnclaimedPartCountsTotalTable(data.modelParts, model);
-      });
-      buildTotalUnclaimedPartCountsTotalTable(data.modelParts);
-    }
+    // if(data.address == '0xa6B750fbb80FFDB9e77458466562a4c5627877ba'){
+    //   RARITY_ORDER.forEach((model)=>{
+    //     buildUnclaimedPartCountsTotalTable(data.modelParts, model);
+    //   });
+    //   buildTotalUnclaimedPartCountsTotalTable(data.modelParts);
+    // }
   });
+
+  RARITY_ORDER.forEach((model)=>{
+    buildUnclaimedPartCountsTotalTable(totalParts, model);
+  });
+  buildTotalUnclaimedPartCountsTotalTable(totalParts);
 
   console.log('totalFullMechs', totalFullMechs);
   console.log('totalMixedMechs', totalMixedMechs);
@@ -417,7 +422,7 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/4356';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/4274';
 }
 
 function buildPartCountsTable(row, 
