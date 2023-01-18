@@ -10,13 +10,25 @@
 #viewer{
     /* width: calc(100% - 334px);
     top: 215px; */
-    left: 248px;
+    left: 188px;
     /* right: 20px;
     bottom: 20px; */
     position: absolute;
     z-index: 1;
 }
 
-.redFilter{
-    filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(300deg);
+.redFilter {
+    position: relative;
+    float: left;
+}
+
+.redFilter:before{
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255,0,0, 0.5);
 }

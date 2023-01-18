@@ -13,7 +13,7 @@ function partsRevealedImageMissing(part, model, style) {
     if(part == 'Leg'){
         part = 'legs';
     }
-    return '<a target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img class="redFilter" height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/parts/' + model.toLowerCase() + '/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '/' + part.toLowerCase() + '.webp" title="'+[part, model].join(' ')+'" /></a>';
+    return '<a  class="redFilter" target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/parts/' + model.toLowerCase() + '/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '/' + part.toLowerCase() + '.webp" title="'+[part, model].join(' ')+'" /></a>';
 }
 
 function fullRevealedImage(style) {
