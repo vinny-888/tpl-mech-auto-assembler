@@ -408,7 +408,7 @@ function buildFullMechStylesTable(fullMechs){
                     countOfMechs = fullModelMechs.length;
                 }
                 const clone = templateFull.content.cloneNode(true);
-                clone.querySelector(".image").innerHTML = partsRevealedImage("Head", model, style);
+                clone.querySelector(".image").innerHTML = fullRevealedImage(style);
                 // clone.querySelector(".image").classList.add(style);
                 clone.querySelector(".model").textContent = model;
                 clone.querySelector(".style").display = 'block';

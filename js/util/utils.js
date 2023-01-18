@@ -9,6 +9,16 @@ function partsRevealedImage(part, model, style) {
     return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/parts/' + model.toLowerCase() + '/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '/' + part.toLowerCase() + '.webp" title="'+[part, model].join(' ')+'" /></a>';
 }
 
+function fullRevealedImage(style) {
+    if(style == 'camm-e'){
+        return '<img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-') + '.webp" title="'+[style].join(' ')+'" />';
+    } else {
+        return '<img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp" title="'+[style].join(' ')+'" />';
+    }
+}
+
+
+
 function partModelImageMissing(part, model) {
     return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="./images/parts/' + model + '_' + part + '_missing.png" title="Missing ' + model + ' Head" /></a>';
 }
