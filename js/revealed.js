@@ -318,3 +318,18 @@ function bigImg(e, elm, url){
 function smallImg(){
   document.getElementById('viewer').style.display = 'none';
 }
+
+/*
+let metadata = {};
+for(let i=12002; i<=12392; i++){
+    let index = i;
+    setTimeout(()=>{
+        fetch('https://m.cyberbrokers.com/eth/part/'+index)
+          .then((response) => response.json())
+          .then((data) => {
+              console.log(index)
+              metadata[data.tokenId] = data;
+        });
+    }, (index-12002) * 200);
+}
+*/
