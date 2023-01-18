@@ -88,6 +88,8 @@ function buildTablesAndMechs(){
     let mixedMechsPartial = buildMixedMechsStyles(false, true, false);
     buildPartialMechStylesTable(mixedMechsPartial);
 
+    buildMixedModelMechsStylesSummaryTable(mixedMechsPartial);
+
     // Build *partial* mechs and show missing parts
     // let mixedMechsPartialNoModel = buildMixedMechs(false, true, true);
     // buildPartialMechNoModelTable(mixedMechsPartialNoModel);
