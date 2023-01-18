@@ -2,6 +2,13 @@ function partsImage(part, model) {
     return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="./images/parts/' + model + '_' + part + '.png" title="'+[part, model].join(' ')+'" /></a>';
 }
 
+function partsRevealedImage(part, model, style) {
+    if(part == 'Leg'){
+        part = 'legs';
+    }
+    return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/parts/' + model.toLowerCase() + '/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '/' + part.toLowerCase() + '.webp" title="'+[part, model].join(' ')+'" /></a>';
+}
+
 function partModelImageMissing(part, model) {
     return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="./images/parts/' + model + '_' + part + '_missing.png" title="Missing ' + model + ' Head" /></a>';
 }
@@ -48,7 +55,7 @@ function getCardArr(count){
 
 function countParts(parts){
     let count = 0;
-    parts.forEach((part)=>count+=part.count);
+    parts.forEach((part)=>count+= part ? part.count : 0);
     return count
 }
 

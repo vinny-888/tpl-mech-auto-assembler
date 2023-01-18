@@ -112,6 +112,7 @@ async function fetchAccountData() {
   }
   window.history.pushState("", "", window.location.href.split('?')[0] + '?wallet=' + address);
   document.getElementById('builder_url').href = 'builder.html?wallet='+address;
+  document.getElementById('revealed_url').href = 'revealed.html?wallet='+address;
   document.getElementById('lp_url').href = 'lp.html?wallet='+address;
   // reset model, data and tables
   reset();

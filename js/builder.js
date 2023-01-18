@@ -73,6 +73,7 @@ async function refreshAccountData() {
   }
   window.history.pushState("", "", window.location.href.split('?')[0] + '?wallet=' + address);
   document.getElementById('home_url').href = 'index.html?wallet='+address;
+  document.getElementById('revealed_url').href = 'revealed.html?wallet='+address;
   document.getElementById('lp_url').href = 'lp.html?wallet='+address;
 
   await fetchAccountData(address);

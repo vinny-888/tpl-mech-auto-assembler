@@ -1,0 +1,389 @@
+<html>
+  <head>
+    <title>CyberBrokers Mech Auto Assembler</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/main.css?v=2.2">
+    <link rel="stylesheet" href="./css/revealed.css?v=2.2">
+  </head>
+  <body>
+    <div class="header">
+      <h3>CYBERBROKERS</h3>
+      <div class="subtitle">
+        <span>Unofficial Mech Auto Assembler</span>
+      </div>
+      <div class="navLinks">
+        <span><a id="home_url" href="index.html">Home</a></span>&nbsp;|
+        <span class="activeLink">Revealed</span>&nbsp;|
+        <span><a id="builder_url" href="builder.html">Builder</a></span>&nbsp;|
+        <span><a href="owners.html">Stats</a></span>&nbsp;|
+        <span><a href="mechs.html">3D Viewer</a></span>&nbsp;|
+        <span><a href="ar.html">AR Viewer</a></span>&nbsp;|
+        <span><a href="game.html">3D Game</a></span>&nbsp;|
+        <span><a id="lp_url" href="lp.html">Lost Paradigms</a></span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="">
+        <div class="col-md-12">
+          <div>
+          <div id="info">
+            <b>Each TPL Mech requires the following:</b><br><br>
+
+            1 Engine + 2 other parts (of the same model) [Read the <a target="_blank" href="https://www.cyberbrokers.com/blog/mechs-101-a-primer">Official Docs</a>]<br><br>
+
+            To Operate a Mech in the <a target="_blank" href="https://opensea.io/collection/cyberbrokers">CyberBroker</a> universe,
+            you will need a CyberBroker, Drifter, or potentially something else.
+
+          </div>
+          <div id="info2">
+            <b>Required Parts:</b><br>
+            <ul>
+              <li>1 <a target="_blank" href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Engine">Engine</a></li>
+              <li>1 <a target="_blank" href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Head">Head</a></li>
+              <li>1 <a target="_blank" href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Body">Body</a></li>
+              <li>1 <a target="_blank" href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Leg">Leg</a></li>
+              <li>2 <a target="_blank" href="https://opensea.io/collection/tpl-mecha-part?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Part&search[stringTraits][0][values][0]=Arm">Arms</a></li>
+              <li>1 <a target="_blank" href="https://opensea.io/collection/tpl-mech-afterglow">Afterglow</a></li>
+            </ul>
+          </div>
+        </div>
+          <p id="instructions">
+            Enter a wallet address to detect TPL Mech Parts. <br>
+            <span class="important">(Requires Metamask, you do not need to connect or sign to use this tool)</span>
+          </p>
+
+          <div id="prepare">
+            <input id="address" type="text" value="" spellcheck="false">
+            <button class="btn btn-primary" id="btn-query">
+              Load Wallet
+            </button>
+            <!-- &nbsp;&nbsp;
+            <input id="use_behemoth" name="use_behemoth" type="checkbox">
+            <label for="use_behemoth"> Build Behemoth before Lupis</label>
+            &nbsp;&nbsp;
+            <input id="use_lowest" name="use_lowest" type="checkbox">
+            <label for="use_lowest"> Use lowest parts first for mixed mechs</label>
+            &nbsp;&nbsp;
+            <input id="use_styles" name="use_styles" type="checkbox">
+            <label for="use_styles"> Simulate Styles</label> -->
+          </div>
+
+          <div id="connected" style="display: none">
+            <div class="containerDiv">
+              <div class="borderDiv" style="display: none;">
+                <h4> Part Counts 
+                  <button class="tooltipBtn" tip="Table showing part counts for each model type.">?</button>
+                  <div id="countsTableToggle" class="toggle" onclick="toggleTable('countsTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="countsTable" class="table table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Engine</th>
+                    <th>Head</th>
+                    <th>Body</th>
+                    <th>Leg</th>
+                    <th>Arms</th>
+                  </thead>
+
+                  <tbody id="counts">
+                  </tbody>
+                </table>
+              </div>
+              <div class="borderDiv" style="margin-top: 0px;">
+                <h4> Mech Parts <span id="part_count">0</span> 
+                  <button class="tooltipBtn" tip="All Parts owned by this wallet.">?</button>
+                  <div id="accountsTableToggle" class="toggle" onclick="toggleTable('accountsTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="accountsTable" class="table table-listing">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Part</th>
+                    <th>Model</th>
+                    <th id="full_style2">Style</th>
+                    <th>Count</th>
+                  </thead>
+
+                  <tbody id="accounts">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="col">
+              <h4> Afterglows <span id="afterglow_count">0</span> 
+                <button class="tooltipBtn" tip="All Afterglows owned by this wallet.">?</button>
+                <div id="afterglowTableToggle" class="toggle" onclick="toggleTable('afterglowTable')">
+                  &#8212;
+                </div>
+              </h4>
+
+              <table id="afterglowTable" class="table table-listing" style="width: 400px;">
+                <thead>
+                  <th style="width:20%">Image</th>
+                  <th>Name</th>
+                  <th>Count</th>
+                </thead>
+
+                <tbody id="afterglow">
+                </tbody>
+              </table>
+            </div>
+
+            <div class="containerDiv">
+              <div class="borderDiv">
+                <h4> Single Style Mechs <span id="full_count">0</span> 
+                  <button class="tooltipBtn" tip="These Mechs have all the same Model Parts and can be built as they have all required parts and an Afterglow.">?</button>
+                  <div id="fullTableToggle" class="toggle" onclick="toggleTable('fullTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="fullTable" class="table table-full">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Model</th>
+                    <th id="full_style">Style</th>
+                    <th>Count</th>
+                    <th>Dismantle</th>
+                  </thead>
+
+                  <tbody id="full">
+                  </tbody>
+                </table>
+              </div>
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Mixed Model Mechs <span id="mixed_count">0</span> 
+                  <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow. This is a summary of the more detailed Mixed Model Mechs Parts table.">?</button>
+                  <div id="mixedTableToggle" class="toggle" onclick="toggleTable('mixedTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="mixedTable" class="table table-mixed">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Model</th>
+                    <th>Count</th>
+                  </thead>
+
+                  <tbody id="mixed">
+                  </tbody>
+                </table>
+              </div>
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Unused Parts <span id="remaining_count">0</span> 
+                  <button class="tooltipBtn" tip="Left over parts not used to create Single Model or Mixed Model Mechs.">?</button>
+                  <div id="remainingTableToggle" class="toggle" onclick="toggleTable('remainingTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="remainingTable" class="table table-listing">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Part</th>
+                    <th>Model</th>
+                    <th>Count</th>
+                  </thead>
+
+                  <tbody id="remaining">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
+              <div class="containerDiv" style="display: none;">
+                <div class="borderDiv" style="min-width: 410px;">
+                  <h4> Mixed Model Mechs Parts <span id="mixed_count2">0</span> 
+                    <button class="tooltipBtn" tip="Model and Parts Details for Mixed Model Mechs. These can be built as they have all required parts and an Afterglow.">?</button>
+                    <div id="mechsTableToggle" class="toggle" onclick="toggleTable('mechsTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="mechsTable" class="table table-mixed" style="width: 400px;">
+                    <thead>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Leg</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                    </thead>
+
+                    <tbody id="mechs">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                  <h4> Mixed Model Mechs (No Afterglow) <span id="noafterglow_count">0</span> 
+                    <button class="tooltipBtn" tip="These cannot be built yet without acquiring an Afterglow.">?</button>
+                    <div id="mechsNoAfterglowTableToggle" class="toggle" onclick="toggleTable('mechsNoAfterglowTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="mechsNoAfterglowTable" class="table table-listing" style="width: 400px;">
+                    <thead>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Leg</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                    </thead>
+
+                    <tbody id="mechsNoAfterglow">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                  <h4> Partial Mechs (Engine & 2+ Parts) <span id="partial_count">0</span> 
+                    <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do have 1 Engine + 2 matching parts so you are almost there.">?</button>
+                    <div id="mechsPartialTableToggle" class="toggle" onclick="toggleTable('mechsPartialTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="mechsPartialTable" class="table table-listing" style="width: 400px;">
+                    <thead>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Leg</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                    </thead>
+
+                    <tbody id="mechsPartial">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                  <h4> Partial Mechs - 2+ Matching Parts <span id="partial_no_model_count">0</span> 
+                    <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do not have 1 Engine + 2 matching parts so the model is not yet known.">?</button>
+                    <div id="mechsPartialNoModelTableToggle" class="toggle" onclick="toggleTable('mechsPartialNoModelTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="mechsPartialNoModelTable" class="table table-listing" style="width: 400px;">
+                    <thead>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Leg</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                    </thead>
+
+                    <tbody id="mechsPartialNoModel">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- We use simple <template> templating for the example -->
+    <div id="templates" style="display: none">
+      <template id="template-balance">
+        <tr>
+          <td class="image"></td>
+          <td class="part"></td>
+          <td class="model"></td>
+          <td class="style"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
+      <template id="template-full">
+        <tr>
+          <td class="image"></td>
+          <td class="model"></td>
+          <td class="style"></td>
+          <td class="count"></td>
+          <td class="dismantle"></td>
+        </tr>
+      </template>
+      <template id="template-mixed">
+        <tr>
+          <td class="image"></td>
+          <td class="model"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
+      <template id="template-afterglow">
+        <tr>
+          <td class="image"></td>
+          <td class="name"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
+      <template id="template-mech">
+        <tr>
+          <td class="engine"></td>
+          <td class="head"></td>
+          <td class="body"></td>
+          <td class="legs"></td>
+          <td class="left_arm"></td>
+          <td class="right_arm"></td>
+        </tr>
+      </template>
+      <template id="template-counts">
+        <tr>
+          <td class="model"></td>
+          <td class="Engine"></td>
+          <td class="Head"></td>
+          <td class="Body"></td>
+          <td class="Leg"></td>
+          <td class="Arm"></td>
+        </tr>
+      </template>
+      <template id="template-remaining">
+        <tr>
+          <td class="image"></td>
+          <td class="part"></td>
+          <td class="model"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
+      <template id="template-empty">
+        <tr>
+          <td class="empty" colspan="3">No Data</td>
+        </tr>
+      </template>
+    </div>
+
+    <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=0.6"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=0.6"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilder.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/data/data.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=2.2"></script>
+    <script type="text/javascript" src="./js/revealed.js?v=2.2"></script>
+  </body>
+</html>

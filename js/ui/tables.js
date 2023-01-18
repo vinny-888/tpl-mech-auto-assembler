@@ -5,10 +5,18 @@ function buildPartsTable(){
         if(part.count > 0){
             // Build Table
             const clone = template.content.cloneNode(true);
-            clone.querySelector(".image").innerHTML = partsImage(part.part, part.model);
+            if(dataModel.useStyles){
+                clone.querySelector(".image").innerHTML = partsRevealedImage(part.part, part.model, part.style);
+            } else {
+                clone.querySelector(".image").innerHTML = partsImage(part.part, part.model);
+            }
+            
             clone.querySelector(".part").textContent = part.part;
             clone.querySelector(".model").textContent = part.model;
-            clone.querySelector(".count").textContent = part.count + ' of ' + totalParts[part.model][part.part];
+            if(dataModel.useStyles){
+                clone.querySelector(".style").textContent = part.style;
+            }
+            clone.querySelector(".count").textContent = part.count;// + ' of ' + totalParts[part.model][part.part];
             accountContainer.appendChild(clone);
             partCount++;
         }
@@ -23,10 +31,17 @@ function buildPartsTable(){
         if(part.count == 0){
             // Build Table
             const clone = template.content.cloneNode(true);
-            clone.querySelector(".image").innerHTML = partsImage(part.part, part.model);
+            if(dataModel.useStyles){
+                clone.querySelector(".image").innerHTML = partsRevealedImage(part.part, part.model, part.style);
+            } else {
+                clone.querySelector(".image").innerHTML = partsImage(part.part, part.model);
+            }
             clone.querySelector(".part").textContent = part.part;
             clone.querySelector(".model").textContent = part.model;
-            clone.querySelector(".count").textContent = part.count + ' of ' + totalParts[part.model][part.part];
+            if(dataModel.useStyles){
+                clone.querySelector(".style").textContent = part.style;
+            }
+            clone.querySelector(".count").textContent = part.count;// + ' of ' + totalParts[part.model][part.part];
             accountContainer.appendChild(clone);
             partCount++;
         }
@@ -120,6 +135,9 @@ function buildAfterglowTable(){
 }
 
 function buildFullMechTable(fullMechs){
+    if(dataModel.useStyles){
+        document.getElementById('full_style').display = 'none';
+    }
     let count = 0;
     RARITY_ORDER.forEach((model)=>{
         let fullModelMechs = fullMechs[model];
@@ -134,7 +152,10 @@ function buildFullMechTable(fullMechs){
         const clone = templateFull.content.cloneNode(true);
         clone.querySelector(".image").innerHTML = partsImage("Engine", model);
         clone.querySelector(".model").textContent = model;
-        clone.querySelector(".count").textContent = countOfMechs + ' of ' + totalFullMechs[model];
+        if(dataModel.useStyles){
+            clone.querySelector(".style").display = 'none';
+        }
+        clone.querySelector(".count").textContent = countOfMechs;// + ' of ' + totalFullMechs[model];
 
         clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
             <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
@@ -168,7 +189,7 @@ function buildMixedModelMechsSummaryTable(mixedMechs){
         const clone = templateMixed.content.cloneNode(true);
         clone.querySelector(".image").innerHTML = partsImage("Engine", model);
         clone.querySelector(".model").textContent = model;
-        clone.querySelector(".count").textContent = modelCounts[model] + ' of ' + totalMixedMechs[model];
+        clone.querySelector(".count").textContent = modelCounts[model];// + ' of ' + totalMixedMechs[model];
         mixedContainer.appendChild(clone);
     })
     if(totalMixed == 0){
@@ -367,4 +388,46 @@ function buildRemainingPartsTable(){
         remainingContainer.appendChild(clone);
     }
     document.querySelector("#remaining_count").innerHTML = '('+remainingCount+')';
+}
+
+function buildFullMechStylesTable(fullMechs){
+    if(dataModel.useStyles){
+        document.getElementById('full_style').display = 'block';
+    }
+    let count = 0;
+    RARITY_ORDER.forEach((model)=>{
+        STYLE_ORDER[model].forEach((style)=>{
+            if(fullMechs[model] && fullMechs[model][style]){
+                let fullModelMechs = fullMechs[model][style];
+                // Build Table
+                let allowedDismantle = 'disabled';
+                let allowedAssemble = dataModel.dismantled[model] > 0 ? '' : 'disabled';
+                let countOfMechs = 0;
+                if(fullModelMechs){
+                    allowedDismantle = fullModelMechs.length > 0 ? '' : 'disabled';
+                    countOfMechs = fullModelMechs.length;
+                }
+                const clone = templateFull.content.cloneNode(true);
+                clone.querySelector(".image").innerHTML = partsRevealedImage("Head", model, style);
+                // clone.querySelector(".image").classList.add(style);
+                clone.querySelector(".model").textContent = model;
+                clone.querySelector(".style").display = 'block';
+                clone.querySelector(".style").textContent = style;
+                clone.querySelector(".count").textContent = countOfMechs;
+
+                clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
+                    <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
+                    <button class="btn btn-assemble${allowedAssemble}" id="btn-query" onclick="assemble('${model}')" ${allowedAssemble}>+</button>
+                </div>`;
+                fullContainer.appendChild(clone);
+                count += countOfMechs;
+            }
+        });
+    })
+
+    if(count == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        fullContainer.appendChild(clone);
+    }
+    document.querySelector("#full_count").innerHTML = '('+count+')';
 }

@@ -2,6 +2,82 @@ const ORIGINAL_RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravager', 'Enforce
 let RARITY_ORDER = ['Nexus', 'Lupis', 'Behemoth', 'Ravager', 'Enforcer'];
 const RARITY_ORDER_BEHEMOTH = ['Nexus', 'Behemoth', 'Lupis', 'Ravager', 'Enforcer'];
 const PARTS_ORDER = ['Engine', 'Head', 'Body', 'Leg', 'Arm'];
+const BODY_PART_MAPPING = [
+  'ARM',
+  'HEAD',
+  'BODY',
+  'LEGS',
+  'ENGINE'
+]
+const BODY_PART_MODEL_MAPPING = [
+  'ENFORCER',
+  'RAVAGER',
+  'BEHEMOTH',
+  'LUPIS',
+  'NEXUS'
+]
+const STYLE_ORDER = {
+  Enforcer: ['Action Bot 3000',
+    'Buildy Bot',
+    'CAMM-E',
+    'CyberRacer',
+    'Red Alert',
+    'xXLiquidatorXx',
+    'Demolisher',
+    'DJ Lux',
+    'Lonestar',
+    'Astra Machina',
+    'NekoChan!',
+    'The Sentinel'
+  ],
+  Ravager: [
+    'Wasteland Wonder',
+    'Creative Deviant',
+    'Chopshop',
+    'Marrow Lord',
+    'Nullstatic',
+    'Sir Furnace Cogswell',
+    'Deadpoint',
+    'Forgotten Friend',
+    'woWee',
+    'Shopbot',
+    'MissingNo.'
+  ],
+  Behemoth: [
+    'Major Gunner',
+    'Draconian',
+    'Mr. Grif',
+    'Hoarfrost',
+    'Fathom',
+    'NekoGrowl!',
+    'Mecha Kong',
+    'Arcane Guardian',
+    'The Oni King',
+    'The Goddess'
+  ],
+  Lupis: [
+    'CyberKnight',
+    'Lycan X',
+    'Bladerunner',
+    'Queen Andromeda',
+    'Magi',
+    'Masamune',
+    'Witchwood',
+    'Amalgam',
+    'The Duchess',
+    'Hellspawn'
+  ],
+  Nexus: [
+    'Oberon',
+    'Scheherazade',
+    'Gigazilla',
+    'Wasteland Warlord',
+    'Alatyr',
+    'Incarnate',
+    'Ouroboros'
+  ]
+}
+
 let ORIGINAL_MODEL_WEIGHTS = {
   Nexus: 1,
   Lupis: 2,

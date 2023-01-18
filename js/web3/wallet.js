@@ -3,12 +3,14 @@ if(typeof web3 !== 'undefined'){
     provider = web3.currentProvider;
 }
 const mechTokenContract = "0xf4bacb2375654ef2459f427c8c6cf34573f75154";
+const mechRevealedTokenContract = "0x7bc1e07cdfa283db7cf3c680d16ca7f161a64046";
 const afterglowTokenContract = "0xa47fb7c4edd3475ce66f49a66b9bf1edbc61e52d";
 const cyberbrokerTokenContract = "0x892848074ddea461a15f337250da3ce55580ca85";
 const wrapperTokenContract = "0x6158795c09E6C94080f66Eb9a11aD3d908209284";
 const lostParadigmsTokenContract = "0x067154450e59e81ed6bad1bbee459bd7cc2236ea";
 
 let mechContract = null;
+let mechRevealedContract = null;
 let afterglowContract = null;
 let cyberbrokerContract = null;
 let wrapperContract = null;
@@ -18,8 +20,10 @@ function initContracts(){
         console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
         const web3 = new Web3(provider);
         mechContract = new web3.eth.Contract(balanceOfABI, mechTokenContract);
+        mechRevealedContract = new web3.eth.Contract(revealedABI, mechRevealedTokenContract);
         afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
         cyberbrokerContract = new web3.eth.Contract(tokenBalanceABI, cyberbrokerTokenContract);
+        wrapperContract = new web3.eth.Contract(tokenWrapperABI, wrapperTokenContract);
     }
 }
 
@@ -75,6 +79,54 @@ async function getMechTokenBalance(address, card) {
         return parseInt(result);
     }catch(e){
         console.log('getMechTokenBalance Error:',e)
+        return 0;
+    }
+}
+
+async function getRevealedMechTokenBalance(address) {
+    try{
+        let result = await mechRevealedContract.methods.balanceOf(address).call();
+
+        // console.log('getMechTokenBalance: ',  PARTS_LIST[card-1].model + ' ' + PARTS_LIST[card-1].part, result);
+        return parseInt(result);
+    }catch(e){
+        console.log('getRevealedMechTokenBalance Error:',e)
+        return 0;
+    }
+}
+
+async function getRevealedMechTokenMetadata(tokenId) {
+    try{
+        let result = await mechRevealedContract.methods.getTokenExtra(tokenId).call();
+
+        // console.log('getMechTokenBalance: ',  PARTS_LIST[card-1].model + ' ' + PARTS_LIST[card-1].part, result);
+        return result;
+    }catch(e){
+        console.log('getRevealedMechTokenMetadata Error:',e)
+        return 0;
+    }
+}
+
+async function getRevealedMechTotalSupply() {
+    try{
+        let result = await mechRevealedContract.methods.totalSupply().call();
+
+        // console.log('getMechTokenBalance: ',  PARTS_LIST[card-1].model + ' ' + PARTS_LIST[card-1].part, result);
+        return parseInt(result);
+    }catch(e){
+        console.log('getRevealedMechTokenMetadata Error:',e)
+        return 0;
+    }
+}
+
+async function getRevealedMechTokenBalance(address, totalSupply) {
+    try{
+        let result = await wrapperContract.methods.getTokens(mechRevealedTokenContract, address, 1, totalSupply).call();
+
+        console.log('getRevealedMechTokenBalance: ', result);
+        return result;
+    }catch(e){
+        console.log('getRevealedMechTokenBalance Error:',e)
         return 0;
     }
 }

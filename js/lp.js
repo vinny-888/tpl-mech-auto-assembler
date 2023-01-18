@@ -349,6 +349,7 @@ async function refreshAccountData() {
     }
     window.history.pushState("", "", window.location.href.split('?')[0] + '?wallet=' + address);
     document.getElementById('builder_url').href = 'builder.html?wallet='+address;
+    document.getElementById('revealed_url').href = 'revealed.html?wallet='+address;
     document.getElementById('home_url').href = 'index.html?wallet='+address;
 
     wallet = address;
