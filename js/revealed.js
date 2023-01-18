@@ -93,7 +93,7 @@ function buildTablesAndMechs(){
     // buildPartialMechNoModelTable(mixedMechsPartialNoModel);
 
     // Build remaining parts table
-    buildRemainingPartsTable();
+    buildRemainingPartsStylesTable();
 
     displayTables();
 }

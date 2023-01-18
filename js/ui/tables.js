@@ -549,3 +549,32 @@ function buildPartsStylesTable(){
         accountContainer.appendChild(clone);
     }
 }
+
+function buildRemainingPartsStylesTable(){
+    let remainingCount = 0;
+    RARITY_ORDER.forEach((model)=>{
+        if(dataModel.modelParts[model]){
+            Object.keys(dataModel.modelParts[model]).forEach((part)=>{
+                STYLE_ORDER[model].forEach((style)=>{
+                    if(dataModel.modelParts[model][part][style] > 0){
+                        const clone = templateRemainingMech.content.cloneNode(true);
+
+                        clone.querySelector(".image").innerHTML = partsRevealedImage(part, model, style);
+                        clone.querySelector(".model").textContent = model;
+                        clone.querySelector(".part").textContent = part;
+                        clone.querySelector(".style").textContent = style;
+                        clone.querySelector(".count").textContent = dataModel.modelParts[model][part][style];
+                        remainingContainer.appendChild(clone);
+                        remainingCount += dataModel.modelParts[model][part][style];
+                    }
+                });
+            });
+        }
+    });
+
+    if(remainingCount == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        remainingContainer.appendChild(clone);
+    }
+    document.querySelector("#remaining_count").innerHTML = '('+remainingCount+')';
+}
