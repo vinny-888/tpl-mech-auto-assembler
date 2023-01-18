@@ -18,5 +18,5 @@
 }
 
 .redFilter{
-    filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(180deg);
+    filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(300deg);
 }
