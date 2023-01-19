@@ -1,3 +1,5 @@
+let path = './tpl-mech-auto-assembler/';
+// let path = './';
 function partsImage(part, model) {
     return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="./images/parts/' + model + '_' + part + '.png" title="'+[part, model].join(' ')+'" /></a>';
 }
@@ -6,21 +8,21 @@ function partsRevealedImage(part, model, style) {
     if(part == 'Leg'){
         part = 'legs';
     }
-    return '<a target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/parts/' + model.toLowerCase() + '/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '/' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
+    return '<a target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
 }
 
 function partsRevealedImageMissing(part, model, style) {
     if(part == 'Leg'){
         part = 'legs';
     }
-    return '<a  class="redFilter" target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/parts/' + model.toLowerCase() + '/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '/' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
+    return '<a  class="redFilter" target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
 }
 
 function fullRevealedImage(style) {
     if(style == 'CAMM-E'){
-        return '<img onmouseover="bigImg(event, this, \'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/camm-e.webp\')"  onmouseout="smallImg()"  height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/camm-e.webp" title="'+[style].join(' ')+'" />';
+        return '<img onmouseover="bigImg(event, this, \''+path+'images/mechs/large/camm-e.webp\')"  onmouseout="smallImg()"  height="60px" src="'+path+'images/mechs/small/camm-e.webp" title="'+[style].join(' ')+'" />';
     } else {
-        return '<img onmouseover="bigImg(event, this, \'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp\')"  onmouseout="smallImg()"  height="60px" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp" title="'+[style].join(' ')+'" />';
+        return '<img onmouseover="bigImg(event, this, \''+path+'images/mechs/large/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp\')"  onmouseout="smallImg()"  height="60px" src="'+path+'images/mechs/small/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp" title="'+[style].join(' ')+'" />';
     }
 }
 
