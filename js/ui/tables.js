@@ -494,7 +494,7 @@ function buildPartsStylesTable(){
     RARITY_ORDER.forEach((model)=>{
         PARTS_ORDER.forEach((part)=>{
             STYLE_ORDER[model].forEach((style)=>{
-                if(dataModel.modelParts[model][part][style] > 0){
+                if(dataModel.modelParts[model] && dataModel.modelParts[model][part] && dataModel.modelParts[model][part][style] && dataModel.modelParts[model][part][style] > 0){
                     // Build Table
                     const clone = template.content.cloneNode(true);
                     if(dataModel.useStyles){
@@ -524,7 +524,7 @@ function buildPartsStylesTable(){
     RARITY_ORDER.forEach((model)=>{
         PARTS_ORDER.forEach((part)=>{
             STYLE_ORDER[model].forEach((style)=>{
-                if(dataModel.modelParts[model][part][style] == 0){
+                if(dataModel.modelParts[model] && dataModel.modelParts[model][part] && dataModel.modelParts[model][part][style] && dataModel.modelParts[model][part][style] == 0){
                     // Build Table
                     const clone = template.content.cloneNode(true);
                     if(dataModel.useStyles){
