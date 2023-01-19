@@ -70,7 +70,7 @@ const STYLE_ORDER = {
   Nexus: [
     'Oberon',
     'Scheherazade',
-    'Gigazilla',
+    'GigaZilla',
     'Wasteland Warlord',
     'Alatyr',
     'Incarnate',
