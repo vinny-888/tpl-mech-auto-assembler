@@ -19,6 +19,9 @@ window.addEventListener('load', async () => {
     refreshAccountData();
   }
   document.querySelector("#btn-query").addEventListener("click", refreshAccountData);
+
+  getAccountRevealedParts('0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459').then(console.log);
+
 });
 
 async function refreshAccountData() {
@@ -197,3 +200,4 @@ function calculateTotals(){
   console.log('totalMixedMechsNoAfterglow', totalMixedMechsNoAfterglow);
   console.log('totalParts', totalParts);
 }
+
