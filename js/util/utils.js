@@ -1,4 +1,4 @@
-let path = './tpl-mech-auto-assembler/';
+let path = '/tpl-mech-auto-assembler/';
 // let path = './';
 function partsImage(part, model) {
     return '<a target="_blank" href="'+buildOpenSeaModelPartURL(model, part)+'"><img height="60px" src="./images/parts/' + model + '_' + part + '.png" title="'+[part, model].join(' ')+'" /></a>';
