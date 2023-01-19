@@ -415,10 +415,10 @@ function buildFullMechStylesTable(fullMechs){
                 clone.querySelector(".style").textContent = style;
                 clone.querySelector(".count").textContent = countOfMechs;
 
-                clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
-                    <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
-                    <button class="btn btn-assemble${allowedAssemble}" id="btn-query" onclick="assemble('${model}')" ${allowedAssemble}>+</button>
-                </div>`;
+                // clone.querySelector(".dismantle").innerHTML = `<div style="text-align: center;">
+                //     <button class="btn btn-dismantle${allowedDismantle}" id="btn-query" onclick="dismantle('${model}')" ${allowedDismantle}>-</button>
+                //     <button class="btn btn-assemble${allowedAssemble}" id="btn-query" onclick="assemble('${model}')" ${allowedAssemble}>+</button>
+                // </div>`;
                 fullContainer.appendChild(clone);
                 count += countOfMechs;
             }
@@ -616,4 +616,61 @@ function buildMixedModelMechsStylesSummaryTable(mixedMechs){
         mixedContainer.appendChild(clone);
     }
     document.querySelector("#mixed_count").innerHTML = '('+totalMixed+')';
+}
+
+function buildPartialMechNoModelStylesTable(mixedMechsPartial){
+    let count = 0;
+    RARITY_ORDER.forEach((model)=>{
+        if(mixedMechsPartial[model]){
+            mixedMechsPartial[model].forEach((mech)=>{
+                const clone = templateMixedMech.content.cloneNode(true);
+                let model = getMostMatchingParts(mech);
+
+                if(mech.Engine){
+                    clone.querySelector(".engine").innerHTML = partsRevealedImage('Engine', mech.Engine.model, mech.Engine.style);
+                }else{
+                    clone.querySelector(".engine").innerHTML = partsRevealedImageMissing('Engine', mech.Engine.model, mech.Engine.style);
+                }
+
+                if(mech.Head){
+                    clone.querySelector(".head").innerHTML = partsRevealedImage('Head', mech.Head.model, mech.Head.style);
+                }else{
+                    clone.querySelector(".head").innerHTML = partsRevealedImageMissing('Head', mech.Engine.model, mech.Engine.style);
+                }
+
+                if(mech.Body){
+                    clone.querySelector(".body").innerHTML = partsRevealedImage('Body', mech.Body.model, mech.Body.style);
+                }else{
+                    clone.querySelector(".body").innerHTML = partsRevealedImageMissing('Body', mech.Engine.model, mech.Engine.style);
+                }
+
+                if(mech.Leg){
+                    clone.querySelector(".legs").innerHTML = partsRevealedImage('Leg', mech.Leg.model, mech.Leg.style);
+                }else{
+                    clone.querySelector(".legs").innerHTML = partsRevealedImageMissing('Leg', mech.Engine.model, mech.Engine.style);
+                }
+
+                if(mech.left_arm){
+                    clone.querySelector(".left_arm").innerHTML = partsRevealedImage('Arm', mech.left_arm.model, mech.left_arm.style);
+                }else{
+                    clone.querySelector(".left_arm").innerHTML = partsRevealedImageMissing('Arm', mech.Engine.model, mech.Engine.style);
+                }
+
+                if(mech.right_arm){
+                    clone.querySelector(".right_arm").innerHTML = partsRevealedImage('Arm', mech.right_arm.model, mech.right_arm.style);
+                }else{
+                    clone.querySelector(".right_arm").innerHTML = partsRevealedImageMissing('Arm', mech.Engine.model, mech.Engine.style);
+                }
+                
+                mixedmechPartialNoModelContainer.appendChild(clone);
+                count++;
+            })
+        }
+    });
+
+    if(count == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        mixedmechPartialNoModelContainer.appendChild(clone);
+    }
+    document.querySelector("#partial_no_model_count").innerHTML = '('+count+')';
 }
