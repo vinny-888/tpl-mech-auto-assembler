@@ -47,8 +47,8 @@ function buildOpenSeaModelPartURL(model, part){
 }
 
 function buildOpenSeaRevealedModelPartURL(model, part, style){
-    if(part == 'Leg'){
-        part = 'legs';
+    if(part == 'legs'){
+        part = 'Legs';
     }
     return 'https://opensea.io/collection/tpl-revealed-mech-parts?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Model&search[stringTraits][0][values][0]=' + model + '&search[stringTraits][1][name]=Part&search[stringTraits][1][values][0]=' + part + '&search[stringTraits][2][name]=Style&search[stringTraits][2][values][0]=' + style 
 }
