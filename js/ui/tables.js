@@ -116,17 +116,17 @@ function buildAfterglowTable(){
     dataModel.walletAfterglows.sort((a, b) => {
         return a.count - b.count;
     })
-    dataModel.walletAfterglows.forEach((afterglow)=>{
-        if(afterglow.count == 0){
-            // Build Table
-            const clone = templateAfterglow.content.cloneNode(true);
-            clone.querySelector(".image").innerHTML = afterglowImageUrl(afterglow.name == 'Lost-in-the-Crowd Orange' ? 'Lost-in-the-crowd Orange' : afterglow.name);
-            clone.querySelector(".name").textContent = afterglow.name;
-            clone.querySelector(".count").textContent = afterglow.count + ' of ' + afterglow.total;
-            afterglowContainer.appendChild(clone);
-            afterglowCount++;
-        }
-    });
+    // dataModel.walletAfterglows.forEach((afterglow)=>{
+    //     if(afterglow.count == 0){
+    //         // Build Table
+    //         const clone = templateAfterglow.content.cloneNode(true);
+    //         clone.querySelector(".image").innerHTML = afterglowImageUrl(afterglow.name == 'Lost-in-the-Crowd Orange' ? 'Lost-in-the-crowd Orange' : afterglow.name);
+    //         clone.querySelector(".name").textContent = afterglow.name;
+    //         clone.querySelector(".count").textContent = afterglow.count + ' of ' + afterglow.total;
+    //         afterglowContainer.appendChild(clone);
+    //         afterglowCount++;
+    //     }
+    // });
 
     if(afterglowCount == 0){
         const clone = templateEmpty.content.cloneNode(true);
