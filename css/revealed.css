@@ -2,6 +2,15 @@
     width: 320px;
 }
 
+#full td img {
+    width: 20px;
+    height: 20px;
+}
+#mixed td img {
+    width: 20px;
+    height: 20px;
+}
+
 #viewer{
     /* width: calc(100% - 334px);
     top: 215px; */

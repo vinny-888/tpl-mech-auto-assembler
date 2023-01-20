@@ -595,7 +595,7 @@ function buildMixedModelMechsStylesSummaryTable(mixedMechs){
         STYLE_ORDER[model].forEach((style)=>{
             if(mixedMechs[model]){
                 mixedMechs[model].forEach((mech)=>{
-                    if(mech['Engine'].model == model && mech['Engine'].style == style){
+                    if(mech['Engine'] && mech['Engine'].model == model && mech['Engine'].style == style && Object.keys(mech).length == 6){
                         if(!modelCounts[model]){
                             modelCounts[model] = {};
                         }
@@ -699,4 +699,30 @@ function buildPartialMechNoModelStylesTable(mixedMechsPartial){
         mixedmechPartialNoModelContainer.appendChild(clone);
     }
     document.querySelector("#partial_no_model_count").innerHTML = '('+count+')';
+}
+
+function buildMechStats(){
+    RARITY_ORDER.forEach((model)=>{
+        if(dataModel.modelParts[model]){
+            STYLE_ORDER[model].forEach((style)=>{
+                const clone = templateMechStats.content.cloneNode(true);
+                clone.querySelector(".model").textContent = model;
+                clone.querySelector(".style").textContent = style;
+                let engine = dataModel.modelParts[model]['Engine'][style] ? dataModel.modelParts[model]['Engine'][style] : 0;
+                clone.querySelector(".engine").textContent = engine;
+                let head = dataModel.modelParts[model]['Head'][style] ? dataModel.modelParts[model]['Head'][style] : 0;
+                clone.querySelector(".head").textContent = head;
+                let body = dataModel.modelParts[model]['Body'][style] ? dataModel.modelParts[model]['Body'][style] : 0;
+                clone.querySelector(".body").textContent = body;
+                let arm = dataModel.modelParts[model]['Arm'][style] ? dataModel.modelParts[model]['Arm'][style] : 0;
+                clone.querySelector(".arm").textContent = arm;
+                let leg = dataModel.modelParts[model]['Leg'][style] ? dataModel.modelParts[model]['Leg'][style] : 0;
+                clone.querySelector(".leg").textContent = leg;
+
+                let total = engine + head + body + arm + leg;
+                clone.querySelector(".count").textContent = total;
+                mechStatsContainer.appendChild(clone);
+            });
+        }
+    });
 }

@@ -286,3 +286,6 @@ const templateCyberbrokerCounts = document.querySelector("#template-cyberbroker-
 const cyberbrokerCountsContainer = document.querySelector("#cyberbrokers-counts");
 
 const templateEmpty = document.querySelector("#template-empty");
+
+const templateMechStats = document.querySelector("#template-mech-stats");
+const mechStatsContainer = document.querySelector("#mech-counts");

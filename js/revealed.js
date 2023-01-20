@@ -59,6 +59,10 @@ function buildTablesAndMechs(){
     var url = new URL(window.location);
     var wallet = url.searchParams.get("wallet");
 
+
+    buildMechStats();
+    highlightTotal();
+
     // Builds the wallet inventory parts tables
     buildPartCountsTable();
     buildPartsStylesTable(wallet);
@@ -92,11 +96,11 @@ function buildTablesAndMechs(){
     let mixedMechsPartial = buildMixedMechsStyles(false, true, false);
     buildPartialMechStylesTable(mixedMechsPartial);
 
-    buildMixedModelMechsStylesSummaryTable(mixedMechsPartial);
-
     // Build *partial* mechs and show missing parts
     let mixedMechsPartialNoModel = buildNoModelMixedMechsStyles(false, true, true);
     buildPartialMechNoModelStylesTable(mixedMechsPartialNoModel);
+
+    buildMixedModelMechsStylesSummaryTable(mixedMechsPartialNoModel);
 
     // Build remaining parts table
     buildRemainingPartsStylesTable(wallet);
@@ -340,3 +344,19 @@ for(let i=12002; i<=12392; i++){
     }, (index-12002) * 200);
 }
 */
+
+function highlightTotal(){
+  let color = '#71d0c6';
+  let backgroundColor = '#181818';
+  var table1 = document.getElementById("mechCountsTable");
+  var cells1 = table1.getElementsByTagName("tr");
+  cells1[cells1.length-1].style.backgroundColor = backgroundColor;
+  cells1[cells1.length-1].style.color = color;
+  cells1[cells1.length-1].style.fontWeight = 'bold';
+  var cells1a = table1.getElementsByTagName("td");
+  for (var i = 7; i < cells1a.length; i+=8) {
+    cells1a[i].style.backgroundColor = backgroundColor;
+    cells1a[i].style.color = color;
+    cells1a[i].style.fontWeight = 'bold';
+  }
+}

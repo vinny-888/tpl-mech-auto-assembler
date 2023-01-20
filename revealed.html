@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=5.0">
-    <link rel="stylesheet" href="./css/revealed.css?v=5.0">
+    <link rel="stylesheet" href="./css/main.css?v=5.1">
+    <link rel="stylesheet" href="./css/revealed.css?v=5.1">
   </head>
   <body>
     <div id="viewer" style="display: none;">
@@ -125,24 +125,50 @@
               </div>
             </div>
 
-            <div class="col">
-              <h4> Afterglows <span id="afterglow_count">0</span> 
-                <button class="tooltipBtn" tip="All Afterglows owned by this wallet.">?</button>
-                <div id="afterglowTableToggle" class="toggle" onclick="toggleTable('afterglowTable')">
-                  &#8212;
-                </div>
-              </h4>
+            <div class="containerDiv">
+              <div class="borderDiv">
+                <h4> Revealed Stats 
+                  <button class="tooltipBtn" tip="Table showing completed mech counts for each model type based on wallet contents at time of snapshot.">?</button>
+                  <div id="countsTableToggle" class="toggle" onclick="toggleTable('mechCountsTable')">
+                    &#8212;
+                  </div>
+                </h4>
 
-              <table id="afterglowTable" class="table table-listing" style="width: 400px;">
-                <thead>
-                  <th style="width:20%">Image</th>
-                  <th>Name</th>
-                  <th>Count</th>
-                </thead>
+                <table id="mechCountsTable" class="table table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Style</th>
+                    <th>Engine</th>
+                    <th>Head</th>
+                    <th>Body</th>
+                    <th>Arm</th>
+                    <th>Leg</th>
+                    <th style="background-color: #181818; color: #71d0c6;">Total</th>
+                  </thead>
 
-                <tbody id="afterglow">
-                </tbody>
-              </table>
+                  <tbody id="mech-counts">
+                  </tbody>
+                </table>
+              </div>
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Afterglows <span id="afterglow_count">0</span> 
+                  <button class="tooltipBtn" tip="All Afterglows owned by this wallet.">?</button>
+                  <div id="afterglowTableToggle" class="toggle" onclick="toggleTable('afterglowTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="afterglowTable" class="table table-listing" style="width: 400px;">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Name</th>
+                    <th>Count</th>
+                  </thead>
+
+                  <tbody id="afterglow">
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             <div class="containerDiv">
@@ -168,7 +194,7 @@
                 </table>
               </div>
               <div class="borderDiv" style="margin-top: 8px;">
-                <h4> Partial Mechs <span id="mixed_count">0</span> 
+                <h4> Mixed Style Mechs <span id="mixed_count">0</span> 
                   <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow. This is a summary of the more detailed Mixed Model Mechs Parts table.">?</button>
                   <div id="mixedTableToggle" class="toggle" onclick="toggleTable('mixedTable')">
                     &#8212;
@@ -374,6 +400,18 @@
           <td class="count"></td>
         </tr>
       </template>
+      <template id="template-mech-stats">
+        <tr>
+          <td class="model"></td>
+          <td class="style"></td>
+          <td class="engine"></td>
+          <td class="head"></td>
+          <td class="body"></td>
+          <td class="arm"></td>
+          <td class="leg"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
       <template id="template-empty">
         <tr>
           <td class="empty" colspan="3">No Data</td>
@@ -382,19 +420,19 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilder.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/data/data.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=5.0"></script>
-    <script type="text/javascript" src="./js/revealed.js?v=5.0"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilder.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/data/data.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=5.1"></script>
+    <script type="text/javascript" src="./js/revealed.js?v=5.1"></script>
   </body>
 </html>
