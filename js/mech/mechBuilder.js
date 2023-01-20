@@ -515,13 +515,18 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                         ];
                         
                         let mixedMech = {};
-                        if(tempRemainingParts[model] && tempRemainingParts[model]['Engine'] && tempRemainingParts[model]['Engine'][style] && tempRemainingParts[model]['Engine'][style] > 0){
-                            mixedMech['Engine'] = {
-                                model,
-                                style
-                            };
-                            tempRemainingParts[model]['Engine'][style]--;
-                        }
+                        let hasEngine = false;
+
+                        Object.keys(tempRemainingParts[model]['Engine']).forEach((style2)=>{
+                            if(!hasEngine && tempRemainingParts[model] && tempRemainingParts[model]['Engine'] && tempRemainingParts[model]['Engine'][style2] && tempRemainingParts[model]['Engine'][style2] > 0){
+                                mixedMech['Engine'] = {
+                                    model,
+                                    style
+                                };
+                                tempRemainingParts[model]['Engine'][style]--;
+                                hasEngine = true;
+                            }
+                        })
                         let remainingPartNames = ['Head', 'Body', 'Leg', 'Arm', 'Arm'];
                         mech.forEach((modelPart)=>{
                             var index = remainingPartNames.indexOf(modelPart.part);
@@ -606,17 +611,17 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                                 });
                             }
                         }
-                        let hasTwoMatchingPartsBool = false;
-                        if(mixedMech.Engine){
-                            hasTwoMatchingPartsBool = hasTwoMatchingParts(mixedMech, mixedMech.Engine.model)
-                        }
-                        if(allowNoModel && !hasTwoMatchingPartsBool && isFullMech(mixedMech)){
-                            tempRemainingParts[model]['Engine'][style]++;
-                            delete mixedMech.Engine;
-                        }
+                        // let hasTwoMatchingPartsBool = false;
+                        // if(mixedMech.Engine){
+                        //     hasTwoMatchingPartsBool = hasTwoMatchingParts(mixedMech, mixedMech.Engine.model)
+                        // }
+                        // if(allowNoModel && !hasTwoMatchingPartsBool){
+                        //     tempRemainingParts[model]['Engine'][style]++;
+                        //     delete mixedMech.Engine;
+                        // }
                         if(!allowNoModel || (allowNoModel && countMechParts(mixedMech) >= 2)){
-                            if( (allowPartial && isPartialMech(mixedMech))
-                                || (!allowPartial && isFullMech(mixedMech))){
+                            if( allowPartial ){ //&& isPartialMech(mixedMech))
+                                // || (!allowPartial && isFullMech(mixedMech))){
                                 if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
                                     if(!mixedMechs[model]){
                                         mixedMechs[model] = [];
