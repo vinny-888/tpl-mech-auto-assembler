@@ -634,58 +634,58 @@ function buildPartialMechNoModelStylesTable(mixedMechsPartial){
                 const clone = templateMixedMech.content.cloneNode(true);
                 let model = getMostMatchingParts(mech);
 
+                let model2 = '';
+                let style2 = '';
+                if(mech.Head){
+                    model2 = mech.Head.model;
+                    style2 = mech.Head.style;
+                } else if (mech.Body) {
+                    model2 = mech.Body.model;
+                    style2 = mech.Body.style;
+                } else if (mech.Leg) {
+                    model2 = mech.Leg.model;
+                    style2 = mech.Leg.style;
+                } else if (mech.left_arm) {
+                    model2 = mech.left_arm.model;
+                    style2 = mech.left_arm.style;
+                } else if (mech.right_arm) {
+                    model2 = mech.right_arm.model;
+                    style2 = mech.right_arm.style;
+                }
                 if(mech.Engine){
                     clone.querySelector(".engine").innerHTML = partsRevealedImage('Engine', mech.Engine.model, mech.Engine.style);
                 }else{
-                    let model2 = '';
-                    let style2 = '';
-                    if(mech.Head){
-                        model2 = mech.Head.model;
-                        style2 = mech.Head.style;
-                    } else if (mech.Body) {
-                        model2 = mech.Body.model;
-                        style2 = mech.Body.style;
-                    } else if (mech.Leg) {
-                        model2 = mech.Leg.model;
-                        style2 = mech.Leg.style;
-                    } else if (mech.left_arm) {
-                        model2 = mech.left_arm.model;
-                        style2 = mech.left_arm.style;
-                    } else if (mech.right_arm) {
-                        model2 = mech.right_arm.model;
-                        style2 = mech.right_arm.style;
-                    }
                     clone.querySelector(".engine").innerHTML = partsRevealedImageMissing('Engine', model2, style2);
                 }
 
                 if(mech.Head){
                     clone.querySelector(".head").innerHTML = partsRevealedImage('Head', mech.Head.model, mech.Head.style);
                 }else{
-                    clone.querySelector(".head").innerHTML = partsRevealedImageMissing('Head', mech.Engine.model, mech.Engine.style);
+                    clone.querySelector(".head").innerHTML = partsRevealedImageMissing('Head', model2, style2);
                 }
 
                 if(mech.Body){
                     clone.querySelector(".body").innerHTML = partsRevealedImage('Body', mech.Body.model, mech.Body.style);
                 }else{
-                    clone.querySelector(".body").innerHTML = partsRevealedImageMissing('Body', mech.Engine.model, mech.Engine.style);
+                    clone.querySelector(".body").innerHTML = partsRevealedImageMissing('Body',model2, style2);
                 }
 
                 if(mech.Leg){
                     clone.querySelector(".legs").innerHTML = partsRevealedImage('Leg', mech.Leg.model, mech.Leg.style);
                 }else{
-                    clone.querySelector(".legs").innerHTML = partsRevealedImageMissing('Leg', mech.Engine.model, mech.Engine.style);
+                    clone.querySelector(".legs").innerHTML = partsRevealedImageMissing('Leg', model2, style2);
                 }
 
                 if(mech.left_arm){
                     clone.querySelector(".left_arm").innerHTML = partsRevealedImage('Arm', mech.left_arm.model, mech.left_arm.style);
                 }else{
-                    clone.querySelector(".left_arm").innerHTML = partsRevealedImageMissing('Arm', mech.Engine.model, mech.Engine.style);
+                    clone.querySelector(".left_arm").innerHTML = partsRevealedImageMissing('Arm', model2, style2);
                 }
 
                 if(mech.right_arm){
                     clone.querySelector(".right_arm").innerHTML = partsRevealedImage('Arm', mech.right_arm.model, mech.right_arm.style);
                 }else{
-                    clone.querySelector(".right_arm").innerHTML = partsRevealedImageMissing('Arm', mech.Engine.model, mech.Engine.style);
+                    clone.querySelector(".right_arm").innerHTML = partsRevealedImageMissing('Arm', model2, style2);
                 }
                 
                 mixedmechPartialNoModelContainer.appendChild(clone);

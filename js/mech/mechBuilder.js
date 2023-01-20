@@ -195,6 +195,18 @@ function getMostParts(parts){
     return max;
 }
 
+function getMostPartsStyles(mech){
+    let max = 0;
+    Object.keys(mech).forEach((part)=>{
+        Object.keys(mech[part]).forEach((style)=>{
+            if(mech[part][style] > max){
+                max = mech[part][style];
+            }
+        });
+    })
+    return max;
+}
+
 function countMechParts(mech){
     return Object.keys(mech).length;
 }
@@ -459,8 +471,15 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
     let mixedMechs = {};
     RARITY_ORDER.forEach((model)=>{
         STYLE_ORDER[model].forEach((style)=>{
-            if(dataModel.modelParts[model] && dataModel.modelParts[model]['Engine'] && dataModel.modelParts[model]['Engine'][style]){
-                let partCount = dataModel.modelParts[model]['Engine'][style];
+            if(dataModel.modelParts[model]){
+                let partCount = 0;
+                if(allowNoModel){
+                    partCount = getMostPartsStyles(dataModel.modelParts[model]);
+                } else {
+                    if(dataModel.modelParts[model]['Engine'] && dataModel.modelParts[model]['Engine'][style]){
+                        partCount = dataModel.modelParts[model]['Engine'][style];
+                    }
+                }
                 for(let i=0; i< partCount; i++){
                     let tempRemainingParts = JSON.parse(JSON.stringify(dataModel.modelParts));
                     let partOne = '';
@@ -495,7 +514,7 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                         ];
                         
                         let mixedMech = {};
-                        if(tempRemainingParts[model]['Engine'][style] > 0){
+                        if(tempRemainingParts[model] && tempRemainingParts[model]['Engine'] && tempRemainingParts[model]['Engine'][style] && tempRemainingParts[model]['Engine'][style] > 0){
                             mixedMech['Engine'] = {
                                 model,
                                 style
@@ -574,7 +593,11 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                                 });
                             }
                         }
-                        if(allowNoModel && !hasTwoMatchingParts(mixedMech, mixedMech.Engine.model) && isFullMech(mixedMech)){
+                        let hasTwoMatchingPartsBool = false;
+                        if(mixedMech.Engine){
+                            hasTwoMatchingPartsBool = hasTwoMatchingParts(mixedMech, mixedMech.Engine.model)
+                        }
+                        if(allowNoModel && !hasTwoMatchingPartsBool && isFullMech(mixedMech)){
                             tempRemainingParts[model]['Engine'][style]++;
                             delete mixedMech.Engine;
                         }
