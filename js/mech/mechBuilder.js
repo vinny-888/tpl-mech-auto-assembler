@@ -325,7 +325,7 @@ function buildMixedMechsStyles(afterglowRequired, allowPartial, allowNoModel){
 
                     remainingParts = changePartOrderBasedOnAvailability(model, remainingParts);
                     remainingParts.forEach((part)=>{
-                        if(part != 'Engine' || allowNoModel){
+                        if(part != 'Engine' || allowNoModel && (tempRemainingParts[model] && tempRemainingParts[model][part] && tempRemainingParts[model][part][style])){
                             if(partOne == '' && tempRemainingParts[model][part][style] > 0){
                                 partOne = part;
                                 if(part == 'Arm' && tempRemainingParts[model][part][style] > 1){
@@ -469,7 +469,7 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
 
                     remainingParts = changePartOrderBasedOnAvailability(model, remainingParts);
                     remainingParts.forEach((part)=>{
-                        if(part != 'Engine' || allowNoModel){
+                        if(part != 'Engine' || allowNoModel && (tempRemainingParts[model] && tempRemainingParts[model][part] && tempRemainingParts[model][part][style])){
                             if(partOne == '' && tempRemainingParts[model][part][style] > 0){
                                 partOne = part;
                                 if(part == 'Arm' && tempRemainingParts[model][part][style] > 1){
