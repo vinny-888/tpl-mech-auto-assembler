@@ -55,9 +55,13 @@ function buildTablesAndMechs(){
       RARITY_ORDER = ORIGINAL_RARITY_ORDER;
       MODEL_WEIGHTS = ORIGINAL_MODEL_WEIGHTS;
     }
+
+    var url = new URL(window.location);
+    var wallet = url.searchParams.get("wallet");
+
     // Builds the wallet inventory parts tables
     buildPartCountsTable();
-    buildPartsStylesTable();
+    buildPartsStylesTable(wallet);
     buildAfterglowTable();
 
     // Build *full* mechs of same model table
@@ -95,7 +99,7 @@ function buildTablesAndMechs(){
     buildPartialMechNoModelStylesTable(mixedMechsPartialNoModel);
 
     // Build remaining parts table
-    buildRemainingPartsStylesTable();
+    buildRemainingPartsStylesTable(wallet);
 
     displayTables();
 }

@@ -11,6 +11,13 @@ function partsRevealedImage(part, model, style) {
     return '<a target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
 }
 
+function ownerPartsRevealedImage(address, part, model, style) {
+    if(part == 'Leg'){
+        part = 'legs';
+    }
+    return '<a target="_blank" href="'+buildOwnerOpenSeaRevealedModelPartURL(address, model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
+}
+
 function partsRevealedImageMissing(part, model, style) {
     if(part == 'Leg'){
         part = 'legs';
@@ -53,6 +60,13 @@ function buildOpenSeaRevealedModelPartURL(model, part, style){
         part = 'Legs';
     }
     return 'https://opensea.io/collection/tpl-revealed-mech-parts?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Model&search[stringTraits][0][values][0]=' + model + '&search[stringTraits][1][name]=Part&search[stringTraits][1][values][0]=' + part + '&search[stringTraits][2][name]=Style&search[stringTraits][2][values][0]=' + style 
+}
+
+function buildOwnerOpenSeaRevealedModelPartURL(address, model, part, style){
+    if(part == 'legs'){
+        part = 'Legs';
+    }
+    return 'https://opensea.io/'+address+'/tpl-revealed-mech-parts?search[sortBy]=LAST_SALE_PRICE&search[stringTraits][0][name]=Model&search[stringTraits][0][values][0]=' + model + '&search[stringTraits][1][name]=Part&search[stringTraits][1][values][0]=' + part + '&search[stringTraits][2][name]=Style&search[stringTraits][2][values][0]=' + style ;
 }
 
 function buildOpenSeaPartURL(part){

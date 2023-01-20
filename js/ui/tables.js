@@ -495,7 +495,7 @@ function buildPartialMechStylesTable(mixedMechsPartial){
     document.querySelector("#partial_count").innerHTML = '('+count+')';
 }
 
-function buildPartsStylesTable(){
+function buildPartsStylesTable(address){
     let partCount = 0;
     // All Parts
 
@@ -506,7 +506,7 @@ function buildPartsStylesTable(){
                     // Build Table
                     const clone = template.content.cloneNode(true);
                     if(dataModel.useStyles){
-                        clone.querySelector(".image").innerHTML = partsRevealedImage(part, model, style);
+                        clone.querySelector(".image").innerHTML = ownerPartsRevealedImage(address, part, model, style);
                     } else {
                         clone.querySelector(".image").innerHTML = partsImage(part, model);
                     }
@@ -558,7 +558,7 @@ function buildPartsStylesTable(){
     }
 }
 
-function buildRemainingPartsStylesTable(){
+function buildRemainingPartsStylesTable(address){
     let remainingCount = 0;
     RARITY_ORDER.forEach((model)=>{
         if(dataModel.modelParts[model]){
@@ -567,7 +567,7 @@ function buildRemainingPartsStylesTable(){
                     if(dataModel.modelParts[model][part][style] > 0){
                         const clone = templateRemainingMech.content.cloneNode(true);
 
-                        clone.querySelector(".image").innerHTML = partsRevealedImage(part, model, style);
+                        clone.querySelector(".image").innerHTML = ownerPartsRevealedImage(address, part, model, style);
                         clone.querySelector(".model").textContent = model;
                         clone.querySelector(".part").textContent = part;
                         clone.querySelector(".style").textContent = style;
