@@ -179,3 +179,37 @@ function toggleTable(id){
         tableToggle.innerHTML = '&#43';
     }
 }
+
+function sortByLowestCountFirst(model){
+    let totalParts = {};
+    let newOrder = [].concat(STYLE_ORDER[model]);
+    newOrder.forEach((style)=>{
+        PARTS_ORDER.forEach((part)=>{
+            if(!totalParts[style]){
+                totalParts[style] = 0;
+            }
+            totalParts[style] += (dataModel.modelParts[model][part] && dataModel.modelParts[model][part][style] ? dataModel.modelParts[model][part][style] : 0)
+        });
+    });
+    newOrder.sort(function(styleA, styleB){  
+        return totalParts[styleA] - totalParts[styleB];
+    });
+    return newOrder;
+}
+
+function sortByHighestCountFirst(model){
+    let totalParts = {};
+    let newOrder = [].concat(STYLE_ORDER[model]);
+    newOrder.forEach((style)=>{
+        PARTS_ORDER.forEach((part)=>{
+            if(!totalParts[style]){
+                totalParts[style] = 0;
+            }
+            totalParts[style] += (dataModel.modelParts[model][part] && dataModel.modelParts[model][part][style] ? dataModel.modelParts[model][part][style] : 0)
+        });
+    });
+    newOrder.sort(function(styleA, styleB){  
+        return totalParts[styleB] - totalParts[styleA];
+    });
+    return newOrder;
+}

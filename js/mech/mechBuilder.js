@@ -470,7 +470,8 @@ function buildMixedMechsStyles(afterglowRequired, allowPartial, allowNoModel){
 function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoModel){
     let mixedMechs = {};
     RARITY_ORDER.forEach((model)=>{
-        STYLE_ORDER[model].forEach((style)=>{
+        let order = sortByHighestCountFirst(model);
+        order.forEach((style)=>{
             if(dataModel.modelParts[model]){
                 let partCount = 0;
                 if(allowNoModel){
@@ -486,7 +487,7 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                     let partTwo = '';
                     let remainingParts = Object.keys(tempRemainingParts[model]);
 
-                    remainingParts = changePartOrderBasedOnAvailability(model, remainingParts);
+                    // remainingParts = changePartOrderBasedOnAvailability(model, remainingParts);
                     remainingParts.forEach((part)=>{
                         if((part != 'Engine' || allowNoModel) && (tempRemainingParts[model] && tempRemainingParts[model][part] && tempRemainingParts[model][part][style])){
                             if(partOne == '' && tempRemainingParts[model][part][style] > 0){
@@ -559,7 +560,19 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                             // Remove part from inventory
                             for(let i=0; i < orderRarityOrder.length; i++){
                                 let model2 = orderRarityOrder[i];
-                                STYLE_ORDER[model].forEach((style2)=>{
+                                // let order = [].concat(STYLE_ORDER[model]);
+                                // // let newOrder = [];//sortByLowestCountFirst(order);
+
+                                // order.sort(function(styleA, styleB){  
+                                //     return (tempRemainingParts[model2][part] ? tempRemainingParts[model2][part][styleA] : 0) - (tempRemainingParts[model2][part] ? tempRemainingParts[model2][part][styleB] : tempRemainingParts[model2][part]);
+                                // });
+
+                                let order = sortByLowestCountFirst(model);
+
+                                //STYLE_ORDER[model]
+                                // order.splice(order.indexOf(style), 1);
+                                // order.unshift(style);
+                                order.forEach((style2)=>{
                                     let done = false;
                                     if(!done && tempRemainingParts[model2] && tempRemainingParts[model2][part] && tempRemainingParts[model2][part][style2] && tempRemainingParts[model2][part][style2] > 0){
                                         // Still need a left arm
