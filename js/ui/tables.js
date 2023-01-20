@@ -708,15 +708,15 @@ function buildMechStats(){
                 const clone = templateMechStats.content.cloneNode(true);
                 clone.querySelector(".model").textContent = model;
                 clone.querySelector(".style").textContent = style;
-                let engine = dataModel.modelParts[model]['Engine'][style] ? dataModel.modelParts[model]['Engine'][style] : 0;
+                let engine = dataModel.modelParts[model] && dataModel.modelParts[model]['Engine'] && dataModel.modelParts[model]['Engine'][style] ? dataModel.modelParts[model]['Engine'][style] : 0;
                 clone.querySelector(".engine").textContent = engine;
-                let head = dataModel.modelParts[model]['Head'][style] ? dataModel.modelParts[model]['Head'][style] : 0;
+                let head = dataModel.modelParts[model] && dataModel.modelParts[model]['Head'] && dataModel.modelParts[model]['Head'][style] ? dataModel.modelParts[model]['Head'][style] : 0;
                 clone.querySelector(".head").textContent = head;
-                let body = dataModel.modelParts[model]['Body'][style] ? dataModel.modelParts[model]['Body'][style] : 0;
+                let body = dataModel.modelParts[model] && dataModel.modelParts[model]['Body'] && dataModel.modelParts[model]['Body'][style] ? dataModel.modelParts[model]['Body'][style] : 0;
                 clone.querySelector(".body").textContent = body;
-                let arm = dataModel.modelParts[model]['Arm'][style] ? dataModel.modelParts[model]['Arm'][style] : 0;
+                let arm = dataModel.modelParts[model] && dataModel.modelParts[model]['Arm'] && dataModel.modelParts[model]['Arm'][style] ? dataModel.modelParts[model]['Arm'][style] : 0;
                 clone.querySelector(".arm").textContent = arm;
-                let leg = dataModel.modelParts[model]['Leg'][style] ? dataModel.modelParts[model]['Leg'][style] : 0;
+                let leg = dataModel.modelParts[model] && dataModel.modelParts[model]['Leg'] && dataModel.modelParts[model]['Leg'][style] ? dataModel.modelParts[model]['Leg'][style] : 0;
                 clone.querySelector(".leg").textContent = leg;
 
                 let total = engine + head + body + arm + leg;

@@ -517,16 +517,18 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                         let mixedMech = {};
                         let hasEngine = false;
 
-                        Object.keys(tempRemainingParts[model]['Engine']).forEach((style2)=>{
-                            if(!hasEngine && tempRemainingParts[model] && tempRemainingParts[model]['Engine'] && tempRemainingParts[model]['Engine'][style2] && tempRemainingParts[model]['Engine'][style2] > 0){
-                                mixedMech['Engine'] = {
-                                    model,
-                                    style: style2
-                                };
-                                tempRemainingParts[model]['Engine'][style2]--;
-                                hasEngine = true;
-                            }
-                        })
+                        if(tempRemainingParts[model] && tempRemainingParts[model]['Engine']){
+                            Object.keys(tempRemainingParts[model]['Engine']).forEach((style2)=>{
+                                if(!hasEngine && tempRemainingParts[model] && tempRemainingParts[model]['Engine'] && tempRemainingParts[model]['Engine'][style2] && tempRemainingParts[model]['Engine'][style2] > 0){
+                                    mixedMech['Engine'] = {
+                                        model,
+                                        style: style2
+                                    };
+                                    tempRemainingParts[model]['Engine'][style2]--;
+                                    hasEngine = true;
+                                }
+                            })
+                        }
                         let remainingPartNames = ['Head', 'Body', 'Leg', 'Arm', 'Arm'];
                         mech.forEach((modelPart)=>{
                             var index = remainingPartNames.indexOf(modelPart.part);
