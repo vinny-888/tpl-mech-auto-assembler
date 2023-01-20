@@ -521,7 +521,7 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                             if(!hasEngine && tempRemainingParts[model] && tempRemainingParts[model]['Engine'] && tempRemainingParts[model]['Engine'][style2] && tempRemainingParts[model]['Engine'][style2] > 0){
                                 mixedMech['Engine'] = {
                                     model,
-                                    style2
+                                    style: style2
                                 };
                                 tempRemainingParts[model]['Engine'][style2]--;
                                 hasEngine = true;
