@@ -27,9 +27,9 @@ function partsRevealedImageMissing(part, model, style) {
 
 function fullRevealedImage(style) {
     if(style == 'CAMM-E'){
-        return '<img onmouseover="bigImg(event, this, \'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/camm-e.webp\')"  onmouseout="smallImg()"  height="60px" src="'+path+'images/mechs/small/camm-e.webp" title="'+[style].join(' ')+'" />';
+        return '<img onmouseover="bigImg(event, this, \'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/camm-e.webp\')"  onmouseout="smallImg()"  height="60px" src="'+path+'images/mechs/small/camm-e.webp" />';
     } else {
-        return '<img onmouseover="bigImg(event, this, \'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp\')"  onmouseout="smallImg()"  height="60px" src="'+path+'images/mechs/small/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp" title="'+[style].join(' ')+'" />';
+        return '<img onmouseover="bigImg(event, this, \'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp\')"  onmouseout="smallImg()"  height="60px" src="'+path+'images/mechs/small/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp" />';
     }
 }
 
