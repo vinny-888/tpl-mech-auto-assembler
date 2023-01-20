@@ -91,7 +91,7 @@ function buildTablesAndMechs(){
     buildMixedModelMechsStylesSummaryTable(mixedMechsPartial);
 
     // Build *partial* mechs and show missing parts
-    let mixedMechsPartialNoModel = buildMixedMechsStyles(false, true, true);
+    let mixedMechsPartialNoModel = buildNoModelMixedMechsStyles(false, true, true);
     buildPartialMechNoModelStylesTable(mixedMechsPartialNoModel);
 
     // Build remaining parts table

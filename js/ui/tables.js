@@ -562,8 +562,8 @@ function buildRemainingPartsStylesTable(){
     let remainingCount = 0;
     RARITY_ORDER.forEach((model)=>{
         if(dataModel.modelParts[model]){
-            Object.keys(dataModel.modelParts[model]).forEach((part)=>{
-                STYLE_ORDER[model].forEach((style)=>{
+            STYLE_ORDER[model].forEach((style)=>{
+                Object.keys(dataModel.modelParts[model]).forEach((part)=>{
                     if(dataModel.modelParts[model][part][style] > 0){
                         const clone = templateRemainingMech.content.cloneNode(true);
 
@@ -637,7 +637,25 @@ function buildPartialMechNoModelStylesTable(mixedMechsPartial){
                 if(mech.Engine){
                     clone.querySelector(".engine").innerHTML = partsRevealedImage('Engine', mech.Engine.model, mech.Engine.style);
                 }else{
-                    clone.querySelector(".engine").innerHTML = partsRevealedImageMissing('Engine', mech.Engine.model, mech.Engine.style);
+                    let model2 = '';
+                    let style2 = '';
+                    if(mech.Head){
+                        model2 = mech.Head.model;
+                        style2 = mech.Head.style;
+                    } else if (mech.Body) {
+                        model2 = mech.Body.model;
+                        style2 = mech.Body.style;
+                    } else if (mech.Leg) {
+                        model2 = mech.Leg.model;
+                        style2 = mech.Leg.style;
+                    } else if (mech.left_arm) {
+                        model2 = mech.left_arm.model;
+                        style2 = mech.left_arm.style;
+                    } else if (mech.right_arm) {
+                        model2 = mech.right_arm.model;
+                        style2 = mech.right_arm.style;
+                    }
+                    clone.querySelector(".engine").innerHTML = partsRevealedImageMissing('Engine', model2, style2);
                 }
 
                 if(mech.Head){
