@@ -13,7 +13,7 @@ function buildFullMechs(){
             }
         });
         for(let i=0; i<min-dataModel.dismantled[model]; i++){
-            if(dataModel.remainingAfterglows > 0){
+            // if(dataModel.remainingAfterglows > 0){
                 let fullMech = {
                     Engine: model,
                     Head: model,
@@ -34,8 +34,8 @@ function buildFullMechs(){
                     }
                 });
                 fullMechs[model].push(fullMech);
-                dataModel.remainingAfterglows--;
-            }
+                // dataModel.remainingAfterglows--;
+            // }
         }
     })
     return fullMechs;
@@ -144,17 +144,17 @@ function buildMixedMechs(afterglowRequired, allowPartial, allowNoModel){
                 if(!allowNoModel || (allowNoModel && countMechParts(mixedMech) >= 2)){
                     if( (allowPartial && isPartialMech(mixedMech))
                         || (!allowPartial && isFullMech(mixedMech))){
-                        if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
+                        // if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
                             if(!mixedMechs[model]){
                                 mixedMechs[model] = [];
                             }
                             mixedMechs[model].push(mixedMech);
                             dataModel.modelParts = tempRemainingParts;
 
-                            if(afterglowRequired){
-                                dataModel.remainingAfterglows--;
-                            }
-                        }
+                            // if(afterglowRequired){
+                            //     dataModel.remainingAfterglows--;
+                            // }
+                        // }
                     }
                 }
             }
@@ -272,7 +272,7 @@ function buildFullModelMechStyles(){
             });
             if(min != 99999){
                 for(let i=0; i<min-dataModel.dismantled[model]; i++){
-                    if(dataModel.remainingAfterglows > 0){
+                    // if(dataModel.remainingAfterglows > 0){
                         let fullMech = {
                             Engine: {
                                 model,
@@ -314,8 +314,8 @@ function buildFullModelMechStyles(){
                             }
                         });
                         fullMechs[model][style].push(fullMech);
-                        dataModel.remainingAfterglows--;
-                    }
+                        // dataModel.remainingAfterglows--;
+                    // }
                 }
             }
         });
@@ -446,7 +446,7 @@ function buildMixedMechsStyles(afterglowRequired, allowPartial, allowNoModel){
                         if(!allowNoModel || (allowNoModel && countMechParts(mixedMech) >= 2)){
                             if( (allowPartial && isPartialMech(mixedMech))
                                 || (!allowPartial && isFullMech(mixedMech))){
-                                if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
+                                // if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
                                     if(!mixedMechs[model]){
                                         mixedMechs[model] = [];
                                     }
@@ -456,7 +456,7 @@ function buildMixedMechsStyles(afterglowRequired, allowPartial, allowNoModel){
                                     if(afterglowRequired){
                                         dataModel.remainingAfterglows--;
                                     }
-                                }
+                                // }
                             }
                         }
                     }
@@ -624,17 +624,17 @@ function buildNoModelMixedMechsStyles(afterglowRequired, allowPartial, allowNoMo
                         if(!allowNoModel || (allowNoModel && countMechParts(mixedMech) >= 2)){
                             if( allowPartial ){ //&& isPartialMech(mixedMech))
                                 // || (!allowPartial && isFullMech(mixedMech))){
-                                if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
+                                // if(!afterglowRequired || (afterglowRequired && dataModel.remainingAfterglows > 0) ){
                                     if(!mixedMechs[model]){
                                         mixedMechs[model] = [];
                                     }
                                     mixedMechs[model].push(mixedMech);
                                     dataModel.modelParts = tempRemainingParts;
 
-                                    if(afterglowRequired){
-                                        dataModel.remainingAfterglows--;
-                                    }
-                                }
+                                    // if(afterglowRequired){
+                                    //     dataModel.remainingAfterglows--;
+                                    // }
+                                // }
                             }
                         }
                     }

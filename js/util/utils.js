@@ -205,7 +205,24 @@ function sortByHighestCountFirst(model){
             if(!totalParts[style]){
                 totalParts[style] = 0;
             }
-            totalParts[style] += (dataModel.modelParts[model][part] && dataModel.modelParts[model][part][style] ? dataModel.modelParts[model][part][style] : 0)
+            totalParts[style] += (dataModel.modelParts[model] && dataModel.modelParts[model][part] && dataModel.modelParts[model][part][style] ? dataModel.modelParts[model][part][style] : 0)
+        });
+    });
+    newOrder.sort(function(styleA, styleB){  
+        return totalParts[styleB] - totalParts[styleA];
+    });
+    return newOrder;
+}
+
+function sortByHighestCountFirstAddress(model, address){
+    let totalParts = {};
+    let newOrder = [].concat(STYLE_ORDER[model]);
+    newOrder.forEach((style)=>{
+        PARTS_ORDER.forEach((part)=>{
+            if(!totalParts[style]){
+                totalParts[style] = 0;
+            }
+            totalParts[style] += (dataModel.owners[address].modelParts[model] && dataModel.owners[address].modelParts[model][part] && dataModel.owners[address].modelParts[model][part][style] ? dataModel.owners[address].modelParts[model][part][style] : 0)
         });
     });
     newOrder.sort(function(styleA, styleB){  

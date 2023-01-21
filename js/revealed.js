@@ -121,6 +121,7 @@ function reset(){
   mixedmechPartialContainer.innerHTML = '';
   mixedmechPartialNoModelContainer.innerHTML = '';
   countsContainer.innerHTML = '';
+  mechStatsContainer.innerHTML = '';
 }
 
 function fixAndSortParts(){

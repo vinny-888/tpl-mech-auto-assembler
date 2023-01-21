@@ -177,6 +177,11 @@ async function populateWalletMechParts(address){
     return walletParts;
 }
 
+async function populateWalletMechPartsStyles(address, totalSupply){
+    let res = await getRevealedMechTokenBalance(address, totalSupply);
+    return res;
+}
+
 async function populateWalletAfterglows(address){
     let walletAfterglows = [];
     let res = await getAfterglowTokenBalanceBatch(getAddressArr(address, 38), getCardArr(38));
