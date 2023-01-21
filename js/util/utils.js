@@ -230,3 +230,74 @@ function sortByHighestCountFirstAddress(model, address){
     });
     return newOrder;
 }
+
+function getSortedKeys(obj) {
+    var keys = Object.keys(obj);
+    return keys.sort(function(a,b){return obj[a]-obj[b]});
+}
+
+function hasTwoMatchingParts(mech, model){
+    let count = 0;
+    Object.keys(mech).forEach((part)=>{
+        if(part != 'Engine' && mech[part] == model){
+            count++;
+        }
+    });
+    return count >= 2;
+}
+
+function getMostParts(parts){
+    let max = 0;
+    Object.keys(parts).forEach((part)=>{
+        if(parts[part] > max){
+            max = parts[part];
+        }
+    });
+    return max;
+}
+
+function isFullMech(mech){
+    return mech.Head && mech.Body
+        && mech.Leg && mech.left_arm
+        && mech.right_arm && mech.Engine;
+}
+
+function isPartialMech(mech){
+    return !mech.Head || !mech.Body
+        || !mech.Leg || !mech.left_arm
+        || !mech.right_arm || !mech.Engine
+}
+
+function countMechParts(mech){
+    return Object.keys(mech).length;
+}
+
+function changePartOrderBasedOnAvailability(modelType, remainingParts){
+    let otherPartCountMax = {};
+    remainingParts.forEach((part)=>{
+        RARITY_ORDER.forEach((model)=>{
+            if(modelType != model){
+                PARTS_ORDER.forEach((part)=>{
+                    if(!otherPartCountMax[part]){
+                        otherPartCountMax[part] = dataModel.modelParts[model][part];
+                    } else {
+                        otherPartCountMax[part] += dataModel.modelParts[model][part];
+                    }
+                })
+            }
+        })
+    })
+    let partNameByOrder = getSortedKeys(otherPartCountMax);
+    return partNameByOrder;
+}
+
+function changeRarityOrderBasedOnModel(model){
+    let newOrder = [].concat(RARITY_ORDER);
+    if(dataModel.useLowest){
+        newOrder.reverse();
+    }
+    let indexOfModel = newOrder.indexOf(model);
+    newOrder.splice(indexOfModel, 1);
+    newOrder.push(model);
+    return newOrder;
+}

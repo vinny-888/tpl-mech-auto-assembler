@@ -288,4 +288,8 @@ const cyberbrokerCountsContainer = document.querySelector("#cyberbrokers-counts"
 const templateEmpty = document.querySelector("#template-empty");
 
 const templateMechStats = document.querySelector("#template-mech-stats");
-const mechStatsContainer = document.querySelector("#mech-stats");
+const mechStatsNexusContainer = document.querySelector("#mech-stats-nexus");
+const mechStatsLupisContainer = document.querySelector("#mech-stats-lupis");
+const mechStatsBehemothContainer = document.querySelector("#mech-stats-behemoth");
+const mechStatsRavagerContainer = document.querySelector("#mech-stats-ravager");
+const mechStatsEnforcerContainer = document.querySelector("#mech-stats-enforcer");

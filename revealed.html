@@ -127,15 +127,15 @@
             </div>
 
             <div class="containerDiv">
-              <div class="borderDiv">
-                <h4> Revealed Stats 
-                  <button class="tooltipBtn" tip="Table showing completed mech counts for each model type based on wallet contents at time of snapshot.">?</button>
-                  <div id="countsTableToggle" class="toggle" onclick="toggleTable('mechCountsTable')">
+              <div class="borderDiv" style="margin-top: 0px;">
+                <h4> Nexus Parts <span id="Nexus_count">0</span> 
+                  <button class="tooltipBtn" tip="Table showing completed mech counts for Nexus model type based on wallet contents at time of snapshot.">?</button>
+                  <div id="countsTableNexusToggle" class="toggle" onclick="toggleTable('mechCountsTableNexus')">
                     &#8212;
                   </div>
                 </h4>
 
-                <table id="mechCountsTable" class="table table-full">
+                <table id="mechCountsTableNexus" class="table table-full">
                   <thead>
                     <th>Model</th>
                     <th>Style</th>
@@ -147,10 +147,116 @@
                     <th style="background-color: #181818; color: #71d0c6;">Total</th>
                   </thead>
 
-                  <tbody id="mech-stats">
+                  <tbody id="mech-stats-nexus">
                   </tbody>
                 </table>
               </div>
+
+
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Lupis Parts <span id="Lupis_count">0</span> 
+                  <button class="tooltipBtn" tip="Table showing completed mech counts for Lupis model type based on wallet contents at time of snapshot.">?</button>
+                  <div id="countsTableLupisToggle" class="toggle" onclick="toggleTable('mechCountsTableLupis')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="mechCountsTableLupis" class="table table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Style</th>
+                    <th>Engine</th>
+                    <th>Head</th>
+                    <th>Body</th>
+                    <th>Arm</th>
+                    <th>Leg</th>
+                    <th style="background-color: #181818; color: #71d0c6;">Total</th>
+                  </thead>
+
+                  <tbody id="mech-stats-lupis">
+                  </tbody>
+                </table>
+              </div>
+
+
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Behemoth Parts <span id="Behemoth_count">0</span> 
+                  <button class="tooltipBtn" tip="Table showing completed mech counts for Behemoth model type based on wallet contents at time of snapshot.">?</button>
+                  <div id="countsTableBehemothToggle" class="toggle" onclick="toggleTable('mechCountsTableBehemoth')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="mechCountsTableBehemoth" class="table table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Style</th>
+                    <th>Engine</th>
+                    <th>Head</th>
+                    <th>Body</th>
+                    <th>Arm</th>
+                    <th>Leg</th>
+                    <th style="background-color: #181818; color: #71d0c6;">Total</th>
+                  </thead>
+
+                  <tbody id="mech-stats-behemoth">
+                  </tbody>
+                </table>
+              </div>
+
+
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Ravager Parts <span id="Ravager_count">0</span> 
+                  <button class="tooltipBtn" tip="Table showing completed mech counts for Ravager model type based on wallet contents at time of snapshot.">?</button>
+                  <div id="countsTableRavagerToggle" class="toggle" onclick="toggleTable('mechCountsTableRavager')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="mechCountsTableRavager" class="table table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Style</th>
+                    <th>Engine</th>
+                    <th>Head</th>
+                    <th>Body</th>
+                    <th>Arm</th>
+                    <th>Leg</th>
+                    <th style="background-color: #181818; color: #71d0c6;">Total</th>
+                  </thead>
+
+                  <tbody id="mech-stats-ravager">
+                  </tbody>
+                </table>
+              </div>
+
+
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Enforcer Parts <span id="Enforcer_count">0</span> 
+                  <button class="tooltipBtn" tip="Table showing completed mech counts for each Enforcer type based on wallet contents at time of snapshot.">?</button>
+                  <div id="countsTableEnforcerToggle" class="toggle" onclick="toggleTable('mechCountsTableEnforcer')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="mechCountsTableEnforcer" class="table table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Style</th>
+                    <th>Engine</th>
+                    <th>Head</th>
+                    <th>Body</th>
+                    <th>Arm</th>
+                    <th>Leg</th>
+                    <th style="background-color: #181818; color: #71d0c6;">Total</th>
+                  </thead>
+
+                  <tbody id="mech-stats-enforcer">
+                  </tbody>
+                </table>
+              </div>
+
+
               <div class="borderDiv" style="margin-top: 8px;">
                 <h4> Afterglows <span id="afterglow_count">0</span> 
                   <button class="tooltipBtn" tip="All Afterglows owned by this wallet.">?</button>
@@ -405,11 +511,11 @@
         <tr>
           <td class="model"></td>
           <td class="style"></td>
-          <td class="engine"></td>
-          <td class="head"></td>
-          <td class="body"></td>
-          <td class="arm"></td>
-          <td class="leg"></td>
+          <td class="Engine"></td>
+          <td class="Head"></td>
+          <td class="Body"></td>
+          <td class="Arm"></td>
+          <td class="Leg"></td>
           <td class="count"></td>
         </tr>
       </template>
@@ -431,7 +537,7 @@
     <script type="text/javascript" src="./js/web3/wallet.js?v=5.5"></script>
     <script type="text/javascript" src="./js/model/model.js?v=5.5"></script>
     <script type="text/javascript" src="./js/util/utils.js?v=5.5"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilder.js?v=5.5"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilderStyles.js?v=5.5"></script>
     <script type="text/javascript" src="./js/data/data.js?v=5.5"></script>
     <script type="text/javascript" src="./js/data/metadata.js?v=5.5"></script>
     <script type="text/javascript" src="./js/revealed.js?v=5.5"></script>

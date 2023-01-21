@@ -701,28 +701,42 @@ function buildPartialMechNoModelStylesTable(mixedMechsPartial){
     document.querySelector("#partial_no_model_count").innerHTML = '('+count+')';
 }
 
-function buildMechStats(){
-    RARITY_ORDER.forEach((model)=>{
-        if(dataModel.modelParts[model]){
-            STYLE_ORDER[model].forEach((style)=>{
-                const clone = templateMechStats.content.cloneNode(true);
-                clone.querySelector(".model").textContent = model;
-                clone.querySelector(".style").textContent = style;
-                let engine = (dataModel.modelParts[model] && dataModel.modelParts[model]['Engine'] && dataModel.modelParts[model]['Engine'][style]) ? dataModel.modelParts[model]['Engine'][style] : 0;
-                clone.querySelector(".engine").textContent = engine;
-                let head = (dataModel.modelParts[model] && dataModel.modelParts[model]['Head'] && dataModel.modelParts[model]['Head'][style]) ? dataModel.modelParts[model]['Head'][style] : 0;
-                clone.querySelector(".head").textContent = head;
-                let body = (dataModel.modelParts[model] && dataModel.modelParts[model]['Body'] && dataModel.modelParts[model]['Body'][style]) ? dataModel.modelParts[model]['Body'][style] : 0;
-                clone.querySelector(".body").textContent = body;
-                let arm = (dataModel.modelParts[model] && dataModel.modelParts[model]['Arm'] && dataModel.modelParts[model]['Arm'][style]) ? dataModel.modelParts[model]['Arm'][style] : 0;
-                clone.querySelector(".arm").textContent = arm;
-                let leg = (dataModel.modelParts[model] && dataModel.modelParts[model]['Leg'] && dataModel.modelParts[model]['Leg'][style]) ? dataModel.modelParts[model]['Leg'][style] : 0;
-                clone.querySelector(".leg").textContent = leg;
+function buildMechStats(model, container){
+    if(dataModel.modelParts[model]){
+        let fullTotal = 0;
+        STYLE_ORDER[model].forEach((style)=>{
+            const clone = templateMechStats.content.cloneNode(true);
+            clone.querySelector(".model").textContent = model;
+            clone.querySelector(".style").textContent = style;
+            let engine = (dataModel.modelParts[model] && dataModel.modelParts[model]['Engine'] && dataModel.modelParts[model]['Engine'][style]) ? dataModel.modelParts[model]['Engine'][style] : 0;
+            clone.querySelector(".Engine").textContent = engine;
+            let head = (dataModel.modelParts[model] && dataModel.modelParts[model]['Head'] && dataModel.modelParts[model]['Head'][style]) ? dataModel.modelParts[model]['Head'][style] : 0;
+            clone.querySelector(".Head").textContent = head;
+            let body = (dataModel.modelParts[model] && dataModel.modelParts[model]['Body'] && dataModel.modelParts[model]['Body'][style]) ? dataModel.modelParts[model]['Body'][style] : 0;
+            clone.querySelector(".Body").textContent = body;
+            let arm = (dataModel.modelParts[model] && dataModel.modelParts[model]['Arm'] && dataModel.modelParts[model]['Arm'][style]) ? dataModel.modelParts[model]['Arm'][style] : 0;
+            clone.querySelector(".Arm").textContent = arm;
+            let leg = (dataModel.modelParts[model] && dataModel.modelParts[model]['Leg'] && dataModel.modelParts[model]['Leg'][style]) ? dataModel.modelParts[model]['Leg'][style] : 0;
+            clone.querySelector(".Leg").textContent = leg;
 
-                let total = engine + head + body + arm + leg;
-                clone.querySelector(".count").textContent = total;
-                mechStatsContainer.appendChild(clone);
+            let total = engine + head + body + arm + leg;
+            clone.querySelector(".count").textContent = total;
+            container.appendChild(clone);
+        });
+
+        const clone = templateMechStats.content.cloneNode(true);
+        clone.querySelector(".model").textContent = 'Total';
+        clone.querySelector(".style").textContent = '';
+        PARTS_ORDER.forEach((part)=>{
+            let count = 0;
+            STYLE_ORDER[model].forEach((style)=>{
+                count += (dataModel.modelParts[model] && dataModel.modelParts[model][part] && dataModel.modelParts[model][part][style]) ? dataModel.modelParts[model][part][style] : 0;
             });
-        }
-    });
+            clone.querySelector("."+part+"").textContent = count;
+            fullTotal += count;
+        })
+        document.querySelector("#"+model+"_count").innerHTML = '('+fullTotal+')';
+        clone.querySelector(".count").textContent = fullTotal;
+        container.appendChild(clone);
+    }
 }

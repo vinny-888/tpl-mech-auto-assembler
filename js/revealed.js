@@ -60,8 +60,10 @@ function buildTablesAndMechs(){
     var url = new URL(window.location);
     var wallet = url.searchParams.get("wallet");
 
-
-    buildMechStats();
+    let tables = [mechStatsNexusContainer,mechStatsLupisContainer,mechStatsBehemothContainer,mechStatsRavagerContainer,mechStatsEnforcerContainer ];
+    RARITY_ORDER.forEach((model, index)=>{
+      buildMechStats(model, tables[index]);
+    });
     highlightTotal();
 
     // Builds the wallet inventory parts tables
@@ -125,7 +127,11 @@ function reset(){
   mixedmechPartialContainer.innerHTML = '';
   mixedmechPartialNoModelContainer.innerHTML = '';
   countsContainer.innerHTML = '';
-  mechStatsContainer.innerHTML = '';
+  mechStatsNexusContainer.innerHTML = '';
+  mechStatsLupisContainer.innerHTML = '';
+  mechStatsBehemothContainer.innerHTML = '';
+  mechStatsRavagerContainer.innerHTML = '';
+  mechStatsEnforcerContainer.innerHTML = '';
 }
 
 function fixAndSortParts(){
@@ -353,15 +359,23 @@ for(let i=12002; i<=12392; i++){
 function highlightTotal(){
   let color = '#71d0c6';
   let backgroundColor = '#181818';
-  var table1 = document.getElementById("mechCountsTable");
-  var cells1 = table1.getElementsByTagName("tr");
-  cells1[cells1.length-1].style.backgroundColor = backgroundColor;
-  cells1[cells1.length-1].style.color = color;
-  cells1[cells1.length-1].style.fontWeight = 'bold';
-  var cells1a = table1.getElementsByTagName("td");
-  for (var i = 7; i < cells1a.length; i+=8) {
-    cells1a[i].style.backgroundColor = backgroundColor;
-    cells1a[i].style.color = color;
-    cells1a[i].style.fontWeight = 'bold';
-  }
+  var table1 = document.getElementById("mechCountsTableNexus");
+  var table2 = document.getElementById("mechCountsTableLupis");
+  var table3 = document.getElementById("mechCountsTableBehemoth");
+  var table4 = document.getElementById("mechCountsTableRavager");
+  var table5 = document.getElementById("mechCountsTableEnforcer");
+
+  let tables = [table1, table2, table3, table4, table5];
+  tables.forEach((table)=>{
+    var cells1 = table.getElementsByTagName("tr");
+    cells1[cells1.length-1].style.backgroundColor = backgroundColor;
+    cells1[cells1.length-1].style.color = color;
+    cells1[cells1.length-1].style.fontWeight = 'bold';
+    var cells1a = table.getElementsByTagName("td");
+    for (var i = 7; i < cells1a.length; i+=8) {
+      cells1a[i].style.backgroundColor = backgroundColor;
+      cells1a[i].style.color = color;
+      cells1a[i].style.fontWeight = 'bold';
+    }
+  })
 }
