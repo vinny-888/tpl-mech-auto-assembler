@@ -141,7 +141,8 @@ function buildMaxMechTable(
   ){
   const clone = templateMax.content.cloneNode(true);
   clone.querySelector(".model").textContent = model;
-  clone.querySelector(".engine").innerHTML = partsRevealedImage('Engine', model, mech.Engine.style);;
+  clone.querySelector(".style").textContent = mech.Engine.style;
+  clone.querySelector(".engine").innerHTML = partsRevealedImage('Engine', model, mech.Engine.style);
   clone.querySelector(".head").innerHTML = partsRevealedImage('Head', model, mech.Head.style);
   clone.querySelector(".body").innerHTML = partsRevealedImage('Body', model, mech.Body.style);
   clone.querySelector(".legs").innerHTML = partsRevealedImage('Legs', model, mech.Legs.style);
