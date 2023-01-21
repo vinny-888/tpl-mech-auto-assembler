@@ -25,6 +25,13 @@ function partsRevealedImageMissing(part, model, style) {
     return '<a  class="redFilter" target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
 }
 
+function partsRevealedImageMissingAll(part, model, style) {
+    if(part == 'Leg'){
+        part = 'legs';
+    }
+    return '<a  class="redFilter" target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
+}
+
 function fullRevealedImage(style) {
     if(style == 'CAMM-E'){
         return '<img onmouseover="bigImg(event, this, \'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/camm-e.webp\')"  onmouseout="smallImg()"  height="60px" src="'+path+'images/mechs/small/camm-e.webp" />';
@@ -59,7 +66,11 @@ function buildOpenSeaRevealedModelPartURL(model, part, style){
     if(part == 'legs'){
         part = 'Legs';
     }
-    return 'https://opensea.io/collection/tpl-revealed-mech-parts?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Model&search[stringTraits][0][values][0]=' + model + '&search[stringTraits][1][name]=Part&search[stringTraits][1][values][0]=' + part + '&search[stringTraits][2][name]=Style&search[stringTraits][2][values][0]=' + style 
+    if(style){
+        return 'https://opensea.io/collection/tpl-revealed-mech-parts?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Model&search[stringTraits][0][values][0]=' + model + '&search[stringTraits][1][name]=Part&search[stringTraits][1][values][0]=' + part + '&search[stringTraits][2][name]=Style&search[stringTraits][2][values][0]=' + style 
+    } else {
+        return 'https://opensea.io/collection/tpl-revealed-mech-parts?search[sortAscending]=true&search[sortBy]=UNIT_PRICE&search[stringTraits][0][name]=Model&search[stringTraits][0][values][0]=' + model + '&search[stringTraits][1][name]=Part&search[stringTraits][1][values][0]=' + part
+    }
 }
 
 function buildOwnerOpenSeaRevealedModelPartURL(address, model, part, style){
