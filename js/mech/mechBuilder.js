@@ -206,7 +206,7 @@ function changeRarityOrderBasedOnModel(model){
     }
     let indexOfModel = newOrder.indexOf(model);
     newOrder.splice(indexOfModel, 1);
-    newOrder.push(model);
+    newOrder.unset(model);
     return newOrder;
 }
 

@@ -372,7 +372,7 @@ function highlightTotal(){
     cells1[cells1.length-1].style.color = color;
     cells1[cells1.length-1].style.fontWeight = 'bold';
     var cells1a = table.getElementsByTagName("td");
-    for (var i = 7; i < cells1a.length; i+=8) {
+    for (var i = 6; i < cells1a.length; i+=7) {
       cells1a[i].style.backgroundColor = backgroundColor;
       cells1a[i].style.color = color;
       cells1a[i].style.fontWeight = 'bold';

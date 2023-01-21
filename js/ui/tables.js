@@ -706,7 +706,7 @@ function buildMechStats(model, container){
         let fullTotal = 0;
         STYLE_ORDER[model].forEach((style)=>{
             const clone = templateMechStats.content.cloneNode(true);
-            clone.querySelector(".model").textContent = model;
+            // clone.querySelector(".model").textContent = model;
             clone.querySelector(".style").textContent = style;
             let engine = (dataModel.modelParts[model] && dataModel.modelParts[model]['Engine'] && dataModel.modelParts[model]['Engine'][style]) ? dataModel.modelParts[model]['Engine'][style] : 0;
             clone.querySelector(".Engine").textContent = engine;
@@ -725,8 +725,8 @@ function buildMechStats(model, container){
         });
 
         const clone = templateMechStats.content.cloneNode(true);
-        clone.querySelector(".model").textContent = 'Total';
-        clone.querySelector(".style").textContent = '';
+        // clone.querySelector(".model").textContent = 'Total';
+        clone.querySelector(".style").textContent = 'Total';
         PARTS_ORDER.forEach((part)=>{
             let count = 0;
             STYLE_ORDER[model].forEach((style)=>{
