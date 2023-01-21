@@ -301,3 +301,21 @@ function changeRarityOrderBasedOnModel(model){
     newOrder.push(model);
     return newOrder;
 }
+
+function getMostPartsStyles(modelParts){
+    let max = 0;
+    Object.keys(modelParts).forEach((part)=>{
+        let count = 0;
+        Object.keys(modelParts[part]).forEach((style)=>{
+            if(part == 'Arm'){
+                count += modelParts[part][style]/2;
+            } else {
+                count += modelParts[part][style];
+            }
+        });
+        if(count > max){
+            max = count;
+        }
+    })
+    return Math.floor(max);
+}
