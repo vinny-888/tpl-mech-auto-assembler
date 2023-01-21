@@ -186,13 +186,13 @@ async function refreshAccountData() {
 
 function countMechModels(){
   let totalFullMechs = {};
-  let totalMixedMechs = 0;
-  let totalMixedMechsNoAfterglow = 0;
+  let totalMixedMechs = {};
+  let totalMixedMechsNoAfterglow = {};
   let totalParts = {};
   revealedStatsData.forEach((data)=>{
     let fullMechs = data.fullMechs;
-    let mixedMechs = data.mixedMechsPartialCount;
-    let mixedMechsNoAfterglow = data.mixedMechsPartialNoModelCount;
+    let mixedMechs = data.mixedMechsPartial;
+    let mixedMechsNoAfterglow = data.mixedMechsPartialNoModel;
     let modelParts = data.modelParts;
 
     Object.keys(fullMechs).forEach((model)=>{
@@ -204,27 +204,25 @@ function countMechModels(){
       });
     });
 
-    totalMixedMechs += mixedMechs;
+    // totalMixedMechs += mixedMechs;
 
-    totalMixedMechsNoAfterglow += mixedMechsNoAfterglow;
+    // totalMixedMechsNoAfterglow += mixedMechsNoAfterglow;
 
-    // Object.keys(mixedMechs).forEach((model)=>{
-    //   if(!totalMixedMechs[model]){
-    //     totalMixedMechs[model] = 0;
-    //   }
-    //   STYLE_ORDER[model].forEach((style)=>{
-    //     totalMixedMechs[model] += (mixedMechs[model] && mixedMechs[model][style] ? mixedMechs[model][style].length : 0);
-    //   });
-    // });
+    Object.keys(mixedMechs).forEach((model)=>{
+      if(!totalMixedMechs[model]){
+        totalMixedMechs[model] = 0;
+      }
+      totalMixedMechs[model] += (mixedMechs[model] ? mixedMechs[model].length : 0);
+    });
 
-    // Object.keys(mixedMechsNoAfterglow).forEach((model)=>{
-    //   if(!totalMixedMechsNoAfterglow[model]){
-    //     totalMixedMechsNoAfterglow[model] = 0;
-    //   }
-    //   STYLE_ORDER[model].forEach((style)=>{
-    //     totalMixedMechsNoAfterglow[model] += (mixedMechsNoAfterglow[model] && mixedMechsNoAfterglow[model][style] ? mixedMechsNoAfterglow[model][style].length : 0);
-    //   });
-    // });
+    Object.keys(mixedMechsNoAfterglow).forEach((model)=>{
+      if(!totalMixedMechsNoAfterglow[model]){
+        totalMixedMechsNoAfterglow[model] = 0;
+      }
+      STYLE_ORDER[model].forEach((style)=>{
+        totalMixedMechsNoAfterglow[model] += (mixedMechsNoAfterglow[model] ? mixedMechsNoAfterglow[model].length : 0);
+      });
+    });
 
     Object.keys(modelParts).forEach((model)=>{
       if(!totalParts[model]){
@@ -255,7 +253,7 @@ function countMechModels(){
 
   console.log('totalFullMechs', totalFullMechs);
   console.log('totalMixedMechs', totalMixedMechs);
-  // console.log('totalMixedMechsNoAfterglow', totalMixedMechsNoAfterglow);
+  console.log('totalMixedMechsNoAfterglow', totalMixedMechsNoAfterglow);
   console.log('totalParts', totalParts);
 
   RARITY_ORDER.forEach((model)=>{
@@ -420,6 +418,8 @@ function updateTable(row, address, cachedData){
           mixedMechsPartialNoModelCount,
           remainingParts,
           fullMechs,
+          mixedMechsPartial,
+          mixedMechsPartialNoModel,
           // mixedMechs,
           // mixedMechsNoAfterglow,
           modelParts
@@ -431,7 +431,7 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/962';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/961';
 }
 
 function buildPartCountsTable(row, 
@@ -483,18 +483,22 @@ function buildMechCountsTable(fullMechs, mixedMechs, mixedMechsNoAfterglow, mode
   clone.querySelector(".model").textContent = model;
   if(model != 'Total'){
     clone.querySelector(".full").textContent = fullMechs[model];
-    clone.querySelector(".mixed").textContent = '';
-    clone.querySelector(".mixed_no_afterglow").textContent = '';
-    clone.querySelector(".total").textContent = fullMechs[model];
+    clone.querySelector(".mixed").textContent = mixedMechs[model];
+    // clone.querySelector(".mixed_no_afterglow").textContent = mixedMechsNoAfterglow[model];
+    clone.querySelector(".total").textContent = fullMechs[model] + mixedMechs[model];
   } else {
     let totalFull = 0;
+    let totalMixedMechs = 0;
+    let totalMixedMechsNoAfterglow = 0;
     RARITY_ORDER.forEach((model)=>{
       totalFull += fullMechs[model];
+      totalMixedMechs += mixedMechs[model];
+      totalMixedMechsNoAfterglow += mixedMechsNoAfterglow[model];
     });
     clone.querySelector(".full").textContent = totalFull;
-    clone.querySelector(".mixed").textContent = mixedMechs;
-    clone.querySelector(".mixed_no_afterglow").textContent = mixedMechsNoAfterglow;
-    clone.querySelector(".total").textContent = totalFull+mixedMechs+mixedMechsNoAfterglow;
+    clone.querySelector(".mixed").textContent = totalMixedMechs;
+    // clone.querySelector(".mixed_no_afterglow").textContent = totalMixedMechsNoAfterglow;
+    clone.querySelector(".total").textContent = totalFull+totalMixedMechs;
   }
   mechCountsContainer.appendChild(clone);
 }
@@ -771,7 +775,7 @@ function highlightTotal(){
   cells1[cells1.length-1].style.color = color;
   cells1[cells1.length-1].style.fontWeight = 'bold';
   var cells1a = table1.getElementsByTagName("td");
-  for (var i = 4; i < cells1a.length; i+=5) {
+  for (var i = 3; i < cells1a.length; i+=4) {
     cells1a[i].style.backgroundColor = backgroundColor;
     cells1a[i].style.color = color;
     cells1a[i].style.fontWeight = 'bold';
