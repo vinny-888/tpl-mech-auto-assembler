@@ -44,6 +44,7 @@ async function refreshAccountData() {
 }
 
 function buildTablesAndMechs(){
+    let usePartial = document.querySelector('#use_partial').checked;
     // let useBehemoth = document.querySelector('#use_behemoth').checked;
     // dataModel.useLowest = document.querySelector('#use_lowest').checked;
     // dataModel.useStyles = document.querySelector('#use_styles').checked;
@@ -93,9 +94,12 @@ function buildTablesAndMechs(){
 
     // Build *partial* mechs and show missing parts
     // let mixedMechsPartial = buildMixedMechs(false, true, false);
-    let mixedMechsPartial = buildMixedMechsStyles(false, true, false);
-    buildPartialMechStylesTable(mixedMechsPartial);
-
+    if(usePartial){
+      let mixedMechsPartial = buildMixedMechsStyles(false, true, false);
+      buildPartialMechStylesTable(mixedMechsPartial);
+    } else {
+      document.querySelector("#partial_count").innerHTML = '(0)';
+    }
     // Build *partial* mechs and show missing parts
     let mixedMechsPartialNoModel = buildNoModelMixedMechsStyles(false, true, true);
     buildPartialMechNoModelStylesTable(mixedMechsPartialNoModel);
