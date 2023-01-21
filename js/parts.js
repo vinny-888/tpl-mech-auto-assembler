@@ -57,22 +57,35 @@ function buildPartTable(){
   });
 
   let maxMechs = {};
+  let maxEnduranceMechs = {};
+  let maxSpeedMechs = {};
+  let maxPowerMechs = {};
+  
 
   RARITY_ORDER.forEach((model)=>{
     if(!maxMechs[model]){
       maxMechs[model] = {};
     }
+    if(!maxEnduranceMechs[model]){
+      maxEnduranceMechs[model] = {};
+    }
+    if(!maxSpeedMechs[model]){
+      maxSpeedMechs[model] = {};
+    }
+    if(!maxPowerMechs[model]){
+      maxPowerMechs[model] = {};
+    }
     PARTS_ORDER.forEach((part)=>{
       if(part == 'Leg'){
         part = 'Legs';
       }
-      let partsArr = parts[model][part];
-      partsArr.sort((a,b)=>{
+      let partsMaxArr = [].concat(parts[model][part]);
+      partsMaxArr.sort((a,b)=>{
         let aTotal = a.endurance + a.speed + a.power;
         let bTotal = b.endurance + b.speed + b.power;
         return bTotal - aTotal;
       });
-      partsArr.forEach((sortedPart, index)=>{
+      partsMaxArr.forEach((sortedPart, index)=>{
         let style = sortedPart.style;
         let endurance = sortedPart.endurance;
         let speed = sortedPart.speed;
@@ -89,13 +102,96 @@ function buildPartTable(){
         }
         buildPartCountsTable(model, part, style, endurance, speed, power);
       });
+
+
+      let partsMaxEnduranceArr = [].concat(parts[model][part]);
+      partsMaxEnduranceArr.sort((a,b)=>{
+        let aTotal = a.endurance;
+        let bTotal = b.endurance;
+        return bTotal - aTotal;
+      });
+
+      partsMaxEnduranceArr.forEach((sortedPart, index)=>{
+        let style = sortedPart.style;
+        let endurance = sortedPart.endurance;
+        let speed = sortedPart.speed;
+        let power = sortedPart.power;
+
+        // Highest Stat Part
+        if(index == 0){
+          maxEnduranceMechs[model][part] = {
+            style,
+            endurance,
+            speed,
+            power
+          }
+        }
+      });
+
+      let partsMaxSpeedArr = [].concat(parts[model][part]);
+      partsMaxSpeedArr.sort((a,b)=>{
+        let aTotal = a.speed;
+        let bTotal = b.speed;
+        return bTotal - aTotal;
+      });
+
+      partsMaxSpeedArr.forEach((sortedPart, index)=>{
+        let style = sortedPart.style;
+        let endurance = sortedPart.endurance;
+        let speed = sortedPart.speed;
+        let power = sortedPart.power;
+
+        // Highest Stat Part
+        if(index == 0){
+          maxSpeedMechs[model][part] = {
+            style,
+            endurance,
+            speed,
+            power
+          }
+        }
+      });
+
+      let partsMaxPowerArr = [].concat(parts[model][part]);
+      partsMaxPowerArr.sort((a,b)=>{
+        let aTotal = a.power;
+        let bTotal = b.power;
+        return bTotal - aTotal;
+      });
+
+      partsMaxPowerArr.forEach((sortedPart, index)=>{
+        let style = sortedPart.style;
+        let endurance = sortedPart.endurance;
+        let speed = sortedPart.speed;
+        let power = sortedPart.power;
+
+        // Highest Stat Part
+        if(index == 0){
+          maxPowerMechs[model][part] = {
+            style,
+            endurance,
+            speed,
+            power
+          }
+        }
+      });
+
     });
   });
   
 
   RARITY_ORDER.forEach((model)=>{
       let mech = maxMechs[model];
-      buildMaxMechTable(model, mech);
+      buildMaxMechTable(model, mech, maxMechContainer);
+
+      let mechEndurance = maxEnduranceMechs[model];
+      buildMaxMechTable(model, mechEndurance, maxEnduranceMechContainer);
+
+      let mechSpeed = maxSpeedMechs[model];
+      buildMaxMechTable(model, mechSpeed, maxSpeedMechContainer);
+
+      let mechPower = maxPowerMechs[model];
+      buildMaxMechTable(model, mechPower, maxPowerMechContainer);
   });
 
   //Build full mechs
@@ -137,7 +233,8 @@ function buildPartCountsTable(
 
 function buildMaxMechTable(
   model, 
-  mech
+  mech,
+  container
   ){
   const clone = templateMax.content.cloneNode(true);
   clone.querySelector(".model").textContent = model;
@@ -155,7 +252,7 @@ function buildMaxMechTable(
   clone.querySelector(".power").textContent = totalPower;
   clone.querySelector(".total").textContent = totalEndurance + totalSpeed + totalPower;
   
-  maxMechContainer.appendChild(clone);
+  container.appendChild(clone);
 }
 
 function buildFullMechTable(

@@ -296,6 +296,9 @@ const mechStatsEnforcerContainer = document.querySelector("#mech-stats-enforcer"
 
 const templateMax = document.querySelector("#template-max");
 const maxMechContainer = document.querySelector("#maxMech");
+const maxEnduranceMechContainer = document.querySelector("#maxEnduranceMech");
+const maxSpeedMechContainer = document.querySelector("#maxSpeedMech");
+const maxPowerMechContainer = document.querySelector("#maxPowerMech");
 
 const templateFullMech = document.querySelector("#template-full");
 const fullMechContainer = document.querySelector("#fullMech");

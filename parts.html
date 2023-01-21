@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=3.7">
-    <link rel="stylesheet" href="./css/parts.css?v=3.7">
+    <link rel="stylesheet" href="./css/main.css?v=3.8">
+    <link rel="stylesheet" href="./css/parts.css?v=3.8">
   </head>
   <body>
     <div class="header">
@@ -71,7 +71,7 @@
 
               <div class="col-md-8">
                 <div class="borderDiv" style="margin-top: 0px;">
-                  <h4> Max Model Mech Stats
+                  <h4> Max Total Model Mech Stats
                     <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
                     <div id="topTableToggle" class="toggle" onclick="toggleTable('topTable')">
                       &#8212;
@@ -94,6 +94,90 @@
                     </thead>
 
                     <tbody id="maxMech">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;">
+                  <h4> Max Endurance Model Mech Stats
+                    <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
+                    <div id="topEnduranceTableToggle" class="toggle" onclick="toggleTable('topEnduranceTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="topEnduranceTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th style="width: 210px;">Style</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Arm</th>
+                      <th>Endurance</th>
+                      <th>Speed</th>
+                      <th>Power</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="maxEnduranceMech">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;">
+                  <h4> Max Speed Model Mech Stats
+                    <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
+                    <div id="topSpeedTableToggle" class="toggle" onclick="toggleTable('topSpeedTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="topSpeedTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th style="width: 210px;">Style</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Arm</th>
+                      <th>Endurance</th>
+                      <th>Speed</th>
+                      <th>Power</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="maxSpeedMech">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;">
+                  <h4> Max Power Model Mech Stats
+                    <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
+                    <div id="topPowerTableToggle" class="toggle" onclick="toggleTable('topPowerTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="topPowerTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th style="width: 210px;">Style</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Arm</th>
+                      <th>Endurance</th>
+                      <th>Speed</th>
+                      <th>Power</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="maxPowerMech">
                     </tbody>
                   </table>
                 </div>
@@ -184,15 +268,15 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=3.7"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=3.7"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.7"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=3.7"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=3.7"></script>
-    <script type="text/javascript" src="./js/data/meta_parts.js?v=3.7"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=3.7"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=5.3"></script>
-    <script type="text/javascript" src="./js/data/totals.js?v=3.7"></script>
-    <script type="text/javascript" src="./js/parts.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/data/meta_parts.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/data/totals.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/parts.js?v=3.8"></script>
   </body>
 </html>
