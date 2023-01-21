@@ -293,3 +293,9 @@ const mechStatsLupisContainer = document.querySelector("#mech-stats-lupis");
 const mechStatsBehemothContainer = document.querySelector("#mech-stats-behemoth");
 const mechStatsRavagerContainer = document.querySelector("#mech-stats-ravager");
 const mechStatsEnforcerContainer = document.querySelector("#mech-stats-enforcer");
+
+const templateMax = document.querySelector("#template-max");
+const maxMechContainer = document.querySelector("#maxMech");
+
+const templateFullMech = document.querySelector("#template-full");
+const fullMechContainer = document.querySelector("#fullMech");

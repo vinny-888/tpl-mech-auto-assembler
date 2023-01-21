@@ -1,0 +1,195 @@
+<html>
+  <head>
+    <title>CyberBrokers Mech Auto Assembler</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/main.css?v=3.6">
+    <link rel="stylesheet" href="./css/parts.css?v=3.6">
+  </head>
+  <body>
+    <div class="header">
+      <h3>CYBERBROKERS</h3>
+      <div class="subtitle">
+        <span>Owner Mech Part Analyzer</span>
+      </div>
+      <div class="navLinks">
+        <span><a href="revealed.html">Revealed Mechs</a></span>&nbsp;|
+        <span><a href="stats.html">Revealed Stats</a></span>&nbsp;|
+        <span><a href="index.html">Unrevealed Mechs</a></span>&nbsp;|
+        <span><a href="owners.html">Unrevealed Stats</a></span>&nbsp;|
+        <span class="activeLink">Power Stats</span>&nbsp;|
+        <span><a href="builder.html">Builder</a></span>&nbsp;|
+        <span><a href="mechs.html">3D Viewer</a></span>&nbsp;|
+        <span><a href="ar.html">AR Viewer</a></span>&nbsp;|
+        <span><a href="game.html">3D Game</a></span>&nbsp;|
+        <span><a href="lp.html">Lost Paradigms</a></span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="">
+        <div class="">
+          <div id="connected" style="display: none">
+            <div class="col-md-12">
+              <div id="prepare" style="margin-top: 16px;">
+                <span id="progress"></span>
+                <button id="download" class="btn btn-primary" onclick="download()" style="display: none;margin-top: 8px;">
+                  Download
+                </button>
+                <a id="downloadAnchorElem" style="display:none"></a>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="borderDiv" style="margin-top: 0px;">
+                  <h4> Part Stats
+                    <button class="tooltipBtn" tip="Table showing all revealed parts and their levels.">?</button>
+                    <div id="countsTableToggle" class="toggle" onclick="toggleTable('countsTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="countsTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Image</th>
+                      <th>Model</th>
+                      <th>Part</th>
+                      <th>Style</th>
+                      <th>Endurance</th>
+                      <th>Power</th>
+                      <th>Speed</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="counts">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="borderDiv" style="margin-top: 0px;">
+                  <h4> Max Model Mech Stats
+                    <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
+                    <div id="topTableToggle" class="toggle" onclick="toggleTable('topTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="topTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Arm</th>
+                      <th>Endurance</th>
+                      <th>Speed</th>
+                      <th>Power</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="maxMech">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;">
+                  <h4> Full Style Mech Stats
+                    <button class="tooltipBtn" tip="Table showing the total power levels for each full style mech.">?</button>
+                    <div id="fullTableToggle" class="toggle" onclick="toggleTable('fullTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="fullTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Arm</th>
+                      <th>Endurance</th>
+                      <th>Speed</th>
+                      <th>Power</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="fullMech">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- We use simple <template> templating for the example -->
+    <div id="templates" style="display: none">
+      <template id="template-counts">
+        <tr>
+          <td class="image"></td>
+          <td class="model"></td>
+          <td class="part"></td>
+          <td class="style"></td>
+          <td class="endurance"></td>
+          <td class="power"></td>
+          <td class="speed"></td>
+          <td class="total"></td>
+        </tr>
+      </template>
+      <template id="template-max">
+        <tr>
+          <td class="model"></td>
+          <td class="engine"></td>
+          <td class="head"></td>
+          <td class="body"></td>
+          <td class="legs"></td>
+          <td class="arm"></td>
+          <td class="endurance"></td>
+          <td class="speed"></td>
+          <td class="power"></td>
+          <td class="total"></td>
+        </tr>
+      </template>
+      <template id="template-full">
+        <tr>
+          <td class="model"></td>
+          <td class="style"></td>
+          <td class="engine"></td>
+          <td class="head"></td>
+          <td class="body"></td>
+          <td class="legs"></td>
+          <td class="arm"></td>
+          <td class="endurance"></td>
+          <td class="speed"></td>
+          <td class="power"></td>
+          <td class="total"></td>
+        </tr>
+      </template>
+      <template id="template-empty">
+        <tr>
+          <td class="empty" colspan="3">No Data</td>
+        </tr>
+      </template>
+    </div>
+
+    <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/data/meta_parts.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=5.3"></script>
+    <script type="text/javascript" src="./js/data/totals.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/parts.js?v=3.6"></script>
+  </body>
+</html>
