@@ -64,11 +64,21 @@ function createCanvas(){
 
 function render(head, body, legs, left_arm, right_arm){
     ctx.clearRect(0, 0, width, height);
-    renderHead(head);
-    renderLegs(legs);
-    renderLeftArm(left_arm);
-    renderRightArm(right_arm);
-    renderBody(body);
+    if(head){
+        renderHead(head);
+    }
+    if(legs){
+        renderLegs(legs);
+    }
+    if(left_arm){
+        renderLeftArm(left_arm);
+    }
+    if(right_arm){
+        renderRightArm(right_arm);
+    }
+    if(body){
+        renderBody(body);
+    }
 }
 
 function renderHead(head){
