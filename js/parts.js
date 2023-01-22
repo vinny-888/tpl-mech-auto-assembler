@@ -610,11 +610,11 @@ function buildMaxMechTableArr(
       clone.querySelector(".model").textContent = mech.Engine.model;
       clone.querySelector(".style").textContent = mech.Engine.style;
       clone.querySelector(".engine").innerHTML = partsRevealedImage('Engine', mech.Engine.model, mech.Engine.style);
-      clone.querySelector(".head").innerHTML = partsRevealedImage('Head', mech.Engine.model, mech.Head.style);
-      clone.querySelector(".body").innerHTML = partsRevealedImage('Body', mech.Engine.model, mech.Body.style);
-      clone.querySelector(".legs").innerHTML = partsRevealedImage('Legs', mech.Engine.model, mech.Legs.style);
-      clone.querySelector(".left_arm").innerHTML = partsRevealedImage('Arm', mech.Engine.model, mech.left_arm.style);
-      clone.querySelector(".right_arm").innerHTML = partsRevealedImage('Arm', mech.Engine.model, mech.right_arm.style);
+      clone.querySelector(".head").innerHTML = partsRevealedImage('Head', mech.Head.model, mech.Head.style);
+      clone.querySelector(".body").innerHTML = partsRevealedImage('Body', mech.Body.model, mech.Body.style);
+      clone.querySelector(".legs").innerHTML = partsRevealedImage('Legs', mech.Legs.model, mech.Legs.style);
+      clone.querySelector(".left_arm").innerHTML = partsRevealedImage('Arm', mech.left_arm.model, mech.left_arm.style);
+      clone.querySelector(".right_arm").innerHTML = partsRevealedImage('Arm', mech.right_arm.model, mech.right_arm.style);
       let totalEndurance = mech.Engine.endurance + mech.Head.endurance + mech.Body.endurance + mech.Legs.endurance + mech.left_arm.endurance + mech.right_arm.endurance;
       clone.querySelector(".endurance").textContent = totalEndurance;
       let totalSpeed = mech.Engine.speed + mech.Head.speed + mech.Body.speed + mech.Legs.speed + mech.left_arm.speed + mech.right_arm.speed;
