@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=6.5">
-    <link rel="stylesheet" href="./css/revealed.css?v=6.5">
+    <link rel="stylesheet" href="./css/main.css?v=6.6">
+    <link rel="stylesheet" href="./css/revealed.css?v=6.6">
   </head>
   <body>
     <div id="viewer" style="display: none;">
@@ -307,8 +307,29 @@
                   </tbody>
                 </table>
               </div>
+              
               <div class="borderDiv" style="margin-top: 8px;">
-                <h4> Mixed Style Mechs <span id="mixed_count">0</span> 
+                <h4> Same Model Mixed Style Summary <span id="same_model_summary_count">0</span> 
+                  <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow. This is a summary of the more detailed Mixed Model Mechs Parts table.">?</button>
+                  <div id="sameTableToggle" class="toggle" onclick="toggleTable('sameTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="sameTable" class="table table-mixed">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Model</th>
+                    <th>Count</th>
+                  </thead>
+
+                  <tbody id="same">
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Mixed Model Mixed Style Mechs <span id="mixed_model_summary_count">0</span> 
                   <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow. This is a summary of the more detailed Mixed Model Mechs Parts table.">?</button>
                   <div id="mixedTableToggle" class="toggle" onclick="toggleTable('mixedTable')">
                     &#8212;
@@ -319,7 +340,6 @@
                   <thead>
                     <th style="width:20%">Image</th>
                     <th>Model</th>
-                    <th>Style</th>
                     <th>Count</th>
                   </thead>
 
@@ -327,6 +347,27 @@
                   </tbody>
                 </table>
               </div>
+
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Partial Mech Summary <span id="partial_count">0</span> 
+                  <button class="tooltipBtn" tip="These can be built as they have all required parts and an Afterglow. This is a summary of the more detailed Mixed Model Mechs Parts table.">?</button>
+                  <div id="mixedPartialTableToggle" class="toggle" onclick="toggleTable('mixedPartialTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="mixedPartialTable" class="table table-mixed">
+                  <thead>
+                    <th style="width:20%">Image</th>
+                    <th>Model</th>
+                    <th>Count</th>
+                  </thead>
+
+                  <tbody id="partial">
+                  </tbody>
+                </table>
+              </div>
+
               <div class="borderDiv" style="margin-top: 8px;">
                 <h4> Unused Parts <span id="remaining_count">0</span> 
                   <button class="tooltipBtn" tip="Left over parts not used to create Single Model or Mixed Model Mechs.">?</button>
@@ -422,14 +463,14 @@
                 </div>
 
                 <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
-                  <h4> Partial/Full - Mixed Style <span id="partial_no_model_count">0</span> 
+                  <h4> Same Model - Mixed Style <span id="same_model_count">0</span> 
                     <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do not have 1 Engine + 2 matching parts so the model is not yet known.">?</button>
-                    <div id="mechsPartialNoModelTableToggle" class="toggle" onclick="toggleTable('mechsPartialNoModelTable')">
+                    <div id="mechsSameModelTableToggle" class="toggle" onclick="toggleTable('mechsSameModelTable')">
                       &#8212;
                     </div>
                   </h4>
 
-                  <table id="mechsPartialNoModelTable" class="table table-listing" style="width: 400px;">
+                  <table id="mechsSameModelTable" class="table table-listing" style="width: 400px;">
                     <thead>
                       <th>Engine</th>
                       <th>Head</th>
@@ -439,7 +480,53 @@
                       <th>Right Arm</th>
                     </thead>
 
-                    <tbody id="mechsPartialNoModel">
+                    <tbody id="mechsSameModel">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                  <h4> Mixed Model - Mixed Style <span id="mixed_model_count">0</span> 
+                    <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do not have 1 Engine + 2 matching parts so the model is not yet known.">?</button>
+                    <div id="mechsMixedModelTableToggle" class="toggle" onclick="toggleTable('mechsMixedModelTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="mechsMixedModelTable" class="table table-listing" style="width: 400px;">
+                    <thead>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Leg</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                    </thead>
+
+                    <tbody id="mechsMixedModel">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;min-width: 410px;">
+                  <h4> Partial Mechs <span id="mixed_partial_model_count">0</span> 
+                    <button class="tooltipBtn" tip="These cannot be built yet without acquiring more parts. They do not have 1 Engine + 2 matching parts so the model is not yet known.">?</button>
+                    <div id="mechsMixedPartialModelTableToggle" class="toggle" onclick="toggleTable('mechsMixedPartialModelTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="mechsMixedPartialModelTable" class="table table-listing" style="width: 400px;">
+                    <thead>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Leg</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                    </thead>
+
+                    <tbody id="mechsMixedPartialModel">
                     </tbody>
                   </table>
                 </div>
@@ -470,11 +557,18 @@
           <!-- <td class="dismantle"></td> -->
         </tr>
       </template>
-      <template id="template-mixed">
+      <template id="template-single">
         <tr>
           <td class="image"></td>
           <td class="model"></td>
           <td class="style"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
+      <template id="template-mixed">
+        <tr>
+          <td class="image"></td>
+          <td class="model"></td>
           <td class="count"></td>
         </tr>
       </template>
@@ -534,20 +628,20 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilderStyles.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/data/data.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/canvas/renderer.js?v=6.5"></script>
-    <script type="text/javascript" src="./js/revealed.js?v=6.5"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilderStyles.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/data/data.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/canvas/renderer.js?v=6.6"></script>
+    <script type="text/javascript" src="./js/revealed.js?v=6.6"></script>
   </body>
 </html>

@@ -254,8 +254,11 @@ const accountContainer = document.querySelector("#accounts");
 const templateFull = document.querySelector("#template-full");
 const fullContainer = document.querySelector("#full");
 
+const templateSingle = document.querySelector("#template-single");
 const templateMixed = document.querySelector("#template-mixed");
+const sameContainer = document.querySelector("#same");
 const mixedContainer = document.querySelector("#mixed");
+const partialContainer = document.querySelector("#partial");
 
 const templateAfterglow = document.querySelector("#template-afterglow");
 const afterglowContainer = document.querySelector("#afterglow");
@@ -268,7 +271,9 @@ const remainingContainer = document.querySelector("#remaining");
 
 const mixedmechNoAfterglowContainer = document.querySelector("#mechsNoAfterglow");
 const mixedmechPartialContainer = document.querySelector("#mechsPartial");
-const mixedmechPartialNoModelContainer = document.querySelector("#mechsPartialNoModel");
+const mixedmechSameModelContainer = document.querySelector("#mechsSameModel");
+const mixedmechMixedModelContainer = document.querySelector("#mechsMixedModel");
+const mixedmechMixedPartialModelContainer = document.querySelector("#mechsMixedPartialModel");
 
 const templateCounts = document.querySelector("#template-counts");
 const countsContainer = document.querySelector("#counts");

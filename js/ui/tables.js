@@ -199,6 +199,39 @@ function buildMixedModelMechsSummaryTable(mixedMechs){
     document.querySelector("#mixed_count").innerHTML = '('+totalMixed+')';
 }
 
+function buildPartialModelMechsSummaryTable(mixedMechs){
+    let totalMixed = 0;
+    let modelCounts = {};
+    // Count the mixed mechs for each models
+    RARITY_ORDER.forEach((model)=>{
+        if(mixedMechs[model]){
+            mixedMechs[model].forEach((mech)=>{
+                // if(mech['Engine'] == model){
+                    if(!modelCounts[model]){
+                        modelCounts[model] = 0;
+                    }
+                    modelCounts[model]++;
+                    totalMixed++;
+                // }
+            })
+        }
+    });
+    Object.keys(modelCounts).forEach((model)=>{
+        // Object.keys(modelCounts[model]).forEach((style)=>{
+            const clone = templateMixed.content.cloneNode(true);
+            clone.querySelector(".image").innerHTML = fullRevealedImage(getMostPartsStyleName(mixedMechs[model]));
+            clone.querySelector(".model").textContent = model;
+            clone.querySelector(".count").textContent = modelCounts[model];// + ' of ' + totalMixedMechs[model];
+            partialContainer.appendChild(clone);
+        // });
+    })
+    if(totalMixed == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        partialContainer.appendChild(clone);
+    }
+    document.querySelector("#partial_count").innerHTML = '('+totalMixed+')';
+}
+
 function buildMixedMechsTable(mixedMechs){
     let count = 0;
     RARITY_ORDER.forEach((model)=>{
@@ -587,6 +620,45 @@ function buildRemainingPartsStylesTable(address){
     document.querySelector("#remaining_count").innerHTML = '('+remainingCount+')';
 }
 
+function buildSameModelMechsStylesSummaryTable(sameMechs){
+    let totalMixed = 0;
+    let modelCounts = {};
+    // Count the mixed mechs for each models
+    RARITY_ORDER.forEach((model)=>{
+        STYLE_ORDER[model].forEach((style)=>{
+            if(sameMechs[model]){
+                sameMechs[model].forEach((mech)=>{
+                    if(mech['Engine'] && mech['Engine'].model == model && mech['Engine'].style == style && Object.keys(mech).length == 6){
+                        if(!modelCounts[model]){
+                            modelCounts[model] = {};
+                        }
+                        if(!modelCounts[model][style]){
+                            modelCounts[model][style] = 0;
+                        }
+                        modelCounts[model][style]++;
+                        totalMixed++;
+                    }
+                })
+            }
+        });
+    });
+    Object.keys(modelCounts).forEach((model)=>{
+        Object.keys(modelCounts[model]).forEach((style)=>{
+            const clone = templateSingle.content.cloneNode(true);
+            clone.querySelector(".image").innerHTML = fullRevealedImage(style);
+            clone.querySelector(".model").textContent = model;
+            clone.querySelector(".style").textContent = style;
+            clone.querySelector(".count").textContent = modelCounts[model][style];// + ' of ' + totalsameMechs[model];
+            sameContainer.appendChild(clone);
+        });
+    })
+    if(totalMixed == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        sameContainer.appendChild(clone);
+    }
+    document.querySelector("#same_model_summary_count").innerHTML = '('+totalMixed+')';
+}
+
 function buildMixedModelMechsStylesSummaryTable(mixedMechs){
     let totalMixed = 0;
     let modelCounts = {};
@@ -623,10 +695,10 @@ function buildMixedModelMechsStylesSummaryTable(mixedMechs){
         const clone = templateEmpty.content.cloneNode(true);
         mixedContainer.appendChild(clone);
     }
-    document.querySelector("#mixed_count").innerHTML = '('+totalMixed+')';
+    document.querySelector("#mixed_model_summary_count").innerHTML = '('+totalMixed+')';
 }
 
-function buildPartialMechNoModelStylesTable(mixedMechsPartial){
+function buildSameModelStylesTable(mixedMechsPartial){
     let count = 0;
     RARITY_ORDER.forEach((model)=>{
         if(mixedMechsPartial[model]){
@@ -694,7 +766,7 @@ function buildPartialMechNoModelStylesTable(mixedMechsPartial){
                     clone.querySelector(".right_arm").innerHTML = partsRevealedImageMissingAll('Arm', model2, style2);
                 }
                 
-                mixedmechPartialNoModelContainer.appendChild(clone);
+                mixedmechSameModelContainer.appendChild(clone);
                 count++;
             })
         }
@@ -702,9 +774,171 @@ function buildPartialMechNoModelStylesTable(mixedMechsPartial){
 
     if(count == 0){
         const clone = templateEmpty.content.cloneNode(true);
-        mixedmechPartialNoModelContainer.appendChild(clone);
+        mixedmechSameModelContainer.appendChild(clone);
     }
-    document.querySelector("#partial_no_model_count").innerHTML = '('+count+')';
+    document.querySelector("#same_model_count").innerHTML = '('+count+')';
+}
+
+function buildMixedModelStylesTable(mixedMechsPartial){
+    let count = 0;
+    RARITY_ORDER.forEach((model)=>{
+        if(mixedMechsPartial[model]){
+            mixedMechsPartial[model].forEach((mech)=>{
+                const clone = templateMixedMech.content.cloneNode(true);
+                let model = getMostMatchingParts(mech);
+
+                let model2 = '';
+                let style2 = '';
+                if(mech.Head){
+                    model2 = mech.Head.model;
+                    style2 = mech.Head.style;
+                } else if (mech.Body) {
+                    model2 = mech.Body.model;
+                    style2 = mech.Body.style;
+                } else if (mech.Leg) {
+                    model2 = mech.Leg.model;
+                    style2 = mech.Leg.style;
+                } else if (mech.left_arm) {
+                    model2 = mech.left_arm.model;
+                    style2 = mech.left_arm.style;
+                } else if (mech.right_arm) {
+                    model2 = mech.right_arm.model;
+                    style2 = mech.right_arm.style;
+                }
+
+                if(mech.Engine){
+                    let head = mech.Head ? mech.Head.style : '';
+                    let body = mech.Body ? mech.Body.style : '';
+                    let legs = mech.Leg ? mech.Leg.style : '';
+                    let left_arm = mech.left_arm ? mech.left_arm.style : '';
+                    let right_arm = mech.right_arm ? mech.right_arm.style : '';
+                    clone.querySelector(".engine").innerHTML = partsRevealedImagePreview('Engine', mech.Engine.model, mech.Engine.style, head, body, legs, left_arm, right_arm);
+                }else{
+                    clone.querySelector(".engine").innerHTML = partsRevealedImageMissingAll('Engine', model2, style2);
+                }
+
+                if(mech.Head){
+                    clone.querySelector(".head").innerHTML = partsRevealedImage('Head', mech.Head.model, mech.Head.style);
+                }else{
+                    clone.querySelector(".head").innerHTML = partsRevealedImageMissingAll('Head', model2, style2);
+                }
+
+                if(mech.Body){
+                    clone.querySelector(".body").innerHTML = partsRevealedImage('Body', mech.Body.model, mech.Body.style);
+                }else{
+                    clone.querySelector(".body").innerHTML = partsRevealedImageMissingAll('Body',model2, style2);
+                }
+
+                if(mech.Leg){
+                    clone.querySelector(".legs").innerHTML = partsRevealedImage('Leg', mech.Leg.model, mech.Leg.style);
+                }else{
+                    clone.querySelector(".legs").innerHTML = partsRevealedImageMissingAll('Leg', model2, style2);
+                }
+
+                if(mech.left_arm){
+                    clone.querySelector(".left_arm").innerHTML = partsRevealedImage('Arm', mech.left_arm.model, mech.left_arm.style);
+                }else{
+                    clone.querySelector(".left_arm").innerHTML = partsRevealedImageMissingAll('Arm', model2, style2);
+                }
+
+                if(mech.right_arm){
+                    clone.querySelector(".right_arm").innerHTML = partsRevealedImage('Arm', mech.right_arm.model, mech.right_arm.style);
+                }else{
+                    clone.querySelector(".right_arm").innerHTML = partsRevealedImageMissingAll('Arm', model2, style2);
+                }
+                
+                mixedmechMixedModelContainer.appendChild(clone);
+                count++;
+            })
+        }
+    });
+
+    if(count == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        mixedmechMixedModelContainer.appendChild(clone);
+    }
+    document.querySelector("#mixed_model_count").innerHTML = '('+count+')';
+}
+
+function buildPartialMechTable(mixedMechsPartial){
+    let count = 0;
+    RARITY_ORDER.forEach((model)=>{
+        if(mixedMechsPartial[model]){
+            mixedMechsPartial[model].forEach((mech)=>{
+                const clone = templateMixedMech.content.cloneNode(true);
+                let model = getMostMatchingParts(mech);
+
+                let model2 = '';
+                let style2 = '';
+                if(mech.Head){
+                    model2 = mech.Head.model;
+                    style2 = mech.Head.style;
+                } else if (mech.Body) {
+                    model2 = mech.Body.model;
+                    style2 = mech.Body.style;
+                } else if (mech.Leg) {
+                    model2 = mech.Leg.model;
+                    style2 = mech.Leg.style;
+                } else if (mech.left_arm) {
+                    model2 = mech.left_arm.model;
+                    style2 = mech.left_arm.style;
+                } else if (mech.right_arm) {
+                    model2 = mech.right_arm.model;
+                    style2 = mech.right_arm.style;
+                }
+
+                if(mech.Engine){
+                    let head = mech.Head ? mech.Head.style : '';
+                    let body = mech.Body ? mech.Body.style : '';
+                    let legs = mech.Leg ? mech.Leg.style : '';
+                    let left_arm = mech.left_arm ? mech.left_arm.style : '';
+                    let right_arm = mech.right_arm ? mech.right_arm.style : '';
+                    clone.querySelector(".engine").innerHTML = partsRevealedImagePreview('Engine', mech.Engine.model, mech.Engine.style, head, body, legs, left_arm, right_arm);
+                }else{
+                    clone.querySelector(".engine").innerHTML = partsRevealedImageMissingAll('Engine', model2, style2);
+                }
+
+                if(mech.Head){
+                    clone.querySelector(".head").innerHTML = partsRevealedImage('Head', mech.Head.model, mech.Head.style);
+                }else{
+                    clone.querySelector(".head").innerHTML = partsRevealedImageMissingAll('Head', model2, style2);
+                }
+
+                if(mech.Body){
+                    clone.querySelector(".body").innerHTML = partsRevealedImage('Body', mech.Body.model, mech.Body.style);
+                }else{
+                    clone.querySelector(".body").innerHTML = partsRevealedImageMissingAll('Body',model2, style2);
+                }
+
+                if(mech.Leg){
+                    clone.querySelector(".legs").innerHTML = partsRevealedImage('Leg', mech.Leg.model, mech.Leg.style);
+                }else{
+                    clone.querySelector(".legs").innerHTML = partsRevealedImageMissingAll('Leg', model2, style2);
+                }
+
+                if(mech.left_arm){
+                    clone.querySelector(".left_arm").innerHTML = partsRevealedImage('Arm', mech.left_arm.model, mech.left_arm.style);
+                }else{
+                    clone.querySelector(".left_arm").innerHTML = partsRevealedImageMissingAll('Arm', model2, style2);
+                }
+
+                if(mech.right_arm){
+                    clone.querySelector(".right_arm").innerHTML = partsRevealedImage('Arm', mech.right_arm.model, mech.right_arm.style);
+                }else{
+                    clone.querySelector(".right_arm").innerHTML = partsRevealedImageMissingAll('Arm', model2, style2);
+                }
+                
+                mixedmechMixedPartialModelContainer.appendChild(clone);
+                count++;
+            })
+        }
+    });
+
+    if(count == 0){
+        const clone = templateEmpty.content.cloneNode(true);
+        mixedmechMixedPartialModelContainer.appendChild(clone);
+    }
+    document.querySelector("#mixed_partial_model_count").innerHTML = '('+count+')';
 }
 
 function buildMechStats(model, container){

@@ -362,3 +362,26 @@ function getMostPartsStyles(modelParts){
     })
     return Math.floor(max);
 }
+
+function getMostPartsStyleName(modelParts){
+    let style = '';
+    modelParts.forEach((mech)=>{
+        let styleCount = {};
+        Object.keys(mech).forEach((part)=>{
+            if(!styleCount[mech[part].style]){
+                styleCount[mech[part].style] = 0
+            }
+            styleCount[mech[part].style]++;
+        });
+        let max = 0;
+        let maxIndex = 0;
+        Object.keys(styleCount).forEach((style, index)=>{
+            if(styleCount[style] > max){
+                max = styleCount[style];
+                maxIndex = index;
+            }
+        });
+        style = Object.keys(styleCount)[maxIndex];
+    })
+    return style;
+}

@@ -103,10 +103,39 @@ function buildTablesAndMechs(){
       document.querySelector("#partial_count").innerHTML = '(0)';
     }
     // Build *partial* mechs and show missing parts
-    let mixedMechsPartialNoModel = buildNoModelMixedMechsStyles(false, true, true);
-    buildPartialMechNoModelStylesTable(mixedMechsPartialNoModel);
+    let sameModelMechs = buildSameModelMechsStyles(false, false, false);
+    buildSameModelStylesTable(sameModelMechs);
+    buildSameModelMechsStylesSummaryTable(sameModelMechs);
 
-    buildMixedModelMechsStylesSummaryTable(mixedMechsPartialNoModel);
+    let mixedModelMechs = [];
+    let foundMechs = true;
+    while(foundMechs){
+      let mechs = buildMixedModelMechsStyles(false, false, false);
+      mixedModelMechs.concat(mechs);
+      if(Object.keys(mechs).length == 0){
+        foundMechs = false;
+      }
+    }
+    buildMixedModelStylesTable(mixedModelMechs);
+    buildMixedModelMechsStylesSummaryTable(mixedModelMechs);
+
+
+    let mixedModelPartialMechs = [];
+    let foundPartialMechs = true;
+    while(foundPartialMechs){
+      let mechs = buildMixedModelMechsStyles(false, true, true);
+      // mixedModelPartialMechs.concat(mechs);
+      mixedModelPartialMechs = {
+        ...mixedModelPartialMechs,
+        ...mechs,
+      };
+      if(Object.keys(mechs).length == 0){
+        foundPartialMechs = false;
+      }
+    }
+    buildPartialMechTable(mixedModelPartialMechs);
+    buildPartialModelMechsSummaryTable(mixedModelPartialMechs);
+
 
     // Build remaining parts table
     buildRemainingPartsStylesTable(wallet);
@@ -125,7 +154,8 @@ function reset(){
   remainingContainer.innerHTML = '';
   mixedmechNoAfterglowContainer.innerHTML = '';
   mixedmechPartialContainer.innerHTML = '';
-  mixedmechPartialNoModelContainer.innerHTML = '';
+  mixedmechSameModelContainer.innerHTML = '';
+  mixedmechMixedModelContainer.innerHTML = '';
   countsContainer.innerHTML = '';
   mechStatsNexusContainer.innerHTML = '';
   mechStatsLupisContainer.innerHTML = '';
