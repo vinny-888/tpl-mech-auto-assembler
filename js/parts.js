@@ -1,8 +1,10 @@
 "use strict";
 
 let allData = {};
+let meta_parts = {};
 function init() {
   initTooltip();
+  createMetadataLookup();
 }
 
 window.addEventListener('load', async () => {
@@ -12,6 +14,15 @@ window.addEventListener('load', async () => {
   
   displayTables();
 });
+
+function createMetadataLookup(){
+  Object.keys(revealedMetadata).forEach((token)=>{
+    let metadata = revealedMetadata[token];
+    if(!meta_parts[metadata.name]){
+      meta_parts[metadata.name] = metadata.attributes;
+    }
+  })
+}
 
 function displayTables(){
   document.querySelector("#connected").style.display = "block";
