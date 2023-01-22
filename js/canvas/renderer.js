@@ -3,7 +3,7 @@ var ctx = null;
 let width = 1600;
 let height = 1760;
 let BASE_URL = 'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/';
-
+let imageCache = {};
 let style_urls = {
     action_bot_3000: 'action_bot_3000.webp',
     alatyr: 'alatyr.webp',
@@ -12,7 +12,7 @@ let style_urls = {
     astra_machina: 'astra_machina.webp',
     bladerunner: 'bladerunner.webp',
     buildy_bot: 'buildy_bot.webp',
-    'camm-e': 'camm-e.webp',
+    'camm_e': 'camm-e.webp',
     chopshop: 'chopshop.webp',
     creative_deviant: 'creative_deviant.webp',
     cyberknight: 'cyberknight.webp',
@@ -154,6 +154,9 @@ function renderRightArm(right_arm){
 function showPreview(head, body, legs, left_arm, right_arm){
     if(!canvas){
         createCanvas();
+        Object.keys(style_urls).forEach((key)=>{
+            imageCache[key] = {};
+        })
     }
 
     // Create an image element
@@ -185,36 +188,58 @@ function showPreview(head, body, legs, left_arm, right_arm){
     left_arm = left_arm.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_');
     right_arm = right_arm.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_');
 
-    if(head != ''){
+    if(head != '' && (typeof imageCache[head].head  === 'undefined')){
+        headImg = null;
+        delete headImg;
         headImg = document.createElement('IMG');
-        headImg.src = BASE_URL + style_urls[head.toLowerCase()];
+        headImg.src = BASE_URL + style_urls[head];
+    } else if(head != ''){
+        headImg = imageCache[head].head;
     }
-    if(body != ''){
+    if(body != '' && (typeof imageCache[body].body  === 'undefined')){
+        bodyImg = null;
+        delete bodyImg;
         bodyImg = document.createElement('IMG');
-        bodyImg.src = BASE_URL + style_urls[body.toLowerCase()];
+        bodyImg.src = BASE_URL + style_urls[body];
+    } else if(head != ''){
+        bodyImg = imageCache[body].body;
     }
 
-    if(legs != ''){
+    if(legs != '' && (typeof imageCache[legs].legs  === 'undefined')){
+        legsImg = null;
+        delete legsImg;
         legsImg = document.createElement('IMG');
-        legsImg.src = BASE_URL + style_urls[legs.toLowerCase()];
+        legsImg.src = BASE_URL + style_urls[legs];
+    } else if(head != ''){
+        legsImg = imageCache[legs].legs;
     }
 
-    if(left_arm != ''){
+    if(left_arm != '' && (typeof imageCache[left_arm].left_arm  === 'undefined')){
+        left_armImg = null;
+        delete left_armImg;
         left_armImg = document.createElement('IMG');
-        left_armImg.src = BASE_URL + style_urls[left_arm.toLowerCase()];
+        left_armImg.src = BASE_URL + style_urls[left_arm];
+    } else if(head != ''){
+        left_armImg = imageCache[left_arm].left_arm;
     }
 
-    if(right_arm != ''){
+    if(right_arm != '' && (typeof imageCache[right_arm].right_arm  === 'undefined')){
+        right_armImg = null;
+        delete right_armImg;
         right_armImg = document.createElement('IMG');
-        right_armImg.src = BASE_URL + style_urls[right_arm.toLowerCase()];
+        right_armImg.src = BASE_URL + style_urls[right_arm];
+    } else if(head != ''){
+        right_armImg = imageCache[right_arm].right_arm;
     }
-    createImages(headImg, bodyImg, legsImg, left_armImg, right_armImg);
+    createImages(headImg, bodyImg, legsImg, left_armImg, right_armImg, head, body, legs, left_arm, right_arm);
 }
 
-function createImages(head, body, legs, left_arm, right_arm){
+function createImages(head, body, legs, left_arm, right_arm, headName, bodyName, legsName, left_armName, right_armName){
     let loadedCount = 0;
-    if(head){
+    let allCached = 0;
+    if(head && (typeof imageCache[headName].head  === 'undefined')){
         head.onload = function () {
+            imageCache[headName].head = head;
             loadedCount++;
             if(loadedCount == 5){
                 render(head, body, legs, left_arm, right_arm);
@@ -222,9 +247,11 @@ function createImages(head, body, legs, left_arm, right_arm){
         }
     } else {
         loadedCount++;
+        allCached++;
     }
-    if(legs){
+    if(legs && (typeof imageCache[legsName].legs  === 'undefined')){
         legs.onload = function () {
+            imageCache[legsName].legs = legs;
             loadedCount++;
             if(loadedCount == 5){
                 render(head, body, legs, left_arm, right_arm);
@@ -232,9 +259,11 @@ function createImages(head, body, legs, left_arm, right_arm){
         }
     } else {
         loadedCount++;
+        allCached++;
     }
-    if(left_arm){
+    if(left_arm && (typeof imageCache[left_armName].left_arm  === 'undefined')){
         left_arm.onload = function () {
+            imageCache[left_armName].left_arm = left_arm;
             loadedCount++;
             if(loadedCount == 5){
                 render(head, body, legs, left_arm, right_arm);
@@ -242,9 +271,11 @@ function createImages(head, body, legs, left_arm, right_arm){
         }
     } else {
         loadedCount++;
+        allCached++;
     }
-    if(right_arm){
+    if(right_arm && (typeof imageCache[right_armName].right_arm  === 'undefined')){
         right_arm.onload = function () {
+            imageCache[right_armName].right_arm = right_arm;
             loadedCount++;
             if(loadedCount == 5){
                 render(head, body, legs, left_arm, right_arm);
@@ -252,9 +283,11 @@ function createImages(head, body, legs, left_arm, right_arm){
         }
     } else {
         loadedCount++;
+        allCached++;
     }
-    if(body){
+    if(body && (typeof imageCache[bodyName].body  === 'undefined')){
         body.onload = function () {
+            imageCache[bodyName].body = body;
             loadedCount++;
             if(loadedCount == 5){
                 render(head, body, legs, left_arm, right_arm);
@@ -262,6 +295,10 @@ function createImages(head, body, legs, left_arm, right_arm){
         }
     } else {
         loadedCount++;
+        allCached++;
+    }
+    if(allCached == 5){
+        render(head, body, legs, left_arm, right_arm);
     }
 }
 
