@@ -339,7 +339,7 @@ function buildPartTable(){
               maxFrankenstatEnduranceMechs[part] = [];
             }
             maxFrankenstatEnduranceMechs[part].push({
-              model,
+              model: sortedPart.model,
               style,
               endurance,
               speed,
@@ -369,7 +369,7 @@ function buildPartTable(){
               maxFrankenstatSpeedMechs[part] = [];
             }
             maxFrankenstatSpeedMechs[part].push({
-              model,
+              model: sortedPart.model,
               style,
               endurance,
               speed,
@@ -399,7 +399,7 @@ function buildPartTable(){
               maxFrankenstatPowerMechs[part] = [];
             }
             maxFrankenstatPowerMechs[part].push({
-              model,
+              model: sortedPart.model,
               style,
               endurance,
               speed,
