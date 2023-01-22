@@ -21,6 +21,7 @@ function buildPartTable(){
 
   let parts = {};
   let modelStyleParts = {};
+  let allParts = {};
   Object.keys(meta_parts).forEach((name)=>{
     let meta = meta_parts[name];
     let model = meta.find((att)=> att.trait_type == 'Model').value;
@@ -54,14 +55,35 @@ function buildPartTable(){
       speed,
       power
     }
+
+    if(!allParts[part]){
+      allParts[part] = [];
+    }
+    allParts[part].push(
+      {
+        model,
+        style,
+        endurance,
+        speed,
+        power
+      }
+    );
   });
 
+  // Total power mechs
   let maxMechs = {};
+
+  // Single Power Mechs
   let maxEnduranceMechs = {};
   let maxSpeedMechs = {};
   let maxPowerMechs = {};
-  
 
+  // Frankenstats Mechs
+  let maxFrankenstatEnduranceMechs = {};
+  let maxFrankenstatSpeedMechs = {};
+  let maxFrankenstatPowerMechs = {};
+
+  // Max Power Mechs
   RARITY_ORDER.forEach((model)=>{
     if(!maxMechs[model]){
       maxMechs[model] = {};
@@ -178,12 +200,333 @@ function buildPartTable(){
 
     });
   });
-  
 
+  // Max Power Mechs
+  RARITY_ORDER.forEach((model)=>{
+    PARTS_ORDER.forEach((part)=>{
+      if(part == 'Leg'){
+        part = 'Legs';
+      }
+      
+      // Non Frankenstat
+      {
+        let partsMaxArr = [].concat(parts[model][part]);
+        {
+          partsMaxArr.sort((a,b)=>{
+            let aTotal = a.endurance + a.speed + a.power;
+            let bTotal = b.endurance + b.speed + b.power;
+            return bTotal - aTotal;
+          });
+          partsMaxArr.forEach((sortedPart, index)=>{
+            let style = sortedPart.style;
+            let endurance = sortedPart.endurance;
+            let speed = sortedPart.speed;
+            let power = sortedPart.power;
+
+            // Highest Stat Part
+            if(index == 0){
+              maxMechs[model][part] = {
+                style,
+                endurance,
+                speed,
+                power
+              }
+            }
+            buildPartCountsTable(model, part, style, endurance, speed, power);
+          });
+        }
+
+        // Same Model Max
+        let partsMaxEnduranceArr = [].concat(parts[model][part]);
+        {
+          partsMaxEnduranceArr.sort((a,b)=>{
+            let aTotal = a.endurance;
+            let bTotal = b.endurance;
+            return bTotal - aTotal;
+          });
+
+          partsMaxEnduranceArr.forEach((sortedPart, index)=>{
+            let style = sortedPart.style;
+            let endurance = sortedPart.endurance;
+            let speed = sortedPart.speed;
+            let power = sortedPart.power;
+
+            // Highest Stat Part
+            if(index == 0){
+              maxEnduranceMechs[model][part] = {
+                style,
+                endurance,
+                speed,
+                power
+              }
+            }
+          });
+        }
+
+        let partsMaxSpeedArr = [].concat(parts[model][part]);
+        {
+          partsMaxSpeedArr.sort((a,b)=>{
+            let aTotal = a.speed;
+            let bTotal = b.speed;
+            return bTotal - aTotal;
+          });
+
+          partsMaxSpeedArr.forEach((sortedPart, index)=>{
+            let style = sortedPart.style;
+            let endurance = sortedPart.endurance;
+            let speed = sortedPart.speed;
+            let power = sortedPart.power;
+
+            // Highest Stat Part
+            if(index == 0){
+              maxSpeedMechs[model][part] = {
+                style,
+                endurance,
+                speed,
+                power
+              }
+            }
+          });
+        }
+
+        let partsMaxPowerArr = [].concat(parts[model][part]);
+        {
+          partsMaxPowerArr.sort((a,b)=>{
+            let aTotal = a.power;
+            let bTotal = b.power;
+            return bTotal - aTotal;
+          });
+
+          partsMaxPowerArr.forEach((sortedPart, index)=>{
+            let style = sortedPart.style;
+            let endurance = sortedPart.endurance;
+            let speed = sortedPart.speed;
+            let power = sortedPart.power;
+
+            // Highest Stat Part
+            if(index == 0){
+              maxPowerMechs[model][part] = {
+                style,
+                endurance,
+                speed,
+                power
+              }
+            }
+          });
+        }
+      }
+
+      let limit = 5;
+
+      // Mixed Model Max
+      let partsFrankenstatMaxEnduranceArr = [].concat(allParts[part]);
+      {
+        partsFrankenstatMaxEnduranceArr.sort((a,b)=>{
+          let aTotal = a.endurance;
+          let bTotal = b.endurance;
+          return bTotal - aTotal;
+        });
+
+        partsFrankenstatMaxEnduranceArr.forEach((sortedPart, index)=>{
+          let style = sortedPart.style;
+          let endurance = sortedPart.endurance;
+          let speed = sortedPart.speed;
+          let power = sortedPart.power;
+
+          // Highest Stat Part
+          if(endurance >= limit){
+            if(!maxFrankenstatEnduranceMechs[part]){
+              maxFrankenstatEnduranceMechs[part] = [];
+            }
+            maxFrankenstatEnduranceMechs[part].push({
+              model,
+              style,
+              endurance,
+              speed,
+              power
+            });
+          }
+        });
+      }
+
+      let partsFrankenstatMaxSpeedArr = [].concat(allParts[part]);
+      {
+        partsFrankenstatMaxSpeedArr.sort((a,b)=>{
+          let aTotal = a.speed;
+          let bTotal = b.speed;
+          return bTotal - aTotal;
+        });
+
+        partsFrankenstatMaxSpeedArr.forEach((sortedPart, index)=>{
+          let style = sortedPart.style;
+          let endurance = sortedPart.endurance;
+          let speed = sortedPart.speed;
+          let power = sortedPart.power;
+
+          // Highest Stat Part
+          if(speed >= limit){
+            if(!maxFrankenstatSpeedMechs[part]){
+              maxFrankenstatSpeedMechs[part] = [];
+            }
+            maxFrankenstatSpeedMechs[part].push({
+              model,
+              style,
+              endurance,
+              speed,
+              power
+            });
+          }
+        });
+      }
+
+      let partsMaxFrankenstatPowerArr = [].concat(allParts[part]);
+      {
+        partsMaxFrankenstatPowerArr.sort((a,b)=>{
+          let aTotal = a.power;
+          let bTotal = b.power;
+          return bTotal - aTotal;
+        });
+
+        partsMaxFrankenstatPowerArr.forEach((sortedPart, index)=>{
+          let style = sortedPart.style;
+          let endurance = sortedPart.endurance;
+          let speed = sortedPart.speed;
+          let power = sortedPart.power;
+
+          // Highest Stat Part
+          if(power >= limit){
+            if(!maxFrankenstatPowerMechs[part]){
+              maxFrankenstatPowerMechs[part] = [];
+            }
+            maxFrankenstatPowerMechs[part].push({
+              model,
+              style,
+              endurance,
+              speed,
+              power
+            });
+          }
+        });
+      }
+    });
+  });
+
+  let enduranceMechs = [];
+  let speedMechs = [];
+  let powerMechs = [];
+
+  let enduranceStillRunning = true;
+  while(enduranceStillRunning){
+    let mechEndurance = {};
+    PARTS_ORDER.forEach((partType)=>{
+      if(partType == 'Leg'){
+        partType = 'Legs';
+      }
+      for(let i=0; i<maxFrankenstatEnduranceMechs[partType].length; i++){
+        let part = maxFrankenstatEnduranceMechs[partType][i];
+        let newPartType = partType;
+        if(partType == 'Arm'){
+          if(!mechEndurance['left_arm']){
+            newPartType = 'left_arm';
+          } else {
+            newPartType = 'right_arm';
+          }
+        }
+        if(!mechEndurance[newPartType]){
+          mechEndurance[newPartType] = part;
+          maxFrankenstatEnduranceMechs[partType].splice(i, 1);
+          delete maxFrankenstatEnduranceMechs[partType][i];
+        }
+        if(Object.keys(mechEndurance).length == 6){
+          enduranceMechs.push(mechEndurance);
+          // console.log('Before: ', maxFrankenstatEnduranceMechs[partType]);
+          // console.log('After: ', maxFrankenstatEnduranceMechs[partType]);
+          break;
+        }
+      }
+    });
+    if(Object.keys(mechEndurance).length != 6){
+      enduranceStillRunning = false;
+    }
+  }
+  let speedStillRunning = true;
+  while(speedStillRunning){
+    let mechSpeed = {};
+    PARTS_ORDER.forEach((partType)=>{
+      if(partType == 'Leg'){
+        partType = 'Legs';
+      }
+      for(let i=0; i<maxFrankenstatSpeedMechs[partType].length; i++){
+        let part = maxFrankenstatSpeedMechs[partType][i];
+        let newPartType = partType;
+        if(partType == 'Arm'){
+          if(!mechSpeed['left_arm']){
+            newPartType = 'left_arm';
+          } else {
+            newPartType = 'right_arm';
+          }
+        }
+        if(!mechSpeed[newPartType]){
+          mechSpeed[newPartType] = part;
+          maxFrankenstatSpeedMechs[partType].splice(i, 1);
+        }
+        if(Object.keys(mechSpeed).length == 6){
+          speedMechs.push(mechSpeed);
+          break;
+        }
+      }
+    });
+    if(Object.keys(mechSpeed).length != 6){
+      speedStillRunning = false;
+    }
+  }
+  let powerStillRunning = true;
+  while(powerStillRunning){
+    let mechPower = {};
+    PARTS_ORDER.forEach((partType)=>{
+      if(partType == 'Leg'){
+        partType = 'Legs';
+      }
+      for(let i=0; i<maxFrankenstatPowerMechs[partType].length; i++){
+        let part = maxFrankenstatPowerMechs[partType][i];
+        let newPartType = partType;
+        if(partType == 'Arm'){
+          if(!mechPower['left_arm']){
+            newPartType = 'left_arm';
+          } else {
+            newPartType = 'right_arm';
+          }
+        }
+        if(!mechPower[newPartType]){
+          mechPower[newPartType] = part;
+          maxFrankenstatPowerMechs[partType].splice(i, 1);
+        }
+        if(Object.keys(mechPower).length == 6){
+          powerMechs.push(mechPower);
+          break;
+        }
+      }
+    });
+    if(Object.keys(mechPower).length != 6){
+      powerStillRunning = false;
+    }
+  }
+
+  // Mixed Single Level
+  buildMaxMechTableArr(enduranceMechs, frankenstatEnduranceMechContainer);
+
+  buildMaxMechTableArr(speedMechs, frankenstatSpeedMechContainer);
+
+  buildMaxMechTableArr(powerMechs, frankenstatPowerMechContainer);
+  
+  // Builds Tables
   RARITY_ORDER.forEach((model)=>{
       let mech = maxMechs[model];
+
+      // Max Total
       buildMaxMechTable(model, mech, maxMechContainer);
 
+      // Max Single
       let mechEndurance = maxEnduranceMechs[model];
       buildMaxMechTable(model, mechEndurance, maxEnduranceMechContainer);
 
@@ -192,6 +535,7 @@ function buildPartTable(){
 
       let mechPower = maxPowerMechs[model];
       buildMaxMechTable(model, mechPower, maxPowerMechContainer);
+
   });
 
   //Build full mechs
@@ -208,6 +552,8 @@ function buildPartTable(){
       // });
     });
   });
+
+
 }
 
 function buildPartCountsTable(
@@ -253,6 +599,32 @@ function buildMaxMechTable(
   clone.querySelector(".total").textContent = totalEndurance + totalSpeed + totalPower;
   
   container.appendChild(clone);
+}
+
+function buildMaxMechTableArr(
+  mechs,
+  container
+  ){
+    mechs.forEach((mech)=>{
+      const clone = templateMaxMixed.content.cloneNode(true);
+      clone.querySelector(".model").textContent = mech.Engine.model;
+      clone.querySelector(".style").textContent = mech.Engine.style;
+      clone.querySelector(".engine").innerHTML = partsRevealedImage('Engine', mech.Engine.model, mech.Engine.style);
+      clone.querySelector(".head").innerHTML = partsRevealedImage('Head', mech.Engine.model, mech.Head.style);
+      clone.querySelector(".body").innerHTML = partsRevealedImage('Body', mech.Engine.model, mech.Body.style);
+      clone.querySelector(".legs").innerHTML = partsRevealedImage('Legs', mech.Engine.model, mech.Legs.style);
+      clone.querySelector(".left_arm").innerHTML = partsRevealedImage('Arm', mech.Engine.model, mech.left_arm.style);
+      clone.querySelector(".right_arm").innerHTML = partsRevealedImage('Arm', mech.Engine.model, mech.right_arm.style);
+      let totalEndurance = mech.Engine.endurance + mech.Head.endurance + mech.Body.endurance + mech.Legs.endurance + mech.left_arm.endurance + mech.right_arm.endurance;
+      clone.querySelector(".endurance").textContent = totalEndurance;
+      let totalSpeed = mech.Engine.speed + mech.Head.speed + mech.Body.speed + mech.Legs.speed + mech.left_arm.speed + mech.right_arm.speed;
+      clone.querySelector(".speed").textContent = totalSpeed;
+      let totalPower = mech.Engine.power + mech.Head.power + mech.Body.power + mech.Legs.power + mech.left_arm.power + mech.right_arm.power;
+      clone.querySelector(".power").textContent = totalPower;
+      clone.querySelector(".total").textContent = totalEndurance + totalSpeed + totalPower;
+      
+      container.appendChild(clone);
+    })
 }
 
 function buildFullMechTable(

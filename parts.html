@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=3.8">
-    <link rel="stylesheet" href="./css/parts.css?v=3.8">
+    <link rel="stylesheet" href="./css/main.css"?v=3.9">
+    <link rel="stylesheet" href="./css/parts.css"?v=3.9">
   </head>
   <body>
     <div class="header">
@@ -70,8 +70,8 @@
               </div>
 
               <div class="col-md-8">
-                <div class="borderDiv" style="margin-top: 0px;">
-                  <h4> Max Total Mech Model Stats
+                <div class="borderDiv hideTemp" style="margin-top: 0px;">
+                  <h4> Max Total Mech Model
                     <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
                     <div id="topTableToggle" class="toggle" onclick="toggleTable('topTable')">
                       &#8212;
@@ -98,8 +98,8 @@
                   </table>
                 </div>
 
-                <div class="borderDiv" style="margin-top: 8px;">
-                  <h4> Max Endurance Mech Model Stats
+                <div class="borderDiv hideTemp" style="margin-top: 8px;">
+                  <h4> Max Endurance Mech Model
                     <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
                     <div id="topEnduranceTableToggle" class="toggle" onclick="toggleTable('topEnduranceTable')">
                       &#8212;
@@ -126,8 +126,8 @@
                   </table>
                 </div>
 
-                <div class="borderDiv" style="margin-top: 8px;">
-                  <h4> Max Speed Mech Model Stats
+                <div class="borderDiv hideTemp" style="margin-top: 8px;">
+                  <h4> Max Speed Mech Model
                     <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
                     <div id="topSpeedTableToggle" class="toggle" onclick="toggleTable('topSpeedTable')">
                       &#8212;
@@ -154,8 +154,8 @@
                   </table>
                 </div>
 
-                <div class="borderDiv" style="margin-top: 8px;">
-                  <h4> Max Power Mech Model Stats
+                <div class="borderDiv hideTemp" style="margin-top: 8px;">
+                  <h4> Max Power Mech Model
                     <button class="tooltipBtn" tip="Table showing the highest possible mech part combination for total power levels.">?</button>
                     <div id="topPowerTableToggle" class="toggle" onclick="toggleTable('topPowerTable')">
                       &#8212;
@@ -183,7 +183,94 @@
                 </div>
 
                 <div class="borderDiv" style="margin-top: 8px;">
-                  <h4> Full Style Mech Stats
+                  <h4> Frankenstat Endurance Mech
+                    <button class="tooltipBtn" tip="Table showing the max mixed model power levels.">?</button>
+                    <div id="frankenstatEnduranceMechTableToggle" class="toggle" onclick="toggleTable('frankenstatEnduranceMechTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="frankenstatEnduranceMechTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th style="width: 210px;">Style</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                      <th>Endurance</th>
+                      <th>Speed</th>
+                      <th>Power</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="frankenstatEnduranceMech">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;">
+                  <h4> Frankenstat Speed
+                    <button class="tooltipBtn" tip="Table showing the max mixed model power levels.">?</button>
+                    <div id="frankenstatSpeedTableToggle" class="toggle" onclick="toggleTable('frankenstatSpeedTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="frankenstatSpeedTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th style="width: 210px;">Style</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                      <th>Endurance</th>
+                      <th>Speed</th>
+                      <th>Power</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="frankenstatSpeedMech">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv" style="margin-top: 8px;">
+                  <h4> Frankenstat Power
+                    <button class="tooltipBtn" tip="Table showing the max mixed model power levels.">?</button>
+                    <div id="frankenstatPowerTableToggle" class="toggle" onclick="toggleTable('frankenstatPowerTable')">
+                      &#8212;
+                    </div>
+                  </h4>
+
+                  <table id="frankenstatPowerTable" class="table tableWide table-full">
+                    <thead>
+                      <th>Model</th>
+                      <th style="width: 210px;">Style</th>
+                      <th>Engine</th>
+                      <th>Head</th>
+                      <th>Body</th>
+                      <th>Legs</th>
+                      <th>Left Arm</th>
+                      <th>Right Arm</th>
+                      <th>Endurance</th>
+                      <th>Speed</th>
+                      <th>Power</th>
+                      <th>Total</th>
+                    </thead>
+
+                    <tbody id="frankenstatPowerMech">
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="borderDiv hideTemp" style="margin-top: 8px;">
+                  <h4> Full Style Mech Model Stats
                     <button class="tooltipBtn" tip="Table showing the total power levels for each full style mech.">?</button>
                     <div id="fullTableToggle" class="toggle" onclick="toggleTable('fullTable')">
                       &#8212;
@@ -245,6 +332,22 @@
           <td class="total"></td>
         </tr>
       </template>
+      <template id="template-max-mixed">
+        <tr>
+          <td class="model"></td>
+          <td class="style"></td>
+          <td class="engine"></td>
+          <td class="head"></td>
+          <td class="body"></td>
+          <td class="legs"></td>
+          <td class="left_arm"></td>
+          <td class="right_arm"></td>
+          <td class="endurance"></td>
+          <td class="speed"></td>
+          <td class="power"></td>
+          <td class="total"></td>
+        </tr>
+      </template>
       <template id="template-full">
         <tr>
           <td class="model"></td>
@@ -268,15 +371,15 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/data/meta_parts.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/data/totals.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/parts.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/util/constants.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/util/utils.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/ui/tables.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/model/model.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/data/meta_parts.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/data/metadata.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/data/totals.js"?v=3.9"></script>
+    <script type="text/javascript" src="./js/parts.js"?v=3.9"></script>
   </body>
 </html>

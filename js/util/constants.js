@@ -295,10 +295,15 @@ const mechStatsRavagerContainer = document.querySelector("#mech-stats-ravager");
 const mechStatsEnforcerContainer = document.querySelector("#mech-stats-enforcer");
 
 const templateMax = document.querySelector("#template-max");
+const templateMaxMixed = document.querySelector("#template-max-mixed");
 const maxMechContainer = document.querySelector("#maxMech");
 const maxEnduranceMechContainer = document.querySelector("#maxEnduranceMech");
 const maxSpeedMechContainer = document.querySelector("#maxSpeedMech");
 const maxPowerMechContainer = document.querySelector("#maxPowerMech");
+const frankenstatEnduranceMechContainer = document.querySelector("#frankenstatEnduranceMech");
+const frankenstatSpeedMechContainer = document.querySelector("#frankenstatSpeedMech");
+const frankenstatPowerMechContainer = document.querySelector("#frankenstatPowerMech");
+
 
 const templateFullMech = document.querySelector("#template-full");
 const fullMechContainer = document.querySelector("#fullMech");
