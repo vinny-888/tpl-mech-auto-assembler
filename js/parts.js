@@ -20,8 +20,32 @@ function createMetadataLookup(){
     let metadata = revealedMetadata[token];
     if(!meta_parts[metadata.name]){
       meta_parts[metadata.name] = metadata.attributes;
+      // console.log(token, metadata.name, metadata.attributes);
     }
   })
+  // validateMetadata();
+}
+
+function validateMetadata(){
+  let tokens = [];
+  Object.keys(revealedMetadata).forEach((token)=>{
+
+    let metadata = revealedMetadata[token];
+    let metadataEndurance = metadata.attributes.find((att)=> att.trait_type == 'Endurance').value;
+    let metadataSpeed = metadata.attributes.find((att)=> att.trait_type == 'Speed').value;
+    let metadataPower = metadata.attributes.find((att)=> att.trait_type == 'Power').value;
+
+    let compare = meta_parts[metadata.name];
+    let compareEndurance = compare.find((att)=> att.trait_type == 'Endurance').value;
+    let compareSpeed = compare.find((att)=> att.trait_type == 'Speed').value;
+    let comparePower = compare.find((att)=> att.trait_type == 'Power').value;
+
+    if(compareEndurance != metadataEndurance || compareSpeed != metadataSpeed || comparePower != metadataPower){
+      //, JSON.stringify(metadata.attributes), JSON.stringify(compare.attributes));
+      tokens.push(token, metadata);
+    }
+  });
+  console.log(tokens);
 }
 
 function displayTables(){
