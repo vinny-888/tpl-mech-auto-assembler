@@ -11,11 +11,11 @@ function partsRevealedImage(part, model, style) {
     return '<a target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
 }
 
-function partsRevealedImagePreview(part, model, style, head, body, legs, left_arm, right_arm) {
+function partsRevealedImagePreview(part, model, style, head, body, legs, left_arm, right_arm ,endurance, speed, power, total) {
     if(part == 'Leg'){
         part = 'legs';
     }
-    return '<a onmouseover="bigImgMixed(event, this, \'' + head + '\', \'' + body + '\', \'' + legs + '\', \'' + left_arm + '\', \'' + right_arm + '\')"  onmouseout="smallImgMixed()"   target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
+    return '<a onmouseover="bigImgMixed(event, this, \'' + head + '\', \'' + body + '\', \'' + legs + '\', \'' + left_arm + '\', \'' + right_arm + '\')"  onmouseout="smallImgMixed()"   target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style, 'Endurance: ' +endurance, 'Speed: ' +speed, 'Power: ' +power, 'Total: ' +total].join(' ')+'" /></a>';
 }
 
 function ownerPartsRevealedImage(address, part, model, style) {
@@ -384,4 +384,49 @@ function getMostPartsStyleName(modelParts){
         style = Object.keys(styleCount)[maxIndex];
     })
     return style;
+}
+
+let meta_parts = {};
+function createMetadataLookup(){
+  let counts = {
+    endurance: {
+      '0': 0,
+      '1': 1,
+      '2': 2,
+      '3': 3,
+      '4': 4,
+      '5': 5
+    },
+    speed: {
+      '0': 0,
+      '1': 1,
+      '2': 2,
+      '3': 3,
+      '4': 4,
+      '5': 5
+    },
+    power: {
+      '0': 0,
+      '1': 1,
+      '2': 2,
+      '3': 3,
+      '4': 4,
+      '5': 5
+    }
+  };
+  Object.keys(revealedMetadata).forEach((token)=>{
+    let metadata = revealedMetadata[token];
+    let metadataEndurance = metadata.attributes.find((att)=> att.trait_type == 'Endurance').value;
+    let metadataSpeed = metadata.attributes.find((att)=> att.trait_type == 'Speed').value;
+    let metadataPower = metadata.attributes.find((att)=> att.trait_type == 'Power').value;
+    counts.endurance[''+metadataEndurance]++;
+    counts.speed[''+metadataSpeed]++;
+    counts.power[''+metadataPower]++;
+    if(!meta_parts[metadata.name.trim()]){
+      meta_parts[metadata.name.trim()] = metadata.attributes;
+      // console.log(token, metadata.name, metadata.attributes);
+    }
+  })
+  console.log('counts', counts);
+  // validateMetadata();
 }

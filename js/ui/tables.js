@@ -731,7 +731,49 @@ function buildSameModelStylesTable(mixedMechsPartial){
                     let legs = mech.Leg ? mech.Leg.style : '';
                     let left_arm = mech.left_arm ? mech.left_arm.style : '';
                     let right_arm = mech.right_arm ? mech.right_arm.style : '';
-                    clone.querySelector(".engine").innerHTML = partsRevealedImagePreview('Engine', mech.Engine.model, mech.Engine.style, head, body, legs, left_arm, right_arm);
+
+
+                    let metadataHead = meta_parts[mech.Head.style + ' ' + mech.Head.model + ' Head'];
+                    let metadataBody = meta_parts[mech.Head.style + ' ' + mech.Head.model + ' Body'];
+                    let metadataLegs = meta_parts[mech.Head.style + ' ' + mech.Head.model + ' Legs'];
+                    let metadataArm = meta_parts[mech.Head.style + ' ' + mech.Head.model + ' Arm'];
+                    let endurance = 0;
+                    let speed = 0;
+                    let power = 0;
+                    let total = 0;
+                    if(metadataHead){
+                        endurance += metadataHead.find((att)=> att.trait_type == 'Endurance').value;
+                        speed += metadataHead.find((att)=> att.trait_type == 'Speed').value;
+                        power += metadataHead.find((att)=> att.trait_type == 'Power').value;
+                    }else{
+                        console.log(mech.Head.style + ' ' + mech.Head.model + ' Head');
+                    }
+
+                    if(metadataBody){
+                        endurance += metadataBody.find((att)=> att.trait_type == 'Endurance').value;
+                        speed += metadataBody.find((att)=> att.trait_type == 'Speed').value;
+                        power += metadataBody.find((att)=> att.trait_type == 'Power').value;
+                    }else{
+                        console.log(mech.Body.style + ' ' + mech.Body.model + ' Head');
+                    }
+
+                    if(metadataLegs){
+                        endurance += metadataLegs.find((att)=> att.trait_type == 'Endurance').value;
+                        speed += metadataLegs.find((att)=> att.trait_type == 'Speed').value;
+                        power += metadataLegs.find((att)=> att.trait_type == 'Power').value;
+                    }else{
+                        console.log(mech.Legs.style + ' ' + mech.Legs.model + ' Head');
+                    }
+
+                    if(metadataArm){
+                        endurance += metadataArm.find((att)=> att.trait_type == 'Endurance').value;
+                        speed += metadataArm.find((att)=> att.trait_type == 'Speed').value;
+                        power += metadataArm.find((att)=> att.trait_type == 'Power').value;
+                    }else{
+                        console.log(mech.Arm.style + ' ' + mech.Arm.model + ' Head');
+                    }
+                    total = endurance+speed+power;
+                    clone.querySelector(".engine").innerHTML = partsRevealedImagePreview('Engine', mech.Engine.model, mech.Engine.style, head, body, legs, left_arm, right_arm, endurance, speed, power, total);
                 }else{
                     clone.querySelector(".engine").innerHTML = partsRevealedImageMissingAll('Engine', model2, style2);
                 }

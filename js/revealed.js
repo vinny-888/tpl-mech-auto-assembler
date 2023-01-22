@@ -7,6 +7,7 @@ let totalParts = {};
 function init() {
   initContracts();
   initTooltip();
+  createMetadataLookup();
 }
 
 window.addEventListener('load', async () => {

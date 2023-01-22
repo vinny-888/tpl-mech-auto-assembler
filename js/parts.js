@@ -1,7 +1,6 @@
 "use strict";
 
 let allData = {};
-let meta_parts = {};
 function init() {
   initTooltip();
   createMetadataLookup();
@@ -14,50 +13,6 @@ window.addEventListener('load', async () => {
   
   displayTables();
 });
-
-function createMetadataLookup(){
-  let counts = {
-    endurance: {
-      '0': 0,
-      '1': 1,
-      '2': 2,
-      '3': 3,
-      '4': 4,
-      '5': 5
-    },
-    speed: {
-      '0': 0,
-      '1': 1,
-      '2': 2,
-      '3': 3,
-      '4': 4,
-      '5': 5
-    },
-    power: {
-      '0': 0,
-      '1': 1,
-      '2': 2,
-      '3': 3,
-      '4': 4,
-      '5': 5
-    }
-  };
-  Object.keys(revealedMetadata).forEach((token)=>{
-    let metadata = revealedMetadata[token];
-    let metadataEndurance = metadata.attributes.find((att)=> att.trait_type == 'Endurance').value;
-    let metadataSpeed = metadata.attributes.find((att)=> att.trait_type == 'Speed').value;
-    let metadataPower = metadata.attributes.find((att)=> att.trait_type == 'Power').value;
-    counts.endurance[''+metadataEndurance]++;
-    counts.speed[''+metadataSpeed]++;
-    counts.power[''+metadataPower]++;
-    if(!meta_parts[metadata.name]){
-      meta_parts[metadata.name] = metadata.attributes;
-      // console.log(token, metadata.name, metadata.attributes);
-    }
-  })
-  console.log('counts', counts);
-  // validateMetadata();
-}
 
 function validateMetadata(){
   let tokens = [];
