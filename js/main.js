@@ -197,3 +197,4 @@ function calculateTotals(){
   console.log('totalMixedMechsNoAfterglow', totalMixedMechsNoAfterglow);
   console.log('totalParts', totalParts);
 }
+

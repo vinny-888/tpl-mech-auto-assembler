@@ -15,10 +15,12 @@ let afterglowContract = null;
 let cyberbrokerContract = null;
 let wrapperContract = null;
 
+let web3Provider;
+
 function initContracts(){
     if(typeof web3 !== 'undefined'){
         console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
-        const web3 = new Web3(provider);
+        const web3 = web3Provider = new Web3(provider);
         mechContract = new web3.eth.Contract(balanceOfABI, mechTokenContract);
         mechRevealedContract = new web3.eth.Contract(revealedABI, mechRevealedTokenContract);
         afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
@@ -190,4 +192,50 @@ async function populateWalletAfterglows(address){
         walletAfterglows[i].count = parseInt(res[i]);
     }
     return walletAfterglows;
+}
+
+async function query(contract, event, filter, fromBlock, toBlock) {
+    try {
+		return await contract.getPastEvents(event, { filter, fromBlock, toBlock });
+	} catch (e) {
+		const step = ~~((toBlock - fromBlock) / 2);
+		const middle = fromBlock + step;
+		return [
+			...(await query(contract, event, filter, fromBlock, middle)),
+			...(await query(contract, event, filter, middle + 1, toBlock)),
+		];
+	}
+}
+
+async function getAccountRevealedParts(address) {
+    const latest = await web3Provider.eth.getBlockNumber();
+
+    const logs = [
+		...(await query(mechRevealedContract, 'Transfer', { to: [address] }, 0, latest)),
+		...(await query(mechRevealedContract, 'Transfer', { from: [address] }, 0, latest)),
+	];
+
+    console.log(logs);
+
+    logs.sort((a, b) => {
+		if (a.blockNumber !== b.blockNumber) {
+			return a.blockNumber - b.blockNumber;
+		}
+
+		return a.logIndex - b.logIndex;
+	});
+
+	const holdings = [];
+
+	logs.forEach((log) => {
+		const args = log.returnValues;
+		const id = parseInt(args[2]);
+		if (args[1].toLowerCase() == address) {
+			holdings.push(id);
+		} else if (args[0].toLowerCase() == address) {
+			holdings.splice(holdings.indexOf(id), 1);
+		}
+	});
+
+	return holdings;
 }
