@@ -341,6 +341,20 @@ function smallImg(){
   document.getElementById('viewer').style.display = 'none';
 }
 
+function bigImgMixed(e, elm, head, body, legs, left_arm, right_arm){
+  var top  = (getOffsetTop(elm)-200)  + "px";
+  // document.getElementById('full_size_image').setAttribute('src', url);
+  
+  document.getElementById('viewer2').style.top = top;
+  document.getElementById('viewer2').style.display = 'block';
+
+  showPreview(head, body, legs, left_arm, right_arm);
+}
+
+function smallImgMixed(){
+  document.getElementById('viewer2').style.display = 'none';
+}
+
 /*
 let metadata = {};
 for(let i=12002; i<=12392; i++){

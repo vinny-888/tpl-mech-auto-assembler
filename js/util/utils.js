@@ -11,6 +11,13 @@ function partsRevealedImage(part, model, style) {
     return '<a target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
 }
 
+function partsRevealedImagePreview(part, model, style, head, body, legs, left_arm, right_arm) {
+    if(part == 'Leg'){
+        part = 'legs';
+    }
+    return '<a onmouseover="bigImgMixed(event, this, \'' + head + '\', \'' + body + '\', \'' + legs + '\', \'' + left_arm + '\', \'' + right_arm + '\')"  onmouseout="smallImgMixed()"   target="_blank" href="'+buildOpenSeaRevealedModelPartURL(model, part, style)+'"><img height="60px" src="'+path+'images/revealed/small/' + model.toLowerCase() + '-' + style.toLowerCase().replaceAll(' ', '-').replaceAll('.', '') + '-' + part.toLowerCase() + '.webp" title="'+[model, part, style].join(' ')+'" /></a>';
+}
+
 function ownerPartsRevealedImage(address, part, model, style) {
     if(part == 'Leg'){
         part = 'legs';
@@ -38,6 +45,31 @@ function fullRevealedImage(style) {
     } else {
         return '<img onmouseover="bigImg(event, this, \'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp\')"  onmouseout="smallImg()"  height="60px" src="'+path+'images/mechs/small/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp" />';
     }
+}
+
+function mixedRevealedImage(head, body, legs, left_arm, right_arm) {
+    head = head.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_')
+    body = body.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_')
+    legs = legs.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_')
+    right_arm = right_arm.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_')
+    left_arm = left_arm.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_')
+    if(head == 'CAMM-E'){
+        head = 'camm-e';
+    }
+    if(body == 'CAMM-E'){
+        body = 'camm-e';
+    }
+    if(legs == 'CAMM-E'){
+        legs = 'camm-e';
+    }
+    if(right_arm == 'CAMM-E'){
+        right_arm = 'camm-e';
+    }
+    if(left_arm == 'CAMM-E'){
+        left_arm = 'camm-e';
+    }
+
+    return '<img onmouseover="bigImgMixed(event, this, \'' + head + '\', \'' + body + '\', \'' + legs + '\', \'' + left_arm + '\', \'' + right_arm + '\')"  onmouseout="smallImgMixed()"  height="60px" src="'+path+'images/mechs/small/' + style.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_') + '.webp" />';
 }
 
 

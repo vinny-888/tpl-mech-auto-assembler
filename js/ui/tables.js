@@ -652,8 +652,14 @@ function buildPartialMechNoModelStylesTable(mixedMechsPartial){
                     model2 = mech.right_arm.model;
                     style2 = mech.right_arm.style;
                 }
+
                 if(mech.Engine){
-                    clone.querySelector(".engine").innerHTML = partsRevealedImage('Engine', mech.Engine.model, mech.Engine.style);
+                    let head = mech.Head ? mech.Head.style : '';
+                    let body = mech.Body ? mech.Body.style : '';
+                    let legs = mech.Leg ? mech.Leg.style : '';
+                    let left_arm = mech.left_arm ? mech.left_arm.style : '';
+                    let right_arm = mech.right_arm ? mech.right_arm.style : '';
+                    clone.querySelector(".engine").innerHTML = partsRevealedImagePreview('Engine', mech.Engine.model, mech.Engine.style, head, body, legs, left_arm, right_arm);
                 }else{
                     clone.querySelector(".engine").innerHTML = partsRevealedImageMissingAll('Engine', model2, style2);
                 }

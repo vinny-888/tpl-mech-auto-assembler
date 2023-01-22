@@ -21,6 +21,16 @@
     z-index: 1;
 }
 
+#viewer2{
+    /* width: calc(100% - 334px);
+    top: 215px; */
+    left: 270px;
+    /* right: 20px;
+    bottom: 20px; */
+    position: absolute;
+    z-index: 1;
+}
+
 .redFilter {
     position: relative;
     float: left;

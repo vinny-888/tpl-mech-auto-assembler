@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=6.1">
-    <link rel="stylesheet" href="./css/revealed.css?v=6.1">
+    <link rel="stylesheet" href="./css/main.css?v=6.2">
+    <link rel="stylesheet" href="./css/revealed.css?v=6.2">
   </head>
   <body>
     <div id="viewer" style="display: none;">
       <img width="600px;" id="full_size_image" src="" class="fullsize">
+    </div>
+
+    <div id="viewer2" style="display: none;z-index: 1;">
+      <div style="position: absolute; top: 100px;left: 100px;z-index: 1;">
+        <canvas style="zoom: 0.5;" id="renderCanvas" width="1600" height="1760"></canvas>
+      </div>
     </div>
     <div class="header">
       <h3>CYBERBROKERS</h3>
@@ -528,19 +534,20 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilderStyles.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/data/data.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=6.1"></script>
-    <script type="text/javascript" src="./js/revealed.js?v=6.1"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilderStyles.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/data/data.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/canvas/renderer.js?v=6.2"></script>
+    <script type="text/javascript" src="./js/revealed.js?v=6.2"></script>
   </body>
 </html>
