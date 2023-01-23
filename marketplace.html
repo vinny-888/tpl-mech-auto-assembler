@@ -42,6 +42,7 @@
             <div class="col-md-8">
               <div class="custom-select">
                 <select id="modelSelect" onchange="onModelChange()">
+                  <option value="">Select Model...</option>
                   <option value="Enforcer">Enforcer</option>
                   <option value="Ravager">Ravager</option>
                   <option value="Behemoth">Behemoth</option>
@@ -56,9 +57,9 @@
               <label for="styleSelect">Style: </label>
             </div>
             <div class="col-md-8">
-              <div class="custom-select">
+              <div class="custom-select" id="style-custom-select">
                 <select id="styleSelect">
-                  <option value="Select Model">Select Model</option>
+                  <option value="">Select Style...</option>
                 </select>
               </div>
             </div>
@@ -70,6 +71,7 @@
             <div class="col-md-8">
               <div class="custom-select">
                 <select id="partSelect">
+                  <option value="">Select Part...</option>
                   <option value="Engine">Engine</option>
                   <option value="Head">Head</option>
                   <option value="Body">Body</option>

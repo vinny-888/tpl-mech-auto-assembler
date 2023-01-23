@@ -184,15 +184,28 @@ function onModelChange(){
     var e = document.getElementById("modelSelect");
     var model = e.value;
     console.log('onModelChange', model);
+    if(model){
+        var stylesSelect = document.getElementById("styleSelect");
 
-    var stylesSelect = document.getElementById("styleSelect");
+        let html = '<select id="styleSelect">';
+        html += '<option value="">Select Model...</option>';
+        STYLE_ORDER[model].forEach((style)=>{
+            html += '<option value="'+style+'">'+style+'</option>';
+        });
+        html += '</select>';
 
-    let html = ''
-    STYLE_ORDER[model].forEach((style)=>{
-        html += '<option value="'+style+'">'+style+'</option>';
-    });
-    stylesSelect.innerHTML = html;
+        let select = document.getElementById("style-custom-select");
+        select.innerHTML = html;
+    }
 
+    let selects = document.getElementsByClassName("custom-select");
+    Array.from(selects).forEach((select)=>{
+        Array.from(select.children).forEach((elm, index)=>{
+            if(index > 0){
+                select.removeChild(elm);
+            }
+        });
+    })
     updateSelects();
 }
 
@@ -200,13 +213,7 @@ function updateSelects(){
     var x, i, j, l, ll, selElmnt, a, b, c;
     /*look for any elements with the class "custom-select":*/
     x = document.getElementsByClassName("custom-select");
-    Array.from(x).forEach((select)=>{
-        Array.from(select.children).forEach((elm, index)=>{
-            if(index > 0){
-                select.removeChild(elm);
-            }
-        });
-    })
+
     l = x.length;
     for (i = 0; i < l; i++) {
       selElmnt = x[i].getElementsByTagName("select")[0];
@@ -242,7 +249,9 @@ function updateSelects(){
                   y[k].removeAttribute("class");
                 }
                 this.setAttribute("class", "same-as-selected");
-                s.onchange();
+                if(s.onchange){
+                    s.onchange();
+                }
                 break;
               }
             }
