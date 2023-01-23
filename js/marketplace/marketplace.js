@@ -142,7 +142,7 @@ function buildDealsTable(deals){
         clone.querySelector(".image").innerHTML = partsRevealedImage(deal.has.part, deal.has.model, deal.has.style);
         clone.querySelector(".model").innerHTML = deal.has.model + '<br><br>' + deal.wants.model;
         clone.querySelector(".part").innerHTML = deal.has.part + '<br><br>' + deal.wants.part;
-        clone.querySelector(".style").innerHTML = deal.has.style + '<br><br>' + deal.wants.style;
+        clone.querySelector(".style").innerHTML = fixStyle(deal.has.style) + '<br><br>' + fixStyle(deal.wants.style);
 
         let allowedOffer = '';
 
@@ -155,6 +155,10 @@ function buildDealsTable(deals){
     document.getElementById('deal_count').innerHTML = deals.length;
 }
 
+function fixStyle(style){
+    return style == 'CAMM-E' ? 'camm-e' : style;
+}
+
 function buildOffersTable(offers){
     offersContainer.innerHTML = '';
     offers.forEach((offer)=>{
@@ -163,7 +167,7 @@ function buildOffersTable(offers){
         clone.querySelector(".image").innerHTML = partsRevealedImage(offer.part, offer.model, offer.style);
         clone.querySelector(".model").textContent = offer.model;
         clone.querySelector(".part").textContent = offer.part;
-        clone.querySelector(".style").textContent = offer.style;
+        clone.querySelector(".style").textContent = fixStyle(offer.style);
 
         let allowedRemove = '';
 
