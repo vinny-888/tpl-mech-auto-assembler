@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <title>CyberBrokers Mech Auto Assembler</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/main.css?v=2.1">
+    <link rel="stylesheet" href="./css/marketplace.css?v=0.1">
+  </head>
+  <body>
+    <div class="header">
+      <h3>CYBERBROKERS</h3>
+      <div class="subtitle">
+        <span>Mech Part Marketplace</span>
+      </div>
+      <div class="navLinks">
+        <span><a href="revealed.html">Revealed Mechs</a></span>&nbsp;|
+        <span><a href="stats.html">Revealed Stats</a></span>&nbsp;|
+        <span><a href="index.html">Unrevealed Mechs</a></span>&nbsp;|
+        <span><a href="owners.html">Unrevealed Stats</a></span>&nbsp;|
+        <span><a href="parts.html">Power Stats</a></span>&nbsp;|
+        <span><a href="builder.html">Builder</a></span>&nbsp;|
+        <span><a href="mechs.html">3D Viewer</a></span>&nbsp;|
+        <span><a href="ar.html">AR Viewer</a></span>&nbsp;|
+        <span class="activeLink">3D Game</span>&nbsp;|
+        <span><a href="lp.html">Lost Paradigms</a></span>
+      </div>
+    </div>
+    <div class="container" style="margin-left: 4px;">
+      <div class="col-md-12">
+        <div id="connected" style="display: none">
+
+          <div class="col-md-4">
+            <div class="borderDiv" style="margin-top: 0px;">
+              <h4> Deals <span id="deal_count">0</span> 
+                <button class="tooltipBtn" tip="Deals users have posted">?</button>
+                <div id="dealsTableToggle" class="toggle" onclick="toggleTable('dealsTable')">
+                  &#8212;
+                </div>
+              </h4>
+
+              <table id="dealsTable" class="table table-listing">
+                <thead>
+                  <th style="width:20%">Image</th>
+                  <th>User</th>
+                  <th>Model</th>
+                  <th>Part</th>
+                  <th id="full_style2">Style</th>
+                  <!-- <th>Count</th> -->
+                </thead>
+
+                <tbody id="deals">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="borderDiv" style="margin-top: 0px;">
+              <h4> Offers <span id="offer_count">0</span> 
+                <button class="tooltipBtn" tip="Offers for this deal">?</button>
+                <div id="dealsTableToggle" class="toggle" onclick="toggleTable('dealsTable')">
+                  &#8212;
+                </div>
+              </h4>
+
+              <table id="dealsTable" class="table table-listing">
+                <thead>
+                  <th style="width:20%">Image</th>
+                  <th>User</th>
+                  <th>Model</th>
+                  <th>Part</th>
+                  <th id="full_style2">Style</th>
+                  <!-- <th>Count</th> -->
+                </thead>
+
+                <tbody id="offers">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div id="templates" style="display: none">
+      <template id="template-deals">
+        <tr>
+          <td class="image"></td>
+          <td class="user"></td>
+          <td class="model"></td>
+          <td class="part"></td>
+          <td class="style"></td>
+          <!-- <td class="count"></td> -->
+        </tr>
+      </template>
+
+      <template id="template-offers">
+        <tr>
+          <td class="image"></td>
+          <td class="user"></td>
+          <td class="model"></td>
+          <td class="part"></td>
+          <td class="style"></td>
+          <!-- <td class="count"></td> -->
+        </tr>
+      </template>
+      <script type="text/javascript" src="./js/data/metadata.js?v=0.1"></script>
+      <script type="text/javascript" src="./js/util/utils.js?v=0.1"></script>
+      <script type="text/javascript" src="./js/marketplace/marketplace.js?v=0.1"></script>
+  </body>
+</html>

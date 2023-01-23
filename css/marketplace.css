@@ -1,0 +1,7 @@
+.table{
+    width: 100%;
+}
+
+.selected{
+    background-color: #154ea1 !important;
+}

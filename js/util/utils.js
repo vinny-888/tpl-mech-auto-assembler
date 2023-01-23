@@ -427,6 +427,8 @@ function createMetadataLookup(){
       // console.log(token, metadata.name, metadata.attributes);
     }
   })
-  console.log('counts', counts);
+  
+//   console.log('meta_parts', JSON.stringify(meta_parts));
+//   console.log('counts', counts);
   // validateMetadata();
 }
