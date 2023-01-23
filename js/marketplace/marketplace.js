@@ -84,6 +84,7 @@ function loginUser(){
         document.getElementById('welcome').innerHTML = 'Welcome '+user.discord_id;
         document.getElementById('new_deal').style.display = 'inline-block';
         document.getElementById('new_user').style.display = 'none';
+        document.getElementById('logout').style.display = 'inline-block';
         hideUserModal();
     })
     .catch((err)=>{
