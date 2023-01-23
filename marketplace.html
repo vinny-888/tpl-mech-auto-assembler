@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/main.css?v=2.1">
-    <link rel="stylesheet" href="./css/marketplace.css?v=0.1">
+    <link rel="stylesheet" href="./css/marketplace.css?v=0.2">
   </head>
   <body>
     <div class="header">
@@ -28,6 +28,38 @@
         <span><a href="lp.html">Lost Paradigms</a></span>
       </div>
     </div>
+
+    <div id="addUser" class="modal" style="display: none;">
+      <div class="" style="margin-top: 0px;">
+        <h4> Login / Sign Up <div id="userTableToggle" class="toggle" onclick="hideUserModal()">
+          X
+        </div>
+      </h4>
+        <div class="form">
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="modelSelect">Discord Name: </label>
+            </div>
+            <div class="col-md-8">
+              <input id="user_discord" type="text">
+            </div>
+          </div>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="styleSelect">Wallet: </label>
+            </div>
+            <div class="col-md-8">
+              <input id="user_wallet" type="text">
+            </div>
+          </div>
+          <div class="button_div">
+            <button id="sign_up" class="submitBtn" onclick="signupUser()">Sign Up</button>
+            <button id="login" class="submitBtn" onclick="loginUser()">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="addOffer" class="modal" style="display: none;">
       <div class="" style="margin-top: 0px;">
         <h4> New Offer <div id="dealsTableToggle" class="toggle" onclick="hideOfferModal()">
@@ -41,7 +73,7 @@
             </div>
             <div class="col-md-8">
               <div class="custom-select">
-                <select id="modelSelect" onchange="onModelChange()">
+                <select id="modelSelect" onchange="onOfferModelChange()">
                   <option value="">Select Model...</option>
                   <option value="Enforcer">Enforcer</option>
                   <option value="Ravager">Ravager</option>
@@ -87,7 +119,132 @@
         </div>
       </div>
     </div>
+
+    <div id="addDeal" class="modal" style="display: none;">
+      <div class="" style="margin-top: 0px;">
+        <h4> New Deal <div id="dealsTableToggle" class="toggle" onclick="hideDealModal()">
+          X
+        </div>
+      </h4>
+        <div class="form">
+          <h5>Has</h5>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="modelSelect">Model: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select">
+                <select id="modelSelect_has" onchange="onDealHasModelChange()">
+                  <option value="">Select Model...</option>
+                  <option value="Enforcer">Enforcer</option>
+                  <option value="Ravager">Ravager</option>
+                  <option value="Behemoth">Behemoth</option>
+                  <option value="Lupis">Lupis</option>
+                  <option value="Nexus">Nexus</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="styleSelect">Style: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select" id="style-custom-select-has">
+                <select id="styleSelect_has">
+                  <option value="">Select Style...</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="partSelect">Part: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select">
+                <select id="partSelect_has">
+                  <option value="">Select Part...</option>
+                  <option value="Engine">Engine</option>
+                  <option value="Head">Head</option>
+                  <option value="Body">Body</option>
+                  <option value="Legs">Legs</option>
+                  <option value="Arm">Arm</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <h5>Wants</h5>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="modelSelect">Model: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select">
+                <select id="modelSelect_wants" onchange="onDealWantsModelChange()">
+                  <option value="">Select Model...</option>
+                  <option value="Enforcer">Enforcer</option>
+                  <option value="Ravager">Ravager</option>
+                  <option value="Behemoth">Behemoth</option>
+                  <option value="Lupis">Lupis</option>
+                  <option value="Nexus">Nexus</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="styleSelect">Style: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select" id="style-custom-select-wants">
+                <select id="styleSelect_wants">
+                  <option value="">Select Style...</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="partSelect">Part: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select">
+                <select id="partSelect_wants">
+                  <option value="">Select Part...</option>
+                  <option value="Engine">Engine</option>
+                  <option value="Head">Head</option>
+                  <option value="Body">Body</option>
+                  <option value="Legs">Legs</option>
+                  <option value="Arm">Arm</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="button_div">
+            <button class="submitBtn" onclick="submitDeal()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container" style="margin-left: 4px;">
+      <div class="col-md-12">
+        <div style="display: inline-block">
+          <div id="new_user" class="padded">
+            <button class="btn-primary" onclick="showUserModal();">Login / Sign Up</button>
+          </div>
+          <div id="logout" class="padded" style="display: none;">
+            <button class="btn-primary" onclick="logout();">Logout</button>
+          </div>
+          <div id="new_deal" class="padded" >
+            <button class="btn-primary" onclick="showDealModal();">New Deal</button>
+          </div>
+          <div id="welcome" class="padded">
+            Login or SignUp to Continue
+          </div>
+        </div>
+      </div>
       <div class="col-md-12">
         <div id="connected" style="display: none">
 
@@ -109,6 +266,7 @@
                   <th>Part</th>
                   <th id="full_style2">Style</th>
                   <th>Offer</th>
+                  <th>Remove</th>
                   <!-- <th>Count</th> -->
                 </thead>
 
@@ -157,6 +315,7 @@
           <td class="part"></td>
           <td class="style"></td>
           <td class="offer"></td>
+          <td class="remove"></td>
           <!-- <td class="count"></td> -->
         </tr>
       </template>
@@ -172,9 +331,9 @@
           <!-- <td class="count"></td> -->
         </tr>
       </template>
-      <script type="text/javascript" src="./js/data/metadata.js?v=0.1"></script>
-      <script type="text/javascript" src="./js/util/utils.js?v=0.1"></script>
-      <script type="text/javascript" src="./js/util/constants.js?v=0.1"></script>
-      <script type="text/javascript" src="./js/marketplace/marketplace.js?v=0.1"></script>
+      <script type="text/javascript" src="./js/data/metadata.js?v=0.2"></script>
+      <script type="text/javascript" src="./js/util/utils.js?v=0.2"></script>
+      <script type="text/javascript" src="./js/util/constants.js?v=0.2"></script>
+      <script type="text/javascript" src="./js/marketplace/marketplace.js?v=0.2"></script>
   </body>
 </html>

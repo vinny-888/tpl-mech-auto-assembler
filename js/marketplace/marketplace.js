@@ -8,13 +8,42 @@ const templateUser = document.querySelector("#template-deals");
 const userContainer = document.querySelector("#users");
 const BASE_URL = 'https://cb-tpl.glitch.me/';
 
-let selectedDealId = 1;
-
+let selectedDealId = 0;
+let user = {};
 function init() {
     createMetadataLookup();
     displayTables();
     update();
-    onModelChange();
+    if(window.localStorage.getItem('cb-tpl-user') == null){
+        document.getElementById('new_deal').style.display = 'none';
+        document.getElementById('new_user').style.display = 'inline-block';
+    } else {
+        user = JSON.parse(window.localStorage.getItem('cb-tpl-user'));
+        getUser(user.discord_id, user.wallet).then((user)=>{
+            updateLoginUI(user);
+        }).catch((err)=>{
+            window.localStorage.removeItem('cb-tpl-user');
+            document.getElementById('welcome').innerHTML = '';
+            document.getElementById('new_deal').style.display = 'none';
+            document.getElementById('new_user').style.display = 'inline-block';
+            document.getElementById('logout').style.display = 'none';
+            alert('User Not Found! Please Login or Sign Up...');
+        });
+    }
+}
+
+function updateLoginUI(user){
+    document.getElementById('welcome').innerHTML = 'Welcome '+user.discord_id;
+    document.getElementById('new_deal').style.display = 'inline-block';
+    document.getElementById('new_user').style.display = 'none';
+    document.getElementById('logout').style.display = 'inline-block';
+}
+function logout(){
+    window.localStorage.removeItem('cb-tpl-user');
+    document.getElementById('welcome').innerHTML = '';
+    document.getElementById('new_deal').style.display = 'none';
+    document.getElementById('new_user').style.display = 'inline-block';
+    document.getElementById('logout').style.display = 'none';
 }
 
 function update(){
@@ -30,22 +59,89 @@ function selectDeal(dealId){
     Array.from(document.getElementById('deals').children).forEach((row)=>{
         row.classList.remove("selected");
     })
-    document.getElementById('deal_'+dealId).classList.add("selected");
+    let firstDeal = document.getElementById('deal_'+dealId);
+    if(firstDeal){
+        firstDeal.classList.add("selected");
+        getOffersForDeal(dealId).then((offers)=>{
+            console.log('Offers:', offers);
+            buildOffersTable(offers);
+        });
+    }
+}
 
-    getOffersForDeal(dealId).then((offers)=>{
-        console.log('Offers:', offers);
-        buildOffersTable(offers);
+function signupUser(){
+    let discord_id = document.getElementById('user_discord').value;
+    let wallet = document.getElementById('user_wallet').value;
+    addUser(discord_id, wallet);
+}
+
+function loginUser(){
+    let discord_id = document.getElementById('user_discord').value;
+    let wallet = document.getElementById('user_wallet').value;
+    getUser(discord_id, wallet)
+    .then((user)=>{
+        saveUserToLocalStorage(user);
+        document.getElementById('welcome').innerHTML = 'Welcome '+user.discord_id;
+        document.getElementById('new_deal').style.display = 'inline-block';
+        document.getElementById('new_user').style.display = 'none';
+        hideUserModal();
+    })
+    .catch((err)=>{
+        alert('User Not Found! Please Login or Sign Up...');
     });
+}
+
+function submitDeal(){
+    let wants_model = document.getElementById('modelSelect_wants').value;
+    let wants_style = document.getElementById('styleSelect_wants').value;
+    let wants_part = document.getElementById('partSelect_wants').value;
+    let wants = {
+        model: wants_model,
+        style: wants_style,
+        part: wants_part
+    }
+
+    let has_model = document.getElementById('modelSelect_has').value;
+    let has_style = document.getElementById('styleSelect_has').value;
+    let has_part = document.getElementById('partSelect_has').value;
+
+    let has = {
+        model: has_model,
+        style: has_style,
+        part: has_part
+    }
+    if(wants_model && wants_style && wants_part && has_model && has_style && has_part){
+        addDeal(has, wants);
+    } else {
+        alert('You must choose each selection to submit a new deal!');
+    }
 }
 
 function submitOffer(){
     let model = document.getElementById('modelSelect').value;
     let style = document.getElementById('styleSelect').value;
     let part = document.getElementById('partSelect').value;
-    addOffer(selectedDealId, model, style, part);
+    if(model && style && part){
+        addOffer(selectedDealId, model, style, part);
+    } else {
+        alert('You must choose each selection to submit a new deal!');
+    }
+}
+
+function showUserModal(){
+    document.getElementById('addUser').style.display = 'block';
+}
+
+function hideUserModal(){
+    document.getElementById('addUser').style.display = 'none';
 }
 
 function showOfferModal(){
+    if(!user.wallet){
+        showUserModal();
+        return; 
+    }
+    onOfferModelChange();
     document.getElementById('addOffer').style.display = 'block';
 }
 
@@ -53,11 +149,41 @@ function hideOfferModal(){
     document.getElementById('addOffer').style.display = 'none';
 }
 
+function showDealModal(){
+    onDealHasModelChange();
+    onDealWantsModelChange();
+    document.getElementById('addDeal').style.display = 'block';
+}
+
+function hideDealModal(){
+    document.getElementById('addDeal').style.display = 'none';
+}
+
+function addUser(discord_id, wallet){
+    addUserReq({
+        discord_id,
+        wallet
+    }).then((user)=>{
+        console.log('addUser Post:', user);
+        user = JSON.parse(window.localStorage.getItem('cb-tpl-user'));
+        updateLoginUI(user);
+        update();
+        hideUserModal();
+        saveUserToLocalStorage(user);
+    }).catch((err)=>{
+        console.log('addUser Error:', err);
+    })
+}
+
+function saveUserToLocalStorage(user){
+    window.localStorage.setItem('cb-tpl-user', JSON.stringify(user));
+}
+
 function addOffer(dealId, model, style, part){
     addOfferForDeal(dealId, {
         type: 'offer',
-        from_discord_id: 'user_4',
-        from_wallet: '0xe4089f48091E2102b2F0678d03dA24d78174989C', 
+        from_discord_id: user.discord_id,
+        from_wallet: user.wallet, 
         deal_id: parseInt(dealId),
         model: model,
         style: style,
@@ -66,6 +192,36 @@ function addOffer(dealId, model, style, part){
         console.log('addOfferForDeal Post:', data);
         update();
         hideOfferModal();
+    })
+}
+
+function removeOffer(dealId){
+    removeOfferForDeal(dealId)
+    .then((data)=>{
+        console.log('removeOfferForDeal Delete:', dealId);
+        update();
+    })
+}
+
+function removeDeal(dealId){
+    removeDeal(dealId)
+    .then((data)=>{
+        console.log('removeDeal Delete:', dealId);
+        update();
+    })
+}
+
+function addDeal(has, wants){
+    addDealReq({
+        type: 'deal',
+        from_discord_id: user.discord_id,
+        from_wallet: user.wallet, 
+        has,
+        wants
+    }).then((data)=>{
+        console.log('addDeal Post:', data);
+        update();
+        hideDealModal();
     })
 }
 
@@ -78,8 +234,8 @@ function getUsers(){
     return get(BASE_URL+'users');
 }
 
-function getUser(wallet){
-    return get(BASE_URL+'user/'+wallet);
+function getUser(discord_id, wallet){
+    return get(BASE_URL+'users/'+wallet+'?discord_id='+discord_id);
 }
 
 // Deals
@@ -104,14 +260,35 @@ function getOffersForDeal(dealId){
     return get(BASE_URL+'offers/'+dealId);
 }
 
+function addUserReq(user){
+    return post(BASE_URL+'users', user);
+}
+
 function addOfferForDeal(dealId, offer){
     return post(BASE_URL+'offers/'+dealId, offer);
+}
+
+function removeOfferForDeal(dealId){
+    return deleteReq(BASE_URL+'offers/'+dealId);
+}
+
+function removeDeal(dealId){
+    return deleteReq(BASE_URL+'deals/'+dealId);
+}
+
+function addDealReq(deal){
+    return post(BASE_URL+'deals', deal);
 }
 
 function get(url){
    return fetch(url)
     .then((response) => response.json())
 }
+
+function deleteReq(url){
+    return fetch(url,{method: 'DELETE'})
+     .then((response) => response.json())
+ }
 
 function post(url, body){
     return fetch(url,
@@ -144,10 +321,15 @@ function buildDealsTable(deals){
         clone.querySelector(".part").innerHTML = deal.has.part + '<br><br>' + deal.wants.part;
         clone.querySelector(".style").innerHTML = fixStyle(deal.has.style) + '<br><br>' + fixStyle(deal.wants.style);
 
-        let allowedOffer = '';
+        let allowedOffer = deal.from_discord_id != user.discord_id ? '' : 'disabled';
 
         clone.querySelector(".offer").innerHTML = `<div style="text-align: center;">
             <button class="btn btn-assemble${allowedOffer}"" id="btn-query" onclick="showOfferModal()" ${allowedOffer}>+</button>
+        </div>`;
+
+        let allowedRemove = deal.from_discord_id == user.discord_id ? '' : 'disabled';
+        clone.querySelector(".remove").innerHTML = `<div style="text-align: center;">
+            <button class="btn btn-dismantle${allowedRemove}" id="btn-query" onclick="removeDeal('${deal.id}')" ${allowedRemove}>-</button>
         </div>`;
         // clone.querySelector(".count").textContent = deal.has.count;
         dealsContainer.appendChild(clone);
@@ -169,7 +351,7 @@ function buildOffersTable(offers){
         clone.querySelector(".part").textContent = offer.part;
         clone.querySelector(".style").textContent = fixStyle(offer.style);
 
-        let allowedRemove = '';
+        let allowedRemove = offer.from_discord_id == user.discord_id ? '' : 'disabled';
 
         clone.querySelector(".remove").innerHTML = `<div style="text-align: center;">
             <button class="btn btn-dismantle${allowedRemove}" id="btn-query" onclick="removeOffer('${offer.id}')" ${allowedRemove}>-</button>
@@ -180,7 +362,7 @@ function buildOffersTable(offers){
     document.getElementById('offer_count').innerHTML = offers.length;
 }
 
-function onModelChange(){
+function onOfferModelChange(){
     var e = document.getElementById("modelSelect");
     var model = e.value;
     console.log('onModelChange', model);
@@ -195,6 +377,64 @@ function onModelChange(){
         html += '</select>';
 
         let select = document.getElementById("style-custom-select");
+        select.innerHTML = html;
+    }
+
+    let selects = document.getElementsByClassName("custom-select");
+    Array.from(selects).forEach((select)=>{
+        Array.from(select.children).forEach((elm, index)=>{
+            if(index > 0){
+                select.removeChild(elm);
+            }
+        });
+    })
+    updateSelects();
+}
+
+function onDealHasModelChange(){
+    var e = document.getElementById("modelSelect_has");
+    var model = e.value;
+    console.log('onModelChange', model);
+    if(model){
+        var stylesSelect = document.getElementById("styleSelect");
+
+        let html = '<select id="styleSelect_has">';
+        html += '<option value="">Select Model...</option>';
+        STYLE_ORDER[model].forEach((style)=>{
+            html += '<option value="'+style+'">'+style+'</option>';
+        });
+        html += '</select>';
+
+        let select = document.getElementById("style-custom-select-has");
+        select.innerHTML = html;
+    }
+
+    let selects = document.getElementsByClassName("custom-select");
+    Array.from(selects).forEach((select)=>{
+        Array.from(select.children).forEach((elm, index)=>{
+            if(index > 0){
+                select.removeChild(elm);
+            }
+        });
+    })
+    updateSelects();
+}
+
+function onDealWantsModelChange(){
+    var e = document.getElementById("modelSelect_wants");
+    var model = e.value;
+    console.log('onModelChange', model);
+    if(model){
+        var stylesSelect = document.getElementById("styleSelect_wants");
+
+        let html = '<select id="styleSelect_wants">';
+        html += '<option value="">Select Model...</option>';
+        STYLE_ORDER[model].forEach((style)=>{
+            html += '<option value="'+style+'">'+style+'</option>';
+        });
+        html += '</select>';
+
+        let select = document.getElementById("style-custom-select-wants");
         select.innerHTML = html;
     }
 
