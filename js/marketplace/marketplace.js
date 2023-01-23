@@ -78,7 +78,7 @@ function signupUser(){
 function loginUser(){
     let discord_id = document.getElementById('user_discord').value;
     let wallet = document.getElementById('user_wallet').value;
-    getUser(discord_id, wallet)
+    getUser(encodeURIComponent(discord_id), wallet)
     .then((user)=>{
         saveUserToLocalStorage(user);
         document.getElementById('welcome').innerHTML = 'Welcome '+user.discord_id;
@@ -161,7 +161,7 @@ function hideDealModal(){
 
 function addUser(discord_id, wallet){
     addUserReq({
-        discord_id,
+        discord_id: discord_id,
         wallet
     }).then((user)=>{
         console.log('addUser Post:', user);
