@@ -165,7 +165,8 @@ function addUser(discord_id, wallet){
         wallet
     }).then((user)=>{
         console.log('addUser Post:', user);
-        user = JSON.parse(window.localStorage.getItem('cb-tpl-user'));
+        window.user = user;
+        window.localStorage.setItem('cb-tpl-user', user)
         updateLoginUI(user);
         update();
         hideUserModal();
