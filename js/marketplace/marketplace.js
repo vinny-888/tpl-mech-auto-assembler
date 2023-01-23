@@ -200,6 +200,13 @@ function updateSelects(){
     var x, i, j, l, ll, selElmnt, a, b, c;
     /*look for any elements with the class "custom-select":*/
     x = document.getElementsByClassName("custom-select");
+    Array.from(x).forEach((select)=>{
+        Array.from(select.children).forEach((elm, index)=>{
+            if(index > 0){
+                select.removeChild(elm);
+            }
+        });
+    })
     l = x.length;
     for (i = 0; i < l; i++) {
       selElmnt = x[i].getElementsByTagName("select")[0];
@@ -227,6 +234,7 @@ function updateSelects(){
             for (i = 0; i < sl; i++) {
               if (s.options[i].innerHTML == this.innerHTML) {
                 s.selectedIndex = i;
+                s.selected = true;
                 h.innerHTML = this.innerHTML;
                 y = this.parentNode.getElementsByClassName("same-as-selected");
                 yl = y.length;
@@ -234,6 +242,7 @@ function updateSelects(){
                   y[k].removeAttribute("class");
                 }
                 this.setAttribute("class", "same-as-selected");
+                s.onchange();
                 break;
               }
             }
