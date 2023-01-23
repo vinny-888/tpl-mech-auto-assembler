@@ -7,17 +7,25 @@ const offersContainer = document.querySelector("#offers");
 const templateUser = document.querySelector("#template-deals");
 const userContainer = document.querySelector("#users");
 const BASE_URL = 'https://cb-tpl.glitch.me/';
+
+let selectedDealId = 1;
+
 function init() {
     createMetadataLookup();
+    displayTables();
+    update();
+}
+
+function update(){
     getDeals().then((deals)=>{
         console.log('Deals:', deals);
         buildDealsTable(deals);
-        displayTables();
-        selectDeal(1);
+        selectDeal(selectedDealId);
     })
 }
 
 function selectDeal(dealId){
+    selectedDealId = dealId;
     Array.from(document.getElementById('deals').children).forEach((row)=>{
         row.classList.remove("selected");
     })
@@ -27,6 +35,21 @@ function selectDeal(dealId){
         console.log('Offers:', offers);
         buildOffersTable(offers);
     });
+}
+
+function addOffer(dealId){
+    addOfferForDeal(dealId, {
+        type: 'offer',
+        from_discord_id: 'user_4',
+        from_wallet: '0xe4089f48091E2102b2F0678d03dA24d78174989C', 
+        deal_id: parseInt(dealId),
+        model: 'Lupis',
+        style: 'CyberKnight',
+        part: 'Legs'
+    }).then((data)=>{
+        console.log('addOfferForDeal Post:', data);
+        update();
+    })
 }
 
 function displayTables(){
@@ -64,17 +87,33 @@ function getOffersForDeal(dealId){
     return get(BASE_URL+'offers/'+dealId);
 }
 
+function addOfferForDeal(dealId, offer){
+    return post(BASE_URL+'offers/'+dealId, offer);
+}
+
 function get(url){
    return fetch(url)
     .then((response) => response.json())
 }
+
+function post(url, body){
+    return fetch(url,
+        {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+     .then((response) => response.json())
+ }
   
 window.addEventListener('load', async () => {
     init();
 });
 
 function buildDealsTable(deals){
-    offersContainer.innerHTML = '';
+    dealsContainer.innerHTML = '';
     deals.forEach((deal)=>{
         const clone = templateDeals.content.cloneNode(true);
         let tr = clone.children[0];
