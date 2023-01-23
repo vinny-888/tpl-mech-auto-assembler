@@ -312,3 +312,5 @@ const frankenstatPowerMechContainer = document.querySelector("#frankenstatPowerM
 
 const templateFullMech = document.querySelector("#template-full");
 const fullMechContainer = document.querySelector("#fullMech");
+const mixedmechPartialNoModelContainer  = document.querySelector("#mechsPartialNoModel");
+

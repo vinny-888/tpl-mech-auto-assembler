@@ -134,7 +134,7 @@ function buildTablesAndMechs(){
         foundPartialMechs = false;
       }
     }
-    buildPartialMechTable(mixedModelPartialMechs);
+    buildPartialMechTable2(mixedModelPartialMechs);
     buildPartialModelMechsSummaryTable(mixedModelPartialMechs);
 
 

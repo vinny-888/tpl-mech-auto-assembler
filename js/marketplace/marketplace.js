@@ -81,11 +81,18 @@ function buildDealsTable(deals){
         tr.id = 'deal_'+deal.id;
         tr.onclick = ()=>{selectDeal(deal.id)};
 
-        clone.querySelector(".user").textContent = '@'+deal.from_discord_id;
+        clone.querySelector(".user").innerHTML = '@'+deal.from_discord_id;
+        clone.querySelector(".text").innerHTML = 'Has:<br><br>Wants:';
         clone.querySelector(".image").innerHTML = partsRevealedImage(deal.has.part, deal.has.model, deal.has.style);
-        clone.querySelector(".model").textContent = deal.has.model;
-        clone.querySelector(".part").textContent = deal.has.part;
-        clone.querySelector(".style").textContent = deal.has.style;
+        clone.querySelector(".model").innerHTML = deal.has.model + '<br><br>' + deal.wants.model;
+        clone.querySelector(".part").innerHTML = deal.has.part + '<br><br>' + deal.wants.part;
+        clone.querySelector(".style").innerHTML = deal.has.style + '<br><br>' + deal.wants.style;
+
+        let allowedOffer = '';
+
+        clone.querySelector(".offer").innerHTML = `<div style="text-align: center;">
+            <button class="btn btn-assemble${allowedOffer}"" id="btn-query" onclick="addOffer('${deal.id}')" ${allowedOffer}>+</button>
+        </div>`;
         // clone.querySelector(".count").textContent = deal.has.count;
         dealsContainer.appendChild(clone);
     })
@@ -101,6 +108,12 @@ function buildOffersTable(offers){
         clone.querySelector(".model").textContent = offer.model;
         clone.querySelector(".part").textContent = offer.part;
         clone.querySelector(".style").textContent = offer.style;
+
+        let allowedRemove = '';
+
+        clone.querySelector(".remove").innerHTML = `<div style="text-align: center;">
+            <button class="btn btn-dismantle${allowedRemove}" id="btn-query" onclick="removeOffer('${offer.id}')" ${allowedRemove}>-</button>
+        </div>`;
         // clone.querySelector(".count").textContent = deal.has.count;
         offersContainer.appendChild(clone);
     })
