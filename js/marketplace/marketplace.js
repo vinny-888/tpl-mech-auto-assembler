@@ -265,7 +265,9 @@ function updateSelects(){
           and open/close the current select box:*/
           e.stopPropagation();
           closeAllSelect(this);
-          this.nextSibling.classList.toggle("select-hide");
+          if(this.nextSibling){
+            this.nextSibling.classList.toggle("select-hide");
+          }
           this.classList.toggle("select-arrow-active");
         });
     }
