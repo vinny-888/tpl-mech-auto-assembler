@@ -28,6 +28,63 @@
         <span><a href="lp.html">Lost Paradigms</a></span>
       </div>
     </div>
+    <div id="addOffer" class="modal" style="display: none;">
+      <div class="" style="margin-top: 0px;">
+        <h4> New Offer <div id="dealsTableToggle" class="toggle" onclick="hideOfferModal()">
+          X
+        </div>
+      </h4>
+        <div class="form">
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="modelSelect">Model: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select">
+                <select id="modelSelect" onchange="onModelChange()">
+                  <option value="Enforcer">Enforcer</option>
+                  <option value="Ravager">Ravager</option>
+                  <option value="Behemoth">Behemoth</option>
+                  <option value="Lupis">Lupis</option>
+                  <option value="Nexus">Nexus</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="styleSelect">Style: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select">
+                <select id="styleSelect">
+                  <option value="Select Model">Select Model</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="formRow">
+            <div class="col-md-4">
+              <label for="partSelect">Part: </label>
+            </div>
+            <div class="col-md-8">
+              <div class="custom-select">
+                <select id="partSelect">
+                  <option value="Engine">Engine</option>
+                  <option value="Head">Head</option>
+                  <option value="Body">Body</option>
+                  <option value="Legs">Legs</option>
+                  <option value="Arm">Arm</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="button_div">
+            <button class="submitBtn" onclick="submitOffer()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container" style="margin-left: 4px;">
       <div class="col-md-12">
         <div id="connected" style="display: none">
@@ -115,6 +172,7 @@
       </template>
       <script type="text/javascript" src="./js/data/metadata.js?v=0.1"></script>
       <script type="text/javascript" src="./js/util/utils.js?v=0.1"></script>
+      <script type="text/javascript" src="./js/util/constants.js?v=0.1"></script>
       <script type="text/javascript" src="./js/marketplace/marketplace.js?v=0.1"></script>
   </body>
 </html>
