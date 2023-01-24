@@ -36,7 +36,7 @@ function init() {
     displayTables();
     updateDeals();
     if(window.localStorage.getItem('cb-tpl-user') == null){
-        document.getElementById('new_deal').style.display = 'none';
+        // document.getElementById('new_deal').style.display = 'none';
         document.getElementById('bulk_deal').style.display = 'none';
         document.getElementById('new_user').style.display = 'inline-block';
     } else {
@@ -47,7 +47,7 @@ function init() {
         }).catch((err)=>{
             window.localStorage.removeItem('cb-tpl-user');
             document.getElementById('welcome').innerHTML = '';
-            document.getElementById('new_deal').style.display = 'none';
+            // document.getElementById('new_deal').style.display = 'none';
             document.getElementById('bulk_deal').style.display = 'none';
             document.getElementById('new_user').style.display = 'inline-block';
             document.getElementById('logout').style.display = 'none';
@@ -137,7 +137,7 @@ async function getParts(){
 
 function updateLoginUI(user){
     document.getElementById('welcome').innerHTML = 'Welcome '+user.discord_id;
-    document.getElementById('new_deal').style.display = 'inline-block';
+    // document.getElementById('new_deal').style.display = 'inline-block';
     document.getElementById('bulk_deal').style.display = 'inline-block';
     document.getElementById('new_user').style.display = 'none';
     document.getElementById('logout').style.display = 'inline-block';
@@ -145,7 +145,7 @@ function updateLoginUI(user){
 function logout(){
     window.localStorage.removeItem('cb-tpl-user');
     document.getElementById('welcome').innerHTML = '';
-    document.getElementById('new_deal').style.display = 'none';
+    // document.getElementById('new_deal').style.display = 'none';
     document.getElementById('bulk_deal').style.display = 'none';
     document.getElementById('new_user').style.display = 'inline-block';
     document.getElementById('logout').style.display = 'none';
@@ -203,7 +203,7 @@ function loginUser(){
     .then((user)=>{
         saveUserToLocalStorage(user);
         document.getElementById('welcome').innerHTML = 'Welcome '+user.discord_id;
-        document.getElementById('new_deal').style.display = 'inline-block';
+        // document.getElementById('new_deal').style.display = 'inline-block';
         document.getElementById('new_user').style.display = 'none';
         document.getElementById('logout').style.display = 'inline-block';
         hideUserModal();
