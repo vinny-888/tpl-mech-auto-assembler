@@ -163,6 +163,7 @@ function reset(){
   mechStatsBehemothContainer.innerHTML = '';
   mechStatsRavagerContainer.innerHTML = '';
   mechStatsEnforcerContainer.innerHTML = '';
+  mixedmechMixedPartialModelContainer.innerHTML = '';
 }
 
 function fixAndSortParts(){
