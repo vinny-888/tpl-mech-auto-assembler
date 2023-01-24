@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/vanillaSelectBox.css">
     <link rel="stylesheet" href="./css/main.css?v=2.1">
-    <link rel="stylesheet" href="./css/marketplace.css?v=0.8">
+    <link rel="stylesheet" href="./css/marketplace.css?v=0.9">
+    <link rel="stylesheet" href="./css/dropdown.css?v=0.9">
   </head>
   <body>
     <div class="header">
@@ -286,12 +288,16 @@
 
               <table id="dealsTable" class="table table-listing">
                 <thead>
-                  <th style="width:20%">Image</th>
-                  <th>User</th>
-                  <th>Info</th>
-                  <th>Model</th>
-                  <th>Part</th>
-                  <th id="full_style2">Style</th>
+                  <th style="width:100px;">Image</th>
+                  <th>
+                    <div class="multiselect" style="display: none;">
+                      <select id="User" multiple="" size="3" style="display: inline-block;"></select>
+                    </div>
+                  </th>
+                  <th>Type</th>
+                  <th><select id="Model" multiple="" size="3" style="display: inline-block;"></select></th>
+                  <th><select id="Part" multiple="" size="3" style="display: inline-block;"></select></th>
+                  <th id="full_style2"><select id="Style" multiple="" size="3" style="display: inline-block;"></select></th>
                   <th>Offer</th>
                   <th>Remove</th>
                   <!-- <th>Count</th> -->
@@ -314,7 +320,7 @@
 
               <table id="dealsTable" class="table table-listing">
                 <thead>
-                  <th style="width:20%">Image</th>
+                  <th style="width:100px;">Image</th>
                   <th>User</th>
                   <th>Model</th>
                   <th>Part</th>
@@ -360,9 +366,11 @@
         </tr>
       </template>
     </div>
-    <script type="text/javascript" src="./js/data/metadata.js?v=0.8"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=0.8"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=0.8"></script>
-    <script type="text/javascript" src="./js/marketplace/marketplace.js?v=0.8"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=0.9"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=0.9"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=0.9"></script>
+    <script type="text/javascript" src="./js/ui/vanillaSelectBox.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/ui/multiselect.js?v=0.7"></script>
+    <script type="text/javascript" src="./js/marketplace/marketplace.js?v=0.9"></script>
   </body>
 </html>

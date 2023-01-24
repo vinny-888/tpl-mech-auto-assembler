@@ -151,10 +151,6 @@ h4 {
     margin-right: 8px;
 }
 
-.info_container{
-    
-}
-
 .borderDiv2 {
     min-width: 310px;
     padding-right: 4px;
@@ -162,4 +158,32 @@ h4 {
     border: solid 1px #578c87;
     background-color: #1f3331;
     margin-bottom: 8px;
+}
+
+.multiselect{
+    width: 100px !important;
+    margin-bottom: 0px !important;
+}
+#btn-group-User{
+    width: 100px;
+}
+
+#btn-group-Model{
+    width: 100px;
+}
+
+#btn-group-Style{
+    width: 100px;
+}
+
+#btn-group-Part{
+    width: 100px;
+}
+
+.vsb-menu{
+    background-color: #1f3331;
+    color: #fff;
+    border: solid 1px #558c86;
+    margin-top: -240px;
+    min-height: 207px;
 }

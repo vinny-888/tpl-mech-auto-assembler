@@ -7,13 +7,24 @@ const offersContainer = document.querySelector("#offers");
 const templateUser = document.querySelector("#template-deals");
 const userContainer = document.querySelector("#users");
 const BASE_URL = 'https://cb-tpl.glitch.me/';
+let selectBoxes = {};
+let filters = {};
+let filteredDeals = [];
 
 let selectedDealId = 0;
 let user = {};
+let dealsCache = [];
+let offersCache = [];
+let styles_flat = [];
 function init() {
+    Object.keys(STYLE_ORDER).forEach((model)=>{
+        styles_flat = styles_flat.concat(STYLE_ORDER[model]);
+    })
     createMetadataLookup();
+    // initMultiselects();
+    addEventlisteners();
     displayTables();
-    update();
+    updateDeals();
     if(window.localStorage.getItem('cb-tpl-user') == null){
         document.getElementById('new_deal').style.display = 'none';
         document.getElementById('new_user').style.display = 'inline-block';
@@ -30,6 +41,51 @@ function init() {
             alert('User Not Found! Please Login or Sign Up...');
         });
     }
+    let models = [];
+    let styles = [];
+    let parts = [];
+    Object.keys(meta_parts).forEach((name)=>{
+        let meta = meta_parts[name];
+        let model = meta.find((att)=> att.trait_type == 'Model').value;
+        models.push(model);
+        let style = meta.find((att)=> att.trait_type == 'Style').value;
+        styles.push(style);
+        let part = meta.find((att)=> att.trait_type == 'Part').value;
+        parts.push(part);
+    });
+
+    getUsers().then((users)=>{
+        setTimeout(()=>{
+
+            let userFiltered = [];
+            dealsCache.forEach((deal)=>{
+                if(userFiltered.indexOf(deal.from_discord_id) == -1){
+                    userFiltered.push(deal.from_discord_id);
+                }
+            })
+
+            makeMultiselect(userFiltered, 'User');
+            document.querySelector("#User").addEventListener("change", userChanged);
+            Array.from(document.getElementsByClassName('multiselect')).forEach((elm)=>{
+                elm.style.display = 'block';
+            })
+        }, 0);
+    }).catch((err)=>{
+        console.log('Error');
+    })
+
+
+    makeMultiselect(RARITY_ORDER, 'Model');
+    document.querySelector("#Model").addEventListener("change", modelChanged);
+    makeMultiselect(styles_flat, 'Style');
+    document.querySelector("#Style").addEventListener("change", styleChanged);
+    makeMultiselect(PARTS_ORDER, 'Part');
+    document.querySelector("#Part").addEventListener("change", partChanged);
+    
+
+    Array.from(document.getElementsByClassName('multiselect')).forEach((elm)=>{
+        elm.style.display = 'block';
+    })
 }
 
 function updateLoginUI(user){
@@ -46,13 +102,19 @@ function logout(){
     document.getElementById('logout').style.display = 'none';
 }
 
-function update(){
+function updateDeals(){
     getDeals().then((deals)=>{
+        dealsCache = deals;
         console.log('Deals:', deals);
-        buildDealsTable(deals);
-        if(deals.length > 0) {
-            selectDeal(deals[0].id);
-        }
+
+        setTimeout(()=>{
+            filterData();
+            console.log('Filtered Deals:', filteredDeals);
+            buildDealsTable(filteredDeals);
+            if(filteredDeals.length > 0) {
+                selectDeal(filteredDeals[0].id);
+            }
+        }, 0)
     })
 }
 
@@ -170,7 +232,7 @@ function addUser(discord_id, wallet){
         console.log('addUser Post:', user);
         saveUserToLocalStorage(user);
         updateLoginUI(user);
-        update();
+        updateDeals();
         hideUserModal();
         init();
     }).catch((err)=>{
@@ -194,7 +256,7 @@ function addOffer(dealId, model, style, part){
         part: part
     }).then((data)=>{
         console.log('addOfferForDeal Post:', data);
-        update();
+        updateDeals();
         hideOfferModal();
     })
 }
@@ -203,7 +265,7 @@ function removeOffer(dealId){
     removeOfferForDeal(dealId)
     .then((data)=>{
         console.log('removeOfferForDeal Delete:', dealId);
-        update();
+        updateDeals();
     })
 }
 
@@ -211,7 +273,7 @@ function removeDeal(dealId){
     removeDealReq(dealId)
     .then((data)=>{
         console.log('removeDeal Delete:', dealId);
-        update();
+        updateDeals();
     })
 }
 
@@ -224,7 +286,7 @@ function addDeal(has, wants){
         wants
     }).then((data)=>{
         console.log('addDeal Post:', data);
-        update();
+        updateDeals();
         hideDealModal();
     })
 }
@@ -544,3 +606,161 @@ function updateSelects(){
     then close all select boxes:*/
     document.addEventListener("click", closeAllSelect);
   }
+
+
+// SELECTS
+
+function initMultiselects(){
+    let columns = ['Destination', 'East', 'West', 'Planet', 'Road', 'Sky', 'Misc'];
+    let selectBoxUser = new vanillaSelectBox("#User", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "User", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "User"}
+    });
+
+    let selectBoxModel = new vanillaSelectBox("#Model", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "Model", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "Model"}
+    });
+
+    let selectBoxStyle = new vanillaSelectBox("#Style", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "Style", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "Style"}
+    });
+
+    let selectBoxPart = new vanillaSelectBox("#Part", {
+        "maxHeight": 400, 
+        "search": true ,
+        "translations": { "all": "Part", "items": "items","selectAll":"Check All","clearAll":"Clear All","placeHolder": "Part"}
+    });
+
+    Array.from(document.getElementsByClassName('multiselect')).forEach((elm)=>{
+        elm.style.display = 'block';
+    })
+}
+
+function makeMultiselect(data, elm){
+    let select = document.getElementById(elm);
+    for (var i = 0;i < data.length;i++) {
+        if(data[i] != ''){
+            var option = document.createElement("option");
+            option.value = data[i];
+            option.text = data[i];
+            option.setAttribute('selected', 'true')
+            select.appendChild(option);
+        }
+    }
+
+    selectBoxes[elm] = new vanillaSelectBox("#"+elm, { "translations": {"all": elm}, "keepInlineStyles":false,"maxHeight": 200,"maxWidth":110,"minWidth":110, "search": true, "placeHolder": elm });
+}
+
+function makeNestedMultiselect(data, elm){
+    let select = document.getElementById(elm);
+    Object.keys(data).forEach((att)=>{
+        if(att != 'Destination' && att != 'East Landscape' && att != 'East City Scape' && att != 'West Landscape' && att != 'West City Scape'
+        && att != 'Planet' && att != 'Road' && att != 'Sky' ){
+            console.log(att);
+            var optionGroup = document.createElement("optgroup");
+            optionGroup.label = att;
+            for (var i = 0;i < data[att].length;i++) {
+                if(data[att][i] != ''){
+                    var option = document.createElement("option");
+                    option.value = data[att][i];
+                    option.text = data[att][i];
+                    option.setAttribute('selected', 'true')
+                    optionGroup.appendChild(option);
+                }
+            }
+            select.appendChild(optionGroup);
+        }
+    })
+
+    selectBoxes[elm] = new vanillaSelectBox("#"+elm, { "translations": {"all": elm}, "keepInlineStyles":false,"maxHeight": 200,"maxWidth":178,"minWidth":178, "search": true, "placeHolder": elm });
+}
+
+function userChanged(){
+    console.log('userChanged');
+    let users = getValues('User');
+    console.log(users);
+    filters['from_discord_id'] = users;
+    setTimeout(()=>{
+        updateDeals();
+    }, 0);
+}
+
+function modelChanged(){
+    console.log('modelChanged');
+    let models = getValues('Model');
+    console.log(models);
+    filters['model'] = models;
+    setTimeout(()=>{
+        updateDeals();
+        document.querySelector("#Style").addEventListener("change", styleChanged);
+    }, 0);
+}
+
+function partChanged(){
+    console.log('partChanged');
+    let parts = getValues('Part');
+    console.log(parts);
+    filters['part'] = parts;
+    setTimeout(()=>{
+        updateDeals();
+    }, 0);
+}
+
+function styleChanged(){
+    console.log('styleChanged');
+    let styles = getValues('Style');
+    console.log(styles);
+    filters['style'] = styles;
+    setTimeout(()=>{
+        updateDeals();
+    }, 0);
+}
+
+function addEventlisteners(){
+    // document.querySelector("#sort").addEventListener('change', (event)=>{
+    //     sort_type = document.querySelector("#sort").value;
+    //     console.log('sort changed', sort_type);
+    //     refresh();
+    // })
+}
+
+function filterData(){
+    filteredDeals = [];
+    dealsCache.forEach((deal)=>{
+        if(!hasExcludedValue(deal, 'from_discord_id', filters['from_discord_id'])
+            && !hasExcludedValue(deal.has, 'model', filters['model'])
+            && !hasExcludedValue(deal.has, 'style', filters['style'])
+            && !hasExcludedValue(deal.has, 'part', filters['part'])){
+                filteredDeals.push(deal);
+        }
+        // if(!hasExcludedAttribute(token, 'Other', filters['Other'])){
+        //     filteredData.push(token);
+        // }
+    })
+}
+
+function hasExcludedAttribute(token, name, attributes){
+    if(!attributes){
+        return false;
+    }
+    let hasExcludedAtt = false;
+    for(let i=0; i<token.attributes.length; i++){
+        if(token.attributes[i].trait_type == name){
+            hasExcludedAtt = attributes.indexOf(token.attributes[i].value) == -1;
+            break;
+        }
+    }
+    return hasExcludedAtt;
+}
+
+function hasExcludedValue(token, name, attributes){
+    if(!attributes){
+        return false;
+    }
+    return attributes.indexOf(token[name]) == -1;
+}
