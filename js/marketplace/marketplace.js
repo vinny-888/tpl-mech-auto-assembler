@@ -475,6 +475,7 @@ function addParts(){
                 style: row.cb_style,
                 part: row.cb_part
             }, {});
+            hidePartsModal();
         }
     })
     // console.log(selectedParts);
