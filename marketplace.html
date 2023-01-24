@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/vanillaSelectBox.css">
     <link rel="stylesheet" href="./css/main.css?v=2.1">
-    <link rel="stylesheet" href="./css/marketplace.css?v=0.9">
-    <link rel="stylesheet" href="./css/dropdown.css?v=0.9">
+    <link rel="stylesheet" href="./css/marketplace.css?v=1.0">
+    <link rel="stylesheet" href="./css/dropdown.css?v=1.0">
   </head>
   <body>
     <div class="header">
@@ -28,6 +28,29 @@
         <span><a href="ar.html">AR Viewer</a></span>&nbsp;|
         <span><a href="3d.html">3D Game</a></span>&nbsp;|
         <span><a href="lp.html">Lost Paradigms</a></span>
+      </div>
+    </div>
+
+    <div id="addParts" class="modal" style="display: none;">
+      <div class="" style="margin-top: 0px;height: 86%;overflow: scroll;">
+        <h4> Parts <div id="userTableToggle" class="toggle" onclick="hidePartsModal()">
+          X </div>
+        </h4>
+
+        <table id="partsTable" class="table table-listing">
+          <thead>
+            <th>Image</th>
+            <th>Model</th>
+            <th>Style</th>
+            <th>Part</th>
+          </thead>
+
+          <tbody id="parts">
+          </tbody>
+        </table>
+      </div>
+      <div class="button_div">
+        <button id="create_listings" class="submitBtn" style="width: 100px;" onclick="addParts()">List Selected</button>
       </div>
     </div>
 
@@ -242,6 +265,9 @@
           <div id="new_deal" class="padded" >
             <button class="btn-primary" onclick="showDealModal();">New Deal</button>
           </div>
+          <div id="bulk_deal" class="padded" >
+            <button class="btn-primary" onclick="showPartsModal();">Bulk List</button>
+          </div>
           <div id="welcome" class="padded">
             Login or SignUp to Continue
           </div>
@@ -364,12 +390,28 @@
           <!-- <td class="count"></td> -->
         </tr>
       </template>
+
+      <template id="template-parts">
+        <tr>
+          <td class="image"></td>
+          <td class="model"></td>
+          <td class="style"></td>
+          <td class="part"></td>
+          <!-- <td class="count"></td> -->
+        </tr>
+      </template>
     </div>
-    <script type="text/javascript" src="./js/data/metadata.js?v=0.9"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=0.9"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=0.9"></script>
+    <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=6.7"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=6.7"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=6.7"></script>
+    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=6.7"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=6.7"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=1.0"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=1.0"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=1.0"></script>
     <script type="text/javascript" src="./js/ui/vanillaSelectBox.js?v=0.7"></script>
     <script type="text/javascript" src="./js/ui/multiselect.js?v=0.7"></script>
-    <script type="text/javascript" src="./js/marketplace/marketplace.js?v=0.9"></script>
+    <script type="text/javascript" src="./js/marketplace/marketplace.js?v=1.0"></script>
   </body>
 </html>

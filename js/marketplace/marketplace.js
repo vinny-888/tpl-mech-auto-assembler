@@ -1,8 +1,12 @@
+"use strict";
 const templateDeals = document.querySelector("#template-deals");
 const dealsContainer = document.querySelector("#deals");
 
 const templateOffers = document.querySelector("#template-offers");
 const offersContainer = document.querySelector("#offers");
+
+const templateParts = document.querySelector("#template-parts");
+const partsContainer = document.querySelector("#parts");
 
 const templateUser = document.querySelector("#template-deals");
 const userContainer = document.querySelector("#users");
@@ -16,7 +20,9 @@ let user = {};
 let dealsCache = [];
 let offersCache = [];
 let styles_flat = [];
+let modelParts = [];
 function init() {
+    initContracts();
     Object.keys(STYLE_ORDER).forEach((model)=>{
         styles_flat = styles_flat.concat(STYLE_ORDER[model]);
     })
@@ -27,15 +33,18 @@ function init() {
     updateDeals();
     if(window.localStorage.getItem('cb-tpl-user') == null){
         document.getElementById('new_deal').style.display = 'none';
+        document.getElementById('bulk_deal').style.display = 'none';
         document.getElementById('new_user').style.display = 'inline-block';
     } else {
         user = JSON.parse(window.localStorage.getItem('cb-tpl-user'));
         getUser(user.discord_id, user.wallet).then((user)=>{
             updateLoginUI(user);
+            getParts();
         }).catch((err)=>{
             window.localStorage.removeItem('cb-tpl-user');
             document.getElementById('welcome').innerHTML = '';
             document.getElementById('new_deal').style.display = 'none';
+            document.getElementById('bulk_deal').style.display = 'none';
             document.getElementById('new_user').style.display = 'inline-block';
             document.getElementById('logout').style.display = 'none';
             alert('User Not Found! Please Login or Sign Up...');
@@ -88,9 +97,37 @@ function init() {
     })
 }
 
+async function getParts(){
+    let totalSupply = await getRevealedMechTotalSupply();
+
+    let revealedTokenIds = await getRevealedMechTokenBalance(user.wallet, totalSupply);
+
+    revealedTokenIds.forEach((tokenId)=>{
+        // let metadata = await getRevealedMechTokenMetadata(tokenId);
+        // let model = BODY_PART_MODEL_MAPPING[metadata.model];
+        // let part = BODY_PART_MAPPING[metadata.partType];
+        let tokenMetadata = revealedMetadata[''+tokenId];
+        if(tokenMetadata){
+          let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
+          let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
+          if(part == 'Legs'){
+            part = 'Leg';
+          }
+          let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
+          modelParts.push({
+            model,
+            part,
+            style
+          });
+        }
+    })
+    buildPartsTable(modelParts);
+}
+
 function updateLoginUI(user){
     document.getElementById('welcome').innerHTML = 'Welcome '+user.discord_id;
     document.getElementById('new_deal').style.display = 'inline-block';
+    document.getElementById('bulk_deal').style.display = 'inline-block';
     document.getElementById('new_user').style.display = 'none';
     document.getElementById('logout').style.display = 'inline-block';
 }
@@ -98,6 +135,7 @@ function logout(){
     window.localStorage.removeItem('cb-tpl-user');
     document.getElementById('welcome').innerHTML = '';
     document.getElementById('new_deal').style.display = 'none';
+    document.getElementById('bulk_deal').style.display = 'none';
     document.getElementById('new_user').style.display = 'inline-block';
     document.getElementById('logout').style.display = 'none';
 }
@@ -150,6 +188,7 @@ function loginUser(){
         document.getElementById('new_user').style.display = 'none';
         document.getElementById('logout').style.display = 'inline-block';
         hideUserModal();
+        getParts();
     })
     .catch((err)=>{
         alert('User Not Found! Please Login or Sign Up...');
@@ -191,6 +230,14 @@ function submitOffer(){
     } else {
         alert('You must choose each selection to submit a new deal!');
     }
+}
+
+function showPartsModal(){
+    document.getElementById('addParts').style.display = 'block';
+}
+
+function hidePartsModal(){
+    document.getElementById('addParts').style.display = 'none';
 }
 
 function showUserModal(){
@@ -384,9 +431,9 @@ function buildDealsTable(deals){
         clone.querySelector(".user").innerHTML = '<a target="_blank" href="revealed.html?wallet='+deal.from_wallet+'">@'+deal.from_discord_id+'</a>';
         clone.querySelector(".text").innerHTML = 'Has:<br><br>Wants:';
         clone.querySelector(".image").innerHTML = partsRevealedImage(deal.has.part, deal.has.model, deal.has.style);
-        clone.querySelector(".model").innerHTML = deal.has.model + '<br><br>' + deal.wants.model;
-        clone.querySelector(".part").innerHTML = deal.has.part + '<br><br>' + deal.wants.part;
-        clone.querySelector(".style").innerHTML = fixStyle(deal.has.style) + '<br><br>' + fixStyle(deal.wants.style);
+        clone.querySelector(".model").innerHTML = (deal.has ? deal.has.model : '') + '<br><br>' + (deal.wants ? deal.wants.model : '');
+        clone.querySelector(".part").innerHTML = (deal.has ? deal.has.part : '')+ '<br><br>' + (deal.wants ? deal.wants.part : '');
+        clone.querySelector(".style").innerHTML = fixStyle(deal.has ? deal.has.style : '' ) + '<br><br>' + fixStyle(deal.wants ? deal.wants.style : '');
 
         let allowedOffer = deal.from_discord_id != user.discord_id ? '' : 'disabled';
 
@@ -407,6 +454,54 @@ function buildDealsTable(deals){
 function fixStyle(style){
     return style == 'CAMM-E' ? 'camm-e' : style;
 }
+
+function selectPart(partId){
+    let row = document.getElementById('part_'+partId);
+    if(Array.from(row.classList).indexOf('selected') == -1){
+        row.classList.add('selected');
+    } else {
+        row.classList.remove('selected');
+    }
+}
+
+function addParts(){
+    // let selectedParts = [];
+    Array.from(partsContainer.children).forEach((row)=>{
+        if(Array.from(row.classList).indexOf('selected') != -1){
+            row.classList.add('selected');
+            // let id = parseInt(row.id.split('_')[1]);
+            addDeal({
+                model: row.cb_model,
+                style: row.cb_style,
+                part: row.cb_part
+            }, {});
+        }
+    })
+    // console.log(selectedParts);
+}
+
+function buildPartsTable(parts){
+    partsContainer.innerHTML = '';
+    parts.forEach((part, index)=>{
+        const clone = templateParts.content.cloneNode(true);
+        let tr = clone.children[0];
+        tr.id = 'part_'+index;
+        tr.cb_model = part.model;
+        tr.cb_style = part.style;
+        tr.cb_part = part.part;
+        tr.classList.add('clickable');
+        tr.onclick = ()=>{selectPart(index)};
+
+        clone.querySelector(".image").innerHTML = partsRevealedImage(part.part, part.model, part.style);
+        clone.querySelector(".model").textContent = part.model;
+        clone.querySelector(".part").textContent = part.part;
+        clone.querySelector(".style").textContent = fixStyle(part.style);
+
+        partsContainer.appendChild(clone);
+    })
+    document.getElementById('part_count').innerHTML = parts.length;
+}
+
 
 function buildOffersTable(offers){
     offersContainer.innerHTML = '';
