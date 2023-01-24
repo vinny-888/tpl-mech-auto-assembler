@@ -319,7 +319,7 @@ function buildDealsTable(deals){
         tr.classList.add('clickable');
         tr.onclick = ()=>{selectDeal(deal.id)};
 
-        clone.querySelector(".user").innerHTML = '@'+deal.from_discord_id;
+        clone.querySelector(".user").innerHTML = '<a target="_blank" href="revealed.html?wallet='+deal.from_wallet+'">@'+deal.from_discord_id+'</a>';
         clone.querySelector(".text").innerHTML = 'Has:<br><br>Wants:';
         clone.querySelector(".image").innerHTML = partsRevealedImage(deal.has.part, deal.has.model, deal.has.style);
         clone.querySelector(".model").innerHTML = deal.has.model + '<br><br>' + deal.wants.model;
@@ -353,7 +353,7 @@ function buildOffersTable(offers){
         let tr = clone.children[0];
         tr.id = 'offer_'+offer.id;
         tr.classList.add('clickable');
-        clone.querySelector(".user").textContent = '@'+offer.from_discord_id;
+        clone.querySelector(".user").innerHTML = '<a target="_blank" href="revealed.html?wallet='+offer.from_wallet+'">@'+offer.from_discord_id+'</a>';
         clone.querySelector(".image").innerHTML = partsRevealedImage(offer.part, offer.model, offer.style);
         clone.querySelector(".model").textContent = offer.model;
         clone.querySelector(".part").textContent = offer.part;

@@ -84,6 +84,11 @@
     cursor: pointer;
 }
 
+#infobg{
+    border: solid 1px #578c87;
+    background-color: #1f3331;
+}
+
 .form{
     padding: 20px;
 }
@@ -144,4 +149,17 @@ h4 {
 
 .toggle {
     margin-right: 8px;
+}
+
+.info_container{
+    
+}
+
+.borderDiv2 {
+    min-width: 310px;
+    padding-right: 4px;
+    padding-left: 4px;
+    border: solid 1px #578c87;
+    background-color: #1f3331;
+    margin-bottom: 8px;
 }
