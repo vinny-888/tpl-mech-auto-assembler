@@ -316,6 +316,7 @@ function buildDealsTable(deals){
         const clone = templateDeals.content.cloneNode(true);
         let tr = clone.children[0];
         tr.id = 'deal_'+deal.id;
+        tr.classList.add('clickable');
         tr.onclick = ()=>{selectDeal(deal.id)};
 
         clone.querySelector(".user").innerHTML = '@'+deal.from_discord_id;
@@ -349,6 +350,9 @@ function buildOffersTable(offers){
     offersContainer.innerHTML = '';
     offers.forEach((offer)=>{
         const clone = templateOffers.content.cloneNode(true);
+        let tr = clone.children[0];
+        tr.id = 'offer_'+offer.id;
+        tr.classList.add('clickable');
         clone.querySelector(".user").textContent = '@'+offer.from_discord_id;
         clone.querySelector(".image").innerHTML = partsRevealedImage(offer.part, offer.model, offer.style);
         clone.querySelector(".model").textContent = offer.model;

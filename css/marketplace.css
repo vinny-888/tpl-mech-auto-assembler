@@ -80,6 +80,10 @@
     background-color: #3f615c;
 }
 
+.clickable{
+    cursor: pointer;
+}
+
 .form{
     padding: 20px;
 }
