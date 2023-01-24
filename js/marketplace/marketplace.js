@@ -210,7 +210,7 @@ function removeOffer(dealId){
 }
 
 function removeDeal(dealId){
-    removeDeal(dealId)
+    removeDealReq(dealId)
     .then((data)=>{
         console.log('removeDeal Delete:', dealId);
         update();
@@ -278,7 +278,7 @@ function removeOfferForDeal(dealId){
     return deleteReq(BASE_URL+'offers/'+dealId);
 }
 
-function removeDeal(dealId){
+function removeDealReq(dealId){
     return deleteReq(BASE_URL+'deals/'+dealId);
 }
 
