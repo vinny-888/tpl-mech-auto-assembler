@@ -121,21 +121,21 @@ function buildTablesAndMechs(){
     buildMixedModelMechsStylesSummaryTable(mixedModelMechs);
 
 
-    let mixedModelPartialMechs = [];
-    let foundPartialMechs = true;
-    while(foundPartialMechs){
-      let mechs = buildMixedModelMechsStyles(false, true, true);
-      // mixedModelPartialMechs.concat(mechs);
-      mixedModelPartialMechs = {
-        ...mixedModelPartialMechs,
-        ...mechs,
-      };
-      if(Object.keys(mechs).length == 0){
-        foundPartialMechs = false;
-      }
-    }
-    buildPartialMechTable2(mixedModelPartialMechs);
-    buildPartialModelMechsSummaryTable(mixedModelPartialMechs);
+    // let mixedModelPartialMechs = [];
+    // let foundPartialMechs = true;
+    // while(foundPartialMechs){
+    //   let mechs = buildMixedModelMechsStyles(false, true, true);
+    //   // mixedModelPartialMechs.concat(mechs);
+    //   mixedModelPartialMechs = {
+    //     ...mixedModelPartialMechs,
+    //     ...mechs,
+    //   };
+    //   if(Object.keys(mechs).length == 0){
+    //     foundPartialMechs = false;
+    //   }
+    // }
+    // buildPartialMechTable2(mixedModelPartialMechs);
+    // buildPartialModelMechsSummaryTable(mixedModelPartialMechs);
 
 
     // Build remaining parts table
