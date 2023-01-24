@@ -50,7 +50,11 @@ function update(){
     getDeals().then((deals)=>{
         console.log('Deals:', deals);
         buildDealsTable(deals);
-        selectDeal(selectedDealId);
+        if(deals.length < selectedDealId){
+            selectDeal(selectedDealId);
+        } else if(deals.length > 0) {
+            selectDeal(0);
+        }
     })
 }
 
