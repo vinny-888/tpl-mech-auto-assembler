@@ -51,7 +51,7 @@ function update(){
         console.log('Deals:', deals);
         buildDealsTable(deals);
         if(deals.length > 0) {
-            selectDeal(0);
+            selectDeal(deals[0].id);
         }
     })
 }
