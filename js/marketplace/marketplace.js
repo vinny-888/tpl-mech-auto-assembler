@@ -170,18 +170,18 @@ function addUser(discord_id, wallet){
         wallet
     }).then((user)=>{
         console.log('addUser Post:', user);
-        window.user = user;
-        window.localStorage.setItem('cb-tpl-user', JSON.stringify(user))
+        saveUserToLocalStorage(user);
         updateLoginUI(user);
         update();
         hideUserModal();
-        saveUserToLocalStorage(user);
+        init();
     }).catch((err)=>{
         console.log('addUser Error:', err);
     })
 }
 
 function saveUserToLocalStorage(user){
+    window.user = user;
     window.localStorage.setItem('cb-tpl-user', JSON.stringify(user));
 }
 
