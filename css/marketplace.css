@@ -180,10 +180,26 @@ h4 {
     width: 100px;
 }
 
+
+
 .vsb-menu{
     background-color: #1f3331;
     color: #fff;
     border: solid 1px #558c86;
     margin-top: -240px;
     min-height: 207px;
+}
+
+#addParts .vsb-menu{
+    background-color: #1f3331;
+    color: #fff;
+    border: solid 1px #558c86;
+    margin-top: 0px;
+    min-height: 207px;
+}
+
+#addParts .modal{
+    width: 500px;
+    margin-left: -250px;
+    margin-top: -250px;
 }

@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/vanillaSelectBox.css">
     <link rel="stylesheet" href="./css/main.css?v=2.1">
-    <link rel="stylesheet" href="./css/marketplace.css?v=1.0">
-    <link rel="stylesheet" href="./css/dropdown.css?v=1.0">
+    <link rel="stylesheet" href="./css/marketplace.css?v=1.1">
+    <link rel="stylesheet" href="./css/dropdown.css?v=1.1">
   </head>
   <body>
     <div class="header">
@@ -31,18 +31,18 @@
       </div>
     </div>
 
-    <div id="addParts" class="modal" style="display: none;">
+    <div id="addParts" class="modal" style="display: none;width: 450px;">
       <div class="" style="margin-top: 0px;height: 86%;overflow: scroll;">
-        <h4> Parts <div id="userTableToggle" class="toggle" onclick="hidePartsModal()">
+        <h4> Parts <span id="parts_count">0</span> <div id="userTableToggle" class="toggle" onclick="hidePartsModal()">
           X </div>
         </h4>
 
         <table id="partsTable" class="table table-listing">
           <thead>
             <th>Image</th>
-            <th>Model</th>
-            <th>Style</th>
-            <th>Part</th>
+            <th><select id="ModelParts" multiple="" size="3" style="display: inline-block;"></select></th>
+            <th id="full_style2"><select id="StyleParts" multiple="" size="3" style="display: inline-block;"></select></th>
+            <th><select id="PartParts" multiple="" size="3" style="display: inline-block;"></select></th>
           </thead>
 
           <tbody id="parts">
@@ -407,11 +407,11 @@
     <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=6.7"></script>
     <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=6.7"></script>
     <script type="text/javascript" src="./js/web3/wallet.js?v=6.7"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=1.0"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=1.0"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=1.0"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=1.1"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=1.1"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=1.1"></script>
     <script type="text/javascript" src="./js/ui/vanillaSelectBox.js?v=0.7"></script>
     <script type="text/javascript" src="./js/ui/multiselect.js?v=0.7"></script>
-    <script type="text/javascript" src="./js/marketplace/marketplace.js?v=1.0"></script>
+    <script type="text/javascript" src="./js/marketplace/marketplace.js?v=1.1"></script>
   </body>
 </html>

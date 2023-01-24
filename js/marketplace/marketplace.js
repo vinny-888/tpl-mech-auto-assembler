@@ -15,12 +15,16 @@ let selectBoxes = {};
 let filters = {};
 let filteredDeals = [];
 
+let selectBoxesParts  = {};
+let filtersParts  = {};
+let filteredParts = [];
+
 let selectedDealId = 0;
 let user = {};
 let dealsCache = [];
 let offersCache = [];
 let styles_flat = [];
-let modelParts = [];
+window.modelParts = [];
 function init() {
     initContracts();
     Object.keys(STYLE_ORDER).forEach((model)=>{
@@ -73,7 +77,7 @@ function init() {
                 }
             })
 
-            makeMultiselect(userFiltered, 'User');
+            makeMultiselect(userFiltered, 'User', 'User');
             document.querySelector("#User").addEventListener("change", userChanged);
             Array.from(document.getElementsByClassName('multiselect')).forEach((elm)=>{
                 elm.style.display = 'block';
@@ -84,12 +88,19 @@ function init() {
     })
 
 
-    makeMultiselect(RARITY_ORDER, 'Model');
+    makeMultiselect(RARITY_ORDER, 'Model', 'Model');
     document.querySelector("#Model").addEventListener("change", modelChanged);
-    makeMultiselect(styles_flat, 'Style');
+    makeMultiselect(styles_flat, 'Style', 'Style');
     document.querySelector("#Style").addEventListener("change", styleChanged);
-    makeMultiselect(PARTS_ORDER, 'Part');
+    makeMultiselect(PARTS_ORDER, 'Part', 'Part');
     document.querySelector("#Part").addEventListener("change", partChanged);
+
+    makeMultiselect(RARITY_ORDER, 'ModelParts', 'Model');
+    document.querySelector("#ModelParts").addEventListener("change", modelPartsChanged);
+    makeMultiselect(styles_flat, 'StyleParts', 'Style');
+    document.querySelector("#StyleParts").addEventListener("change", stylePartsChanged);
+    makeMultiselect(PARTS_ORDER, 'PartParts', 'Part');
+    document.querySelector("#PartParts").addEventListener("change", partPartsChanged);
     
 
     Array.from(document.getElementsByClassName('multiselect')).forEach((elm)=>{
@@ -114,14 +125,14 @@ async function getParts(){
             part = 'Leg';
           }
           let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
-          modelParts.push({
+          window.modelParts.push({
             model,
             part,
             style
           });
         }
     })
-    buildPartsTable(modelParts);
+    buildPartsTable(window.modelParts);
 }
 
 function updateLoginUI(user){
@@ -154,6 +165,14 @@ function updateDeals(){
             }
         }, 0)
     })
+}
+
+function updateParts(){
+    setTimeout(()=>{
+        filterPartsData();
+        console.log('Filtered Deals:', filteredParts);
+        buildPartsTable(filteredParts);
+    }, 0)
 }
 
 function selectDeal(dealId){
@@ -505,7 +524,7 @@ function buildPartsTable(parts){
 
         partsContainer.appendChild(clone);
     })
-    document.getElementById('part_count').innerHTML = parts.length;
+    document.getElementById('parts_count').innerHTML = parts.length;
 }
 
 
@@ -742,7 +761,7 @@ function initMultiselects(){
     })
 }
 
-function makeMultiselect(data, elm){
+function makeMultiselect(data, elm, placeholder){
     let select = document.getElementById(elm);
     for (var i = 0;i < data.length;i++) {
         if(data[i] != ''){
@@ -754,7 +773,7 @@ function makeMultiselect(data, elm){
         }
     }
 
-    selectBoxes[elm] = new vanillaSelectBox("#"+elm, { "translations": {"all": elm}, "keepInlineStyles":false,"maxHeight": 200,"maxWidth":110,"minWidth":110, "search": true, "placeHolder": elm });
+    selectBoxes[elm] = new vanillaSelectBox("#"+elm, { "translations": {"all": placeholder}, "keepInlineStyles":false,"maxHeight": 200,"maxWidth":110,"minWidth":110, "search": true, "placeHolder": placeholder });
 }
 
 function makeNestedMultiselect(data, elm){
@@ -822,6 +841,37 @@ function styleChanged(){
     }, 0);
 }
 
+function modelPartsChanged(){
+    console.log('modelPartsChanged');
+    let models = getValues('ModelParts');
+    console.log(models);
+    filtersParts['model'] = models;
+    setTimeout(()=>{
+        updateParts();
+        document.querySelector("#StyleParts").addEventListener("change", stylePartsChanged);
+    }, 0);
+}
+
+function partPartsChanged(){
+    console.log('partPartsChanged');
+    let parts = getValues('PartParts');
+    console.log(parts);
+    filtersParts['part'] = parts;
+    setTimeout(()=>{
+        updateParts();
+    }, 0);
+}
+
+function stylePartsChanged(){
+    console.log('stylePartsChanged');
+    let styles = getValues('StyleParts');
+    console.log(styles);
+    filtersParts['style'] = styles;
+    setTimeout(()=>{
+        updateParts();
+    }, 0);
+}
+
 function addEventlisteners(){
     // document.querySelector("#sort").addEventListener('change', (event)=>{
     //     sort_type = document.querySelector("#sort").value;
@@ -845,6 +895,20 @@ function filterData(){
     })
 }
 
+function filterPartsData(){
+    filteredParts = [];
+    window.modelParts.forEach((part)=>{
+        if(!hasExcludedValue(part, 'model', filtersParts['model'])
+            && !hasExcludedValue(part, 'style', filtersParts['style'])
+            && !hasExcludedValue(part, 'part', filtersParts['part'])){
+                filteredParts.push(part);
+        }
+        // if(!hasExcludedAttribute(token, 'Other', filters['Other'])){
+        //     filteredData.push(token);
+        // }
+    })
+}
+
 function hasExcludedAttribute(token, name, attributes){
     if(!attributes){
         return false;
@@ -857,6 +921,13 @@ function hasExcludedAttribute(token, name, attributes){
         }
     }
     return hasExcludedAtt;
+}
+
+function hasExcludedValue(token, name, attributes){
+    if(!attributes){
+        return false;
+    }
+    return attributes.indexOf(token[name]) == -1;
 }
 
 function hasExcludedValue(token, name, attributes){
