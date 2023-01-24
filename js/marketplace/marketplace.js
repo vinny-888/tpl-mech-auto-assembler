@@ -233,6 +233,11 @@ function submitOffer(){
 }
 
 function showPartsModal(){
+    Array.from(partsContainer.children).forEach((row)=>{
+        if(Array.from(row.classList).indexOf('selected') != -1){
+            row.classList.remove('selected');
+        }
+    });
     document.getElementById('addParts').style.display = 'block';
 }
 
