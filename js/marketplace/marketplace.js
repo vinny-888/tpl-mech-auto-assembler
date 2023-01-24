@@ -436,9 +436,9 @@ function buildDealsTable(deals){
         clone.querySelector(".user").innerHTML = '<a target="_blank" href="revealed.html?wallet='+deal.from_wallet+'">@'+deal.from_discord_id+'</a>';
         clone.querySelector(".text").innerHTML = 'Has:<br><br>Wants:';
         clone.querySelector(".image").innerHTML = partsRevealedImage(deal.has.part, deal.has.model, deal.has.style);
-        clone.querySelector(".model").innerHTML = (deal.has ? deal.has.model : '') + '<br><br>' + (deal.wants ? deal.wants.model : '');
-        clone.querySelector(".part").innerHTML = (deal.has ? deal.has.part : '')+ '<br><br>' + (deal.wants ? deal.wants.part : '');
-        clone.querySelector(".style").innerHTML = fixStyle(deal.has ? deal.has.style : '' ) + '<br><br>' + fixStyle(deal.wants ? deal.wants.style : '');
+        clone.querySelector(".model").innerHTML = (deal.has && deal.has.model? deal.has.model : '') + '<br><br>' + (deal.wants && deal.wants.model ? deal.wants.model : '');
+        clone.querySelector(".part").innerHTML = (deal.has && deal.has.part ? deal.has.part : '')+ '<br><br>' + (deal.wants && deal.wants.part? deal.wants.part : '');
+        clone.querySelector(".style").innerHTML = fixStyle(deal.has && deal.has.style ? deal.has.style : '' ) + '<br><br>' + fixStyle(deal.wants && deal.wants.style ? deal.wants.style : '');
 
         let allowedOffer = deal.from_discord_id != user.discord_id ? '' : 'disabled';
 
