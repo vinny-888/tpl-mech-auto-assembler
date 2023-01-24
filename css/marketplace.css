@@ -160,6 +160,17 @@ h4 {
     margin-bottom: 8px;
 }
 
+.borderDiv3 {
+    min-width: 310px;
+    padding-right: 4px;
+    padding-left: 4px;
+    border: solid 1px #578c87;
+    background-color: #1f3331;
+    margin-bottom: 8px;
+    max-height: 600px;
+    overflow: scroll;
+}
+
 .multiselect{
     width: 100px !important;
     margin-bottom: 0px !important;
@@ -202,4 +213,22 @@ h4 {
     width: 500px;
     margin-left: -250px;
     margin-top: -250px;
+}
+
+thead th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 0;
+
+    background-color: #1f3331;
+}
+
+tbody th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+    opacity: 1;
 }
