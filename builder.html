@@ -35,10 +35,10 @@
           <div id="connected">
             <div class="col-md-12">
               <div style="margin-bottom: 8px;">
-                <!-- <div class="inline">
+                <div class="inline">
                   <h5>Engine</h5>
                   <select id="engine_style" class="dropdown"></select>
-                </div> -->
+                </div>
                 <div class="inline">
                   <h5>Head</h5>
                   <select id="head_style" class="dropdown"></select>
@@ -61,8 +61,26 @@
                 </div>
               </div>
               <div id="viewer2">
-                <div>
+                <div style="display: inline;">
                   <canvas style="zoom: 0.5;" id="renderCanvas" width="1600" height="1760"></canvas>
+                </div>
+                <div style="display: inline;">
+                  <div id="info" style="height: 500px;width: 210px;">
+                    <h2 style="margin-left: 24px;">Stats:</h2><br>
+                    <div style="margin-left: 32px;">
+                      <b><span style="font-size: 24px;color: rgb(255 184 0)">Endurance:</span></b><br>
+                      <span style="font-size: 36px; font-weight: bold;" id="endurance_total"></span><br><br>
+
+                      <b><span style="font-size: 24px;color: rgb(255 184 0)">Speed:</span></b><br>
+                      <span style="font-size: 36px; font-weight: bold;" id="speed_total"></span><br><br>
+
+                      <b><span style="font-size: 24px;color: rgb(255 184 0)">Power:</span></b><br>
+                      <span style="font-size: 36px; font-weight: bold;" id="power_total"></span><br><br>
+
+                      <b><span style="font-size: 24px;color: rgb(255 184 0)">Total:</span></b><br>
+                      <span style="font-size: 36px; font-weight: bold;" id="stats_total"></span><br><br>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
