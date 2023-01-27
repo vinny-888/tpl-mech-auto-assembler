@@ -7,7 +7,7 @@ function init() {
 
 window.addEventListener('load', async () => {
   init();
-  initDropdowns();
+  // initDropdowns();
   addEventlisteners();
   updatePreview();
 });
