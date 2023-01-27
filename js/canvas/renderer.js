@@ -192,6 +192,22 @@ function showPreview(head, body, legs, left_arm, right_arm){
         left_arm = 'camm-e';
     }
 
+    if(head == 'MissingNo.'){
+        head = 'missingno';
+    }
+    if(body == 'MissingNo.'){
+        body = 'missingno';
+    }
+    if(legs == 'MissingNo.'){
+        legs = 'missingno';
+    }
+    if(right_arm == 'MissingNo.'){
+        right_arm = 'missingno';
+    }
+    if(left_arm == 'MissingNo.'){
+        left_arm = 'missingno';
+    }
+
     head = head.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_');
     body = body.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_');
     legs = legs.toLowerCase().replaceAll(' ', '-').replaceAll('-', '_');

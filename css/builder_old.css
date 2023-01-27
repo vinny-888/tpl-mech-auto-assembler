@@ -1,0 +1,86 @@
+#builderDiv{
+    min-height: 400px;
+}
+
+img{
+    object-fit: cover;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.clickable:hover{
+    background-color: #43736e;
+}
+
+.dropdown {
+    background-color: #1f3331;
+    margin-top: 10px;
+    height: 26px;
+    border-radius: 4px;
+}
+
+.selected{
+    background-color: #3e60a2 !important;
+}
+
+td img {
+    width: 100px;
+    height: 100px;
+}
+
+.wrapper {
+    display: flex;
+}
+.wrapper > div {
+    color: white;
+    flex: 1;
+    height: 100px;
+    width: 100px;
+}
+.wrapper .wrapper > div {
+    background-color: #1f3331;
+    color: white;
+}
+
+.wrapper2 {
+    display: flex;
+}
+.wrapper2 > div {
+    color: white;
+    flex: 1;
+    text-align: center;
+}
+.wrapper2 .wrapper2 > div {
+    background-color: #1f3331;
+    color: white;
+}
+
+.flex {
+    display: flex;
+}
+
+.mech {
+    display: table;
+    margin: 0 auto;
+    /* border: 1px solid black; */
+}
+  
+.outer {
+    border: 1px solid #1f3331;
+    width:100%;
+    margin-bottom: 20px;
+}
+
+.partGrid{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.selector {
+    display: table;
+    margin: 0 auto;
+    /* border: 1px solid black; */
+}
