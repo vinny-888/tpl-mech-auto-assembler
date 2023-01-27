@@ -85,7 +85,9 @@ function renderHead(head){
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(400, 0);
-    ctx.lineTo(width/2, 400);
+    // ctx.lineTo(width/2-200, 450);
+    ctx.lineTo(width/2, 450);
+    // ctx.lineTo(width/2+200, 450);
     ctx.lineTo(width-400, 0);
     ctx.lineTo(0, 0);
     ctx.closePath();
@@ -106,7 +108,7 @@ function renderBody(body){
 
     ctx.lineTo(width/2+sizeX, height/2+offsetY+sizeY);
     
-    ctx.lineTo(width/2, height/2+offsetY+sizeY+200);
+    // ctx.lineTo(width/2, height/2+offsetY+sizeY+200);
 
     ctx.lineTo(width/2-sizeX, height/2+offsetY+sizeY);
 
