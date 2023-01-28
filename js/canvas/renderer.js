@@ -2,7 +2,7 @@ let canvas = null;
 var ctx = null;
 let width = 1600;
 let height = 1760;
-let BASE_URL = '../images/templates/';
+let BASE_URL = '../tpl-mech-auto-assembler/images/templates/';
 let imageCache = {};
 let style_urls = {
     action_bot_3000: 'action_bot_3000.webp',
