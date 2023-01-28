@@ -5,3 +5,7 @@
 .dropdown{
     background-color: #477370;
 }
+
+.clickable{
+    cursor: pointer;
+}

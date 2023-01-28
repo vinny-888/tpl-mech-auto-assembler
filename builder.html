@@ -425,6 +425,11 @@
                     </optgroup>
                   </select>
                 </div>
+                <div class="inline">
+                  <button class="btn btn-primary" id="btn-save" onclick="saveMech()">
+                    Save Mech
+                  </button>
+                </div>
               </div>
               <div id="viewer2">
                 <div style="display: inline;">
@@ -448,13 +453,63 @@
                     </div>
                   </div>
                 </div>
+                <div style="display: inline;">
+                  <div class="borderDiv" style="display: none;">
+                    <h4> Saved Mechs
+                      <button class="tooltipBtn" tip="Table showing part counts for each model type.">?</button>
+                      <div id="mechTableToggle" class="toggle" onclick="toggleTable('mechTable')">
+                        &#8212;
+                      </div>
+                    </h4>
+    
+                    <table id="mechTable" class="table table-full">
+                      <thead>
+                        <th>Iamge</th>
+                        <th>Engine</th>
+                        <th>Head</th>
+                        <th>Body</th>
+                        <th>Leg</th>
+                        <th>Left Arm</th>
+                        <th>Left Arm</th>
+                        <th>Endruance</th>
+                        <th>Speed</th>
+                        <th>Power</th>
+                        <th>Total</th>
+                      </thead>
+    
+                      <tbody id="saved_mechs">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+    <div id="templates" style="display: none">
+      <template id="template-mechs">
+        <tr class="clickable">
+          <td class="image"></td>
+          <td class="engine"></td>
+          <td class="head"></td>
+          <td class="body"></td>
+          <td class="legs"></td>
+          <td class="left_arm"></td>
+          <td class="right_arm"></td>
+          <td class="endurance"></td>
+          <td class="speed"></td>
+          <td class="power"></td>
+          <td class="total"></td>
+        </tr>
+      </template>
+      <template id="template-empty">
+        <tr>
+          <td class="empty" colspan="3">No Data</td>
+        </tr>
+      </template>
+    </div>
     <script type="text/javascript" src="./js/util/constants.js?v=2.4"></script>
     <script type="text/javascript" src="./js/util/utils.js?v=2.4"></script>
     <script type="text/javascript" src="./js/ui/tooltip.js?v=2.4"></script>

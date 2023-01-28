@@ -1,5 +1,6 @@
 "use strict";
 
+let mechs = [];
 function init() {
   initTooltip();
   createMetadataLookup();
@@ -10,7 +11,56 @@ window.addEventListener('load', async () => {
   // initDropdowns();
   addEventlisteners();
   updatePreview();
+  loadMechs();
 });
+
+function loadMechs(){
+  let saved = localStorage.getItem('saved_mechs');
+  if(saved){
+    console.log('loaded:', saved);
+    mechs = saved;
+    buildMechTable();
+  }
+}
+
+function removeMech(index){
+  mechs.splice(index, 1);
+}
+
+const getBase64StringFromDataURL = (dataURL) =>
+    dataURL.replace('data:', '').replace(/^.+,/, '');
+
+function saveMech(){
+  let engine = document.getElementById('engine_style');
+  let head = document.getElementById('head_style');
+  let body = document.getElementById('body_style');
+  let legs = document.getElementById('legs_style');
+  let left_arm = document.getElementById('left_arm_style');
+  let right_arm = document.getElementById('right_arm_style');
+  let canvas = document.getElementById('renderCanvas');
+  let dataURL = canvas.toDataURL();
+  let img = getBase64StringFromDataURL(dataURL);
+  mechs.push({
+    engine,
+    head,
+    body,
+    legs,
+    left_arm,
+    right_arm,
+    img
+  });
+
+  saveMechs()
+
+  // TODO add to UI
+
+}
+
+function saveMechs(){
+  localStorage.setItem('saved_mechs', mechs);
+  console.log('saved:', mechs);
+  buildMechTable();
+}
 
 function initDropdowns(){
   let engine = document.getElementById('engine_style');
@@ -107,3 +157,30 @@ function updatePreview(){
   showPreview(head_style, body_style, legs_style, left_arm_style, right_arm_style);
 }
 
+function buildMechTable(){
+    savedMechContainer.innerHTML = '';
+    mechs.forEach((mech, index)=>{
+        const clone = templateMechs.content.cloneNode(true);
+        let tr = clone.children[0];
+        tr.id = 'mech_'+offer.id;
+        tr.classList.add('clickable');
+        clone.querySelector(".image").innerHTML = '<img src="'+mech.img+'"></img>';
+        clone.querySelector(".engine").textContent = mech.engine;
+        clone.querySelector(".head").textContent = mech.head;
+        clone.querySelector(".body").textContent = mech.body;
+        clone.querySelector(".legs").textContent = mech.legs;
+        clone.querySelector(".left_arm").textContent = mech.left_arm;
+        clone.querySelector(".right_arm").textContent = mech.right_arm;
+        clone.querySelector(".endurance").textContent = mech.endurance;
+        clone.querySelector(".speed").textContent = mech.speed;
+        clone.querySelector(".power").textContent = mech.power;
+        clone.querySelector(".total").textContent = mech.total;
+
+        clone.querySelector(".remove").innerHTML = `<div style="text-align: center;">
+            <button class="btn btn-dismantle" id="btn-query" onclick="removeMech('${index}')">-</button>
+        </div>`;
+        // clone.querySelector(".count").textContent = deal.has.count;
+        offersContainer.appendChild(clone);
+    })
+    document.getElementById('offer_count').innerHTML = offers.length;
+}

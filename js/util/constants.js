@@ -314,3 +314,6 @@ const templateFullMech = document.querySelector("#template-full");
 const fullMechContainer = document.querySelector("#fullMech");
 const mixedmechPartialNoModelContainer  = document.querySelector("#mechsPartialNoModel");
 
+
+const templateMechs = document.querySelector("#template-mechs");
+const savedMechContainer = document.querySelector("#saved_mechs");
