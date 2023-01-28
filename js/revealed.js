@@ -8,6 +8,12 @@ function init() {
   initContracts();
   initTooltip();
   createMetadataLookup();
+
+  for(let i=1; i<=27849; i++){
+    if(!revealedMetadata[''+i]){
+      console.log('Missing Metadata:', i);
+    }
+  }
 }
 
 window.addEventListener('load', async () => {
@@ -102,6 +108,7 @@ function buildTablesAndMechs(){
       buildPartialMechStylesTable(mixedMechsPartial);
     } else {
       document.querySelector("#partial_count").innerHTML = '(0)';
+      document.querySelector("#partial_summary_count").innerHTML = '(0)';
     }
     // Build *partial* mechs and show missing parts
     let sameModelMechs = buildSameModelMechsStyles(false, false, false);
