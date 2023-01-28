@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=2.4">
-    <link rel="stylesheet" href="./css/owners.css?v=2.4">
-    <link rel="stylesheet" href="./css/builder.css?v=2.4">
+    <link rel="stylesheet" href="./css/main.css?v=2.5">
+    <link rel="stylesheet" href="./css/owners.css?v=2.5">
+    <link rel="stylesheet" href="./css/builder.css?v=2.5">
   </head>
   <body>
     <div class="header">
@@ -34,6 +34,7 @@
         <div class="col-md-12">
           <div id="connected">
             <div class="col-md-12">
+
               <div style="margin-bottom: 8px;">
                 <div class="inline">
                   <h5>Engine</h5>
@@ -431,31 +432,38 @@
                   </button>
                 </div>
               </div>
-              <div id="viewer2">
-                <div style="display: inline;">
+
+              <div id="viewer2" class="col-md-6">
+                
+                <div>
                   <canvas style="zoom: 0.5;" id="renderCanvas" width="1600" height="1760"></canvas>
                 </div>
-                <div style="display: inline;">
-                  <div id="info" style="height: 500px;width: 210px;">
-                    <h2 style="margin-left: 24px;">Stats:</h2><br>
-                    <div style="margin-left: 32px;">
+                <div id="info" style="padding: 10px;margin-left: 0px;height: 100px;width: calc(100% - 33px);    display: inline-block;">
+                  <div style="">
+                    <div style="display: inline-block;">
                       <b><span style="font-size: 24px;color: rgb(255 184 0)">Endurance:</span></b><br>
                       <span style="font-size: 36px; font-weight: bold;" id="endurance_total"></span><br><br>
-
+                    </div>
+                    <div style="display: inline-block;margin-left: 100px;">
                       <b><span style="font-size: 24px;color: rgb(255 184 0)">Speed:</span></b><br>
                       <span style="font-size: 36px; font-weight: bold;" id="speed_total"></span><br><br>
-
+                    </div>
+                    <div style="display: inline-block;margin-left: 100px;">
                       <b><span style="font-size: 24px;color: rgb(255 184 0)">Power:</span></b><br>
                       <span style="font-size: 36px; font-weight: bold;" id="power_total"></span><br><br>
-
-                      <b><span style="font-size: 24px;color: rgb(255 184 0)">Total:</span></b><br>
-                      <span style="font-size: 36px; font-weight: bold;" id="stats_total"></span><br><br>
+                    </div>
+                    <div style="display: inline-block;margin-left: 100px;">
+                        <b><span style="font-size: 24px;color: rgb(255 184 0)">Total:</span></b><br>
+                        <span style="font-size: 36px; font-weight: bold;" id="stats_total"></span><br><br>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="col-md-6">
                 <div style="display: inline;">
-                  <div class="borderDiv" style="display: none;">
-                    <h4> Saved Mechs
+                  <div class="borderDiv" style="">
+                    <h4> Saved Mechs <span id="mech_count">0</span> 
                       <button class="tooltipBtn" tip="Table showing part counts for each model type.">?</button>
                       <div id="mechTableToggle" class="toggle" onclick="toggleTable('mechTable')">
                         &#8212;
@@ -475,6 +483,7 @@
                         <th>Speed</th>
                         <th>Power</th>
                         <th>Total</th>
+                        <th>Remove</th>
                       </thead>
     
                       <tbody id="saved_mechs">
@@ -483,10 +492,14 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div>
+      <canvas style="display:block;" id="resize_canvas" width="160" height="176"></canvas>
     </div>
     <div id="templates" style="display: none">
       <template id="template-mechs">
@@ -502,6 +515,7 @@
           <td class="speed"></td>
           <td class="power"></td>
           <td class="total"></td>
+          <td class="remove"></td>
         </tr>
       </template>
       <template id="template-empty">
@@ -510,11 +524,11 @@
         </tr>
       </template>
     </div>
-    <script type="text/javascript" src="./js/util/constants.js?v=2.4"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=2.4"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.4"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=2.4"></script>
-    <script type="text/javascript" src="./js/canvas/renderer.js?v=2.4"></script>
-    <script type="text/javascript" src="./js/builder.js?v=2.4"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=2.5"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=2.5"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.5"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=2.5"></script>
+    <script type="text/javascript" src="./js/canvas/renderer.js?v=2.5"></script>
+    <script type="text/javascript" src="./js/builder.js?v=2.5"></script>
   </body>
 </html>

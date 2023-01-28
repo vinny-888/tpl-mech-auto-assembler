@@ -2,7 +2,7 @@ let canvas = null;
 var ctx = null;
 let width = 1600;
 let height = 1760;
-let BASE_URL = 'https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/templates/';
+let BASE_URL = '../images/templates/';
 let imageCache = {};
 let style_urls = {
     action_bot_3000: 'action_bot_3000.webp',
@@ -56,6 +56,10 @@ let style_urls = {
     wowee: 'wowee.webp',
     xxliquidatorxx: 'xxliquidatorxx.webp',
 };
+
+// Object.keys(style_urls).forEach((style)=>{
+//     console.log(BASE_URL+style+'.webp');
+// })
 
 function createCanvas(){
     canvas = document.getElementById('renderCanvas');
