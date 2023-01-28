@@ -278,6 +278,9 @@ const mixedmechMixedPartialModelContainer = document.querySelector("#mechsMixedP
 const templateCounts = document.querySelector("#template-counts");
 const countsContainer = document.querySelector("#counts");
 
+const templateStyleCounts = document.querySelector("#template-style-counts");
+const styleCountsContainer = document.querySelector("#styleCounts");
+
 const templateMechCounts = document.querySelector("#template-mech-counts");
 const mechCountsContainer = document.querySelector("#mech-counts");
 

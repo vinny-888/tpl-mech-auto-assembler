@@ -22,7 +22,7 @@ function buildFullModelMechStyles(address){
                 }
             });
             if(min != 99999){
-                for(let i=0; i<min-dataModel.owners[address].dismantled[model]; i++){
+                for(let i=0; i<min; i++){
                     // if(dataModel.owners[address].remainingAfterglows > 0){
                         let fullMech = {
                             Engine: {

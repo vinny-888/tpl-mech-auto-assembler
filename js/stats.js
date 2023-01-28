@@ -2,6 +2,8 @@
 
 let wallets = {};
 let allData = {};
+let fullMechTotals = {};
+let fullMechTotalsCounts = {};
 let totalFullMechs = 0;
 let totalMixedMechs = 0;
 let totalMixedMechsNoAfterglow = 0;
@@ -146,6 +148,7 @@ async function refreshAccountData() {
         updateTable((index+1), data.address, data);
       },0);
     })
+    // countTotalsAndBuildTableCached();
     // Object.keys(allWalletData).forEach((address, index)=>{
     //   setTimeout(()=>{
     //     updateTable((index+1), address, allWalletData[address]);
@@ -172,16 +175,44 @@ async function refreshAccountData() {
       } else {
         let cachedDataItem = JSON.parse(cachedData);
         allData[address] = cachedDataItem;
-        setTimeout(()=>{
+        // setTimeout(()=>{
           updateTable((i+1), address, cachedDataItem);
           if(i == count-1){
             countMechModels();
             console.log('Total Full Mechs: ', totalFullMechs, 'Total Mixed Mechs', totalMixedMechs, 'Total Mixed Mechs No Afterglow', totalMixedMechsNoAfterglow, 'Total Partial Mixed Mechs', totalMixedMechsPartial, 'Total Partial Mixed Mechs No Model', totalMixedMechsPartialNoModel);
           }
-        }, 0);
+        // }, 0);
       }
     }
+
+    countTotalsAndBuildTable();
+   
+    
   }
+}
+
+function countTotalsAndBuildTableCached(){
+  buildStyleCountsTable();
+}
+
+function countTotalsAndBuildTable(){
+  Object.keys(fullMechTotals).forEach((address)=>{
+    const result = {};
+    let key;
+  
+    Object.keys(fullMechTotals[address]).forEach((model)=>{
+      if(!fullMechTotalsCounts[model]){
+        fullMechTotalsCounts[model] = {};
+      }
+      Object.keys(fullMechTotals[address][model]).forEach((style)=>{
+        if(!fullMechTotalsCounts[model][style]){
+          fullMechTotalsCounts[model][style] = 0;
+        }
+        fullMechTotalsCounts[model][style]+=fullMechTotals[address][model][style].length;
+      })
+    })
+  })
+  buildStyleCountsTable();
 }
 
 function countMechModels(){
@@ -191,15 +222,22 @@ function countMechModels(){
   revealedStatsData.forEach((data)=>{
     let fullMechs = data.fullMechs;
     // let mixedMechs = data.mixedMechsPartial;
-    let fullMixedStyleMechs = data.fullMixedStyleMechs;
+    // let fullMixedStyleMechs = data.fullMixedStyleMechs;
     let modelParts = data.modelParts;
 
-    Object.keys(fullMechs).forEach((model)=>{
+    RARITY_ORDER.reverse().forEach((model)=>{
       if(!totalFullMechs[model]){
         totalFullMechs[model] = 0;
       }
-      STYLE_ORDER[model].forEach((style)=>{
+      STYLE_ORDER[model].reverse().forEach((style)=>{
         totalFullMechs[model] += (fullMechs[model] && fullMechs[model][style] ? fullMechs[model][style].length : 0);
+        if(!fullMechTotalsCounts[model]){
+          fullMechTotalsCounts[model] = {};
+        }
+        if(!fullMechTotalsCounts[model][style]){
+          fullMechTotalsCounts[model][style] = 0;
+        }
+        fullMechTotalsCounts[model][style] += (fullMechs[model] && fullMechs[model][style] ? fullMechs[model][style].length : 0);
       });
     });
 
@@ -214,14 +252,14 @@ function countMechModels(){
     //   totalMixedMechs[model] += (mixedMechs[model] ? mixedMechs[model].length : 0);
     // });
 
-    Object.keys(fullMixedStyleMechs).forEach((model)=>{
-      if(!totalFullMixedStyleMechs[model]){
-        totalFullMixedStyleMechs[model] = 0;
-      }
-      STYLE_ORDER[model].forEach((style)=>{
-        totalFullMixedStyleMechs[model] += (fullMixedStyleMechs[model] && fullMixedStyleMechs[model][style] ? fullMixedStyleMechs[model][style] : 0);
-      });
-    });
+    // Object.keys(fullMixedStyleMechs).forEach((model)=>{
+    //   if(!totalFullMixedStyleMechs[model]){
+    //     totalFullMixedStyleMechs[model] = 0;
+    //   }
+    //   STYLE_ORDER[model].forEach((style)=>{
+    //     totalFullMixedStyleMechs[model] += (fullMixedStyleMechs[model] && fullMixedStyleMechs[model][style] ? fullMixedStyleMechs[model][style] : 0);
+    //   });
+    // });
 
     Object.keys(modelParts).forEach((model)=>{
       if(!totalParts[model]){
@@ -244,6 +282,8 @@ function countMechModels(){
     //   buildTotalUnclaimedPartCountsTotalTable(data.modelParts);
     // }
   });
+
+  countTotalsAndBuildTableCached();
 
   RARITY_ORDER.forEach((model)=>{
     buildUnclaimedPartCountsTotalTable(totalParts, model);
@@ -331,7 +371,7 @@ function updateTable(row, address, cachedData){
         totalFullMechs += cachedData.fullMechsCount;
         // totalMixedMechs += cachedData.mixedMechsCount;
         // totalMixedMechsNoAfterglow += cachedData.mixedMechsNoAfterglowCount;
-        totalMixedMechsPartial += cachedData.fullMixedStyleMechsCount;
+        // totalMixedMechsPartial += cachedData.fullMixedStyleMechsCount;
         // totalMixedMechsPartialNoModel += cachedData.mixedMechsPartialNoModelCount;
         
         buildPartCountsTable(row, 
@@ -347,9 +387,12 @@ function updateTable(row, address, cachedData){
           cachedData.fullNexusMechsCount,
           // cachedData.mixedMechsCount, 
           // cachedData.mixedMechsNoAfterglowCount, 
-          cachedData.fullMixedStyleMechsCount, 
+          // cachedData.fullMixedStyleMechsCount, 
           // cachedData.mixedMechsPartialNoModelCount, 
           cachedData.remainingParts);
+
+          fullMechTotals[address] = cachedData.fullMechs;
+
     } else if(dataModel.owners[address].modelParts) {
       let modelParts = JSON.parse(JSON.stringify(dataModel.owners[address].modelParts));
 
@@ -358,32 +401,35 @@ function updateTable(row, address, cachedData){
       let partsCount = getPartCounts(address);
       
       let fullMechs = buildFullModelMechStyles(address);
+
+      fullMechTotals[address] = fullMechs;
+      
       // let mixedMechsPartial = buildMixedMechsStyles(address, false, true, false);
       // Build *partial* mechs and show missing parts
-      let mixedMechsPartialNoModel = buildNoModelMixedMechsStyles(address, false, true, true);
+      // let mixedMechsPartialNoModel = buildNoModelMixedMechsStyles(address, false, true, true);
 
-      let fullMixedStyleMechsCount = 0;
-      let fullMixedStyleMechs = {};
-      // Count the mixed mechs for each models
-      RARITY_ORDER.forEach((model)=>{
-          STYLE_ORDER[model].forEach((style)=>{
-              if(mixedMechsPartialNoModel[model]){
-                mixedMechsPartialNoModel[model].forEach((mech)=>{
-                      if(mech['Engine'] && mech['Engine'].model == model && mech['Engine'].style == style && Object.keys(mech).length == 6){
-                          if(!fullMixedStyleMechs[model]){
-                            fullMixedStyleMechs[model] = {};
-                          }
-                          if(!fullMixedStyleMechs[model][style]){
-                            fullMixedStyleMechs[model][style] = 0;
-                          }
-                          fullMixedStyleMechs[model][style]++;
+      // let fullMixedStyleMechsCount = 0;
+      // let fullMixedStyleMechs = {};
+      // // Count the mixed mechs for each models
+      // RARITY_ORDER.forEach((model)=>{
+      //     STYLE_ORDER[model].forEach((style)=>{
+      //         if(mixedMechsPartialNoModel[model]){
+      //           mixedMechsPartialNoModel[model].forEach((mech)=>{
+      //                 if(mech['Engine'] && mech['Engine'].model == model && mech['Engine'].style == style && Object.keys(mech).length == 6){
+      //                     if(!fullMixedStyleMechs[model]){
+      //                       fullMixedStyleMechs[model] = {};
+      //                     }
+      //                     if(!fullMixedStyleMechs[model][style]){
+      //                       fullMixedStyleMechs[model][style] = 0;
+      //                     }
+      //                     fullMixedStyleMechs[model][style]++;
                           
-                          fullMixedStyleMechsCount++;
-                      }
-                  })
-              }
-          });
-      });
+      //                     fullMixedStyleMechsCount++;
+      //                 }
+      //             })
+      //         }
+      //     });
+      // });
 
       // // Build remaining parts table
       let remainingParts = getRemainingPartsStyles(address);
@@ -419,7 +465,7 @@ function updateTable(row, address, cachedData){
         fullNexusMechsCount,
         // mixedMechsCount, 
         // mixedMechsNoAfterglowCount, 
-        fullMixedStyleMechsCount, 
+        // fullMixedStyleMechsCount, 
         // mixedMechsPartialNoModelCount, 
         remainingParts);
 
@@ -429,7 +475,7 @@ function updateTable(row, address, cachedData){
           partsCount,
           // totalAfterglows,
           fullMechsCount,
-          fullMixedStyleMechsCount,
+          // fullMixedStyleMechsCount,
           fullEnforcerMechsCount,
           fullRavagerMechsCount,
           fullBehemothMechsCount,
@@ -441,11 +487,12 @@ function updateTable(row, address, cachedData){
           // mixedMechsPartialNoModelCount,
           remainingParts,
           fullMechs,
-          fullMixedStyleMechs,
+          // fullMixedStyleMechs,
           // mixedMechsPartialNoModel,
           // mixedMechs,
           // mixedMechsNoAfterglow,
-          modelParts
+          modelParts,
+          fullMechTotalsCounts
         };
         window.localStorage.setItem(address, JSON.stringify(allData[address]));
       }
@@ -455,6 +502,20 @@ function updateTable(row, address, cachedData){
     highlightTotal();
     displayTables();
     progressDiv.innerHTML = ' - Loaded ' + row + '/961';
+}
+
+function buildStyleCountsTable(){
+  RARITY_ORDER.reverse().forEach((model)=>{
+    STYLE_ORDER[model].forEach((style)=>{
+      let mechCount = fullMechTotalsCounts[model][style];
+      
+      const clone = templateStyleCounts.content.cloneNode(true);
+      clone.querySelector(".model").textContent = model;
+      clone.querySelector(".style").textContent = style;
+      clone.querySelector(".count").textContent = mechCount;
+      styleCountsContainer.appendChild(clone);
+    });
+  });
 }
 
 function buildPartCountsTable(row, 
@@ -470,7 +531,7 @@ function buildPartCountsTable(row,
   fullNexusMechsCount,
   // mixedMechsCount, 
   // mixedMechsNoAfterglowCount, 
-  mixedMechsCount, 
+  // mixedMechsCount, 
   // mixedMechsPartialNoModelCount, 
   remainingParts){
   const clone = templateCounts.content.cloneNode(true);
@@ -494,8 +555,8 @@ function buildPartCountsTable(row,
 
   // clone.querySelector(".mixed").textContent = mixedMechsCount;
   // clone.querySelector(".mixed_no_afterglow").textContent = mixedMechsNoAfterglowCount;
-  clone.querySelector(".mixed").textContent = mixedMechsCount;
-  clone.querySelector(".completed").textContent = mixedMechsCount + fullMechsCount;
+  // clone.querySelector(".mixed").textContent = mixedMechsCount;
+  clone.querySelector(".completed").textContent = fullMechsCount;
   // clone.querySelector(".partial").textContent = mixedMechsPartialNoModelCount;
   clone.querySelector(".unused").textContent = remainingParts;
   countsContainer.appendChild(clone);
@@ -506,9 +567,9 @@ function buildMechCountsTable(fullMechs, mixedMechs, model){
   clone.querySelector(".model").textContent = model;
   if(model != 'Total'){
     clone.querySelector(".full").textContent = fullMechs[model];
-    clone.querySelector(".mixed").textContent = mixedMechs[model];
+    // clone.querySelector(".mixed").textContent = mixedMechs[model];
     // clone.querySelector(".mixed_no_afterglow").textContent = mixedMechsNoAfterglow[model];
-    clone.querySelector(".total").textContent = fullMechs[model] + mixedMechs[model];
+    // clone.querySelector(".total").textContent = fullMechs[model];
   } else {
     let totalFull = 0;
     let totalMixedMechs = 0;
@@ -519,9 +580,9 @@ function buildMechCountsTable(fullMechs, mixedMechs, model){
       // totalMixedMechsNoAfterglow += mixedMechsNoAfterglow[model];
     });
     clone.querySelector(".full").textContent = totalFull;
-    clone.querySelector(".mixed").textContent = totalMixedMechs;
+    // clone.querySelector(".mixed").textContent = totalMixedMechs;
     // clone.querySelector(".mixed_no_afterglow").textContent = totalMixedMechsNoAfterglow;
-    clone.querySelector(".total").textContent = totalFull+totalMixedMechs;
+    // clone.querySelector(".total").textContent = totalFull;
   }
   mechCountsContainer.appendChild(clone);
 }
@@ -664,59 +725,66 @@ async function fetchAccountData(address, totalSupply) {
   if(!dataModel.owners[address]){
     dataModel.owners[address] = {};
   }
-  let revealedTokenIds = await populateWalletMechPartsStyles(address, totalSupply);
+  let revealedTokenIds = null;
+  
+  while(!revealedTokenIds){
+    try{
+      revealedTokenIds = await populateWalletMechPartsStyles(address, totalSupply);
 
-  // Populate the modelParts lookup
-  revealedTokenIds.forEach((tokenId)=>{
-    // let metadata = await getRevealedMechTokenMetadata(tokenId);
-    // let model = BODY_PART_MODEL_MAPPING[metadata.model];
-    // let part = BODY_PART_MAPPING[metadata.partType];
-    let tokenMetadata = revealedMetadata[''+tokenId];
-    if(tokenMetadata){
-      if(!dataModel.owners[address].modelParts){
-        dataModel.owners[address].modelParts = {};
-      }
-      let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
-      let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
-      if(part == 'Legs'){
-        part = 'Leg';
-      }
-      let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
-      if(!dataModel.owners[address].modelParts[model]){
-        dataModel.owners[address].modelParts[model] = {};
-      }
-      if(!dataModel.owners[address].modelParts[model][part]){
-        dataModel.owners[address].modelParts[model][part] = {};
-      }
-      if(!dataModel.owners[address].modelParts[model][part][style]){
-        dataModel.owners[address].modelParts[model][part][style] = 0;
-      }
-      dataModel.owners[address].modelParts[model][part][style]++;
+      // Populate the modelParts lookup
+      revealedTokenIds.forEach((tokenId)=>{
+        // let metadata = await getRevealedMechTokenMetadata(tokenId);
+        // let model = BODY_PART_MODEL_MAPPING[metadata.model];
+        // let part = BODY_PART_MAPPING[metadata.partType];
+        let tokenMetadata = revealedMetadata[''+tokenId];
+        if(tokenMetadata){
+          if(!dataModel.owners[address].modelParts){
+            dataModel.owners[address].modelParts = {};
+          }
+          let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
+          let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
+          if(part == 'Legs'){
+            part = 'Leg';
+          }
+          let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
+          if(!dataModel.owners[address].modelParts[model]){
+            dataModel.owners[address].modelParts[model] = {};
+          }
+          if(!dataModel.owners[address].modelParts[model][part]){
+            dataModel.owners[address].modelParts[model][part] = {};
+          }
+          if(!dataModel.owners[address].modelParts[model][part][style]){
+            dataModel.owners[address].modelParts[model][part][style] = 0;
+          }
+          dataModel.owners[address].modelParts[model][part][style]++;
+        }
+      })
+
+      revealedTokenIds.forEach((tokenId)=>{
+        let tokenMetadata = revealedMetadata[''+tokenId];
+        if(tokenMetadata){
+          let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
+          let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
+          if(part == 'Legs'){
+            part = 'Leg';
+          }
+          let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
+          if(!dataModel.owners[address].walletParts){
+            dataModel.owners[address].walletParts = {};
+          }
+          dataModel.owners[address].walletParts[tokenId] = {
+            tokenId,
+            model,
+            part,
+            style,
+            count: dataModel.owners[address].modelParts[model][part][style]
+          };
+        }
+      });
+    }catch(err){
+      console.log(err);
     }
-  })
-
-  revealedTokenIds.forEach((tokenId)=>{
-    let tokenMetadata = revealedMetadata[''+tokenId];
-    if(tokenMetadata){
-      let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
-      let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
-      if(part == 'Legs'){
-        part = 'Leg';
-      }
-      let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
-      if(!dataModel.owners[address].walletParts){
-        dataModel.owners[address].walletParts = {};
-      }
-      dataModel.owners[address].walletParts[tokenId] = {
-        tokenId,
-        model,
-        part,
-        style,
-        count: dataModel.owners[address].modelParts[model][part][style]
-      };
-    }
-  });
-
+  }
   // // Build the model part count map
   // dataModel.owners[address].walletParts.forEach((part)=>{
   //   if(!dataModel.owners[address].modelParts){
@@ -797,12 +865,12 @@ function highlightTotal(){
   cells1[cells1.length-1].style.backgroundColor = backgroundColor;
   cells1[cells1.length-1].style.color = color;
   cells1[cells1.length-1].style.fontWeight = 'bold';
-  var cells1a = table1.getElementsByTagName("td");
-  for (var i = 3; i < cells1a.length; i+=4) {
-    cells1a[i].style.backgroundColor = backgroundColor;
-    cells1a[i].style.color = color;
-    cells1a[i].style.fontWeight = 'bold';
-  }
+  // var cells1a = table1.getElementsByTagName("td");
+  // for (var i = 3; i < cells1a.length; i+=4) {
+  //   cells1a[i].style.backgroundColor = backgroundColor;
+  //   cells1a[i].style.color = color;
+  //   cells1a[i].style.fontWeight = 'bold';
+  // }
   
   var cells2 = table2.getElementsByTagName("tr");
   cells2[cells2.length-1].style.backgroundColor = backgroundColor;

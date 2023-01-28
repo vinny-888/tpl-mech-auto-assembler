@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=3.6">
-    <link rel="stylesheet" href="./css/owners.css?v=3.6">
+    <link rel="stylesheet" href="./css/main.css?v=3.7">
+    <link rel="stylesheet" href="./css/owners.css?v=3.7">
   </head>
   <body>
     <div class="header">
@@ -50,9 +50,9 @@
                     <thead>
                       <th>Model</th>
                       <th>Full</th>
-                      <th>Mixed</th>
+                      <!-- <th>Mixed</th> -->
                       <!-- <th>Partial</th> -->
-                      <th style="background-color: #181818; color: #71d0c6;">Total</th>
+                      <!-- <th style="background-color: #181818; color: #71d0c6;">Total</th> -->
                     </thead>
   
                     <tbody id="mech-counts">
@@ -115,6 +115,30 @@
             </div>
 
             <div class="col-md-12">
+              <div class="col-md-12">
+              <div class="borderDiv" style="margin-top: 8px;">
+                <h4> Full Style Mech Counts
+                  <button class="tooltipBtn" tip="Table showing completed mech counts for each style.">?</button>
+                  <div id="styleCountsTableToggle" class="toggle" onclick="toggleTable('styleCountsTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="styleCountsTable" class="table tableWide table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Style</th>
+                    <th>Completed</th>
+                  </thead>
+
+                  <tbody id="styleCounts">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            </div>
+            
+            <div class="col-md-12">
               <div id="prepare" style="margin-top: 16px;">
                 <button class="btn btn-primary" id="btn-query">
                   Load All 961 Wallets
@@ -156,7 +180,7 @@
                       <th>Behemoth</th>
                       <th>Lupis</th>
                       <th>Nexus</th>
-                      <th>Mixed</th>
+                      <!-- <th>Mixed</th> -->
                       <!-- <th>Mixed -Afrglw</th> -->
                       <!-- <th>Eng 2+ Match</th> -->
                       <th>Completed</th>
@@ -177,6 +201,13 @@
 
     <!-- We use simple <template> templating for the example -->
     <div id="templates" style="display: none">
+      <template id="template-style-counts">
+        <tr>
+          <td class="model"></td>
+          <td class="style"></td>
+          <td class="count"></td>
+        </tr>
+      </template>
       <template id="template-counts">
         <tr>
           <td class="row"></td>
@@ -195,7 +226,7 @@
           <td class="fullB"></td>
           <td class="fullL"></td>
           <td class="fullN"></td>
-          <td class="mixed"></td>
+          <!-- <td class="mixed"></td> -->
           <td class="completed"></td>
           <!-- <td class="mixed_no_afterglow"></td> -->
           <!-- <td class="partial"></td> -->
@@ -207,9 +238,9 @@
         <tr>
           <td class="model"></td>
           <td class="full"></td>
-          <td class="mixed"></td>
+          <!-- <td class="mixed"></td> -->
           <!-- <td class="mixed_no_afterglow"></td> -->
-          <td class="total"></td>
+          <!-- <td class="total"></td> -->
         </tr>
       </template>
       <template id="template-part-counts">
@@ -242,21 +273,21 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=3.7"></script>
     <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=2.3"></script>
     <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=2.3"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilderStats.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/data/stats_wallets.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/data/stats_data.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilderStats.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/data/stats_wallets.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/data/stats_data.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=3.7"></script>
     <script type="text/javascript" src="./js/data/metadata.js?v=5.3"></script>
-    <script type="text/javascript" src="./js/data/totals.js?v=3.6"></script>
-    <script type="text/javascript" src="./js/stats.js?v=3.6"></script>
+    <script type="text/javascript" src="./js/data/totals.js?v=3.7"></script>
+    <script type="text/javascript" src="./js/stats.js?v=3.7"></script>
   </body>
 </html>
