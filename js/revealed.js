@@ -200,6 +200,11 @@ async function fetchAccountData() {
     let totalSupply = await getRevealedMechTotalSupply();
 
     let revealedTokenIds = await getRevealedMechTokenBalance(address, totalSupply);
+
+    if(!revealedTokenIds){
+      alert('Web3 Network Timeout! Try again');
+      return;
+    }
     revealedTokenIds.forEach((tokenId)=>{
       // let metadata = await getRevealedMechTokenMetadata(tokenId);
       // let model = BODY_PART_MODEL_MAPPING[metadata.model];

@@ -501,7 +501,7 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/961';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/1133';
 }
 
 function buildStyleCountsTable(){
