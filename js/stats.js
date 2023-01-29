@@ -5,6 +5,7 @@ let allData = {};
 let fullMechTotals = {};
 let fullMechTotalsCounts = {};
 let stylePartCounts = {};
+let stylePartStyleCounts = {};
 let totalFullMechs = 0;
 let totalMixedMechs = 0;
 let totalMixedMechsNoAfterglow = 0;
@@ -32,6 +33,7 @@ window.addEventListener('load', async () => {
   document.querySelector("#btn-query").addEventListener("click", refreshAccountData);
   countParts();
   buildStylePartCountsTable();
+  buildStylePartStyleCountsTable();
   if(loadCached){
     countMechModels();
   }
@@ -51,6 +53,7 @@ function countParts(){
 
       if(!stylePartCounts[model]){
         stylePartCounts[model] = {};
+        stylePartStyleCounts[model] = {};
       }
       if(!stylePartCounts[model][part]){
         stylePartCounts[model][part] = {};
@@ -58,7 +61,11 @@ function countParts(){
       if(!stylePartCounts[model][part][style]){
         stylePartCounts[model][part][style] = 0;
       }
+      if(!stylePartStyleCounts[model][style]){
+        stylePartStyleCounts[model][style] = 0;
+      }
       stylePartCounts[model][part][style]++;
+      stylePartStyleCounts[model][style]++;
     }
   });
 }
@@ -253,11 +260,11 @@ function countMechModels(){
     // let fullMixedStyleMechs = data.fullMixedStyleMechs;
     let modelParts = data.modelParts;
 
-    RARITY_ORDER.reverse().forEach((model)=>{
+    RARITY_ORDER.slice().reverse().forEach((model)=>{
       if(!totalFullMechs[model]){
         totalFullMechs[model] = 0;
       }
-      STYLE_ORDER[model].reverse().forEach((style)=>{
+      STYLE_ORDER[model].slice().reverse().forEach((style)=>{
         totalFullMechs[model] += (fullMechs[model] && fullMechs[model][style] ? fullMechs[model][style].length : 0);
         if(!fullMechTotalsCounts[model]){
           fullMechTotalsCounts[model] = {};
@@ -533,7 +540,7 @@ function updateTable(row, address, cachedData){
 }
 
 function buildStyleCountsTable(){
-  RARITY_ORDER.reverse().forEach((model)=>{
+  RARITY_ORDER.slice().reverse().forEach((model)=>{
     STYLE_ORDER[model].forEach((style)=>{
       let mechCount = fullMechTotalsCounts[model][style];
       
@@ -549,10 +556,10 @@ function buildStyleCountsTable(){
 function buildStylePartCountsTable(){
   let revealed = 27849;
   let total = 69164;
-  let ratio = 1 / (27849/69164);
-  RARITY_ORDER.reverse().forEach((model)=>{
+  let ratio = 1 / (revealed/total);
+  RARITY_ORDER.forEach((model)=>{
     PARTS_ORDER.forEach((part)=>{
-      STYLE_ORDER[model].forEach((style)=>{
+      STYLE_ORDER[model].slice().reverse().forEach((style)=>{
         let partCount = stylePartCounts[model][part][style];
         
         const clone = templateStylePartCounts.content.cloneNode(true);
@@ -560,11 +567,33 @@ function buildStylePartCountsTable(){
         clone.querySelector(".part").textContent = part;
         clone.querySelector(".style").textContent = style;
         clone.querySelector(".count").textContent = partCount;
-        clone.querySelector(".estimated").textContent = (ratio * partCount).toFixed();
-        clone.querySelector(".estimated_rarity").textContent = (((ratio * partCount)/total)*100).toFixed(2) + '%';
+        // clone.querySelector(".estimated").textContent = (ratio * partCount).toFixed();
+        // clone.querySelector(".estimated_rarity").textContent = (((ratio * partCount)/total)*100).toFixed(2) + '%';
         stylePartCountsContainer.appendChild(clone);
       });     
     });
+  });
+}
+
+function buildStylePartStyleCountsTable(){
+  let revealed = 27849;
+  let total = 69164;
+  let ratio = 1 / (revealed/total);
+  RARITY_ORDER.forEach((model)=>{
+    // PARTS_ORDER.forEach((part)=>{
+      STYLE_ORDER[model].slice().reverse().forEach((style)=>{
+        let partCount = stylePartStyleCounts[model][style];
+        
+        const clone = templateStylePartStyleCounts.content.cloneNode(true);
+        clone.querySelector(".model").textContent = model;
+        // clone.querySelector(".part").textContent = part;
+        clone.querySelector(".style").textContent = style;
+        clone.querySelector(".count").textContent = partCount;
+        clone.querySelector(".estimated").textContent = (ratio * partCount).toFixed();
+        clone.querySelector(".estimated_rarity").textContent = (((ratio * partCount)/total)*100).toFixed(2) + '%';
+        stylePartStyleCountsContainer.appendChild(clone);
+      });     
+    // });
   });
 }
 

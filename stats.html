@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=4.0">
-    <link rel="stylesheet" href="./css/owners.css?v=4.0">
+    <link rel="stylesheet" href="./css/main.css?v=4.1">
+    <link rel="stylesheet" href="./css/owners.css?v=4.1">
   </head>
   <body>
     <div class="header">
@@ -112,7 +112,7 @@
 
 
             <div class="col-md-6">
-              <div class="borderDiv" style="max-height: 342px;overflow: scroll;">
+              <div class="borderDiv" style="max-height: 226px;overflow: scroll;">
                 <h4> Full Style Mech Counts
                   <button class="tooltipBtn" tip="Table showing completed mech counts for each style.">?</button>
                   <div id="styleCountsTableToggle" class="toggle" onclick="toggleTable('styleCountsTable')">
@@ -132,7 +132,29 @@
                 </table>
               </div>
 
-              <div class="borderDiv" style="margin-top: 8px;max-height: 343px;overflow: scroll;">
+              <div class="borderDiv" style="margin-top: 8px;max-height: 225px;overflow: scroll;">
+                <h4> Style Counts
+                  <button class="tooltipBtn" tip="Table showing part counts for each style.">?</button>
+                  <div id="stylePartStyleCountsTableToggle" class="toggle" onclick="toggleTable('stylePartStyleCountsTable')">
+                    &#8212;
+                  </div>
+                </h4>
+
+                <table id="stylePartStyleCountsTable" class="table tableWide table-full">
+                  <thead>
+                    <th>Model</th>
+                    <th>Style</th>
+                    <th>Count</th>
+                    <th>Estimated Total</th>
+                    <th>Estimated Rarity</th>
+                  </thead>
+
+                  <tbody id="stylePartStyleCounts">
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="borderDiv" style="margin-top: 8px;max-height: 226px;overflow: scroll;">
                 <h4> Part Counts
                   <button class="tooltipBtn" tip="Table showing part counts for each style.">?</button>
                   <div id="stylePartCountsTableToggle" class="toggle" onclick="toggleTable('stylePartCountsTable')">
@@ -146,8 +168,8 @@
                     <th>Part</th>
                     <th>Style</th>
                     <th>Count</th>
-                    <th>Estimated Total</th>
-                    <th>Estimated Rarity</th>
+                    <!-- <th>Estimated Total</th>
+                    <th>Estimated Rarity</th> -->
                   </thead>
 
                   <tbody id="stylePartCounts">
@@ -227,14 +249,23 @@
           <td class="count"></td>
         </tr>
       </template>
+      <template id="template-style-part-style-counts">
+        <tr>
+          <td class="model"></td>
+          <td class="style"></td>
+          <td class="count"></td>
+          <td class="estimated"></td>
+          <td class="estimated_rarity"></td>
+        </tr>
+      </template>
       <template id="template-style-part-counts">
         <tr>
           <td class="model"></td>
           <td class="part"></td>
           <td class="style"></td>
           <td class="count"></td>
-          <td class="estimated"></td>
-          <td class="estimated_rarity"></td>
+          <!-- <td class="estimated"></td>
+          <td class="estimated_rarity"></td> -->
         </tr>
       </template>
       <template id="template-counts">
@@ -302,21 +333,21 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilderStats.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/data/stats_wallets.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/data/stats_data.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/data/totals.js?v=4.0"></script>
-    <script type="text/javascript" src="./js/stats.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilderStats.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/data/stats_wallets.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/data/stats_data.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/data/totals.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/stats.js?v=4.1"></script>
   </body>
 </html>

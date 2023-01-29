@@ -567,7 +567,7 @@ function buildPartTable(){
     if(!fullMechs[model]){
       fullMechs[model] = {};
     }
-    STYLE_ORDER[model].reverse().forEach((style) => {
+    STYLE_ORDER[model].slice().reverse().forEach((style) => {
       let mech = modelStyleParts[model][style];
       buildFullMechTable(model, style, mech);
       // PARTS_ORDER.forEach((part)=>{

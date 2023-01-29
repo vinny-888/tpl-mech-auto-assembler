@@ -284,6 +284,9 @@ const styleCountsContainer = document.querySelector("#styleCounts");
 const templateStylePartCounts = document.querySelector("#template-style-part-counts");
 const stylePartCountsContainer = document.querySelector("#stylePartCounts");
 
+const templateStylePartStyleCounts = document.querySelector("#template-style-part-style-counts");
+const stylePartStyleCountsContainer = document.querySelector("#stylePartStyleCounts");
+
 const templateMechCounts = document.querySelector("#template-mech-counts");
 const mechCountsContainer = document.querySelector("#mech-counts");
 
