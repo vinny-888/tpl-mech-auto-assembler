@@ -8,6 +8,7 @@ let modelPartCounts = {};
 let stylePartCounts = {};
 let stylePartStyleCounts = {};
 let stylePartStyleEngineCounts = {};
+let modelCounts = {};
 let totalFullMechs = 0;
 let totalMixedMechs = 0;
 let totalMixedMechsNoAfterglow = 0;
@@ -58,6 +59,7 @@ function countParts(){
         stylePartStyleCounts[model] = {};
         stylePartStyleEngineCounts[model] = {};
         modelPartCounts[model] = {};
+        modelCounts[model] = 0;
       }
       if(!stylePartCounts[model][part]){
         stylePartCounts[model][part] = {};
@@ -73,6 +75,7 @@ function countParts(){
       stylePartCounts[model][part][style]++;
       stylePartStyleCounts[model][style]++;
       modelPartCounts[model][part]++;
+      modelCounts[model]++;
       if(part == 'Engine'){
         stylePartStyleEngineCounts[model][style]++;
       }
@@ -615,20 +618,43 @@ function buildStylePartStyleCountsTable(){
   RARITY_ORDER.forEach((model)=>{
     // PARTS_ORDER.forEach((part)=>{
       STYLE_ORDER[model].slice().reverse().forEach((style)=>{
-        let engineRevealedTotal = engineStyleCounts[model];
-        let engineTotal = engineTotals[model];
-        let engineRatio = 1 / (engineRevealedTotal/engineTotal);
-
         let partCount = stylePartStyleCounts[model][style];
-        let engineCount = stylePartStyleEngineCounts[model][style];
-        
+        let modelCount = modelCounts[model];
+
+        let ratio = partCount/modelCount;
+
+        let engineCount = engineTotals[model];
+
+        // let estEngineCount = Math.floor(ratio * engineCount);
+        let estEngineCount = ratio * engineCount;
+
+        let rarity = estEngineCount / totalEngines;
+        // let engineRevealedTotal = engineStyleCounts[model];
+        // let engineTotal = engineTotals[model];
+        // let engineRatio = 1 / (engineRevealedTotal/engineTotal);
+
+        // let partCount = stylePartStyleCounts[model][style];
+        let enginePartCount = stylePartStyleEngineCounts[model][style];
+
+        // let estRarity = ((engineRatio * partCount)/total);
+
+        // let estCount = (estRarity*totalEngines);
+        // let newEngineRatio = (total/engineTotal) * estRarity;
+
+        // 0.0034*69000*(18/95)
+
+
+        //(4772/11498)*(256*0.34)
+        // let estCount = (revealedEngines/totalEngines)*(engineTotal*estRarity);
+        // let estCount = (engineTotal*estRarity*(total/totalEngines));
+
         const clone = templateStylePartStyleCounts.content.cloneNode(true);
         clone.querySelector(".model").textContent = model;
         // clone.querySelector(".part").textContent = part;
         clone.querySelector(".style").textContent = style;
-        clone.querySelector(".count").textContent = engineCount;
-        clone.querySelector(".estimated").textContent = (((engineRatio * engineCount))).toFixed();
-        clone.querySelector(".estimated_rarity").textContent = (((engineRatio * engineCount)/totalEngines)*100).toFixed(2) + '%';
+        clone.querySelector(".count").textContent = enginePartCount;
+        clone.querySelector(".estimated").textContent = (estEngineCount).toFixed();
+        clone.querySelector(".estimated_rarity").textContent = (rarity*100).toFixed(2) + '%';
         stylePartStyleCountsContainer.appendChild(clone);
       });     
     // });
