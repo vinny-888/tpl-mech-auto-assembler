@@ -7,6 +7,7 @@ let fullMechTotalsCounts = {};
 let modelPartCounts = {};
 let stylePartCounts = {};
 let stylePartStyleCounts = {};
+let stylePartStyleEngineCounts = {};
 let totalFullMechs = 0;
 let totalMixedMechs = 0;
 let totalMixedMechsNoAfterglow = 0;
@@ -55,6 +56,7 @@ function countParts(){
       if(!stylePartCounts[model]){
         stylePartCounts[model] = {};
         stylePartStyleCounts[model] = {};
+        stylePartStyleEngineCounts[model] = {};
         modelPartCounts[model] = {};
       }
       if(!stylePartCounts[model][part]){
@@ -66,10 +68,14 @@ function countParts(){
       }
       if(!stylePartStyleCounts[model][style]){
         stylePartStyleCounts[model][style] = 0;
+        stylePartStyleEngineCounts[model][style] = 0;
       }
       stylePartCounts[model][part][style]++;
       stylePartStyleCounts[model][style]++;
       modelPartCounts[model][part]++;
+      if(part == 'Engine'){
+        stylePartStyleEngineCounts[model][style]++;
+      }
     }
   });
 }
@@ -583,17 +589,22 @@ function buildStylePartStyleCountsTable(){
   let revealed = 27849;
   let total = 69164;
   let ratio = 1 / (revealed/total);
+
+  let revealedEngines = 4772;
+  let totalEngines = 11498;
+
   RARITY_ORDER.forEach((model)=>{
     // PARTS_ORDER.forEach((part)=>{
       STYLE_ORDER[model].slice().reverse().forEach((style)=>{
         let partCount = stylePartStyleCounts[model][style];
+        let engineCount = stylePartStyleEngineCounts[model][style];
         
         const clone = templateStylePartStyleCounts.content.cloneNode(true);
         clone.querySelector(".model").textContent = model;
         // clone.querySelector(".part").textContent = part;
         clone.querySelector(".style").textContent = style;
-        clone.querySelector(".count").textContent = partCount;
-        clone.querySelector(".estimated").textContent = (ratio * partCount).toFixed();
+        clone.querySelector(".count").textContent = engineCount;
+        clone.querySelector(".estimated").textContent = (((ratio * partCount)/total) * totalEngines).toFixed();
         clone.querySelector(".estimated_rarity").textContent = (((ratio * partCount)/total)*100).toFixed(2) + '%';
         stylePartStyleCountsContainer.appendChild(clone);
       });     
