@@ -264,7 +264,7 @@ function countMechModels(){
     // let fullMixedStyleMechs = data.fullMixedStyleMechs;
     let modelParts = data.modelParts;
 
-    RARITY_ORDER.slice().reverse().forEach((model)=>{
+    RARITY_ORDER.forEach((model)=>{
       if(!totalFullMechs[model]){
         totalFullMechs[model] = 0;
       }
@@ -544,8 +544,8 @@ function updateTable(row, address, cachedData){
 }
 
 function buildStyleCountsTable(){
-  RARITY_ORDER.slice().reverse().forEach((model)=>{
-    STYLE_ORDER[model].forEach((style)=>{
+  RARITY_ORDER.forEach((model)=>{
+    STYLE_ORDER[model].slice().reverse().forEach((style)=>{
       let mechCount = fullMechTotalsCounts[model][style];
       
       const clone = templateStyleCounts.content.cloneNode(true);
