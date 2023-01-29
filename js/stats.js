@@ -547,6 +547,9 @@ function buildStyleCountsTable(){
 }
 
 function buildStylePartCountsTable(){
+  let revealed = 27849;
+  let total = 69164;
+  let ratio = 1 / (27849/69164);
   RARITY_ORDER.reverse().forEach((model)=>{
     PARTS_ORDER.forEach((part)=>{
       STYLE_ORDER[model].forEach((style)=>{
@@ -557,6 +560,8 @@ function buildStylePartCountsTable(){
         clone.querySelector(".part").textContent = part;
         clone.querySelector(".style").textContent = style;
         clone.querySelector(".count").textContent = partCount;
+        clone.querySelector(".estimated").textContent = (ratio * partCount).toFixed();
+        clone.querySelector(".estimated_rarity").textContent = (((ratio * partCount)/total)*100).toFixed(2) + '%';
         stylePartCountsContainer.appendChild(clone);
       });     
     });

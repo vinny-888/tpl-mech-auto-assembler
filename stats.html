@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=3.9">
-    <link rel="stylesheet" href="./css/owners.css?v=3.9">
+    <link rel="stylesheet" href="./css/main.css?v=4.0">
+    <link rel="stylesheet" href="./css/owners.css?v=4.0">
   </head>
   <body>
     <div class="header">
@@ -34,9 +34,10 @@
           <div id="connected" style="display: none">
             <div class="col-md-12">
               <div style="margin-left: 4px;margin-top:-8px;margin-bottom: 8px;">
-              <span class="important">Snapshot Jan 28th 2023</span>
-
-              </div>
+                <span class="important">Snapshot Jan 28th 2023 - Up to TokenID 27849 <span style="color: #CC3333;">(These stats are for the 27,849 revealed tokens out of 69,164 total parts. Stats can and will change as more parts are revealed.)</span></span>
+    
+                </div>
+              <div>
               <div class="col-md-6">
                 <div class="borderDiv">
                   <h4> Mech Wallet Stats 
@@ -145,6 +146,8 @@
                     <th>Part</th>
                     <th>Style</th>
                     <th>Count</th>
+                    <th>Estimated Total</th>
+                    <th>Estimated Rarity</th>
                   </thead>
 
                   <tbody id="stylePartCounts">
@@ -230,6 +233,8 @@
           <td class="part"></td>
           <td class="style"></td>
           <td class="count"></td>
+          <td class="estimated"></td>
+          <td class="estimated_rarity"></td>
         </tr>
       </template>
       <template id="template-counts">
@@ -297,21 +302,21 @@
     </div>
 
     <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/util/constants.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/ui/tables.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/model/model.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/mech/mechBuilderStats.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/data/stats_wallets.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/data/stats_data.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/web3/wallet.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/data/totals.js?v=3.9"></script>
-    <script type="text/javascript" src="./js/stats.js?v=3.9"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC1155.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/web3/abi/ERC721.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/web3/abi/wrapper.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/web3/abi/RevealedMechParts.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/ui/tables.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/model/model.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/mech/mechBuilderStats.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/data/stats_wallets.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/data/stats_data.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/web3/wallet.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/data/totals.js?v=4.0"></script>
+    <script type="text/javascript" src="./js/stats.js?v=4.0"></script>
   </body>
 </html>
