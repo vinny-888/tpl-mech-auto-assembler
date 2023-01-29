@@ -590,12 +590,35 @@ function buildStylePartStyleCountsTable(){
   let total = 69164;
   let ratio = 1 / (revealed/total);
 
+  let engineTotals = {
+    Nexus:	256,
+    Lupis:	2127,
+    Behemoth:	1273,
+    Ravager:	3001,
+    Enforcer:	4841
+  };
+
+
   let revealedEngines = 4772;
   let totalEngines = 11498;
+
+  let engineStyleCounts = {};
+  RARITY_ORDER.forEach((model)=>{
+    STYLE_ORDER[model].slice().reverse().forEach((style)=>{
+      if(!engineStyleCounts[model]){
+        engineStyleCounts[model] = 0;
+      }
+      engineStyleCounts[model] += stylePartStyleEngineCounts[model][style];
+    });
+  });
 
   RARITY_ORDER.forEach((model)=>{
     // PARTS_ORDER.forEach((part)=>{
       STYLE_ORDER[model].slice().reverse().forEach((style)=>{
+        let engineRevealedTotal = engineStyleCounts[model];
+        let engineTotal = engineTotals[model];
+        let engineRatio = 1 / (engineRevealedTotal/engineTotal);
+
         let partCount = stylePartStyleCounts[model][style];
         let engineCount = stylePartStyleEngineCounts[model][style];
         
@@ -604,8 +627,8 @@ function buildStylePartStyleCountsTable(){
         // clone.querySelector(".part").textContent = part;
         clone.querySelector(".style").textContent = style;
         clone.querySelector(".count").textContent = engineCount;
-        clone.querySelector(".estimated").textContent = (((ratio * partCount)/total) * totalEngines).toFixed();
-        clone.querySelector(".estimated_rarity").textContent = (((ratio * partCount)/total)*100).toFixed(2) + '%';
+        clone.querySelector(".estimated").textContent = (((engineRatio * engineCount))).toFixed();
+        clone.querySelector(".estimated_rarity").textContent = (((engineRatio * engineCount)/totalEngines)*100).toFixed(2) + '%';
         stylePartStyleCountsContainer.appendChild(clone);
       });     
     // });

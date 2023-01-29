@@ -18,7 +18,7 @@ let wrapperContract = null;
 function initContracts(){
     if(typeof web3 !== 'undefined'){
         console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
-        const web3 = new Web3(provider);
+        const web3 = new Web3(provider, {timeout: 20000});
         mechContract = new web3.eth.Contract(balanceOfABI, mechTokenContract);
         mechRevealedContract = new web3.eth.Contract(revealedABI, mechRevealedTokenContract);
         afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
@@ -30,7 +30,7 @@ function initContracts(){
 function initLPContracts(){
     if(typeof web3 !== 'undefined'){
         console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
-        const web3 = new Web3(provider);
+        const web3 = new Web3(provider, {timeout: 20000});
         wrapperContract = new web3.eth.Contract(tokenWrapperABI, wrapperTokenContract);
     }
 }
