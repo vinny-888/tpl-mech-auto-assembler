@@ -4,6 +4,7 @@ let wallets = {};
 let allData = {};
 let fullMechTotals = {};
 let fullMechTotalsCounts = {};
+let stylePartCounts = {};
 let totalFullMechs = 0;
 let totalMixedMechs = 0;
 let totalMixedMechsNoAfterglow = 0;
@@ -29,11 +30,38 @@ window.addEventListener('load', async () => {
     loadTop100();
   }
   document.querySelector("#btn-query").addEventListener("click", refreshAccountData);
+  countParts();
+  buildStylePartCountsTable();
   if(loadCached){
     countMechModels();
   }
   displayTables();
 });
+
+function countParts(){
+  Object.keys(revealedMetadata).forEach((tokenId)=>{
+    let tokenMetadata = revealedMetadata[''+tokenId];
+    if(tokenMetadata){
+      let model = tokenMetadata.attributes.find((att)=> att.trait_type == 'Model').value;
+      let part = tokenMetadata.attributes.find((att)=> att.trait_type == 'Part').value;
+      if(part == 'Legs'){
+        part = 'Leg';
+      }
+      let style = tokenMetadata.attributes.find((att)=> att.trait_type == 'Style').value;
+
+      if(!stylePartCounts[model]){
+        stylePartCounts[model] = {};
+      }
+      if(!stylePartCounts[model][part]){
+        stylePartCounts[model][part] = {};
+      }
+      if(!stylePartCounts[model][part][style]){
+        stylePartCounts[model][part][style] = 0;
+      }
+      stylePartCounts[model][part][style]++;
+    }
+  });
+}
 
 function getSortedKeysTotalParts(obj) {
   var keys = Object.keys(obj);
@@ -518,6 +546,23 @@ function buildStyleCountsTable(){
   });
 }
 
+function buildStylePartCountsTable(){
+  RARITY_ORDER.reverse().forEach((model)=>{
+    PARTS_ORDER.forEach((part)=>{
+      STYLE_ORDER[model].forEach((style)=>{
+        let partCount = stylePartCounts[model][part][style];
+        
+        const clone = templateStylePartCounts.content.cloneNode(true);
+        clone.querySelector(".model").textContent = model;
+        clone.querySelector(".part").textContent = part;
+        clone.querySelector(".style").textContent = style;
+        clone.querySelector(".count").textContent = partCount;
+        stylePartCountsContainer.appendChild(clone);
+      });     
+    });
+  });
+}
+
 function buildPartCountsTable(row, 
   address, 
   totalParts, 
@@ -781,6 +826,7 @@ async function fetchAccountData(address, totalSupply) {
           };
         }
       });
+
     }catch(err){
       console.log(err);
     }

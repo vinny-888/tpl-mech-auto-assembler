@@ -294,3 +294,17 @@ a {
 a:focus, a:hover {
     color: #ffed69;
 }
+
+thead th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 0;
+
+    background-color: #1f3331;
+}
+
+tbody th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+}
