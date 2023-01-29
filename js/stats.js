@@ -4,6 +4,7 @@ let wallets = {};
 let allData = {};
 let fullMechTotals = {};
 let fullMechTotalsCounts = {};
+let modelPartCounts = {};
 let stylePartCounts = {};
 let stylePartStyleCounts = {};
 let totalFullMechs = 0;
@@ -54,9 +55,11 @@ function countParts(){
       if(!stylePartCounts[model]){
         stylePartCounts[model] = {};
         stylePartStyleCounts[model] = {};
+        modelPartCounts[model] = {};
       }
       if(!stylePartCounts[model][part]){
         stylePartCounts[model][part] = {};
+        modelPartCounts[model][part] = 0;
       }
       if(!stylePartCounts[model][part][style]){
         stylePartCounts[model][part][style] = 0;
@@ -66,6 +69,7 @@ function countParts(){
       }
       stylePartCounts[model][part][style]++;
       stylePartStyleCounts[model][style]++;
+      modelPartCounts[model][part]++;
     }
   });
 }
@@ -296,19 +300,19 @@ function countMechModels(){
     //   });
     // });
 
-    Object.keys(modelParts).forEach((model)=>{
-      if(!totalParts[model]){
-        totalParts[model] = {};
-      }
-      PARTS_ORDER.forEach((part)=>{
-        STYLE_ORDER[model].forEach((style)=>{
-          if(!totalParts[model][part]){
-            totalParts[model][part] = 0;
-          }
-          totalParts[model][part] += (modelParts[model][part] && modelParts[model][part][style] ? modelParts[model][part][style] : 0);
-        })
-      })
-    });
+    // Object.keys(modelParts).forEach((model)=>{
+    //   if(!totalParts[model]){
+    //     totalParts[model] = {};
+    //   }
+    //   PARTS_ORDER.forEach((part)=>{
+    //     STYLE_ORDER[model].forEach((style)=>{
+    //       if(!totalParts[model][part]){
+    //         totalParts[model][part] = 0;
+    //       }
+    //       totalParts[model][part] += (modelParts[model][part] && modelParts[model][part][style] ? modelParts[model][part][style] : 0);
+    //     })
+    //   })
+    // });
 
     // if(data.address == '0xa6B750fbb80FFDB9e77458466562a4c5627877ba'){
     //   RARITY_ORDER.forEach((model)=>{
@@ -321,14 +325,14 @@ function countMechModels(){
   countTotalsAndBuildTableCached();
 
   RARITY_ORDER.forEach((model)=>{
-    buildUnclaimedPartCountsTotalTable(totalParts, model);
+    buildUnclaimedPartCountsTotalTable(modelPartCounts, model);
   });
-  buildTotalUnclaimedPartCountsTotalTable(totalParts);
+  buildTotalUnclaimedPartCountsTotalTable(modelPartCounts);
 
   console.log('totalFullMechs', totalFullMechs);
   console.log('totalFullMixedStyleMechs', totalFullMixedStyleMechs);
   // console.log('totalMixedMechsNoAfterglow', totalMixedMechsNoAfterglow);
-  console.log('totalParts', totalParts);
+  console.log('modelPartCounts', modelPartCounts);
 
   RARITY_ORDER.forEach((model)=>{
     buildMechCountsTable(totalFullMechs, totalFullMixedStyleMechs, model);
