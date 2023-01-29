@@ -37,7 +37,7 @@
               <span class="important">Snapshot Jan 28th 2023</span>
 
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="borderDiv">
                   <h4> Mech Wallet Stats 
                     <button class="tooltipBtn" tip="Table showing completed mech counts for each model type based on wallet contents at time of snapshot.">?</button>
@@ -59,10 +59,8 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
-
-              <div class="col-md-4">
-                <div class="borderDiv">
+              
+                <div class="borderDiv" style="margin-top:8px;">
                   <h4> Total Mech Parts 
                     <button class="tooltipBtn" tip="Table showing total part counts for each model type including revealed and unclaimed parts.">?</button>
                     <div id="countsTableToggle" class="toggle" onclick="toggleTable('partCountsTable')">
@@ -85,10 +83,8 @@
                     </tbody>
                   </table>
                 </div>
-              </div>
 
-              <div class="col-md-4">
-                <div class="borderDiv">
+                <div class="borderDiv" style="margin-top:8px;">
                   <h4> Revealed Mech Parts 
                     <button class="tooltipBtn" tip="Table showing revealed part counts for each model type.">?</button>
                     <div id="countsTableToggle" class="toggle" onclick="toggleTable('unclaimedPartCountsTable')">
@@ -112,11 +108,11 @@
                   </table>
                 </div>
               </div>
-            </div>
 
-            <div class="col-md-12">
-              <div class="col-md-12">
-              <div class="borderDiv" style="margin-top: 8px;">
+
+            <div class="col-md-6">
+              <!-- <div class="col-md-12"> -->
+              <div class="borderDiv" style="max-height: 693px;overflow: scroll;">
                 <h4> Full Style Mech Counts
                   <button class="tooltipBtn" tip="Table showing completed mech counts for each style.">?</button>
                   <div id="styleCountsTableToggle" class="toggle" onclick="toggleTable('styleCountsTable')">
@@ -135,7 +131,7 @@
                   </tbody>
                 </table>
               </div>
-            </div>
+            <!-- </div> -->
             </div>
             
             <div class="col-md-12">
