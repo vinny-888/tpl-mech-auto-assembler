@@ -4,6 +4,7 @@ let mechs = [];
 function init() {
   initTooltip();
   createMetadataLookup();
+  loadParams();
 }
 
 window.addEventListener('load', async () => {
@@ -13,6 +14,38 @@ window.addEventListener('load', async () => {
   updatePreview();
   loadMechs();
 });
+
+function setParams(engine, head, body, legs, left_arm, right_arm){
+  window.history.pushState("", "", window.location.href.split('?')[0] + '?engine=' + engine + '&' + 'head=' + head + '&' + 'body=' + body + '&' + 'legs=' + legs + '&' + 'left_arm=' + left_arm + '&' + 'right_arm=' + right_arm);
+}
+
+function loadParams(){
+  var url = new URL(window.location);
+  var engine = url.searchParams.get("engine");
+  var head = url.searchParams.get("head");
+  var body = url.searchParams.get("body");
+  var legs = url.searchParams.get("legs");
+  var left_arm = url.searchParams.get("left_arm");
+  var right_arm = url.searchParams.get("right_arm");
+  if(engine){
+    document.getElementById('engine_style').value = engine;
+  }
+  if(head){
+    document.getElementById('head_style').value = head;
+  }
+  if(body){
+    document.getElementById('body_style').value = body;
+  }
+  if(legs){
+    document.getElementById('legs_style').value = legs;
+  }
+  if(left_arm){
+    document.getElementById('left_arm_style').value = left_arm;
+  }
+  if(right_arm){
+    document.getElementById('right_arm_style').value = right_arm;
+  }
+}
 
 function loadMechs(){
   try{
@@ -36,7 +69,7 @@ function showMech(index){
   document.getElementById('legs_style').value = mech.legs;
   document.getElementById('left_arm_style').value = mech.left_arm;
   document.getElementById('right_arm_style').value = mech.right_arm;
-  
+
   updatePreview();
 }
 
@@ -158,9 +191,18 @@ function updatePreview(){
   let left_arm_style = left_arm.value;
   let right_arm_style = right_arm.value;
 
+  setParams(engine_style, head_style, body_style, legs_style, left_arm_style, right_arm_style);
+
   let enduranceTotal = 0;
   let speedTotal = 0;
   let powerTotal = 0;
+
+  let engineFound = false;
+  let headFound = false;
+  let bodyFound = false;
+  let legsFound = false;
+  let leftArmFound = false;
+  let rightArmFound = false;
   Object.keys(meta_parts).forEach((key, index)=>{
     let metadata = meta_parts[key];
     let model = metadata.find((att)=> att.trait_type == 'Model').value;
@@ -170,15 +212,45 @@ function updatePreview(){
     let speed = metadata.find((att)=> att.trait_type == 'Speed').value;
     let power = metadata.find((att)=> att.trait_type == 'Power').value;
 
-    if((part == 'Engine' && engine_style == style) || 
-      (part == 'Head' && head_style == style) ||
-      (part == 'Body' && body_style == style) ||
-      (part == 'Legs' && legs_style == style) ||
-      (part == 'Arm' && left_arm_style == style) ||
-      (part == 'Arm' && right_arm_style == style)){
+    if(!engineFound && part == 'Engine' && engine_style == style){
+        enduranceTotal+=endurance;
+        speedTotal+=speed;
+        powerTotal+=power;
+        engineFound = true;
+    }
+
+    if(!headFound && part == 'Head' && head_style == style){
+        enduranceTotal+=endurance;
+        speedTotal+=speed;
+        powerTotal+=power;
+        headFound = true;
+    }
+
+    if(!bodyFound && part == 'Body' && body_style == style){
+        enduranceTotal+=endurance;
+        speedTotal+=speed;
+        powerTotal+=power;
+        bodyFound = true;
+    }
+
+    if(!legsFound && part == 'Legs' && legs_style == style){
+        enduranceTotal+=endurance;
+        speedTotal+=speed;
+        powerTotal+=power;
+        legsFound = true;
+    }
+
+    if(!leftArmFound && part == 'Arm' && left_arm_style == style){
       enduranceTotal+=endurance;
       speedTotal+=speed;
       powerTotal+=power;
+      leftArmFound = true;
+    }
+    if(!rightArmFound && part == 'Arm' && right_arm_style == style){
+      enduranceTotal+=endurance;
+      speedTotal+=speed;
+      powerTotal+=power;
+      rightArmFound = true;
     }
   });
 
