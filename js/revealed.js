@@ -9,7 +9,7 @@ function init() {
   initTooltip();
   createMetadataLookup();
 
-  for(let i=1; i<=27849; i++){
+  for(let i=1; i<=29130; i++){
     if(!revealedMetadata[''+i]){
       console.log('Missing Metadata:', i);
     }

@@ -433,7 +433,7 @@ function updateTable(row, address, cachedData){
           cachedData.fullBehemothMechsCount,
           cachedData.fullLupisMechsCount,
           cachedData.fullNexusMechsCount,
-          // cachedData.mixedMechsCount, 
+          cachedData.sameModelMechsCount, 
           // cachedData.mixedMechsNoAfterglowCount, 
           // cachedData.fullMixedStyleMechsCount, 
           // cachedData.mixedMechsPartialNoModelCount, 
@@ -452,6 +452,7 @@ function updateTable(row, address, cachedData){
 
       fullMechTotals[address] = fullMechs;
       
+      let sameModelMechs = buildSameModelMechsStyles(address, false, false, false);
       // let mixedMechsPartial = buildMixedMechsStyles(address, false, true, false);
       // Build *partial* mechs and show missing parts
       // let mixedMechsPartialNoModel = buildNoModelMixedMechsStyles(address, false, true, true);
@@ -493,7 +494,7 @@ function updateTable(row, address, cachedData){
       let fullNexusMechsCount = countMechsStyles(fullMechs, 'Nexus');
       // let mixedMechsCount = countMechs(mixedMechs);
       // let mixedMechsNoAfterglowCount = countMechs(mixedMechsNoAfterglow);
-      // let mixedMechsPartialCount = countMechs(mixedMechsPartial);
+      let sameModelMechsCount = countMechs(sameModelMechs);
       // let mixedMechsPartialNoModelCount = countMechs(mixedMechsPartialNoModel);
       totalFullMechs += fullMechsCount;
       // totalMixedMechs += mixedMechsCount;
@@ -511,7 +512,7 @@ function updateTable(row, address, cachedData){
         fullBehemothMechsCount,
         fullLupisMechsCount,
         fullNexusMechsCount,
-        // mixedMechsCount, 
+        sameModelMechsCount, 
         // mixedMechsNoAfterglowCount, 
         // fullMixedStyleMechsCount, 
         // mixedMechsPartialNoModelCount, 
@@ -529,7 +530,7 @@ function updateTable(row, address, cachedData){
           fullBehemothMechsCount,
           fullLupisMechsCount,
           fullNexusMechsCount,
-          // mixedMechsCount,
+          sameModelMechsCount,
           // mixedMechsNoAfterglowCount,
           // mixedMechsPartialCount,
           // mixedMechsPartialNoModelCount,
@@ -567,7 +568,7 @@ function buildStyleCountsTable(){
 }
 
 function buildStylePartCountsTable(){
-  let revealed = 27849;
+  let revealed = 29130;
   let total = 69164;
   let ratio = 1 / (revealed/total);
   RARITY_ORDER.forEach((model)=>{
@@ -589,7 +590,7 @@ function buildStylePartCountsTable(){
 }
 
 function buildStylePartStyleCountsTable(){
-  let revealed = 27849;
+  let revealed = 29130;
   let total = 69164;
   let ratio = 1 / (revealed/total);
 
@@ -672,6 +673,7 @@ function buildPartCountsTable(row,
   fullBehemothMechsCount,
   fullLupisMechsCount,
   fullNexusMechsCount,
+  sameModelMechsCount,
   // mixedMechsCount, 
   // mixedMechsNoAfterglowCount, 
   // mixedMechsCount, 
@@ -696,10 +698,10 @@ function buildPartCountsTable(row,
   clone.querySelector(".fullL").textContent = fullLupisMechsCount;
   clone.querySelector(".fullN").textContent = fullNexusMechsCount;
 
-  // clone.querySelector(".mixed").textContent = mixedMechsCount;
+  clone.querySelector(".mixed").textContent = sameModelMechsCount;
   // clone.querySelector(".mixed_no_afterglow").textContent = mixedMechsNoAfterglowCount;
   // clone.querySelector(".mixed").textContent = mixedMechsCount;
-  clone.querySelector(".completed").textContent = fullMechsCount;
+  clone.querySelector(".completed").textContent = fullMechsCount+sameModelMechsCount;
   // clone.querySelector(".partial").textContent = mixedMechsPartialNoModelCount;
   clone.querySelector(".unused").textContent = remainingParts;
   countsContainer.appendChild(clone);
