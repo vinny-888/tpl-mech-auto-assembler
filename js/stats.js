@@ -549,7 +549,7 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/1133';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/1203';
 }
 
 function buildStyleCountsTable(){

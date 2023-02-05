@@ -422,7 +422,7 @@ function updateTable(row, address, cachedData){
     highlightZeros();
     highlightTotal();
     displayTables();
-    progressDiv.innerHTML = ' - Loaded ' + row + '/4237';
+    progressDiv.innerHTML = ' - Loaded ' + row + '/4144';
 }
 
 function buildPartCountsTable(row, 
