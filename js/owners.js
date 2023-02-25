@@ -472,18 +472,18 @@ function buildMechCountsTable(fullMechs, mixedMechs, mixedMechsNoAfterglow, mode
   const clone = templateMechCounts.content.cloneNode(true);
   clone.querySelector(".model").textContent = model;
   if(model != 'Total'){
-    clone.querySelector(".full").textContent = fullMechs[model];
-    clone.querySelector(".mixed").textContent = mixedMechs[model];
-    clone.querySelector(".mixed_no_afterglow").textContent = mixedMechsNoAfterglow[model];
-    clone.querySelector(".total").textContent = fullMechs[model]+mixedMechs[model]+ mixedMechsNoAfterglow[model];
+    clone.querySelector(".full").textContent = fullMechs[model] ? fullMechs[model] : 0;
+    clone.querySelector(".mixed").textContent = mixedMechs[model] ? mixedMechs[model] : 0;
+    clone.querySelector(".mixed_no_afterglow").textContent = mixedMechsNoAfterglow[model] ? mixedMechsNoAfterglow[model] : 0;
+    clone.querySelector(".total").textContent = (fullMechs[model] ? fullMechs[model] : 0)+ (mixedMechs[model] ? mixedMechs[model] : 0)+ (mixedMechsNoAfterglow[model] ? mixedMechsNoAfterglow[model] : 0);
   } else {
     let totalFull = 0;
     let totalMixed = 0;
     let totalMixedNoAfterglow = 0;
     RARITY_ORDER.forEach((model)=>{
-      totalFull += fullMechs[model];
-      totalMixed += mixedMechs[model];
-      totalMixedNoAfterglow += mixedMechsNoAfterglow[model];
+      totalFull += fullMechs[model] ? fullMechs[model] : 0;
+      totalMixed += mixedMechs[model] ? mixedMechs[model] : 0;
+      totalMixedNoAfterglow += mixedMechsNoAfterglow[model] ? mixedMechsNoAfterglow[model] : 0;
     });
     clone.querySelector(".full").textContent = totalFull;
     clone.querySelector(".mixed").textContent = totalMixed;

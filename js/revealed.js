@@ -206,8 +206,18 @@ async function fetchAccountData() {
   if(dataModel.useStyles){
     let totalSupply = await getRevealedMechTotalSupply();
 
-    let revealedTokenIds = await getRevealedMechTokenBalance(address, totalSupply);
-
+    let revealedTokenIds = null;
+    let retryCount = 0;
+    while(!revealedTokenIds){
+      retryCount++;
+      try{
+        revealedTokenIds = await getRevealedMechTokenBalance(address, totalSupply);
+      } catch(err){
+        console.log(err);
+        document.getElementById('retry').innerHTML = 'Retrying please wait... Retry '+retryCount;
+      }
+    }
+    document.getElementById('retry').innerHTML = '';
     if(!revealedTokenIds){
       alert('Web3 Network Timeout! Try again');
       return;
