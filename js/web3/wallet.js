@@ -95,13 +95,6 @@ async function getRevealedMechTokenBalance(address) {
     }
 }
 
-async function getRevealedMechTokenBalanceError(address) {
-    let result = await mechRevealedContract.methods.balanceOf(address).call();
-
-    // console.log('getMechTokenBalance: ',  PARTS_LIST[card-1].model + ' ' + PARTS_LIST[card-1].part, result);
-    return parseInt(result);
-}
-
 async function getRevealedMechTokenMetadata(tokenId) {
     try{
         let result = await mechRevealedContract.methods.getTokenExtra(tokenId).call();
@@ -136,6 +129,13 @@ async function getRevealedMechTokenBalance(address, totalSupply) {
         console.log('getRevealedMechTokenBalance Error:',e)
         return 0;
     }
+}
+
+async function getRevealedMechTokenBalanceError(address, totalSupply) {
+    let result = await wrapperContract.methods.getTokens(mechRevealedTokenContract, address, 1, totalSupply).call();
+
+    console.log('getRevealedMechTokenBalance: ', result);
+    return result;
 }
 
 async function getMechTokenBalanceBatch(addresses, cards) {
