@@ -95,6 +95,13 @@ async function getRevealedMechTokenBalance(address) {
     }
 }
 
+async function getRevealedMechTokenBalanceError(address) {
+    let result = await mechRevealedContract.methods.balanceOf(address).call();
+
+    // console.log('getMechTokenBalance: ',  PARTS_LIST[card-1].model + ' ' + PARTS_LIST[card-1].part, result);
+    return parseInt(result);
+}
+
 async function getRevealedMechTokenMetadata(tokenId) {
     try{
         let result = await mechRevealedContract.methods.getTokenExtra(tokenId).call();

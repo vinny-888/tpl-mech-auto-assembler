@@ -211,7 +211,7 @@ async function fetchAccountData() {
     while(!revealedTokenIds){
       retryCount++;
       try{
-        revealedTokenIds = await getRevealedMechTokenBalance(address, totalSupply);
+        revealedTokenIds = await getRevealedMechTokenBalanceError(address, totalSupply);
       } catch(err){
         console.log(err);
         document.getElementById('retry').innerHTML = 'Retrying please wait... Retry '+retryCount;
