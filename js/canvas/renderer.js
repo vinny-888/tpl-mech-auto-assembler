@@ -144,18 +144,6 @@ function render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsG
     // }
 }
 
-function getGradients(){
-    var numberOfItems = 8;
-    var rainbow = new Rainbow(); 
-    rainbow.setNumberRange(1, numberOfItems);
-    rainbow.setSpectrum('red', 'black');
-    var s = '';
-    for (var i = 1; i <= numberOfItems; i++) {
-        var hexColour = rainbow.colourAt(i);
-        s += '#' + hexColour + ', ';
-    }
-    return s;
-}
 function renderGlow(glow, afterglow_style){
 
     let canvasSmallGlow = document.getElementById("glow_small_canvas");
@@ -203,7 +191,10 @@ function renderGlow(glow, afterglow_style){
         console.log('Color set: ', colors[0]);
     }
     let colorRanges = 8;
-    let gradientColors = generateColor(colors[0], colors[1], colorRanges);
+    let gradientColors = [];
+    if(colors.length > 1) {
+        gradientColors = generateColor(colors[0], colors[1], colorRanges);
+    }
     let transparentColor = [255,255,255, 0];
 
     let aRgbArr = [];
@@ -685,13 +676,3 @@ function hex (c) {
       return saida;
       
   }
-  
-  // Exemplo de como usar
-  
-  
-//   var tmp = generateColor('#000000','#ff0ff0',10);
-  
-//   for (cor in tmp) {
-//     $('#result_show').append("<div style='padding:8px;color:#FFF;background-color:#"+tmp[cor]+"'>COLOR "+cor+"° - #"+tmp[cor]+"</div>")
-   
-//   }
