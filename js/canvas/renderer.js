@@ -144,6 +144,18 @@ function render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsG
     // }
 }
 
+function getGradients(){
+    var numberOfItems = 8;
+    var rainbow = new Rainbow(); 
+    rainbow.setNumberRange(1, numberOfItems);
+    rainbow.setSpectrum('red', 'black');
+    var s = '';
+    for (var i = 1; i <= numberOfItems; i++) {
+        var hexColour = rainbow.colourAt(i);
+        s += '#' + hexColour + ', ';
+    }
+    return s;
+}
 function renderGlow(glow, afterglow_style){
 
     let canvasSmallGlow = document.getElementById("glow_small_canvas");
@@ -175,32 +187,47 @@ function renderGlow(glow, afterglow_style){
     let imgd = ctxResizedGlow.getImageData(0, 0, 1600, 1760);
     let pix = imgd.data;
     let uniqueColor = [255,0,0]; // Pink for an example, can change this value to be anything.
-    if(afterglow_style){
-        let colors =  afterglow_style.split(',');
-        if(colors.length == 1){
-            var aRgbHex = colors[0].replace('#', '').match(/.{1,2}/g);
-            var aRgb = [
-                parseInt(aRgbHex[0], 16),
-                parseInt(aRgbHex[1], 16),
-                parseInt(aRgbHex[2], 16)
-            ];
-            uniqueColor = aRgb;
-            console.log('Color set: ', colors[0]);
-        } else {
-            // TODO
-            var aRgbHex = colors[0].replace('#', '').match(/.{1,2}/g);
-            var aRgb = [
-                parseInt(aRgbHex[0], 16),
-                parseInt(aRgbHex[1], 16),
-                parseInt(aRgbHex[2], 16)
-            ];
-            uniqueColor = aRgb;
-            console.log('Color set: ', colors[0]);
-        }
+    
+    
+    let colors =  afterglow_style.split(',');
+
+    if(colors.length == 1){
+        var aRgbHex = colors[0].replace('#', '').match(/.{1,2}/g);
+        var aRgb = [
+            parseInt(aRgbHex[0], 16),
+            parseInt(aRgbHex[1], 16),
+            parseInt(aRgbHex[2], 16)
+        ];
+
+        uniqueColor = aRgb;
+        console.log('Color set: ', colors[0]);
     }
+    let colorRanges = 8;
+    let gradientColors = generateColor(colors[0], colors[1], colorRanges);
     let transparentColor = [255,255,255, 0];
+
+    let aRgbArr = [];
+    gradientColors.forEach((gradientColor)=>{
+        var aRgbHex = gradientColor.replace('#', '').match(/.{1,2}/g);
+        aRgbArr.push([
+            parseInt(aRgbHex[0], 16),
+            parseInt(aRgbHex[1], 16),
+            parseInt(aRgbHex[2], 16)
+        ]);
+    })
+
     // Loops through all of the pixels and modifies the components.
+    let row = 1600 * 4;
+    let rowRanges = 1760/colorRanges;
     for (var i = 0, n = pix.length; i <n; i += 4) {
+
+        if (colors.length > 1){
+            // TODO
+            let rows = i / row;
+            let index = Math.floor(rows / rowRanges);
+            uniqueColor = aRgbArr[index];
+        }
+
         if (pix[i] == 255 &&  
             pix[i+1] == 255 &&
             pix[i+2] == 255)
@@ -601,3 +628,70 @@ function createImages(head, body, legs, left_arm, right_arm, headName, bodyName,
     }
 }
 
+function hex (c) {
+    var s = "0123456789abcdef";
+    var i = parseInt (c);
+    if (i == 0 || isNaN (c))
+      return "00";
+    i = Math.round (Math.min (Math.max (0, i), 255));
+    return s.charAt ((i - i % 16) / 16) + s.charAt (i % 16);
+  }
+  
+  /* Convert an RGB triplet to a hex string */
+  function convertToHex (rgb) {
+    return hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
+  }
+  
+  /* Remove '#' in color hex string */
+  function trim (s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
+  
+  /* Convert a hex string to an RGB triplet */
+  function convertToRGB (hex) {
+    var color = [];
+    color[0] = parseInt ((trim(hex)).substring (0, 2), 16);
+    color[1] = parseInt ((trim(hex)).substring (2, 4), 16);
+    color[2] = parseInt ((trim(hex)).substring (4, 6), 16);
+    return color;
+  }
+  
+  function generateColor(colorStart,colorEnd,colorCount){
+  
+      // The beginning of your gradient
+      var start = convertToRGB (colorStart);    
+  
+      // The end of your gradient
+      var end   = convertToRGB (colorEnd);    
+  
+      // The number of colors to compute
+      var len = colorCount;
+  
+      //Alpha blending amount
+      var alpha = 0.0;
+  
+      var saida = [];
+      
+      for (i = 0; i < len; i++) {
+          var c = [];
+          alpha += (1.0/len);
+          
+          c[0] = start[0] * alpha + (1 - alpha) * end[0];
+          c[1] = start[1] * alpha + (1 - alpha) * end[1];
+          c[2] = start[2] * alpha + (1 - alpha) * end[2];
+  
+          saida.push(convertToHex (c));
+          
+      }
+      
+      return saida;
+      
+  }
+  
+  // Exemplo de como usar
+  
+  
+//   var tmp = generateColor('#000000','#ff0ff0',10);
+  
+//   for (cor in tmp) {
+//     $('#result_show').append("<div style='padding:8px;color:#FFF;background-color:#"+tmp[cor]+"'>COLOR "+cor+"° - #"+tmp[cor]+"</div>")
+   
+//   }
