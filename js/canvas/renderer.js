@@ -145,33 +145,33 @@ function render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsG
 }
 
 function renderGlow(glow, afterglow_style){
+
+    let canvasSmallGlow = document.getElementById("glow_small_canvas");
+    let ctxSmallGlow = canvasSmallGlow.getContext("2d");
+    ctxSmallGlow.clearRect(0, 0, canvasSmallGlow.width, canvasSmallGlow.height);
+
+    let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
+    let ctxResizedOutputGlow = resize_output_canvas.getContext("2d", {willReadFrequently: true});
+    ctxResizedOutputGlow.clearRect(0, 0, resize_output_canvas.width, resize_output_canvas.height);
+
+    let resize_canvas = document.getElementById('glow_resized_canvas');
+    let ctxResizedGlow = resize_canvas.getContext("2d", {willReadFrequently: true});
+    ctxResizedGlow.clearRect(0, 0, resize_canvas.width, resize_canvas.height);
+
+    let canvasTemp = document.getElementById("temp_canvas");
+    let ctxTemp = canvasTemp.getContext("2d");
+    ctxTemp.clearRect(0, 0, canvasTemp.width, canvasTemp.height);
+
     if(!glow || glow.width == 0){
         return;
     }
     let sourceImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     let pixelData = sourceImageData.data;
-    let canvasTemp = document.getElementById("temp_canvas");
-    let ctxTemp = canvasTemp.getContext("2d");
-    ctxTemp.clearRect(0, 0, canvasTemp.width, canvasTemp.height);
-
-    let canvasSmallGlow = document.getElementById("glow_small_canvas");
-    let ctxSmallGlow = canvasSmallGlow.getContext("2d");
-    ctxSmallGlow.clearRect(0, 0, canvasSmallGlow.width, canvasSmallGlow.height);
-    // let image = document.getElementById("testImage");
 
     ctxSmallGlow.drawImage(glow,0,0);
 
-    let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
-    let ctxResizedOutputGlow = resize_output_canvas.getContext("2d", {willReadFrequently: true});
-    ctxResizedOutputGlow.clearRect(0, 0, resize_output_canvas.width, resize_output_canvas.height);
-    // ctxResizedOutputGlow.filter = 'blur(10px)';
-
-    let resize_canvas = document.getElementById('glow_resized_canvas');
-    let ctxResizedGlow = resize_canvas.getContext("2d", {willReadFrequently: true});
-    ctxResizedGlow.clearRect(0, 0, resize_canvas.width, resize_canvas.height);
     resample_single(canvasSmallGlow, resize_canvas, 1600, 1760);
     
-
     let imgd = ctxResizedGlow.getImageData(0, 0, 1600, 1760);
     let pix = imgd.data;
     let uniqueColor = [255,0,0]; // Pink for an example, can change this value to be anything.
