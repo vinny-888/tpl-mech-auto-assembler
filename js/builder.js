@@ -84,6 +84,7 @@ function showMech(index){
   document.getElementById('legs_style').value = mech.legs;
   document.getElementById('left_arm_style').value = mech.left_arm;
   document.getElementById('right_arm_style').value = mech.right_arm;
+  document.getElementById('afterglow').value = mech.afterglow;
 
   updatePreview();
 }
@@ -109,6 +110,7 @@ function saveMech(){
     let legs = document.getElementById('legs_style').value;
     let left_arm = document.getElementById('left_arm_style').value;
     let right_arm = document.getElementById('right_arm_style').value;
+    let afterglow = document.getElementById('afterglow').value;
     let img = resize_canvas.toDataURL();
 
     let endurance = document.getElementById('endurance_total').innerHTML;
@@ -124,6 +126,7 @@ function saveMech(){
       legs,
       left_arm,
       right_arm,
+      afterglow,
       img,
       endurance,
       speed,
