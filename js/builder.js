@@ -1,6 +1,7 @@
 "use strict";
 
 let mechs = [];
+let selectedAfterglow = null;
 function init() {
   initTooltip();
   createMetadataLookup();
@@ -11,12 +12,25 @@ window.addEventListener('load', async () => {
   init();
   // initDropdowns();
   addEventlisteners();
+  populateAfterglowDropdown();
   updatePreview();
   loadMechs();
 });
 
-function setParams(engine, head, body, legs, left_arm, right_arm){
-  window.history.pushState("", "", window.location.href.split('?')[0] + '?engine=' + engine + '&' + 'head=' + head + '&' + 'body=' + body + '&' + 'legs=' + legs + '&' + 'left_arm=' + left_arm + '&' + 'right_arm=' + right_arm);
+function populateAfterglowDropdown() {
+  let select = document.getElementById('afterglow');
+  let html = '';
+  Object.keys(afterglowColors).forEach((afterglow)=>{
+    let color = afterglowColors[afterglow];
+    let selected = selectedAfterglow == afterglow ? 'selected' : '';
+
+    html += '<option '+selected+' value="'+color.join(',')+'">'+afterglow+'</option>';
+  })
+  select.innerHTML = html;
+}
+
+function setParams(engine, head, body, legs, left_arm, right_arm, afterglow_name){
+  window.history.pushState("", "", window.location.href.split('?')[0] + '?engine=' + engine + '&' + 'head=' + head + '&' + 'body=' + body + '&' + 'legs=' + legs + '&' + 'left_arm=' + left_arm + '&' + 'right_arm=' + right_arm + '&afterglow=' + afterglow_name);
 }
 
 function loadParams(){
@@ -27,6 +41,7 @@ function loadParams(){
   var legs = url.searchParams.get("legs");
   var left_arm = url.searchParams.get("left_arm");
   var right_arm = url.searchParams.get("right_arm");
+  selectedAfterglow = url.searchParams.get("afterglow");
   if(engine){
     document.getElementById('engine_style').value = engine;
   }
@@ -167,6 +182,7 @@ function addEventlisteners(){
   let legs = document.getElementById('legs_style');
   let left_arm = document.getElementById('left_arm_style');
   let right_arm = document.getElementById('right_arm_style');
+  let afterglow = document.getElementById('afterglow');
 
   engine.onchange = updatePreview;
   head.onchange = updatePreview;
@@ -174,6 +190,16 @@ function addEventlisteners(){
   legs.onchange = updatePreview;
   left_arm.onchange = updatePreview;
   right_arm.onchange = updatePreview;
+  afterglow.onchange = updatePreview;
+}
+
+function getSelectedText(elementId) {
+  var elt = document.getElementById(elementId);
+
+  if (elt.selectedIndex == -1)
+      return null;
+
+  return elt.options[elt.selectedIndex].text;
 }
 
 function updatePreview(){
@@ -183,6 +209,7 @@ function updatePreview(){
   let legs = document.getElementById('legs_style');
   let left_arm = document.getElementById('left_arm_style');
   let right_arm = document.getElementById('right_arm_style');
+  let afterglow = document.getElementById('afterglow');
 
   let engine_style = engine.value;
   let head_style = head.value;
@@ -190,8 +217,9 @@ function updatePreview(){
   let legs_style = legs.value;
   let left_arm_style = left_arm.value;
   let right_arm_style = right_arm.value;
+  let afterglow_style = afterglow.value;
 
-  setParams(engine_style, head_style, body_style, legs_style, left_arm_style, right_arm_style);
+  setParams(engine_style, head_style, body_style, legs_style, left_arm_style, right_arm_style, getSelectedText('afterglow'));
 
   let enduranceTotal = 0;
   let speedTotal = 0;
@@ -260,7 +288,7 @@ function updatePreview(){
   document.getElementById('power_total').innerHTML = powerTotal;
   document.getElementById('stats_total').innerHTML = enduranceTotal + speedTotal + powerTotal;
 
-  showPreview(head_style, body_style, legs_style, left_arm_style, right_arm_style);
+  showPreview(head_style, body_style, legs_style, left_arm_style, right_arm_style, afterglow_style);
 }
 
 function buildMechTable(){
@@ -308,7 +336,9 @@ function resample_single(canvas, resize_canvas, width, height) {
     var ratio_h_half = Math.ceil(ratio_h / 2);
 
     var ctxCanvas = canvas.getContext("2d");
+    ctxCanvas.clearRect(0, 0, ctxCanvas.width, ctxCanvas.height);
     var ctx = resize_canvas.getContext("2d");
+    ctx.clearRect(0, 0, resize_canvas.width, resize_canvas.height);
     var img = ctxCanvas.getImageData(0, 0, width_source, height_source);
     var img2 = ctx.createImageData(width, height);
     var data = img.data;

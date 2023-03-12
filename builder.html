@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=2.7">
-    <link rel="stylesheet" href="./css/owners.css?v=2.7">
-    <link rel="stylesheet" href="./css/builder.css?v=2.7">
+    <link rel="stylesheet" href="./css/main.css?v=2.8">
+    <link rel="stylesheet" href="./css/owners.css?v=2.8">
+    <link rel="stylesheet" href="./css/builder.css?v=2.8">
   </head>
   <body>
     <div class="header">
@@ -427,6 +427,11 @@
                   </select>
                 </div>
                 <div class="inline">
+                  <h5>Afterglow</h5>
+                  <select id="afterglow" class="dropdown">
+                  </select>
+                </div>
+                <div class="inline">
                   <button class="btn btn-primary" id="btn-save" onclick="saveMech()">
                     Save Mech
                   </button>
@@ -436,9 +441,15 @@
               <div id="viewer2" class="col-md-5">
                 
                 <div>
-                  <canvas style="zoom: 0.35;" id="renderCanvas" width="1600" height="1760"></canvas>
+                  <div style="position: absolute;top:  0px;">
+                    <canvas style="zoom: 0.35;" id="renderCanvas" width="1600" height="1760"></canvas>
+                  </div>
+                  
+                  <div style="position: absolute;top:  0px;">
+                    <canvas style="display: none;zoom: 0.35;-webkit-filter: blur(10px);" id="glow_resized_output_canvas" width="1600" height="1760"></canvas>
+                  </div>
                 </div>
-                <div id="info" style="padding: 10px;margin-left: 0px;height: 100px;width: 560px;    display: inline-block;">
+                <div id="info" style="margin-top: 617px;padding: 10px;margin-left: 0px;height: 100px;width: 560px;    display: inline-block;">
                   <div style="">
                     <div style="display: inline-block;">
                       <b><span style="font-size: 24px;color: rgb(255 184 0)">Endurance:</span></b><br>
@@ -500,6 +511,9 @@
     </div>
     <div>
       <canvas style="display:none;" id="resize_canvas" width="160" height="176"></canvas>
+      <canvas style="display:none;" id="glow_small_canvas" width="1114" height="1225"></canvas>
+      <canvas style="display:none;" id="glow_resized_canvas" width="1600" height="1760"></canvas>
+      <canvas style="display:none;" id="temp_canvas" width="1600" height="1760"></canvas>
     </div>
     <div id="templates" style="display: none">
       <template id="template-mechs">
@@ -524,11 +538,11 @@
         </tr>
       </template>
     </div>
-    <script type="text/javascript" src="./js/util/constants.js?v=2.7"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=2.7"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.7"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=2.7"></script>
-    <script type="text/javascript" src="./js/canvas/renderer.js?v=2.7"></script>
-    <script type="text/javascript" src="./js/builder.js?v=2.7"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=2.8"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=2.8"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=2.8"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=2.8"></script>
+    <script type="text/javascript" src="./js/canvas/renderer.js?v=2.8"></script>
+    <script type="text/javascript" src="./js/builder.js?v=2.8"></script>
   </body>
 </html>
