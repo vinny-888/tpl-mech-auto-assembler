@@ -2,10 +2,10 @@ let canvas = null;
 var ctx = null;
 let width = 1600;
 let height = 1760;
-let BASE_URL = '../tpl-mech-auto-assembler/images/templates/';
-let BASE_GLOW_URL = '../tpl-mech-auto-assembler/images/masks/';
-// let BASE_URL = '../images/templates/';
-// let BASE_GLOW_URL = '../images/masks/';
+// let BASE_URL = '../tpl-mech-auto-assembler/images/templates/';
+// let BASE_GLOW_URL = '../tpl-mech-auto-assembler/images/masks/';
+let BASE_URL = '../images/templates/';
+let BASE_GLOW_URL = '../images/masks/';
 let imageCache = {};
 let imageGlowCache = {};
 let style_urls = {
@@ -217,19 +217,19 @@ function renderGlow(glow, afterglow_style){
             let index = Math.floor(rows / rowRanges);
             uniqueColor = aRgbArr[index];
         }
-
-        if (pix[i] > 230 &&  
-            pix[i+1] > 230 &&
-            pix[i+2] > 230)
+        let threshold = 5;
+        if (pix[i] > threshold &&  
+            pix[i+1] > threshold &&
+            pix[i+2] > threshold)
         {
             
-            pixelData[i] = uniqueColor[0];   // Red component
-            pixelData[i+1] = uniqueColor[1]; // Blue component
-            pixelData[i+2] = uniqueColor[2]; // Green component
+            pixelData[i] = uniqueColor[0] - (255-pix[i]);   // Red component
+            pixelData[i+1] = uniqueColor[1] - (255-pix[i+1]); // Blue component
+            pixelData[i+2] = uniqueColor[2] - (255-pix[i+2]); // Green component
 
-            pix[i] = uniqueColor[0];   // Red component
-            pix[i+1] = uniqueColor[1]; // Blue component
-            pix[i+2] = uniqueColor[2]; // Green component
+            pix[i] = uniqueColor[0] - (255-pix[i]);   // Red component
+            pix[i+1] = uniqueColor[1] - (255-pix[i+1]); // Blue component
+            pix[i+2] = uniqueColor[2] - (255-pix[i+2]); // Green component
         }
         else
         {
