@@ -2,11 +2,10 @@ let canvas = null;
 var ctx = null;
 let width = 1600;
 let height = 1760;
-let glowScale = 1.43626570916;
-let BASE_URL = '../tpl-mech-auto-assembler/images/templates/';
-let BASE_GLOW_URL = '../tpl-mech-auto-assembler/images/masks/';
-// let BASE_URL = '../images/templates/';
-// let BASE_GLOW_URL = '../images/masks/';
+// let BASE_URL = '../tpl-mech-auto-assembler/images/templates/';
+// let BASE_GLOW_URL = '../tpl-mech-auto-assembler/images/masks/';
+let BASE_URL = '../images/templates/';
+let BASE_GLOW_URL = '../images/masks/';
 let imageCache = {};
 let imageGlowCache = {};
 let style_urls = {
@@ -146,17 +145,17 @@ function render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsG
 
 function renderGlow(glow, afterglow_style){
 
-    let canvasSmallGlow = document.getElementById("glow_small_canvas");
-    let ctxSmallGlow = canvasSmallGlow.getContext("2d");
-    ctxSmallGlow.clearRect(0, 0, canvasSmallGlow.width, canvasSmallGlow.height);
+    let canvasGlow = document.getElementById("glow_canvas");
+    let ctxGlow = canvasGlow.getContext("2d");
+    ctxGlow.clearRect(0, 0, canvasGlow.width, canvasGlow.height);
 
     let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
     let ctxResizedOutputGlow = resize_output_canvas.getContext("2d", {willReadFrequently: true});
     ctxResizedOutputGlow.clearRect(0, 0, resize_output_canvas.width, resize_output_canvas.height);
 
-    let resize_canvas = document.getElementById('glow_resized_canvas');
-    let ctxResizedGlow = resize_canvas.getContext("2d", {willReadFrequently: true});
-    ctxResizedGlow.clearRect(0, 0, resize_canvas.width, resize_canvas.height);
+    // let resize_canvas = document.getElementById('glow_resized_canvas');
+    // let ctxResizedGlow = resize_canvas.getContext("2d", {willReadFrequently: true});
+    // ctxResizedGlow.clearRect(0, 0, resize_canvas.width, resize_canvas.height);
 
     let canvasTemp = document.getElementById("temp_canvas");
     let ctxTemp = canvasTemp.getContext("2d");
@@ -168,11 +167,11 @@ function renderGlow(glow, afterglow_style){
     let sourceImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     let pixelData = sourceImageData.data;
 
-    ctxSmallGlow.drawImage(glow,0,0);
+    ctxGlow.drawImage(glow,0,0);
 
-    resample_single(canvasSmallGlow, resize_canvas, 1600, 1760);
+    // resample_single(canvasSmallGlow, resize_canvas, width, height);
     
-    let imgd = ctxResizedGlow.getImageData(0, 0, 1600, 1760);
+    let imgd = ctxGlow.getImageData(0, 0, width, height);
     let pix = imgd.data;
     let uniqueColor = [255,0,0]; // Pink for an example, can change this value to be anything.
     
@@ -208,8 +207,8 @@ function renderGlow(glow, afterglow_style){
     })
 
     // Loops through all of the pixels and modifies the components.
-    let row = 1600 * 4;
-    let rowRanges = 1760/colorRanges;
+    let row = width * 4;
+    let rowRanges = height/colorRanges;
     for (var i = 0, n = pix.length; i <n; i += 4) {
 
         if (colors.length > 1){
@@ -219,9 +218,9 @@ function renderGlow(glow, afterglow_style){
             uniqueColor = aRgbArr[index];
         }
 
-        if (pix[i] == 255 &&  
-            pix[i+1] == 255 &&
-            pix[i+2] == 255)
+        if (pix[i] > 250 &&  
+            pix[i+1] > 250 &&
+            pix[i+2] > 250)
         {
             
             pixelData[i] = uniqueColor[0];   // Red component
