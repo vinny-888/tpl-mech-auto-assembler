@@ -179,6 +179,7 @@ function initDropdowns(){
 }
 
 function addEventlisteners(){
+  let full_style = document.getElementById('full_style');
   let engine = document.getElementById('engine_style');
   let head = document.getElementById('head_style');
   let body = document.getElementById('body_style');
@@ -187,6 +188,7 @@ function addEventlisteners(){
   let right_arm = document.getElementById('right_arm_style');
   let afterglow = document.getElementById('afterglow');
 
+  full_style.onchange = updatePreviewFull;
   engine.onchange = updatePreview;
   head.onchange = updatePreview;
   body.onchange = updatePreview;
@@ -203,6 +205,17 @@ function getSelectedText(elementId) {
       return null;
 
   return elt.options[elt.selectedIndex].text;
+}
+
+function updatePreviewFull(){
+  let fullStyle = getSelectedText('full_style');
+  document.getElementById('engine_style').value = fullStyle;
+  document.getElementById('head_style').value = fullStyle;
+  document.getElementById('body_style').value = fullStyle;
+  document.getElementById('legs_style').value = fullStyle;
+  document.getElementById('left_arm_style').value = fullStyle;
+  document.getElementById('right_arm_style').value = fullStyle;
+  updatePreview();
 }
 
 function updatePreview(){
