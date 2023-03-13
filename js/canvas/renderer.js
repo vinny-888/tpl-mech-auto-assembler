@@ -218,9 +218,9 @@ function renderGlow(glow, afterglow_style){
             uniqueColor = aRgbArr[index];
         }
 
-        if (pix[i] > 250 &&  
-            pix[i+1] > 250 &&
-            pix[i+2] > 250)
+        if (pix[i] > 230 &&  
+            pix[i+1] > 230 &&
+            pix[i+2] > 230)
         {
             
             pixelData[i] = uniqueColor[0];   // Red component
