@@ -2,10 +2,10 @@ let canvas = null;
 var ctx = null;
 let width = 1600;
 let height = 1760;
-let BASE_URL = '../tpl-mech-auto-assembler/images/templates/';
-let BASE_GLOW_URL = '../tpl-mech-auto-assembler/images/masks/';
-// let BASE_URL = '../images/templates/';
-// let BASE_GLOW_URL = '../images/masks/';
+// let BASE_URL = '../tpl-mech-auto-assembler/images/templates/';
+// let BASE_GLOW_URL = '../tpl-mech-auto-assembler/images/masks/';
+let BASE_URL = '../images/templates/';
+let BASE_GLOW_URL = '../images/masks/';
 let imageCache = {};
 let imageGlowCache = {};
 let style_urls = {
@@ -178,7 +178,7 @@ function renderGlow(glow, afterglow_style){
     
     let colors =  afterglow_style.split(',');
 
-    if(colors.length == 1){
+    if(colors.length == 1 && colors[0] != ''){
         var aRgbHex = colors[0].replace('#', '').match(/.{1,2}/g);
         var aRgb = [
             parseInt(aRgbHex[0], 16),
