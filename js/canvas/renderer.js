@@ -187,7 +187,7 @@ function renderGlow(glow, afterglow_style){
         ];
 
         uniqueColor = aRgb;
-        console.log('Color set: ', colors[0]);
+        // console.log('Color set: ', colors[0]);
     }
     let colorRanges = 8;
     let gradientColors = [];
