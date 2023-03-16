@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive 3D Image Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+    }
+    #gallery-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+    }
+    .gallery-item {
+      width: 300px;
+      height: 300px;
+      margin: 10px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1s;
+      transform-style: preserve-3d;
+    }
+    .gallery-item:hover img {
+      transform: rotateY(180deg);
+    }
+    .gallery-item .back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      transform: rotateY(180deg);
+    }
+    .gallery-item .back p {
+      margin: 0;
+      padding: 10px;
+      font-size: 16px;
+      color: #FFF;
+      background-color: rgba(0,0,0,0.7);
+      transform: rotateY(180deg);
+      transform-style: preserve-3d;
+    }
+    .filters {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px;
+    }
+    .filter-checkbox {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive 3D Image Gallery</h1>
+  <div class="filters"></div>
+  <div id="gallery-container"></div>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    // Load the JSON data
+    d3.json("data.json").then(function(data) {
+        // Get all unique attribute values for filtering
+  var talents = getUniqueValues(data, "talent");
+  var classes = getUniqueValues(data, "class");
+  var species = getUniqueValues(data, "species");
+  var genders = getUniqueValues(data, "gender");
+
+  // Create filter checkboxes
+  createFilterCheckboxes(talents, "talent");
+  createFilterCheckboxes(classes, "class");
+  createFilterCheckboxes(species, "species");
+  createFilterCheckboxes(genders, "gender");
+
+  // Create the gallery
+  createGallery(data);
+
+  // Function to get unique values from an array of objects
+  function getUniqueValues(data, key) {
+    var values = data.map(function(d) { return d[key]; });
+    return Array.from(new Set(values));
+  }
+
+  // Function to create filter checkboxes
+  function createFilterCheckboxes(values, key) {
+    var filterContainer = d3.select(".filters");
+    var filterDiv = filterContainer.append("div").attr("class", "filter-" + key);
+    filterDiv.append("label").text(key + ": ");
+    values.forEach(function(value) {
+      var checkbox = filterDiv.append("input")
+        .attr("type", "checkbox")
+        .attr("class", "filter-checkbox")
+        .attr("name", key)
+        .attr("value", value)
+        .on("change", function() {
+          // Get the checked filters
+          var checkedFilters = {};
+          d3.selectAll(".filter-checkbox").each(function() {
+          var checkbox = d3.select(this);
+          var key = checkbox.attr("name");
+          var value = checkbox.attr("value");
+          checkedFilters[key] = checkedFilters[key] || [];
+          if (checkbox.property("checked")) {
+          checkedFilters[key].push(value);
+          }
+          });
+          // Filter the data based on checked filters
+          var filteredData = data.filter(function(d) {
+          var match = true;
+          for (var key in checkedFilters) {
+          if (checkedFilters[key].length > 0 && !checkedFilters[key].includes(d[key])) {
+          match = false;
+          break;
+          }
+          }
+          return match;
+          });
+          // Update the gallery with filtered data
+          updateGallery(filteredData);
+          });
+          filterDiv.append("label").text(value);
+          });
+          }
+  // Function to create the gallery
+  function createGallery(data) {
+    var galleryContainer = d3.select("#gallery-container");
+    galleryContainer.selectAll(".gallery-item")
+      .data(data)
+      .enter().append("div")
+        .attr("class", "gallery-item")
+        .html(function(d) {
+          return '<img src="' + d.imageAws + '"><div class="back"><p>' + d.name + '<br>' + d.talent + ' ' + d.class + '<br>' + d.species + ' ' + d.gender + '</p></div>';
+        });
+  }
+
+  // Function to update the gallery with filtered data
+  function updateGallery(data) {
+    var galleryContainer = d3.select("#gallery-container");
+    var galleryItems = galleryContainer.selectAll(".gallery-item")
+      .data(data);
+    galleryItems.exit().remove();
+    galleryItems.enter().append("div")
+        .attr("class", "gallery-item")
+        .html(function(d) {
+          return '<img src="' + d.imageAws + '"><div class="back"><p>' + d.name + '<br>' + d.talent + ' ' + d.class + '<br>' + d.species + ' ' + d.gender + '</p></div>';
+        });
+  }
+
+});
+</script>
+</body>
+</html>
