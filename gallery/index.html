@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive 3D Image Gallery</title>
+
+    <title>CyberBroker Gallery</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="data.js"></script>
     <script src="layers.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/main.css?v=2.4">
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-        }
         .gallery {
         display: flex;
         flex-wrap: wrap;
@@ -49,26 +48,53 @@
         max-width: 60px;
         max-height: 60px;
     }
+    .container{
+        width: 100%;
+        max-width: 100% !important;
+    }
 </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center mt-4 mb-4">Interactive 3D Image Gallery</h1>
-        <div class="filter-group">
-            <span class="clickable" onclick="toggle('talent-filters')">&#8964; Talent:</span>
-            <div id="talent-filters"></div>
-            <hr>
-            <span class="clickable" onclick="toggle('species-filters')">&#8964; Species:</span>
-            <div id="species-filters"></div>
-            <hr>
-            <span class="clickable" onclick="toggle('gender-filters')">&#8964; Gender:</span>
-            <div id="gender-filters"></div>
-            <hr>
-            <span class="clickable" onclick="toggle('layer-filters')">&#8964; Layers:</span>
-            <div id="layer-filters"></div>
+    <div class="header">
+        <h3>CYBERBROKERS</h3>
+        <div class="subtitle">
+          <span>Unofficial Mech Auto Assembler</span>
         </div>
-        <div class="gallery" id="gallery"></div>
-        <input type="button" onclick="loadMore()"  id="load_more" value="Load More" style="margin-left: 46.5%;">
+        <div class="navLinks">
+          <span><a id="../revealed_url" href="revealed.html">Revealed Mechs</a></span>&nbsp;|
+          <span><a href="../stats.html">Revealed Stats</a></span>&nbsp;|
+          <span><a href="../marketplace.html">Marketplace</a></span>&nbsp;|
+          <span><a id="home_url" href="../index.html">Unrevealed Mechs</a></span>&nbsp;|
+          <span><a href="../owners.html">Unrevealed Stats</a></span>&nbsp;|
+          <span><a href="../parts.html">Power Stats</a></span>&nbsp;|
+          <span><a id="builder_url" href="../builder.html">Builder</a></span>&nbsp;|
+          <span class="activeLink">CB Gallery</span>&nbsp;|
+          <span><a href="../mechs.html">3D Viewer</a></span>&nbsp;|
+          <span><a href="../ar.html">AR Viewer</a></span>&nbsp;|
+          <span><a href="../game.html">3D Game</a></span>&nbsp;|
+          <span><a id="lp_url" href="../lp.html">Lost Paradigms</a></span>
+        </div>
+      </div>
+          
+    <div class="container">
+        <div class="col-md-12">
+            <h1 class="mt-4 mb-4">CyberBroker Gallery</h1>
+            <div class="filter-group">
+                <span class="clickable" onclick="toggle('talent-filters')">&#8964; Talent:</span>
+                <div id="talent-filters"></div>
+                <hr>
+                <span class="clickable" onclick="toggle('species-filters')">&#8964; Species:</span>
+                <div id="species-filters"></div>
+                <hr>
+                <span class="clickable" onclick="toggle('gender-filters')">&#8964; Gender:</span>
+                <div id="gender-filters"></div>
+                <hr>
+                <span class="clickable" onclick="toggle('layer-filters')">&#8964; Layers:</span>
+                <div id="layer-filters"></div>
+            </div>
+            <div class="gallery" id="gallery"></div>
+            <input type="button" onclick="loadMore()"  id="load_more" value="Load More" style="margin-left: 46.5%;">
+        </div>
     </div>
     <script>
         
