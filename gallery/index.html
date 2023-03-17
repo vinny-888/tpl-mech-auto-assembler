@@ -45,6 +45,9 @@
         cursor: pointer;
         font-weight: bold;
     }
+    .layer{
+        width: 60px;
+    }
 </style>
 </head>
 <body>
@@ -115,6 +118,10 @@
                         checkbox.addEventListener("change", applyFilters);
                         label.appendChild(checkbox);
                         label.appendChild(document.createTextNode(' '+layerName));
+                        const image = document.createElement("img");
+                        image.src = './layers/cb-layer-'+value.padStart(4, '0') +'.png';
+                        image.classList.add('layer');
+                        label.appendChild(image);
                         filterContainer.appendChild(label);
                     }
                 })
