@@ -2,7 +2,9 @@ let pageSize = 100;
 let loadedCount = 0;
 let filteredData = data;
 let selected = {};
-let openState = {};
+let openState = {
+    "layer-filters-face":1
+};
 const uniqueAttributes = (attr) => {
     return [...new Set(filteredData.map((item) => item[attr]))];
 };
@@ -55,17 +57,35 @@ const createFilterCheckboxes2 = (attribute, container, type) => {
                 if(type == layerType){
                     const label = document.createElement("label");
                     const checkbox = document.createElement("input");
+                    const div0 = document.createElement("div");
+                    const div1 = document.createElement("div");
+                    const div2 = document.createElement("div");
+                    const div3 = document.createElement("div");
+                    div0.classList.add('card_div');
+                    div1.classList.add('card_title');
+                    div2.classList.add('card_row');
+                    div3.classList.add('card_row');
+
+                    // Top
+                    div1.appendChild(document.createTextNode(' '+layerName));
+
+                    // Middle
+                    const image = document.createElement("img");
+                    image.src = './layers/cb-layer-'+value.padStart(4, '0') +'.png';
+                    image.classList.add('layer');
+                    div2.appendChild(image);
+
+                    // Bottom
                     checkbox.type = "checkbox";
                     checkbox.value = value;
                     checkbox.checked = selected[value] ? 'checked' : '';
                     checkbox.addEventListener("change", applyFilters);
-                    label.appendChild(checkbox);
-                    label.appendChild(document.createTextNode(' '+layerName));
-                    const image = document.createElement("img");
-                    image.src = './layers/cb-layer-'+value.padStart(4, '0') +'.png';
-                    image.classList.add('layer');
-                    label.appendChild(image);
-                    filterContainer.appendChild(label);
+                    div3.appendChild(checkbox);
+                    
+                    div0.appendChild(div1);
+                    div0.appendChild(div2);
+                    div0.appendChild(div3);
+                    filterContainer.appendChild(div0);
                 }
             }
         })
@@ -146,10 +166,11 @@ function createLayerCheckboxes(){
 
     let layerElm = document.getElementById("layer-filters");
     layerElm.innerHTML = '';
-    result.forEach((layerType)=>{
+    //result
+    ['face', 'body', 'background', 'trait', 'other', 'back', 'icon'].forEach((layerType)=>{
         let display = openState['layer-filters-'+layerType] ? 'block' : 'none';
         layerElm.innerHTML += `<span class="clickable" onclick="toggle('layer-filters-${layerType}')">&#8964; ${layerType}:</span>
-                            <div class="layer-filters" id="layer-filters-${layerType}" style="display: ${display};"></div><br>`
+                            <div class="layer-filters filter_div" id="layer-filters-${layerType}" style="display: ${display};"></div>`
         setTimeout(()=>{createFilterCheckboxes2("layers", "layer-filters-"+layerType, layerType)}, 0);
     })
 }

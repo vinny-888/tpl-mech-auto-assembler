@@ -43,14 +43,47 @@
     .clickable{
         cursor: pointer;
         font-weight: bold;
+        display: block;
     }
     .layer{
-        max-width: 60px;
+        max-width: 100%;
         max-height: 60px;
+        min-height: 100px;
+        object-fit: cover;
     }
     .container{
         width: 100%;
         max-width: 100% !important;
+    }
+    .card_div{
+        border: solid 1px #578c87;
+        background-color: #1f3331;
+        max-width: 100px;
+        min-width: 100px;
+        min-height: 140px;
+        max-height: 140px;
+        margin: 4px;
+        display: inline-block;
+    }
+    .card_row{
+        text-align: center;
+    }
+    .card_title{
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .filter_div{
+        border: solid 1px #578c87;
+        background-color: #1f3331;
+        width: 100%;
+        display: inline-block;
+        /* height: 160px; */
+        vertical-align: top;
+        padding: 4px;
+        margin-left: 8px;
     }
 </style>
 </head>
@@ -80,16 +113,16 @@
         <div class="col-md-12">
             <h1 class="mt-4 mb-4">CyberBroker Gallery</h1>
             <div class="filter-group">
-                <span class="clickable" onclick="toggle('talent-filters')">&#8964; Talent:</span>
-                <div id="talent-filters"></div>
-                <hr>
-                <span class="clickable" onclick="toggle('species-filters')">&#8964; Species:</span>
-                <div id="species-filters"></div>
-                <hr>
+
                 <span class="clickable" onclick="toggle('gender-filters')">&#8964; Gender:</span>
-                <div id="gender-filters"></div>
-                <hr>
-                <span class="clickable" onclick="toggle('layer-filters')">&#8964; Layers:</span>
+                <div id="gender-filters" class="filter_div"></div>
+
+                <span class="clickable" onclick="toggle('species-filters')">&#8964; Species:</span>
+                <div id="species-filters" class="filter_div" style="display: none;"></div>
+
+                <span class="clickable" onclick="toggle('talent-filters')">&#8964; Talent:</span>
+                <div id="talent-filters" class="filter_div" style="display: none;"></div>
+                
                 <div id="layer-filters"></div>
             </div>
             <div class="gallery" id="gallery"></div>
