@@ -190,11 +190,15 @@
             const gallery = document.getElementById("gallery");
             
             images.splice(loadedCount,Math.min(images.length, pageSize)).forEach((image) => {
+                const link = document.createElement("a");
+                link.setAttribute('href', 'https://opensea.io/assets/ethereum/0x892848074ddea461a15f337250da3ce55580ca85/'+image.nftId)
+                link.setAttribute('target', '_blank')
                 const img = document.createElement("img");
                 img.src = image.imageAws;
                 img.alt = image.name;
                 img.title = image.name;
-                gallery.appendChild(img);
+                link.appendChild(img);
+                gallery.appendChild(link);
             });
             loadedCount = Math.min(images.length, pageSize);
             document.getElementById('load_more').style.display = images.length > pageSize ? 'block' : 'none'; 
