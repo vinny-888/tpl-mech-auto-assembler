@@ -242,29 +242,6 @@ function renderGlow(glow, color, afterglow_style, part){
             let index = Math.floor(rows / rowRanges);
             uniqueColor = aRgbArr[index];
         }
-        let threshold_glow = 5;
-        if (pix_glow[i] > threshold_glow &&  
-            pix_glow[i+1] > threshold_glow &&
-            pix_glow[i+2] > threshold_glow)
-        {
-            
-            pixelData[i] = uniqueColor[0] - (255-pix_glow[i]);   // Red component
-            pixelData[i+1] = uniqueColor[1] - (255-pix_glow[i+1]); // Blue component
-            pixelData[i+2] = uniqueColor[2] - (255-pix_glow[i+2]); // Green component
-            pixelData[i+3] = 128;
-
-            pix_glow[i] = uniqueColor[0] - (255-pix_glow[i]);   // Red component
-            pix_glow[i+1] = uniqueColor[1] - (255-pix_glow[i+1]); // Blue component
-            pix_glow[i+2] = uniqueColor[2] - (255-pix_glow[i+2]); // Green component
-            pix_glow[i+3] = 128;
-        }
-        else
-        {
-            pix_glow[i] = transparentColor[0];   // Red component
-            pix_glow[i+1] = transparentColor[1]; // Blue component
-            pix_glow[i+2] = transparentColor[2]; // Green component
-            pix_glow[i+3] = transparentColor[3];
-        }
         //pix_glow[i+3] is the transparency.
 
         let threshold_color = 5;
@@ -290,6 +267,31 @@ function renderGlow(glow, color, afterglow_style, part){
             pix_color[i+1] = transparentColor[1]; // Blue component
             pix_color[i+2] = transparentColor[2]; // Green component
             pix_color[i+3] = transparentColor[3];
+        }
+
+
+        let threshold_glow = 5;
+        if (pix_glow[i] > threshold_glow &&  
+            pix_glow[i+1] > threshold_glow &&
+            pix_glow[i+2] > threshold_glow)
+        {
+            
+            pixelData[i] = uniqueColor[0] - (255-pix_glow[i]);   // Red component
+            pixelData[i+1] = uniqueColor[1] - (255-pix_glow[i+1]); // Blue component
+            pixelData[i+2] = uniqueColor[2] - (255-pix_glow[i+2]); // Green component
+            // pixelData[i+3] = 128;
+
+            pix_glow[i] = uniqueColor[0] - (255-pix_glow[i]);   // Red component
+            pix_glow[i+1] = uniqueColor[1] - (255-pix_glow[i+1]); // Blue component
+            pix_glow[i+2] = uniqueColor[2] - (255-pix_glow[i+2]); // Green component
+            // pix_glow[i+3] = 128;
+        }
+        else
+        {
+            pix_glow[i] = transparentColor[0];   // Red component
+            pix_glow[i+1] = transparentColor[1]; // Blue component
+            pix_glow[i+2] = transparentColor[2]; // Green component
+            pix_glow[i+3] = transparentColor[3];
         }
     }
     ctxResizedOutputGlow.putImageData(imgd_glow, 0, 0);
@@ -765,17 +767,19 @@ function generateColor(colorStart,colorEnd,colorCount){
 function setModelColor(){
     let color = document.getElementById('full_style_color').value;
     console.log('color:', color);
-    partColors.head = color;
-    partColors.body = color;
-    partColors.left_arm = color;
-    partColors.right_arm = color;
-    partColors.legs = color;
-    document.getElementById('head_style_color').value = color;
-    document.getElementById('body_style_color').value = color;
-    document.getElementById('left_arm_style_color').value = color;
-    document.getElementById('right_arm_style_color').value = color;
-    document.getElementById('legs_style_color').value = color;
-    updatePreview();
+    if(color != ''){
+        partColors.head = color;
+        partColors.body = color;
+        partColors.left_arm = color;
+        partColors.right_arm = color;
+        partColors.legs = color;
+        document.getElementById('head_style_color').value = color;
+        document.getElementById('body_style_color').value = color;
+        document.getElementById('left_arm_style_color').value = color;
+        document.getElementById('right_arm_style_color').value = color;
+        document.getElementById('legs_style_color').value = color;
+        updatePreview();
+    }
 }
 
 function setPartColor(part){

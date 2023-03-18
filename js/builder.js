@@ -95,6 +95,13 @@ function loadParams(){
   if(right_armColor){
     document.getElementById('right_arm_style_color').value = '#' + right_armColor;
   }
+
+  partColors['head'] = '#' + headColor;
+  partColors['body'] = '#' + bodyColor;
+  partColors['legs'] = '#' + legsColor;
+  partColors['left_arm'] = '#' + left_armColor;
+  partColors['right_arm'] = '#' + right_armColor;
+  
   if(color_strength){
     document.getElementById('color_strength').value = color_strength;
     updateColorStrength();
