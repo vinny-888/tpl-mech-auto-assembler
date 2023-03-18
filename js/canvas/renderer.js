@@ -101,6 +101,14 @@ let afterglowColors = {
     'ShaDAO Black': ['#000000']
   };
 
+let partColors = {
+    head: '#FF0000',
+    body: '#FF0000',
+    legs: '#FF0000',
+    left_arm: '#FF0000',
+    right_arm: '#FF0000'
+};
+
 // Object.keys(style_urls).forEach((style)=>{
 //     console.log(BASE_URL+style+'.webp');
 // })
@@ -111,7 +119,7 @@ function createCanvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style){
+function render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColor, bodyColor, legsColor, left_armColor, right_armColor, afterglow_style){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let canvasTemp = document.getElementById("temp_canvas");
@@ -124,30 +132,34 @@ function render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsG
     ctxOutput.clearRect(0, 0, canvasOutput.width, canvasOutput.height);
 
     if(head){
-        renderHead(head, headGlow, afterglow_style);
+        renderHead(head, headGlow, headColor, afterglow_style);
     }
     if(legs){
-        renderLegs(legs, legsGlow, afterglow_style);
+        renderLegs(legs, legsGlow, legsColor, afterglow_style);
     }
     if(left_arm){
-        renderLeftArm(left_arm, left_armGlow, afterglow_style);
+        renderLeftArm(left_arm, left_armGlow, left_armColor, afterglow_style);
     }
     if(right_arm){
-        renderRightArm(right_arm, right_armGlow, afterglow_style);
+        renderRightArm(right_arm, right_armGlow, right_armColor, afterglow_style);
     }
     if(body){
-        renderBody(body, bodyGlow, afterglow_style);
+        renderBody(body, bodyGlow, bodyColor, afterglow_style);
     }
     // if(glow){
     //     renderGlow(glow);
     // }
 }
 
-function renderGlow(glow, afterglow_style){
+function renderGlow(glow, color, afterglow_style, part){
 
     let canvasGlow = document.getElementById("glow_canvas");
     let ctxGlow = canvasGlow.getContext("2d");
     ctxGlow.clearRect(0, 0, canvasGlow.width, canvasGlow.height);
+
+    let canvasColor = document.getElementById("color_canvas");
+    let ctxColor = canvasColor.getContext("2d");
+    ctxColor.clearRect(0, 0, canvasColor.width, canvasColor.height);
 
     let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
     let ctxResizedOutputGlow = resize_output_canvas.getContext("2d", {willReadFrequently: true});
@@ -168,14 +180,26 @@ function renderGlow(glow, afterglow_style){
     let pixelData = sourceImageData.data;
 
     ctxGlow.drawImage(glow,0,0);
+    ctxColor.drawImage(color,0,0);
 
     // resample_single(canvasSmallGlow, resize_canvas, width, height);
     
-    let imgd = ctxGlow.getImageData(0, 0, width, height);
-    let pix = imgd.data;
+    let imgd_glow = ctxGlow.getImageData(0, 0, width, height);
+    let pix_glow = imgd_glow.data;
+
+    let imgd_color = ctxColor.getImageData(0, 0, width, height);
+    let pix_color = imgd_color.data;
+
     let uniqueColor = [255,0,0]; // Pink for an example, can change this value to be anything.
     
-    
+    let hexColor = partColors[part];
+    var aRgbHex = hexColor.replace('#', '').match(/.{1,2}/g);
+    var colorRGB = [
+        parseInt(aRgbHex[0], 16),
+        parseInt(aRgbHex[1], 16),
+        parseInt(aRgbHex[2], 16)
+    ];
+
     let colors =  afterglow_style.split(',');
 
     if(colors.length == 1 && colors[0] != ''){
@@ -209,7 +233,7 @@ function renderGlow(glow, afterglow_style){
     // Loops through all of the pixels and modifies the components.
     let row = width * 4;
     let rowRanges = height/colorRanges;
-    for (var i = 0, n = pix.length; i <n; i += 4) {
+    for (var i = 0, n = pix_glow.length; i <n; i += 4) {
 
         if (colors.length > 1){
             // TODO
@@ -217,35 +241,60 @@ function renderGlow(glow, afterglow_style){
             let index = Math.floor(rows / rowRanges);
             uniqueColor = aRgbArr[index];
         }
-        let threshold = 5;
-        if (pix[i] > threshold &&  
-            pix[i+1] > threshold &&
-            pix[i+2] > threshold)
+        let threshold_glow = 5;
+        if (pix_glow[i] > threshold_glow &&  
+            pix_glow[i+1] > threshold_glow &&
+            pix_glow[i+2] > threshold_glow)
         {
             
-            pixelData[i] = uniqueColor[0] - (255-pix[i]);   // Red component
-            pixelData[i+1] = uniqueColor[1] - (255-pix[i+1]); // Blue component
-            pixelData[i+2] = uniqueColor[2] - (255-pix[i+2]); // Green component
+            pixelData[i] = uniqueColor[0] - (255-pix_glow[i]);   // Red component
+            pixelData[i+1] = uniqueColor[1] - (255-pix_glow[i+1]); // Blue component
+            pixelData[i+2] = uniqueColor[2] - (255-pix_glow[i+2]); // Green component
 
-            pix[i] = uniqueColor[0] - (255-pix[i]);   // Red component
-            pix[i+1] = uniqueColor[1] - (255-pix[i+1]); // Blue component
-            pix[i+2] = uniqueColor[2] - (255-pix[i+2]); // Green component
+            pix_glow[i] = uniqueColor[0] - (255-pix_glow[i]);   // Red component
+            pix_glow[i+1] = uniqueColor[1] - (255-pix_glow[i+1]); // Blue component
+            pix_glow[i+2] = uniqueColor[2] - (255-pix_glow[i+2]); // Green component
         }
         else
         {
-            pix[i] = transparentColor[0];   // Red component
-            pix[i+1] = transparentColor[1]; // Blue component
-            pix[i+2] = transparentColor[2]; // Green component
-            pix[i+3] = transparentColor[3];
+            pix_glow[i] = transparentColor[0];   // Red component
+            pix_glow[i+1] = transparentColor[1]; // Blue component
+            pix_glow[i+2] = transparentColor[2]; // Green component
+            pix_glow[i+3] = transparentColor[3];
         }
-        //pix[i+3] is the transparency.
+        //pix_glow[i+3] is the transparency.
+
+        let threshold_color = 5;
+        if (pix_color[i] > threshold_color &&  
+            pix_color[i+1] > threshold_color &&
+            pix_color[i+2] > threshold_color)
+        {
+            
+            pixelData[i] = colorRGB[0] - (255-pix_color[i]);   // Red component
+            pixelData[i+1] = colorRGB[1] - (255-pix_color[i+1]); // Blue component
+            pixelData[i+2] = colorRGB[2] - (255-pix_color[i+2]); // Green component
+            pixelData[i+3] = 128;
+
+            pix_color[i] = colorRGB[0] - (255-pix_color[i]);   // Red component
+            pix_color[i+1] = colorRGB[1] - (255-pix_color[i+1]); // Blue component
+            pix_color[i+2] = colorRGB[2] - (255-pix_color[i+2]); // Green component
+
+            // pix_color[i+3] = 128;
+        }
+        else
+        {
+            pix_color[i] = transparentColor[0];   // Red component
+            pix_color[i+1] = transparentColor[1]; // Blue component
+            pix_color[i+2] = transparentColor[2]; // Green component
+            pix_color[i+3] = transparentColor[3];
+        }
     }
-    ctxResizedOutputGlow.putImageData(imgd, 0, 0);
+    ctxResizedOutputGlow.putImageData(imgd_glow, 0, 0);
     ctxTemp.putImageData(sourceImageData, 0, 0);
     return [ctxTemp, ctxResizedOutputGlow];
 }
 
-function renderHead(head, headGlow, afterglow_style){
+function renderHead(head, headGlow, headColor, afterglow_style){
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(400, 0);
@@ -257,7 +306,7 @@ function renderHead(head, headGlow, afterglow_style){
     ctx.closePath();
     ctx.clip();
     ctx.drawImage(head, 0, 0);
-    renderGlow(headGlow, afterglow_style);
+    renderGlow(headGlow, headColor, afterglow_style, 'head');
     let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
     ctx.drawImage(resize_output_canvas, 0, 0);
     let canvasTemp = document.getElementById("temp_canvas");
@@ -265,7 +314,7 @@ function renderHead(head, headGlow, afterglow_style){
     ctx.restore();
 }
 
-function renderBody(body, bodyGlow, afterglow_style){
+function renderBody(body, bodyGlow, bodyColor, afterglow_style){
     let sizeX = 180;
     let sizeY = 100;
     let offsetY = -300;
@@ -280,7 +329,7 @@ function renderBody(body, bodyGlow, afterglow_style){
     ctx.closePath();
     ctx.clip();
     ctx.drawImage(body, 0, 0);
-    renderGlow(bodyGlow, afterglow_style);
+    renderGlow(bodyGlow, bodyColor, afterglow_style, 'body');
     let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
     ctx.drawImage(resize_output_canvas, 0, 0);
     let canvasTemp = document.getElementById("temp_canvas");
@@ -288,7 +337,7 @@ function renderBody(body, bodyGlow, afterglow_style){
     ctx.restore();
 }
 
-function renderLegs(legs, legsGlow, afterglow_style){
+function renderLegs(legs, legsGlow, legsColor, afterglow_style){
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(0, height);
@@ -301,7 +350,7 @@ function renderLegs(legs, legsGlow, afterglow_style){
     ctx.clip();
     ctx.drawImage(legs, 0, 0);
     
-    renderGlow(legsGlow, afterglow_style);
+    renderGlow(legsGlow, legsColor, afterglow_style, 'legs');
 
     let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
     ctx.drawImage(resize_output_canvas, 0, 0);
@@ -312,7 +361,7 @@ function renderLegs(legs, legsGlow, afterglow_style){
     ctx.restore();
 }
 
-function renderLeftArm(left_arm, left_armGlow, afterglow_style){
+function renderLeftArm(left_arm, left_armGlow, left_armColor, afterglow_style){
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -324,7 +373,7 @@ function renderLeftArm(left_arm, left_armGlow, afterglow_style){
     ctx.clip();
 
     ctx.drawImage(left_arm, 0, 0);
-    renderGlow(left_armGlow, afterglow_style);
+    renderGlow(left_armGlow, left_armColor, afterglow_style, 'left_arm');
 
     let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
     ctx.drawImage(resize_output_canvas, 0, 0);
@@ -335,7 +384,7 @@ function renderLeftArm(left_arm, left_armGlow, afterglow_style){
     ctx.restore();
 }
 
-function renderRightArm(right_arm, right_armGlow, afterglow_style){
+function renderRightArm(right_arm, right_armGlow, right_armColor, afterglow_style){
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(width, 0);
@@ -347,7 +396,7 @@ function renderRightArm(right_arm, right_armGlow, afterglow_style){
     ctx.clip();
 
     ctx.drawImage(right_arm, 0, 0);
-    renderGlow(right_armGlow, afterglow_style);
+    renderGlow(right_armGlow, right_armColor, afterglow_style, 'right_arm');
 
     let resize_output_canvas = document.getElementById('glow_resized_output_canvas');
     ctx.drawImage(resize_output_canvas, 0, 0);
@@ -370,14 +419,23 @@ function showPreview(head, body, legs, left_arm, right_arm, afterglow_style){
     // Create an image element
     var headImg = null;
     var headGlowImg = null;
+    var headColorImg = null;
+
     var bodyImg = null;
     var bodyGlowImg = null;
+    var bodyColorImg = null;
+
     var legsImg = null;
     var legsGlowImg = null;
+    var legsColorImg = null;
+
     var left_armImg = null;
     var left_armGlowImg = null;
+    var left_armColorImg = null;
+
     var right_armImg = null;
     var right_armGlowImg = null;
+    var right_armColorImg = null;
 
     if(head == 'CAMM-E'){
         head = 'camm-e';
@@ -427,6 +485,11 @@ function showPreview(head, body, legs, left_arm, right_arm, afterglow_style){
         delete headGlowImg;
         headGlowImg = document.createElement('IMG');
         headGlowImg.src = BASE_GLOW_URL + style_urls[head].replace('.webp', '_EmissiveMask.png');
+
+        headColorImg = null;
+        delete headColorImg;
+        headColorImg = document.createElement('IMG');
+        headColorImg.src = BASE_GLOW_URL + style_urls[head].replace('.webp', '_SecondaryColorMask.png');
     } 
     // else if(head != ''){
     //     headImg = imageCache[head].head;
@@ -443,6 +506,11 @@ function showPreview(head, body, legs, left_arm, right_arm, afterglow_style){
         delete bodyGlowImg;
         bodyGlowImg = document.createElement('IMG');
         bodyGlowImg.src = BASE_GLOW_URL + style_urls[body].replace('.webp', '_EmissiveMask.png');
+
+        bodyColorImg = null;
+        delete bodyColorImg;
+        bodyColorImg = document.createElement('IMG');
+        bodyColorImg.src = BASE_GLOW_URL + style_urls[body].replace('.webp', '_SecondaryColorMask.png');
     } 
     // else if(body != ''){
     //     bodyImg = imageCache[body].body;
@@ -459,6 +527,11 @@ function showPreview(head, body, legs, left_arm, right_arm, afterglow_style){
         delete legsGlowImg;
         legsGlowImg = document.createElement('IMG');
         legsGlowImg.src = BASE_GLOW_URL + style_urls[legs].replace('.webp', '_EmissiveMask.png');
+
+        legsColorImg = null;
+        delete legsColorImg;
+        legsColorImg = document.createElement('IMG');
+        legsColorImg.src = BASE_GLOW_URL + style_urls[legs].replace('.webp', '_SecondaryColorMask.png');
     } 
     // else if(legs != ''){
     //     legsImg = imageCache[legs].legs;
@@ -475,6 +548,11 @@ function showPreview(head, body, legs, left_arm, right_arm, afterglow_style){
         delete left_armGlowImg;
         left_armGlowImg = document.createElement('IMG');
         left_armGlowImg.src = BASE_GLOW_URL + style_urls[left_arm].replace('.webp', '_EmissiveMask.png?v=1');
+
+        left_armColorImg = null;
+        delete left_armColorImg;
+        left_armColorImg = document.createElement('IMG');
+        left_armColorImg.src = BASE_GLOW_URL + style_urls[left_arm].replace('.webp', '_SecondaryColorMask.png?v=1');
     }
     //  else if(left_arm != ''){
     //     left_armImg = imageCache[left_arm].left_arm;
@@ -491,15 +569,20 @@ function showPreview(head, body, legs, left_arm, right_arm, afterglow_style){
         delete right_armGlowImg;
         right_armGlowImg = document.createElement('IMG');
         right_armGlowImg.src = BASE_GLOW_URL + style_urls[right_arm].replace('.webp', '_EmissiveMask.png?v=2');
+
+        right_armColorImg = null;
+        delete right_armColorImg;
+        right_armColorImg = document.createElement('IMG');
+        right_armColorImg.src = BASE_GLOW_URL + style_urls[right_arm].replace('.webp', '_SecondaryColorMask.png?v=2');
     } 
     // else if(right_arm != ''){
     //     right_armImg = imageCache[right_arm].right_arm;
     //     right_armGlowImg = imageGlowCache[right_arm].right_arm;
     // }
-    createImages(headImg, bodyImg, legsImg, left_armImg, right_armImg, head, body, legs, left_arm, right_arm, headGlowImg, bodyGlowImg, legsGlowImg, left_armGlowImg, right_armGlowImg, afterglow_style);
+    createImages(headImg, bodyImg, legsImg, left_armImg, right_armImg, head, body, legs, left_arm, right_arm, headGlowImg, bodyGlowImg, legsGlowImg, left_armGlowImg, right_armGlowImg, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
 }
 
-function createImages(head, body, legs, left_arm, right_arm, headName, bodyName, legsName, left_armName, right_armName, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style){
+function createImages(head, body, legs, left_arm, right_arm, headName, bodyName, legsName, left_armName, right_armName, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style){
     let loadedCount = 0;
     let loadedTotal = 10;
     let allCached = 0;
@@ -508,14 +591,14 @@ function createImages(head, body, legs, left_arm, right_arm, headName, bodyName,
             imageCache[headName].head = head;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         headGlow.onload = function () {
             imageGlowCache[headName].head = head;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         headGlow.onerror = function(){
@@ -530,14 +613,14 @@ function createImages(head, body, legs, left_arm, right_arm, headName, bodyName,
             imageCache[legsName].legs = legs;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         legsGlow.onload = function () {
             imageGlowCache[legsName].legs = legs;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         legsGlow.onerror = function(){
@@ -552,14 +635,14 @@ function createImages(head, body, legs, left_arm, right_arm, headName, bodyName,
             imageCache[left_armName].left_arm = left_arm;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         left_armGlow.onload = function () {
             imageGlowCache[left_armName].left_arm = left_arm;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         left_armGlow.onerror = function(){
@@ -574,14 +657,14 @@ function createImages(head, body, legs, left_arm, right_arm, headName, bodyName,
             imageCache[right_armName].right_arm = right_arm;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         right_armGlow.onload = function () {
             imageGlowCache[right_armName].right_arm = right_arm;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         right_armGlow.onerror = function(){
@@ -596,14 +679,14 @@ function createImages(head, body, legs, left_arm, right_arm, headName, bodyName,
             imageCache[bodyName].body = body;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         bodyGlow.onload = function () {
             imageGlowCache[bodyName].body = body;
             loadedCount++;
             if(loadedCount == loadedTotal){
-                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+                render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
             }
         }
         bodyGlow.onerror = function(){
@@ -614,7 +697,7 @@ function createImages(head, body, legs, left_arm, right_arm, headName, bodyName,
         allCached+=2;
     }
     if(allCached == loadedTotal){
-        render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, afterglow_style);
+        render(head, body, legs, left_arm, right_arm, headGlow, bodyGlow, legsGlow, left_armGlow, right_armGlow, headColorImg, bodyColorImg, legsColorImg, left_armColorImg, right_armColorImg, afterglow_style);
     }
 }
 
@@ -625,53 +708,76 @@ function hex (c) {
       return "00";
     i = Math.round (Math.min (Math.max (0, i), 255));
     return s.charAt ((i - i % 16) / 16) + s.charAt (i % 16);
-  }
-  
-  /* Convert an RGB triplet to a hex string */
-  function convertToHex (rgb) {
+}
+
+/* Convert an RGB triplet to a hex string */
+function convertToHex (rgb) {
     return hex(rgb[0]) + hex(rgb[1]) + hex(rgb[2]);
-  }
-  
-  /* Remove '#' in color hex string */
-  function trim (s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
-  
-  /* Convert a hex string to an RGB triplet */
-  function convertToRGB (hex) {
+}
+
+/* Remove '#' in color hex string */
+function trim (s) { return (s.charAt(0) == '#') ? s.substring(1, 7) : s }
+
+/* Convert a hex string to an RGB triplet */
+function convertToRGB (hex) {
     var color = [];
     color[0] = parseInt ((trim(hex)).substring (0, 2), 16);
     color[1] = parseInt ((trim(hex)).substring (2, 4), 16);
     color[2] = parseInt ((trim(hex)).substring (4, 6), 16);
     return color;
-  }
-  
-  function generateColor(colorStart,colorEnd,colorCount){
-  
-      // The beginning of your gradient
-      var start = convertToRGB (colorStart);    
-  
-      // The end of your gradient
-      var end   = convertToRGB (colorEnd);    
-  
-      // The number of colors to compute
-      var len = colorCount;
-  
-      //Alpha blending amount
-      var alpha = 0.0;
-  
-      var saida = [];
-      
-      for (i = 0; i < len; i++) {
-          var c = [];
-          alpha += (1.0/len);
-          
-          c[0] = start[0] * alpha + (1 - alpha) * end[0];
-          c[1] = start[1] * alpha + (1 - alpha) * end[1];
-          c[2] = start[2] * alpha + (1 - alpha) * end[2];
-  
-          saida.push(convertToHex (c));
-          
-      }
-      
-      return saida;
-      
-  }
+}
+
+function generateColor(colorStart,colorEnd,colorCount){
+
+    // The beginning of your gradient
+    var start = convertToRGB (colorStart);    
+
+    // The end of your gradient
+    var end   = convertToRGB (colorEnd);    
+
+    // The number of colors to compute
+    var len = colorCount;
+
+    //Alpha blending amount
+    var alpha = 0.0;
+
+    var saida = [];
+    
+    for (i = 0; i < len; i++) {
+        var c = [];
+        alpha += (1.0/len);
+        
+        c[0] = start[0] * alpha + (1 - alpha) * end[0];
+        c[1] = start[1] * alpha + (1 - alpha) * end[1];
+        c[2] = start[2] * alpha + (1 - alpha) * end[2];
+
+        saida.push(convertToHex (c));
+        
+    }
+    
+    return saida;
+    
+}
+
+function setModelColor(){
+    let color = document.getElementById('full_style_color').value;
+    console.log('color:', color);
+    partColors.head = color;
+    partColors.body = color;
+    partColors.left_arm = color;
+    partColors.right_arm = color;
+    partColors.legs = color;
+    document.getElementById('head_style_color').value = color;
+    document.getElementById('body_style_color').value = color;
+    document.getElementById('left_arm_style_color').value = color;
+    document.getElementById('right_arm_style_color').value = color;
+    document.getElementById('legs_style_color').value = color;
+    updatePreview();
+}
+
+function setPartColor(part){
+    let color = document.getElementById(part+'_style_color').value;
+    console.log('color:', color);
+    partColors[part] = color;
+    updatePreview();
+}
