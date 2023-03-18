@@ -110,7 +110,7 @@ const applyFilters = (evt) => {
     filteredData = data.filter((item) => {
         return (
             (!talents.length || talents.includes(item.talent)) &&
-            (!layers.length || layers.some(r=> item.layers.includes(r))) &&
+            (!layers.length || layers.every(r=> item.layers.includes(r))) &&
             (!species.length || species.includes(item.species)) &&
             (!genders.length || genders.includes(item.gender))
         );
