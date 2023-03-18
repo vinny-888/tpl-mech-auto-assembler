@@ -101,6 +101,7 @@ let afterglowColors = {
     'ShaDAO Black': ['#000000']
   };
 
+let useColors = false;
 let partColors = {
     head: '#FF0000',
     body: '#FF0000',
@@ -267,7 +268,7 @@ function renderGlow(glow, color, afterglow_style, part){
         let threshold_color = 5;
         if (pix_color[i] > threshold_color &&  
             pix_color[i+1] > threshold_color &&
-            pix_color[i+2] > threshold_color)
+            pix_color[i+2] > threshold_color && useColors)
         {
             
             pixelData[i] = colorRGB[0] - (255-pix_color[i]);   // Red component
@@ -779,5 +780,10 @@ function setPartColor(part){
     let color = document.getElementById(part+'_style_color').value;
     console.log('color:', color);
     partColors[part] = color;
+    updatePreview();
+}
+
+function toggleColors(){
+    useColors = !useColors;
     updatePreview();
 }
