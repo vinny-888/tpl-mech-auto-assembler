@@ -279,12 +279,12 @@ function renderGlow(glow, color, afterglow_style, part){
             pixelData[i] = uniqueColor[0] - (255-pix_glow[i]);   // Red component
             pixelData[i+1] = uniqueColor[1] - (255-pix_glow[i+1]); // Blue component
             pixelData[i+2] = uniqueColor[2] - (255-pix_glow[i+2]); // Green component
-            // pixelData[i+3] = 128;
+            pixelData[i+3] = 128;
 
             pix_glow[i] = uniqueColor[0] - (255-pix_glow[i]);   // Red component
             pix_glow[i+1] = uniqueColor[1] - (255-pix_glow[i+1]); // Blue component
             pix_glow[i+2] = uniqueColor[2] - (255-pix_glow[i+2]); // Green component
-            // pix_glow[i+3] = 128;
+            pix_glow[i+3] = 128;
         }
         else
         {
