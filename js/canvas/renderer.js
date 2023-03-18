@@ -100,8 +100,8 @@ let afterglowColors = {
     'Starter Green': ['#1DC267'],
     'ShaDAO Black': ['#000000']
   };
-
-let useColors = false;
+let colorStength = 128;
+let useColors = true;
 let partColors = {
     head: '#FF0000',
     body: '#FF0000',
@@ -274,7 +274,7 @@ function renderGlow(glow, color, afterglow_style, part){
             pixelData[i] = colorRGB[0] - (255-pix_color[i]);   // Red component
             pixelData[i+1] = colorRGB[1] - (255-pix_color[i+1]); // Blue component
             pixelData[i+2] = colorRGB[2] - (255-pix_color[i+2]); // Green component
-            pixelData[i+3] = 128;
+            pixelData[i+3] = colorStength;
 
             pix_color[i] = colorRGB[0] - (255-pix_color[i]);   // Red component
             pix_color[i+1] = colorRGB[1] - (255-pix_color[i+1]); // Blue component
@@ -786,4 +786,17 @@ function setPartColor(part){
 function toggleColors(){
     useColors = !useColors;
     updatePreview();
+}
+
+let timeout_clear = null;
+function updateColorStrength(){
+    let value = parseInt(document.getElementById('color_strength').value);
+    let percent = Math.round((value/255) * 100);
+    document.getElementById('color_label').innerHTML = 'Color Strength: '+percent + '%';
+
+    clearTimeout(timeout_clear);
+    timeout_clear = setTimeout(()=>{
+        colorStength = value;
+        updatePreview();
+    }, 300)
 }

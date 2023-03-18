@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=3.4">
-    <link rel="stylesheet" href="./css/owners.css?v=3.4">
-    <link rel="stylesheet" href="./css/builder.css?v=3.4">
+    <link rel="stylesheet" href="./css/main.css?v=3.5">
+    <link rel="stylesheet" href="./css/owners.css?v=3.5">
+    <link rel="stylesheet" href="./css/builder.css?v=3.5">
   </head>
   <body>
     <div class="header">
@@ -534,7 +534,7 @@
                 </div>
                 <div class="inline" style="margin-right: 0px;">
                   Apply Colors
-                  <input type="checkbox" onclick="toggleColors()">
+                  <input type="checkbox" onclick="toggleColors()" checked>
                 </div>
               </div>
 
@@ -542,6 +542,10 @@
                 
                 <div>
                   <div style="position: absolute;top:  0px;">
+                    <div>
+                      <p id="color_label" style="position: absolute;color: #fff;font-weight: bold;margin-left: 10px;margin-top: 2px;">Color Stregth: 50%</p>
+                      <input type="range" min="0" max="255" value="128" class="slider" id="color_strength" oninput="updateColorStrength()">
+                    </div>
                     <canvas style="zoom: 0.35;" id="renderCanvas" width="1600" height="1760"></canvas>
                   </div>
                   
@@ -549,7 +553,7 @@
                     <canvas style="display: none;zoom: 0.35;-webkit-filter: blur(10px);" id="glow_resized_output_canvas" width="1600" height="1760"></canvas>
                   </div>
                 </div>
-                <div id="info" style="margin-top: 617px;padding: 10px;margin-left: 0px;height: 100px;width: 560px;    display: inline-block;">
+                <div id="info" style="margin-top: 641px;padding: 10px;margin-left: 0px;height: 100px;width: 560px;    display: inline-block;">
                   <div style="">
                     <div style="display: inline-block;">
                       <b><span style="font-size: 24px;color: rgb(255 184 0)">Endurance:</span></b><br>
@@ -638,11 +642,11 @@
         </tr>
       </template>
     </div>
-    <script type="text/javascript" src="./js/util/constants.js?v=3.4"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=3.4"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.4"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=3.4"></script>
-    <script type="text/javascript" src="./js/canvas/renderer.js?v=3.4"></script>
-    <script type="text/javascript" src="./js/builder.js?v=3.4"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=3.5"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=3.5"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.5"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=3.5"></script>
+    <script type="text/javascript" src="./js/canvas/renderer.js?v=3.5"></script>
+    <script type="text/javascript" src="./js/builder.js?v=3.5"></script>
   </body>
 </html>
