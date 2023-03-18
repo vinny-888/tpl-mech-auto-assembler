@@ -29,8 +29,21 @@ function populateAfterglowDropdown() {
   select.innerHTML = html;
 }
 
-function setParams(engine, head, body, legs, left_arm, right_arm, afterglow_name){
-  window.history.pushState("", "", window.location.href.split('?')[0] + '?engine=' + engine + '&' + 'head=' + head + '&' + 'body=' + body + '&' + 'legs=' + legs + '&' + 'left_arm=' + left_arm + '&' + 'right_arm=' + right_arm + '&afterglow=' + afterglow_name);
+function setParams(engine, head, body, legs, left_arm, right_arm, headColor, bodyColor, legsColor, left_armColor, right_armColor, color_strength, afterglow_name){
+  window.history.pushState("", "", window.location.href.split('?')[0] + '?' 
+  + 'engine=' + engine + '&' 
+  + 'head=' + head + '&' 
+  + 'body=' + body + '&' 
+  + 'legs=' + legs + '&' 
+  + 'left_arm=' + left_arm + '&' 
+  + 'right_arm=' + right_arm + '&' 
+  + 'headColor=' + headColor + '&' 
+  + 'bodyColor=' + bodyColor + '&' 
+  + 'legsColor=' + legsColor + '&' 
+  + 'left_armColor=' + left_armColor + '&' 
+  + 'right_armColor=' + right_armColor + '&' 
+  + 'color_strength=' + color_strength + '&' 
+  + 'afterglow=' + afterglow_name);
 }
 
 function loadParams(){
@@ -41,6 +54,12 @@ function loadParams(){
   var legs = url.searchParams.get("legs");
   var left_arm = url.searchParams.get("left_arm");
   var right_arm = url.searchParams.get("right_arm");
+  var headColor = url.searchParams.get("headColor");
+  var bodyColor = url.searchParams.get("bodyColor");
+  var legsColor = url.searchParams.get("legsColor");
+  var left_armColor = url.searchParams.get("left_armColor");
+  var right_armColor = url.searchParams.get("right_armColor");
+  var color_strength = url.searchParams.get("color_strength");
   selectedAfterglow = url.searchParams.get("afterglow");
   if(engine){
     document.getElementById('engine_style').value = engine;
@@ -59,6 +78,26 @@ function loadParams(){
   }
   if(right_arm){
     document.getElementById('right_arm_style').value = right_arm;
+  }
+
+  if(headColor){
+    document.getElementById('head_style_color').value = '#' + headColor;
+  }
+  if(bodyColor){
+    document.getElementById('body_style_color').value = '#' + bodyColor;
+  }
+  if(legsColor){
+    document.getElementById('legs_style_color').value = '#' + legsColor;
+  }
+  if(left_armColor){
+    document.getElementById('left_arm_style_color').value = '#' + left_armColor;
+  }
+  if(right_armColor){
+    document.getElementById('right_arm_style_color').value = '#' + right_armColor;
+  }
+  if(color_strength){
+    document.getElementById('color_strength').value = color_strength;
+    updateColorStrength();
   }
 }
 
@@ -86,6 +125,15 @@ function showMech(index){
   document.getElementById('right_arm_style').value = mech.right_arm;
   document.getElementById('afterglow').value = mech.afterglow;
 
+  document.getElementById('head_style_color').value = '#' + mech.headColor;
+  document.getElementById('body_style_color').value = '#' + mech.bodyColor;
+  document.getElementById('legs_style_color').value = '#' + mech.legsColor;
+  document.getElementById('left_arm_style_color').value = '#' + mech.left_armColor;
+  document.getElementById('right_arm_style_color').value = '#' + mech.right_armColor;
+  
+  document.getElementById('color_strength').value = mech.color_strength;
+  updateColorStrength();
+
   updatePreview();
 }
 
@@ -110,6 +158,15 @@ function saveMech(){
     let legs = document.getElementById('legs_style').value;
     let left_arm = document.getElementById('left_arm_style').value;
     let right_arm = document.getElementById('right_arm_style').value;
+
+    let headColor = document.getElementById('head_style_color').value.replace('#', '');
+    let bodyColor = document.getElementById('body_style_color').value.replace('#', '');
+    let legsColor = document.getElementById('legs_style_color').value.replace('#', '');
+    let left_armColor = document.getElementById('left_arm_style_color').value.replace('#', '');
+    let right_armColor = document.getElementById('right_arm_style_color').value.replace('#', '');
+
+    let color_strength = document.getElementById('color_strength').value;
+
     let afterglow = document.getElementById('afterglow').value;
     let img = resize_canvas.toDataURL();
 
@@ -126,6 +183,12 @@ function saveMech(){
       legs,
       left_arm,
       right_arm,
+      headColor,
+      bodyColor,
+      legsColor,
+      left_armColor,
+      right_armColor,
+      color_strength,
       afterglow,
       img,
       endurance,
@@ -227,6 +290,15 @@ function updatePreview(){
   let right_arm = document.getElementById('right_arm_style');
   let afterglow = document.getElementById('afterglow');
 
+
+  let headColor = document.getElementById('head_style_color').value.replace('#', '');
+  let bodyColor = document.getElementById('body_style_color').value.replace('#', '');
+  let legsColor = document.getElementById('legs_style_color').value.replace('#', '');
+  let left_armColor = document.getElementById('left_arm_style_color').value.replace('#', '');
+  let right_armColor = document.getElementById('right_arm_style_color').value.replace('#', '');
+
+  let color_strength = document.getElementById('color_strength').value;
+
   let engine_style = engine.value;
   let head_style = head.value;
   let body_style = body.value;
@@ -235,7 +307,7 @@ function updatePreview(){
   let right_arm_style = right_arm.value;
   let afterglow_style = afterglow.value;
 
-  setParams(engine_style, head_style, body_style, legs_style, left_arm_style, right_arm_style, getSelectedText('afterglow'));
+  setParams(engine_style, head_style, body_style, legs_style, left_arm_style, right_arm_style, headColor, bodyColor, legsColor, left_armColor, right_armColor, color_strength, getSelectedText('afterglow'));
 
   let enduranceTotal = 0;
   let speedTotal = 0;

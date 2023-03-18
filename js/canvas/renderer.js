@@ -100,8 +100,8 @@ let afterglowColors = {
     'Starter Green': ['#1DC267'],
     'ShaDAO Black': ['#000000']
   };
-let colorStength = 128;
-let useColors = false;
+let colorStength = 0;
+let useColors = true;
 let partColors = {
     head: '#FF0000',
     body: '#FF0000',
