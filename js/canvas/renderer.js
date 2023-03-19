@@ -764,6 +764,7 @@ function generateColor(colorStart,colorEnd,colorCount){
     
 }
 
+let timeout_color_clear = null;
 function setModelColor(){
     let color = document.getElementById('full_style_color').value;
     console.log('color:', color);
@@ -778,15 +779,20 @@ function setModelColor(){
         document.getElementById('left_arm_style_color').value = color;
         document.getElementById('right_arm_style_color').value = color;
         document.getElementById('legs_style_color').value = color;
-        updatePreview();
+        clearTimeout(timeout_color_clear);
+        timeout_color_clear = setTimeout(()=>{
+            updatePreview();
+        }, 300);
     }
 }
-
 function setPartColor(part){
     let color = document.getElementById(part+'_style_color').value;
     console.log('color:', color);
     partColors[part] = color;
-    updatePreview();
+    clearTimeout(timeout_color_clear);
+    timeout_color_clear = setTimeout(()=>{
+        updatePreview();
+    }, 300);
 }
 
 function toggleColors(){
