@@ -30,7 +30,7 @@ function populateAfterglowDropdown() {
 }
 
 function setParams(engine, head, body, legs, left_arm, right_arm, headColor, bodyColor, legsColor, left_armColor, right_armColor, color_strength, afterglow_name){
-  window.history.pushState("", "", window.location.href.split('?')[0] + '?' 
+  window.history.pushState("", "", '?' 
   + 'engine=' + engine + '&' 
   + 'head=' + head + '&' 
   + 'body=' + body + '&' 
