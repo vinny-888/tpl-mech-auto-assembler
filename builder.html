@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=3.8">
-    <link rel="stylesheet" href="./css/owners.css?v=3.8">
-    <link rel="stylesheet" href="./css/builder.css?v=3.8">
+    <link rel="stylesheet" href="./css/main.css?v=3.9">
+    <link rel="stylesheet" href="./css/owners.css?v=3.9">
+    <link rel="stylesheet" href="./css/builder.css?v=3.9">
   </head>
   <body>
     <div class="header">
@@ -536,6 +536,12 @@
                   Apply Colors
                   <input type="checkbox" onclick="toggleColors()">
                 </div>
+                <div class="inline" style="margin-right: 0px;">
+                  <input type="button" onclick="randomizeColors()" value="Random">
+                </div>
+                <div class="inline" style="margin-right: 0px;">
+                  <input type="button" onclick="complimentColors()" value="Compliment">
+                </div>
               </div>
 
               <div id="viewer2" class="col-md-5">
@@ -642,11 +648,12 @@
         </tr>
       </template>
     </div>
-    <script type="text/javascript" src="./js/util/constants.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/canvas/renderer.js?v=3.8"></script>
-    <script type="text/javascript" src="./js/builder.js?v=3.8"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=3.9"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=3.9"></script>
+    <script type="text/javascript" src="./js/util/colors.js?v=3.9"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=3.9"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=3.9"></script>
+    <script type="text/javascript" src="./js/canvas/renderer.js?v=3.9"></script>
+    <script type="text/javascript" src="./js/builder.js?v=3.9"></script>
   </body>
 </html>

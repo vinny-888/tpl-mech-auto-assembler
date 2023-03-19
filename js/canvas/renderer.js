@@ -812,3 +812,44 @@ function updateColorStrength(){
         updatePreview();
     }, 300)
 }
+
+function randomizeColors(){
+    var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+    partColors.head = color;
+    partColors.body = color;
+    partColors.left_arm = color;
+    partColors.right_arm = color;
+    partColors.legs = color;
+    document.getElementById('head_style_color').value = color;
+    document.getElementById('body_style_color').value = color;
+    document.getElementById('left_arm_style_color').value = color;
+    document.getElementById('right_arm_style_color').value = color;
+    document.getElementById('legs_style_color').value = color;
+    updatePreview();
+}
+
+function complimentColors(){
+    let afterglowColor = null;
+    Object.keys(afterglowColors).forEach((afterglow)=>{
+    
+        if(selectedAfterglow == afterglow){
+            afterglowColor = afterglowColors[afterglow][0];
+        }
+    });
+    var color = $ui.color.complement(afterglowColor)[0];
+
+    partColors.head = color;
+    partColors.body = color;
+    partColors.left_arm = color;
+    partColors.right_arm = color;
+    partColors.legs = color;
+    document.getElementById('head_style_color').value = color;
+    document.getElementById('body_style_color').value = color;
+    document.getElementById('left_arm_style_color').value = color;
+    document.getElementById('right_arm_style_color').value = color;
+    document.getElementById('legs_style_color').value = color;
+    
+    setTimeout(()=>{
+        updatePreview();
+    }, 0);
+}

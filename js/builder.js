@@ -296,7 +296,7 @@ function updatePreview(){
   let left_arm = document.getElementById('left_arm_style');
   let right_arm = document.getElementById('right_arm_style');
   let afterglow = document.getElementById('afterglow');
-
+  
 
   let headColor = document.getElementById('head_style_color').value.replace('#', '');
   let bodyColor = document.getElementById('body_style_color').value.replace('#', '');
@@ -313,6 +313,7 @@ function updatePreview(){
   let left_arm_style = left_arm.value;
   let right_arm_style = right_arm.value;
   let afterglow_style = afterglow.value;
+  selectedAfterglow = afterglow.options[afterglow.selectedIndex].text;
 
   setParams(engine_style, head_style, body_style, legs_style, left_arm_style, right_arm_style, headColor, bodyColor, legsColor, left_armColor, right_armColor, color_strength, getSelectedText('afterglow'));
 
