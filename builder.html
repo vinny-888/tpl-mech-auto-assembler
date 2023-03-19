@@ -104,7 +104,7 @@
                     </select>
                   </div>
                   <div class="inlineColor">
-                    <input type="color" class="colorPicker" id="full_style_color" oninput="setModelColor(true)" value="" style="width:20px; height: 20px;">
+                    <input type="color" class="colorPicker" id="full_style_color" oninput="setModelColor(true)" onchange="setModelColor(true)" value="" style="width:20px; height: 20px;">
                   </div>
                 </div>
                 <div class="inline">
@@ -174,7 +174,7 @@
                     </select>
                   </div>
                   <div class="inlineColor">
-                    <input type="color" class="colorPicker" id="head_style_color" oninput="setPartColor('head')" value="#ff0000" style="width:20px; height: 20px;">
+                    <input type="color" class="colorPicker" id="head_style_color" oninput="setPartColor('head')" onchange="updateColorStrength()" value="#ff0000" style="width:20px; height: 20px;">
                   </div>
                 </div>
                 <div class="inline">
@@ -244,7 +244,7 @@
                     </select>
                   </div>
                   <div class="inlineColor">
-                    <input type="color" class="colorPicker" id="body_style_color" oninput="setPartColor('body')" value="#ff0000" style="width:20px; height: 20px;">
+                    <input type="color" class="colorPicker" id="body_style_color" oninput="setPartColor('body')" onchange="updateColorStrength()" value="#ff0000" style="width:20px; height: 20px;">
                   </div>
                 </div>
                 <div class="inline">
@@ -314,7 +314,7 @@
                     </select>
                   </div>
                   <div class="inlineColor">
-                    <input type="color" class="colorPicker" id="legs_style_color" oninput="setPartColor('legs')" value="#ff0000" style="width:20px; height: 20px;">
+                    <input type="color" class="colorPicker" id="legs_style_color" oninput="setPartColor('legs')" onchange="updateColorStrength()" value="#ff0000" style="width:20px; height: 20px;">
                   </div>
                 </div>
                 <div class="inline">
@@ -384,7 +384,7 @@
                     </select>
                   </div>
                   <div class="inlineColor">
-                    <input type="color" class="colorPicker" id="left_arm_style_color" oninput="setPartColor('left_arm')" value="#ff0000" style="width:20px; height: 20px;">
+                    <input type="color" class="colorPicker" id="left_arm_style_color" oninput="setPartColor('left_arm')" onchange="updateColorStrength()" value="#ff0000" style="width:20px; height: 20px;">
                   </div>
                 </div>
                 <div class="inline">
@@ -454,7 +454,7 @@
                     </select>
                   </div>
                   <div class="inlineColor">
-                    <input type="color" class="colorPicker" id="right_arm_style_color" oninput="setPartColor('right_arm')" value="#ff0000" style="width:20px; height: 20px;">
+                    <input type="color" class="colorPicker" id="right_arm_style_color" oninput="setPartColor('right_arm')" onchange="updateColorStrength()" value="#ff0000" style="width:20px; height: 20px;">
                   </div>
                 </div>
                 <div class="inline" style="margin-right: 0px;">
@@ -544,7 +544,7 @@
                   <div style="position: absolute;top:  0px;">
                     <div>
                       <p id="color_label" style="pointer-events: none;user-select: none;position: absolute;color: #fff;font-weight: bold;margin-left: 10px;margin-top: 2px;">Color Stregth: 50%</p>
-                      <input type="range" min="0" max="255" value="0" class="slider" id="color_strength" oninput="updateColorStrength()">
+                      <input type="range" min="0" max="255" value="0" class="slider" id="color_strength" oninput="updateColorStrength()" onchange="updateColorStrength()">
                     </div>
                     <canvas style="zoom: 0.35;" id="renderCanvas" width="1600" height="1760"></canvas>
                   </div>
