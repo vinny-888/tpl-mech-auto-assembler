@@ -833,16 +833,25 @@ function complimentColors(){
     Object.keys(afterglowColors).forEach((afterglow)=>{
     
         if(selectedAfterglow == afterglow){
-            afterglowColor = afterglowColors[afterglow][0];
+            afterglowColor = afterglowColors[afterglow];
         }
     });
-    var color = $ui.color.complement(afterglowColor)[0];
+    var color = $ui.color.complement(afterglowColor[0])[0];
 
-    partColors.head = color;
-    partColors.body = color;
-    partColors.left_arm = color;
-    partColors.right_arm = color;
-    partColors.legs = color;
+    let colorRanges = 3;
+    let gradientColorsCompliment = [];
+    if(afterglowColor.length > 1) {
+        let gradientColors = generateColor(afterglowColor[0], afterglowColor[1], colorRanges);
+        gradientColors.forEach((clr)=>{
+            gradientColorsCompliment.push($ui.color.complement(clr)[0]);
+        })
+    }
+
+    partColors.head = afterglowColor.length > 1 ? gradientColorsCompliment[0]: color;
+    partColors.body = afterglowColor.length > 1 ? gradientColorsCompliment[1]: color;
+    partColors.left_arm = afterglowColor.length > 1 ? gradientColorsCompliment[1]: color;
+    partColors.right_arm = afterglowColor.length > 1 ? gradientColorsCompliment[1]: color;
+    partColors.legs = afterglowColor.length > 1 ? gradientColorsCompliment[2]: color;
     document.getElementById('head_style_color').value = color;
     document.getElementById('body_style_color').value = color;
     document.getElementById('left_arm_style_color').value = color;
