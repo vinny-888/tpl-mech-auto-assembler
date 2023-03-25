@@ -23,7 +23,17 @@ const createFilterCheckboxes = (attribute, container) => {
     const values = uniqueAttributes(attribute);
     const filterContainer = document.getElementById(container);
     filterContainer.innerHTML = '';
+
+    let stats = {};
     values.forEach((value) => {
+        if(!stats[value]){
+            stats[value] = 0;
+        }
+        stats[value]++;
+    });
+    let sorted_values = getSortedKeys(stats);
+
+    sorted_values.forEach((value) => {
         const label = document.createElement("label");
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -36,6 +46,11 @@ const createFilterCheckboxes = (attribute, container) => {
     });
 };
 
+function getSortedKeys(obj) {
+    var keys = Object.keys(obj);
+    return keys.sort(function(a,b){return obj[a]-obj[b]});
+}
+
 const createFilterCheckboxes2 = (attribute, container, type) => {
     const values = uniqueAttributes(attribute);
     let filteredLayers = {};
@@ -46,49 +61,67 @@ const createFilterCheckboxes2 = (attribute, container, type) => {
     })
     const filterContainer = document.getElementById(container);
     filterContainer.innerHTML = '';
-    let used = {};
-    values.forEach((values) => {
-        values.forEach((value)=>{
-            let layer = layer_data.find((val)=>val.layerNum==value);
-            let layerName = layer.traitValue != '' ? layer.traitValue : layer.tagText;
-            let layerType = layer.layerType;
-            if (!(value in used)){//} && (value in filteredLayers)) {
-                used[value] = 1;
-                if(type == layerType){
-                    const label = document.createElement("label");
-                    const checkbox = document.createElement("input");
-                    const div0 = document.createElement("div");
-                    const div1 = document.createElement("div");
-                    const div2 = document.createElement("div");
-                    const div3 = document.createElement("div");
-                    div0.classList.add('card_div');
-                    div1.classList.add('card_title');
-                    div2.classList.add('card_row');
-                    div3.classList.add('card_row');
 
-                    // Top
-                    div1.appendChild(document.createTextNode(' '+layerName));
-
-                    // Middle
-                    const image = document.createElement("img");
-                    image.src = './layers/cb-layer-'+value.padStart(4, '0') +'.png';
-                    image.classList.add('layer');
-                    div2.appendChild(image);
-
-                    // Bottom
-                    checkbox.type = "checkbox";
-                    checkbox.value = value;
-                    checkbox.checked = selected[value] ? 'checked' : '';
-                    checkbox.addEventListener("change", applyFilters);
-                    div3.appendChild(checkbox);
-                    
-                    div0.appendChild(div1);
-                    div0.appendChild(div2);
-                    div0.appendChild(div3);
-                    filterContainer.appendChild(div0);
-                }
+    let stats = {};
+    values.forEach((vals) => {
+        vals.forEach((value)=>{
+            if(!stats[value]){
+                stats[value] = 0;
             }
-        })
+            stats[value]++;
+        });
+    });
+    let sorted_values = getSortedKeys(stats);
+    let used = {};
+    sorted_values.forEach((value) => {
+        let layer = layer_data.find((val)=>val.layerNum==value);
+        let layerName = layer.traitValue != '' ? layer.traitValue : layer.tagText;
+        let layerType = layer.layerType;
+        if (!(value in used)){//} && (value in filteredLayers)) {
+            used[value] = 1;
+            if(type == layerType){
+                const label = document.createElement("label");
+                const checkbox = document.createElement("input");
+                const div0 = document.createElement("div");
+                const div1 = document.createElement("div");
+                const div2 = document.createElement("div");
+                const div3 = document.createElement("div");
+                div0.classList.add('card_div');
+                div1.classList.add('card_title');
+                div2.classList.add('card_row');
+                div3.classList.add('card_row');
+
+                // Top
+                div1.appendChild(document.createTextNode(' '+layerName));
+
+                // Middle
+                const image = document.createElement("img");
+                image.src = './layers/cb-layer-'+value.padStart(4, '0') +'.png';
+                image.classList.add('layer');
+                div2.appendChild(image);
+
+
+                const div_label = document.createElement("div");
+                const label_span = document.createElement("span");
+                label_span.innerHTML = stats[value];
+                div_label.style.textAlign = 'center';
+                // image.classList.add('layer');
+                div_label.appendChild(label_span);
+
+                // Bottom
+                checkbox.type = "checkbox";
+                checkbox.value = value;
+                checkbox.checked = selected[value] ? 'checked' : '';
+                checkbox.addEventListener("change", applyFilters);
+                div3.appendChild(checkbox);
+                
+                div0.appendChild(div1);
+                div0.appendChild(div2);
+                div0.appendChild(div_label);
+                div0.appendChild(div3);
+                filterContainer.appendChild(div0);
+            }
+        }
     });
 };
 
