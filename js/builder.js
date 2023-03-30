@@ -17,6 +17,34 @@ window.addEventListener('load', async () => {
   loadMechs();
 });
 
+function nextPart(elm) {
+  const dropdown = document.getElementById(elm);
+  const selectedIndex = dropdown.selectedIndex;
+  const optionsLength = dropdown.options.length;
+
+  if (selectedIndex === optionsLength - 1) {
+      dropdown.selectedIndex = 0; // Loop around to the first option
+  } else {
+      dropdown.selectedIndex = selectedIndex + 1;
+  }
+  updatePreview();
+}
+
+function prevPart(elm) {
+  const dropdown = document.getElementById(elm);
+  const selectedIndex = dropdown.selectedIndex;
+  const optionsLength = dropdown.options.length;
+
+  if (selectedIndex === 0) {
+      dropdown.selectedIndex = optionsLength - 1; // Loop around to the last option
+  } else {
+      dropdown.selectedIndex = selectedIndex - 1;
+  }
+  updatePreview();
+}
+
+
+
 function populateAfterglowDropdown() {
   let select = document.getElementById('afterglow');
   let html = '';

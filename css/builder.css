@@ -16,6 +16,7 @@ input[type="color"] {
     border-radius: 5px;
     padding: 0;
     border: 0px solid #DDD;
+    margin-top: 4px;
 }
 
 input[type="color"]::-moz-color-swatch {
@@ -75,3 +76,32 @@ input[type="color"]::-webkit-color-swatch {
     background: #9bfff4;
     cursor: pointer;
 }
+
+#controls a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 4px 12px;
+  }
+  
+  #controls a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .previous {
+    background-color: #f1f1f1;
+    color: black;
+  }
+  
+  .next {
+    background-color: #04AA6D;
+    color: white;
+  }
+  
+  .round {
+    border-radius: 50%;
+  }
+
+  .controls{
+    margin-left: 36px;
+  }
