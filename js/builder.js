@@ -528,3 +528,28 @@ function resample_single(canvas, resize_canvas, width, height) {
     // callback(resize_canvas);
   // } , 0);
 }
+
+function randomMech(){
+  ['head_style','body_style','left_arm_style','right_arm_style','legs_style','engine_style'].forEach((part)=>{
+    const dropdown = document.getElementById(part);
+    const optionsLength = dropdown.options.length;
+    dropdown.selectedIndex = Math.floor(Math.random()*optionsLength-1);
+  });
+
+  partColors.head = '#'+Math.floor(Math.random()*16777215).toString(16);
+  partColors.body = '#'+Math.floor(Math.random()*16777215).toString(16);
+  partColors.left_arm = '#'+Math.floor(Math.random()*16777215).toString(16);
+  partColors.right_arm = '#'+Math.floor(Math.random()*16777215).toString(16);
+  partColors.legs = '#'+Math.floor(Math.random()*16777215).toString(16);
+  document.getElementById('head_style_color').value = partColors.head;
+  document.getElementById('body_style_color').value = partColors.body;
+  document.getElementById('left_arm_style_color').value = partColors.left_arm;
+  document.getElementById('right_arm_style_color').value = partColors.right_arm;
+  document.getElementById('legs_style_color').value = partColors.legs;
+
+  const dropdown2 = document.getElementById('afterglow');
+  const optionsLength2 = dropdown2.options.length;
+  dropdown2.selectedIndex = Math.floor(Math.random()*optionsLength2-1);
+
+  updatePreview();
+}

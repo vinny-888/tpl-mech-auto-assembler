@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/main.css?v=4.1">
-    <link rel="stylesheet" href="./css/owners.css?v=4.1">
-    <link rel="stylesheet" href="./css/builder.css?v=4.1">
+    <link rel="stylesheet" href="./css/main.css?v=4.2">
+    <link rel="stylesheet" href="./css/owners.css?v=4.2">
+    <link rel="stylesheet" href="./css/builder.css?v=4.2">
   </head>
   <body>
     <div class="header">
@@ -104,7 +104,7 @@
                     </select>
                   </div>
                   <div class="inlineColor">
-                    <input type="color" class="colorPicker" id="full_style_color" oninput="setModelColor(true)" onchange="setModelColor(true)" value="" style="width:20px; height: 20px;">
+                    <input type="color" class="colorPicker" id="full_style_color" oninput="setModelColor(true)" onchange="setModelColor(true)" value="#ffffff" style="width:20px; height: 20px;margin-left: 2px;margin-top: 0px;">
                   </div>
                 </div>
                 <div class="inline" style="margin-right: 0px;">
@@ -187,10 +187,14 @@
                   <input type="checkbox" onclick="toggleColors()">
                 </div>
                 <div class="inline" style="margin-right: 0px;">
-                  <input type="button" onclick="randomizeColors()" value="Random">
+                  <input type="button" onclick="randomizeColors()" value="Random Color">
                 </div>
                 <div class="inline" style="margin-right: 0px;">
-                  <input type="button" onclick="complimentColors()" value="Compliment">
+                  <input type="button" onclick="complimentColors()" value="Compliment Color">
+                </div>
+
+                <div class="inline" style="margin-right: 0px;">
+                  <input type="button" onclick="randomMech()" value="Random Mech">
                 </div>
               </div>
 
@@ -672,12 +676,12 @@
         </tr>
       </template>
     </div>
-    <script type="text/javascript" src="./js/util/constants.js?v=4.1"></script>
-    <script type="text/javascript" src="./js/util/utils.js?v=4.1"></script>
-    <script type="text/javascript" src="./js/util/colors.js?v=4.1"></script>
-    <script type="text/javascript" src="./js/ui/tooltip.js?v=4.1"></script>
-    <script type="text/javascript" src="./js/data/metadata.js?v=4.1"></script>
-    <script type="text/javascript" src="./js/canvas/renderer.js?v=4.1"></script>
-    <script type="text/javascript" src="./js/builder.js?v=4.1"></script>
+    <script type="text/javascript" src="./js/util/constants.js?v=4.2"></script>
+    <script type="text/javascript" src="./js/util/utils.js?v=4.2"></script>
+    <script type="text/javascript" src="./js/util/colors.js?v=4.2"></script>
+    <script type="text/javascript" src="./js/ui/tooltip.js?v=4.2"></script>
+    <script type="text/javascript" src="./js/data/metadata.js?v=4.2"></script>
+    <script type="text/javascript" src="./js/canvas/renderer.js?v=4.2"></script>
+    <script type="text/javascript" src="./js/builder.js?v=4.2"></script>
   </body>
 </html>
