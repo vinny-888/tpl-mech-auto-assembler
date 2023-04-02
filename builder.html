@@ -103,8 +103,8 @@
                       </optgroup>
                     </select>
                   </div>
-                  <div class="inlineColor">
-                    <input type="color" class="colorPicker" id="full_style_color" oninput="setModelColor(true)" onchange="setModelColor(true)" value="#ffffff" style="width:20px; height: 20px;margin-left: 2px;margin-top: 0px;">
+                  <div  style="display: inline-block;margin-right: 16px;">
+                    <input type="color" class="colorPicker" id="full_style_color" oninput="setModelColor(true)" onchange="setModelColor(true)" value="#ffffff" style="width:20px; height: 20px;margin-top: -15px;">
                   </div>
                 </div>
                 <div class="inline" style="margin-right: 0px;">
@@ -186,14 +186,8 @@
                   Apply Colors
                   <input type="checkbox" onclick="toggleColors()">
                 </div>
-                <div class="inline" style="margin-right: 0px;">
-                  <input type="button" onclick="randomizeColors()" value="Random Color">
-                </div>
-                <div class="inline" style="margin-right: 0px;">
-                  <input type="button" onclick="complimentColors()" value="Compliment Color">
-                </div>
 
-                <div class="inline" style="margin-right: 0px;">
+                <div class="inline" style="margin-right: 0px;margin-left: 13px;">
                   <input type="button" onclick="randomMech()" value="Random Mech">
                 </div>
               </div>
@@ -606,6 +600,15 @@
                   <div class="inlineColor controls">
                     <a href="#" class="previous round" onclick="prevPart('legs_style')">&#8249;</a>
                     <a href="#" class="next round" onclick="nextPart('legs_style')">&#8250;</a>
+                  </div>
+                </div>
+                <br><br>
+                <div>
+                  <div class="inline" style="margin-right: 0px;margin-left: -8px;">
+                    <input type="button" onclick="randomizeColors()" value="Random Color">
+                  </div>
+                  <div class="inline" style="margin-right: 0px;">
+                    <input type="button" onclick="complimentColors()" value="Compliment Color">
                   </div>
                 </div>
               </div>
