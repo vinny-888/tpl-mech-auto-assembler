@@ -341,7 +341,7 @@ function updatePreview(){
   let left_arm_style = left_arm.value;
   let right_arm_style = right_arm.value;
   let afterglow_style = afterglow.value;
-  selectedAfterglow = afterglow.options[afterglow.selectedIndex].text;
+  selectedAfterglow = afterglow.options[afterglow.selectedIndex] ? afterglow.options[afterglow.selectedIndex].text : 0;
 
   setParams(engine_style, head_style, body_style, legs_style, left_arm_style, right_arm_style, headColor, bodyColor, legsColor, left_armColor, right_armColor, color_strength, getSelectedText('afterglow'));
 
