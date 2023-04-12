@@ -10,6 +10,7 @@ const config = {
         }
     },
     scene: [StartScene, MainScene],
+    zoom: 1.5
     // postUpdate: postUpdate
 };
 const game = new Phaser.Game(config);
