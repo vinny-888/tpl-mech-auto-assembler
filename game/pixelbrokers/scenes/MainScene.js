@@ -112,7 +112,7 @@ MainScene.prototype.addGround = function() {
 }
 
 MainScene.prototype.addBackground = function() {
-    this.background = this.add.tileSprite(0, 0, 800 * 40, 600, 'background').setOrigin(0, 0).setScrollFactor(0.5);
+    this.background = this.add.tileSprite(0, 0, 800 * 500, 600, 'background').setOrigin(0, 0).setScrollFactor(0.5);
 }
 
 MainScene.prototype.addControls = function() {
@@ -161,7 +161,7 @@ MainScene.prototype.addPlatforms = function() {
 MainScene.prototype.spawnPlatforms = function() {
     let lastLoc = 475;
     let dist = 120;
-    for(let i=0;i<50; i++){
+    for(let i=0;i<500; i++){
         let offset = 0;
         if(lastLoc < 100){
             offset = 50;
