@@ -46,7 +46,7 @@ AllScene.prototype.addPlayers = function() {
             this.addWalkAnimations(i);
             // this.players[i].anims.play(directionsArr[Math.round(Math.random()*directionsArr.length-1)]+i, true);
             this.players[i].anims.play('walkForward'+i, true);
-        }, Math.random()*10000);
+        }, Math.random()*(total*100));
     }
 }
 
