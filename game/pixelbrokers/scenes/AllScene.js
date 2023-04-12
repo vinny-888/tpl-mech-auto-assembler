@@ -40,7 +40,7 @@ AllScene.prototype.addPlayers = function() {
         setTimeout(()=>{
             this.players[i] = this.physics.add.sprite((800/total)*i, Math.random()*100, 'player'+i);
             this.players[i].body.airAcceleration = 600;
-            this.players[i].target = this.players[i].y+410;
+            this.players[i].target = this.players[i].y+428;
             this.players[i].body.setSize(20, 48);
             this.players[i].body.setOffset(40, 30);
             this.addWalkAnimations(i);
