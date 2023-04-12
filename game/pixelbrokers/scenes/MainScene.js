@@ -95,7 +95,7 @@ MainScene.prototype.collectSquare = function(player, square) {
 
 MainScene.prototype.addScore = function() {
     this.score = 0;
-    this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' }).setScrollFactor(0);
+    this.scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' }).setScrollFactor(0);
 }
 
 MainScene.prototype.addPlayer = function() {
