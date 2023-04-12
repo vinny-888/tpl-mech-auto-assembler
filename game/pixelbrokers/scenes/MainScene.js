@@ -166,15 +166,15 @@ MainScene.prototype.spawnPlatforms = function() {
         if(lastLoc < 100){
             offset = 50;
         } else if(i <= 5 && lastLoc > 475){
-            offset = -75;
+            offset = -50;
         } else if(i > 5 && lastLoc > 375){
-            offset = -75;
+            offset = -50;
         } else if(i > 25 && lastLoc > 300){
-            offset = -75;
+            offset = -50;
         } else if(i > 50 && lastLoc > 250){
-            offset = -75;
+            offset = -50;
         } else if(i > 100 && lastLoc > 200){
-            offset = -75;
+            offset = -50;
         }
 
         let y = lastLoc + (50+offset - (50 * Math.random()));
