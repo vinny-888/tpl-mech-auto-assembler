@@ -8,12 +8,14 @@ const afterglowTokenContract = "0xa47fb7c4edd3475ce66f49a66b9bf1edbc61e52d";
 const cyberbrokerTokenContract = "0x892848074ddea461a15f337250da3ce55580ca85";
 const wrapperTokenContract = "0x6158795c09E6C94080f66Eb9a11aD3d908209284";
 const lostParadigmsTokenContract = "0x067154450e59e81ed6bad1bbee459bd7cc2236ea";
+const genesisMechTokenContract = "0xb286ac8eff9f44e2c377c6770cad5fc78bff9ed6";
 
 let mechContract = null;
 let mechRevealedContract = null;
 let afterglowContract = null;
 let cyberbrokerContract = null;
 let wrapperContract = null;
+let genesisMechContract = null;
 
 function initContracts(){
     if(typeof web3 !== 'undefined'){
@@ -24,6 +26,7 @@ function initContracts(){
         afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
         cyberbrokerContract = new web3.eth.Contract(tokenBalanceABI, cyberbrokerTokenContract);
         wrapperContract = new web3.eth.Contract(tokenWrapperABI, wrapperTokenContract);
+        genesisMechContract = new web3.eth.Contract(mechABI, genesisMechTokenContract);
     }
 }
 
