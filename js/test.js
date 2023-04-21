@@ -49,6 +49,6 @@ async function getAccountRevealedParts(address) {
 }
 
 window.addEventListener('load', async () => {
-    initContracts();
+    initMechContract();
     getAccountRevealedParts('0x0000000000000000000000000000000000000000');
 });

@@ -26,6 +26,13 @@ function initContracts(){
         afterglowContract = new web3.eth.Contract(balanceOfABI, afterglowTokenContract);
         cyberbrokerContract = new web3.eth.Contract(tokenBalanceABI, cyberbrokerTokenContract);
         wrapperContract = new web3.eth.Contract(tokenWrapperABI, wrapperTokenContract);
+    }
+}
+
+function initMechContract(){
+    if(typeof web3 !== 'undefined'){
+        console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
+        const web3 = new Web3(provider, {timeout: 20000});
         genesisMechContract = new web3.eth.Contract(mechABI, genesisMechTokenContract);
     }
 }
