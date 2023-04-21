@@ -12,8 +12,8 @@ async function query(contract, event, filter, fromBlock, toBlock) {
 }
 
 async function getAccountRevealedParts(address) {
-    const web3Provider = new Web3(provider, {timeout: 20000});
-    const latest = await web3Provider.eth.getBlockNumber();
+    const web3 = new Web3(provider, {timeout: 20000});
+    const latest = await web3.eth.getBlockNumber();
 
     const logs = [
 		...(await query(genesisMechContract, 'Transfer', { to: [address] }, 0, latest)),
@@ -48,4 +48,7 @@ async function getAccountRevealedParts(address) {
 	return holdings;
 }
 
-getAccountRevealedParts('0x0000000000000000000000000000000000000000');
+window.addEventListener('load', async () => {
+    initContracts();
+    getAccountRevealedParts('0x0000000000000000000000000000000000000000');
+});
