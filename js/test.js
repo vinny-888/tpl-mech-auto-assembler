@@ -12,6 +12,7 @@ async function query(contract, event, filter, fromBlock, toBlock) {
 }
 
 async function getAccountRevealedParts(address) {
+    const web3Provider = new Web3(provider, {timeout: 20000});
     const latest = await web3Provider.eth.getBlockNumber();
 
     const logs = [
