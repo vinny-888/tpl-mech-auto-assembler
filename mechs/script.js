@@ -278,10 +278,10 @@ const fetchMechs = async (token) => {
   function displayMechs(){
     let container = document.querySelector("#mech-container"); 
     
-    [].concat(filteredData).splice(loadedCount,Math.min(filteredData.length, pageSize)).forEach((mech)=>{
+    [].concat(filteredData).splice(loadedCount,Math.min(filteredData.length, loadedCount+pageSize)).forEach((mech)=>{
       container.appendChild(createMechCard(mech));
     })
-    loadedCount = Math.min(filteredData.length, pageSize);
+    loadedCount = Math.min(filteredData.length, loadedCount+pageSize);
     addEventListeners();
   }
 
