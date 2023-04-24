@@ -123,7 +123,7 @@ const fetchMechs = async (token) => {
     // modal.appendChild(name);
 
     // modal.innerHTML += '<iframe src="/tpl-mech-auto-assembler/3d/viewer/index.html?id='+mech.tokenId+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
-    modal.innerHTML += '<iframe src="/3d/viewer/index.html?id='+mech.tokenId+'&res='+res+'&env='+currentEnv+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
+    modal.innerHTML += '<iframe src="/tpl-mech-auto-assembler/3d/viewer/index.html?id='+mech.tokenId+'&res='+res+'&env='+currentEnv+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
 
     
     // modal.appendChild(description);
