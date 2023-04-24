@@ -104,6 +104,9 @@ const fetchMechs = async (token) => {
     <option value="9"  ${currentEnv == '9' ? 'selected' : ''}>Sci Fi - 4</option>
     <option value="10"  ${currentEnv == '10' ? 'selected' : ''}>Sci Fi - 5</option>
     <option value="11"  ${currentEnv == '11' ? 'selected' : ''}>Sci Fi - 6</option>
+    <option value="12"  ${currentEnv == '11' ? 'selected' : ''}>Sci Fi - 7</option>
+    <option value="13"  ${currentEnv == '11' ? 'selected' : ''}>Sci Fi - 8</option>
+    <option value="14"  ${currentEnv == '11' ? 'selected' : ''}>Sci Fi - 9</option>
     </select>`;
     modal.appendChild(div);
     // image.src = mech.image;
