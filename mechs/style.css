@@ -110,8 +110,8 @@ body {
   }
   .modal-close {
     position: absolute;
-    top: -15px;
-    right: 0px;
+    top: -30px;
+    right: -10px;
     font-size: 40px;
     cursor: pointer;
     color: #9bfff4;
@@ -185,4 +185,7 @@ input{
 select{
   background-color: #000;
   margin-left: 10px;
+}
+label{
+  margin-left: 10px
 }

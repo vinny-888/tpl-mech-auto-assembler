@@ -3,6 +3,7 @@ let filteredData = null;
 let loadedCount = 0;
 let currentMech = null;
 let currentRes = '1k';
+let currentEnv = 1;
 // Fetch the JSON data from the API
 const fetchMechs = async (token) => {
     const url = `https://m.cyberbrokers.com/eth/mech/${token}`;
@@ -91,6 +92,13 @@ const fetchMechs = async (token) => {
     <option value="2k"  ${currentRes == '2k' ? 'selected' : ''}>2k</option>
     <option value="4k"  ${currentRes == '4k' ? 'selected' : ''}>4k</option>
     </select>`;
+    div.innerHTML += `<label>  Enviroment: </label><select id="env" onchange="changeEnv()">
+    <option value="1" ${!currentEnv || currentRes == '1' ? 'selected' : ''}>Space</option>
+    <option value="2"  ${currentEnv == '2' ? 'selected' : ''}>Garden</option>
+    <option value="3"  ${currentEnv == '3' ? 'selected' : ''}>Town</option>
+    <option value="4"  ${currentEnv == '4' ? 'selected' : ''}>Beach</option>
+    <option value="5"  ${currentEnv == '5' ? 'selected' : ''}>Snow</option>
+    </select>`;
     modal.appendChild(div);
     // image.src = mech.image;
     // description.textContent = mech.description;
@@ -106,7 +114,7 @@ const fetchMechs = async (token) => {
     // modal.appendChild(name);
 
     // modal.innerHTML += '<iframe src="/tpl-mech-auto-assembler/3d/viewer/index.html?id='+mech.tokenId+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
-    modal.innerHTML += '<iframe src="/3d/viewer/index.html?id='+mech.tokenId+'&res='+res+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
+    modal.innerHTML += '<iframe src="/3d/viewer/index.html?id='+mech.tokenId+'&res='+res+'&env='+currentEnv+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
 
     
     // modal.appendChild(description);
@@ -125,7 +133,13 @@ const fetchMechs = async (token) => {
   function changeRes(){
     let res = document.getElementById('res');
     currentRes = res.value;
-    showModal(currentMech, res.value)
+    showModal(currentMech, currentRes, currentEnv)
+  }
+  currentEnv
+  function changeEnv(){
+    let env = document.getElementById('env');
+    currentEnv = env.value;
+    showModal(currentMech, currentRes, currentEnv)
   }
 
   function toggle(elm){

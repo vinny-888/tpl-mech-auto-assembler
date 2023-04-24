@@ -31,7 +31,7 @@
     aria-placeholder=""
     environment-image="moon_1k.hdr" 
     shadow-intensity="1" 
-    skybox-image="./RenderCrate-HDRI_Orbital_34_4K.hdr" 
+    skybox-image="./Monastery-Ruins-Gnadenberg-Berg-Bei-Neumarkt-4K.hdr" 
     camera-controls touch-action="pan-y">
 </model-viewer>
     <script>
@@ -55,9 +55,11 @@
         const init = () => {
             const id = getUrlParameter("id");
             const res = getUrlParameter("res");
+            const env = getUrlParameter("env");
             const modelURL = getModelURL(id, res);
 
             document.getElementById('model-viewer').setAttribute('src', modelURL);
+            document.getElementById('model-viewer').setAttribute('skybox-image', './'+env+'.hdr');
         };
 
         window.addEventListener('DOMContentLoaded',()=>{
