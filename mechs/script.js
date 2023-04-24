@@ -270,14 +270,15 @@ const fetchMechs = async (token) => {
             (!styles.length || styles.includes(style))
         );
     });
-
+    let container = document.querySelector("#mech-container"); 
+    container.innerHTML = '';
     displayMechs();
   };
 
   function displayMechs(){
     let container = document.querySelector("#mech-container"); 
-    container.innerHTML = '';
-    filteredData.splice(loadedCount,Math.min(filteredData.length, pageSize)).forEach((mech)=>{
+    
+    [].concat(filteredData).splice(loadedCount,Math.min(filteredData.length, pageSize)).forEach((mech)=>{
       container.appendChild(createMechCard(mech));
     })
     loadedCount = Math.min(filteredData.length, pageSize);
