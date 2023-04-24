@@ -98,6 +98,12 @@ const fetchMechs = async (token) => {
     <option value="3"  ${currentEnv == '3' ? 'selected' : ''}>Town</option>
     <option value="4"  ${currentEnv == '4' ? 'selected' : ''}>Beach</option>
     <option value="5"  ${currentEnv == '5' ? 'selected' : ''}>Snow</option>
+    <option value="6"  ${currentEnv == '6' ? 'selected' : ''}>Sci Fi - 1</option>
+    <option value="7"  ${currentEnv == '7' ? 'selected' : ''}>Sci Fi - 2</option>
+    <option value="8"  ${currentEnv == '8' ? 'selected' : ''}>Sci Fi - 3</option>
+    <option value="9"  ${currentEnv == '9' ? 'selected' : ''}>Sci Fi - 4</option>
+    <option value="10"  ${currentEnv == '10' ? 'selected' : ''}>Sci Fi - 5</option>
+    <option value="11"  ${currentEnv == '11' ? 'selected' : ''}>Sci Fi - 6</option>
     </select>`;
     modal.appendChild(div);
     // image.src = mech.image;
@@ -114,7 +120,7 @@ const fetchMechs = async (token) => {
     // modal.appendChild(name);
 
     // modal.innerHTML += '<iframe src="/tpl-mech-auto-assembler/3d/viewer/index.html?id='+mech.tokenId+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
-    modal.innerHTML += '<iframe src="/tpl-mech-auto-assembler/3d/viewer/index.html?id='+mech.tokenId+'&res='+res+'&env='+currentEnv+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
+    modal.innerHTML += '<iframe src="/3d/viewer/index.html?id='+mech.tokenId+'&res='+res+'&env='+currentEnv+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
 
     
     // modal.appendChild(description);
