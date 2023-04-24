@@ -128,7 +128,7 @@ body {
 }
 
 .label {
-    flex-basis: 30%;
+    flex-basis: 40%;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
@@ -141,7 +141,7 @@ body {
     height: 20px;
     overflow: hidden;
     max-width: 120px;
-    margin-left: 30px;
+    margin-left: 10px;
 }
 
 .segment {

@@ -15,7 +15,7 @@ const fetchMechs = async (token) => {
   const addSegment = (title, value) => {
     const activeSegments = Math.round((value / 30) * 6);
     let html = `<div class="bar-container" id="${title}">
-                    <span class="label">${title}:</span>
+                    <span class="label">${title} (${value}):</span>
                     <div class="bar">`;
     for(let i=0; i<6; i++){
       let opacity = 0;
