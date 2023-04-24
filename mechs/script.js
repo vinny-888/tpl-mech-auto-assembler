@@ -1,4 +1,4 @@
-let pageSize = 10;
+let pageSize = 100;
 let filteredData = null;
 let loadedCount = 0;
 // Fetch the JSON data from the API

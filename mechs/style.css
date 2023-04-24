@@ -36,11 +36,11 @@ body {
   }
   
 
-  .container{
+  .container2{
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    margin: 20px;
+    margin: 8px;
   }
   
   .card {
@@ -48,8 +48,8 @@ body {
     background-color: #1c2821;
     border: 2px solid #9bfff4;
     border-radius: 10px;
-    width: 300px;
-    height: 500px;
+    width: 260px;
+    height: 400px;
     align-items: center;
     overflow: hidden;
     cursor: pointer;
@@ -173,6 +173,7 @@ body {
   cursor: pointer;
   font-weight: bold;
   display: block;
+  margin-left: 10px;
 }
 
 input{
