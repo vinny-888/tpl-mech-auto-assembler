@@ -128,9 +128,8 @@ body {
 }
 
 .label {
-    flex-basis: 20%;
+    flex-basis: 30%;
     text-align: left;
-    margin-right: 10px;
     overflow: hidden;
     white-space: nowrap;
 }
