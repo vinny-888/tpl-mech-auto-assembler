@@ -1,6 +1,8 @@
 let pageSize = 100;
 let filteredData = null;
 let loadedCount = 0;
+let currentMech = null;
+let currentRes = '1k';
 // Fetch the JSON data from the API
 const fetchMechs = async (token) => {
     const url = `https://m.cyberbrokers.com/eth/mech/${token}`;
@@ -27,7 +29,7 @@ const fetchMechs = async (token) => {
   }
 
   // Create a card for a given mech object
-  const createMechCard = (mech) => {
+  const createMechCard = (mech, res) => {
     // Create the elements for the card
     const card = document.createElement("div");
     card.classList.add('card');
@@ -64,7 +66,7 @@ const fetchMechs = async (token) => {
     card.appendChild(attributes);
   
     // Add a click event listener to show the modal
-    card.addEventListener("click", () => showModal(mech));
+    card.addEventListener("click", () => showModal(mech, currentRes));
 
       
   
@@ -72,18 +74,24 @@ const fetchMechs = async (token) => {
   };
   
   // Create a modal for a given mech object
-  const createMechModal = (mech) => {
+  const createMechModal = (mech, res) => {
     // Create the elements for the modal
     const modal = document.createElement("div");
     modal.classList.add('modal-viewer');
     const name = document.createElement("h2");
-    const image = document.createElement("img");
+    const div = document.createElement("div");
     const description = document.createElement("p");
     const attributes = document.createElement("div");
     const closeButton = document.createElement("button");
   
     // Set the content of the elements
     name.textContent = mech.name;
+    div.innerHTML += `<label>Resolution: </label><select id="res" onchange="changeRes()">
+    <option value="1k" ${!currentRes || currentRes == '1k' ? 'selected' : ''}>1k</option>
+    <option value="2k"  ${currentRes == '2k' ? 'selected' : ''}>2k</option>
+    <option value="4k"  ${currentRes == '4k' ? 'selected' : ''}>4k</option>
+    </select>`;
+    modal.appendChild(div);
     // image.src = mech.image;
     // description.textContent = mech.description;
     // attributes.innerHTML = `
@@ -98,13 +106,14 @@ const fetchMechs = async (token) => {
     // modal.appendChild(name);
 
     // modal.innerHTML += '<iframe src="/tpl-mech-auto-assembler/3d/viewer/index.html?id='+mech.tokenId+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
-    modal.innerHTML += '<iframe src="/3d/viewer/index.html?id='+mech.tokenId+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
+    modal.innerHTML += '<iframe src="/3d/viewer/index.html?id='+mech.tokenId+'&res='+res+'" title="" style="width: 100%; height: 100%;border: 0px;"></iframe>';
 
-    // modal.appendChild(image);
+    
     // modal.appendChild(description);
     // modal.appendChild(attributes);
     // modal.appendChild(closeButton);
-
+    
+    
 
   
     // Add a click event listener to the close button to hide the modal
@@ -113,6 +122,12 @@ const fetchMechs = async (token) => {
     return modal;
   };
 
+  function changeRes(){
+    let res = document.getElementById('res');
+    currentRes = res.value;
+    showModal(currentMech, res.value)
+  }
+
   function toggle(elm){
     let el = document.getElementById(elm);
     el.style.display = el.style.display == 'none' ? 'block' : 'none';
@@ -120,9 +135,10 @@ const fetchMechs = async (token) => {
   }
   
   // Show the modal for a given mech object
-  const showModal = (mech) => {
+  const showModal = (mech, res) => {
+    currentMech = mech;
     // Create the modal element
-    const modal = createMechModal(mech);
+    const modal = createMechModal(mech, res);
   
     // Add the modal element to the page
     let modalDiv = document.getElementById('modal-inner');
@@ -148,19 +164,19 @@ const fetchMechs = async (token) => {
 
   function addEventListeners(){
     // Add click event listener to each card
-    const cards = document.querySelectorAll(".card");
-    cards.forEach(card => {
-      card.addEventListener("click", () => {
-        const modal = document.querySelector(".modal");
-        modal.querySelector(".name").textContent = card.dataset.name;
-        modal.querySelector(".description").textContent = card.dataset.description;
-        modal.querySelector(".attributes").innerHTML = card.dataset.attributes;
-        modal.querySelector(".image").setAttribute('crossOrigin', "anonymous");
-        modal.querySelector(".image").src = card.dataset.image;
-        modal.style.display = "block";
-        document.body.classList.add("no-scroll");
-      });
-    });
+    // const cards = document.querySelectorAll(".card");
+    // cards.forEach(card => {
+    //   card.addEventListener("click", () => {
+    //     const modal = document.querySelector(".modal");
+    //     modal.querySelector(".name").textContent = card.dataset.name;
+    //     modal.querySelector(".description").textContent = card.dataset.description;
+    //     modal.querySelector(".attributes").innerHTML = card.dataset.attributes;
+    //     modal.querySelector(".image").setAttribute('crossOrigin', "anonymous");
+    //     modal.querySelector(".image").src = card.dataset.image;
+    //     modal.style.display = "block";
+    //     document.body.classList.add("no-scroll");
+    //   });
+    // });
 
     // Add click event listener to close modal
     const modal = document.querySelector(".modal");

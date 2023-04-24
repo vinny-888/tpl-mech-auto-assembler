@@ -40,14 +40,22 @@
             const query = new URLSearchParams(window.location.search);
             return query.get(name);
         };
-        const getModelURL = (id) => {
-            return `https://m.cyberbrokers.com/eth/mech/${id}/files/mech_1k.glb`;
+        const getModelURL = (id, res) => {
+            if(res == '1k'){
+                return `https://m.cyberbrokers.com/eth/mech/${id}/files/mech_1k.glb`;
+            } else if(res == '2k'){
+                return `https://m.cyberbrokers.com/eth/mech/${id}/files/mech_2k.glb`;
+            } else{
+                return `https://m.cyberbrokers.com/eth/mech/${id}/files/mech.glb`;
+            }
+            
             // https://m.cyberbrokers.com/eth/mech/302/files/mech_1k.glb
         };
 
         const init = () => {
             const id = getUrlParameter("id");
-            const modelURL = getModelURL(id);
+            const res = getUrlParameter("res");
+            const modelURL = getModelURL(id, res);
 
             document.getElementById('model-viewer').setAttribute('src', modelURL);
         };

@@ -182,3 +182,7 @@ input{
   color: #9bfff4;
   font-size: 20px;
 }
+select{
+  background-color: #000;
+  margin-left: 10px;
+}
