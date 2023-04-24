@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model Viewer</title>
+
+    <style>
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+        canvas {
+            display: block;
+        }
+        .model-viewer{
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Import the component -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.0.1/model-viewer.min.js"></script>
+
+<!-- Use it like any other HTML element -->
+<model-viewer id="model-viewer" class="model-viewer"
+    alt="" 
+    src="" ar 
+    aria-placeholder=""
+    environment-image="moon_1k.hdr" 
+    shadow-intensity="1" 
+    skybox-image="./RenderCrate-HDRI_Orbital_34_4K.hdr" 
+    camera-controls touch-action="pan-y">
+</model-viewer>
+    <script>
+
+        const getUrlParameter = (name) => {
+            const query = new URLSearchParams(window.location.search);
+            return query.get(name);
+        };
+        const getModelURL = (id) => {
+            return `https://m.cyberbrokers.com/eth/mech/${id}/files/mech_1k.glb`;
+            // https://m.cyberbrokers.com/eth/mech/302/files/mech_1k.glb
+        };
+
+        const init = () => {
+            const id = getUrlParameter("id");
+            const modelURL = getModelURL(id);
+
+            document.getElementById('model-viewer').setAttribute('src', modelURL);
+        };
+
+        window.addEventListener('DOMContentLoaded',()=>{
+            init();
+        })
+</script>
+</body>
+</html>

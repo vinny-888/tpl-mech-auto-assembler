@@ -6,16 +6,25 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div id="modal" class="modal">
+    <div id="modal" class="modal" style="display: none;">
       <div class="modal-content">
-        <span id="close-modal" class="close-modal">&times;</span>
-        <h2 id="modal-name"></h2>
-        <img id="modal-image" src="https://cb-media.sfo3.cdn.digitaloceanspaces.com/mechs/c0c7c76d30bd3dcaefc96f40275bdc0a/c9539985-cfe3-4077-ab3f-9d9fc677c69a/images/nft_image.webp" alt="">
-        <div id="modal-attributes"></div>
-        <div id="modal-description"></div>
+        <div class="close-holder">
+          <span id="close-modal" class="modal-close">&times;</span>
+        </div>
+        <div id="modal-inner"></div>
       </div>
     </div>
+
+    <div>
+      <span class="clickable" onclick="toggle('model-filters')">&#8964; Model:</span>
+      <div id="model-filters" class="filter_div"></div>
+
+      <span class="clickable" onclick="toggle('style-filters')">&#8964; Style:</span>
+      <div id="style-filters" class="filter_div"></div>
+    </div>
     <div class="container" id="mech-container"></div>
+    <input type="button" onclick="loadMore()"  id="load_more" value="Load More" style="margin-left: 46.5%;">
+    <script src="metadata.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

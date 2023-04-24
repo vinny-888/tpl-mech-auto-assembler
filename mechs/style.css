@@ -17,6 +17,16 @@ body {
   h1 {
     margin: 0;
   }
+
+  h2{
+    padding: 10px;
+    margin: 0px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 16px;
+    text-align: center;
+  }
   
   #filter {
     width: 200px;
@@ -25,24 +35,22 @@ body {
     border: none;
   }
   
-  main {
+
+  .container{
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    padding: 20px;
-    justify-content: center;
+    margin: 20px;
   }
   
   .card {
+    width: 200px;
     background-color: #1c2821;
     border: 2px solid #9bfff4;
     border-radius: 10px;
     width: 300px;
-    height: 400px;
-    display: flex;
-    flex-direction: column;
+    height: 500px;
     align-items: center;
-    justify-content: space-between;
     overflow: hidden;
     cursor: pointer;
   }
@@ -50,9 +58,6 @@ body {
   .card img {
     width: 100%;
     height: auto;
-    object-fit: cover;
-    max-height: 200px;
-    margin-bottom: 10px;
   }
   
   .card-details {
@@ -79,7 +84,7 @@ body {
   }
   
   .modal-content {
-    background-color: #1c2821;
+    background-color: #080c0c;
     border: 2px solid #9bfff4;
     border-radius: 10px;
     width: 80%;
@@ -91,13 +96,88 @@ body {
   .modal-content h2 {
     margin-top: 0;
   }
+
+  #modal-inner{
+    height: calc(100% - 20px);
+  }
+
+  .modal-viewer{
+    height: 100%;
+  }
   
+  .close-holder{
+    position: relative;
+  }
   .modal-close {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
+    top: -15px;
+    right: 0px;
+    font-size: 40px;
     cursor: pointer;
     color: #9bfff4;
   }
   
+/* Bars */
+.stats{
+  padding: 10px;
+}
+.bar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.label {
+    flex-basis: 20%;
+    text-align: left;
+    margin-right: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.bar {
+    display: flex;
+    flex-grow: 1;
+    border: 1px solid #444;
+    height: 20px;
+    overflow: hidden;
+    max-width: 120px;
+    margin-left: 30px;
+}
+
+.segment {
+    flex-grow: 1;
+    height: 100%;
+    transition: background-color 0.5s;
+    min-width: 20px;
+}
+
+#Speed .segment { background-color: #f44336; }
+#Endurance .segment { background-color: #4caf50; }
+#Power .segment { background-color: #2196f3; }
+
+
+/* FILTERS */
+.filter_div{
+  border: solid 1px #578c87;
+  background-color: #1f3331;
+  width: 100%;
+  display: inline-block;
+  /* height: 160px; */
+  vertical-align: top;
+  padding: 4px;
+  margin-left: 8px;
+}
+
+.clickable{
+  cursor: pointer;
+  font-weight: bold;
+  display: block;
+}
+
+input{
+  background-color: #1f3331;
+  border: solid 1px #578c87;
+  color: #9bfff4;
+  font-size: 20px;
+}
