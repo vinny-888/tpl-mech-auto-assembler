@@ -383,6 +383,10 @@ const fetchMechs = async (token) => {
       container.appendChild(createMechCard(mech));
     })
     loadedCount = Math.min(filteredData.length, loadedCount+pageSize);
+
+
+    document.getElementById('results').innerHTML = filteredData.length + ' Results';
+    
     addEventListeners();
   }
 

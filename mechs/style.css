@@ -238,3 +238,8 @@ label{
   padding: 10px;
   display: inline-block;
 }
+
+#results{
+  margin-left: 10px;
+    margin-top: 10px;
+}
