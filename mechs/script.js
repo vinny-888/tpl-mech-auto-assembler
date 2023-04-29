@@ -4,6 +4,11 @@ let loadedCount = 0;
 let currentMech = null;
 let currentRes = '1k';
 let currentEnv = 1;
+let minEndurance = 0;
+let minSpeed = 0;
+let minPower = 0;
+let maxStyleDiversity = 6;
+
 // Fetch the JSON data from the API
 const fetchMechs = async (token) => {
     const url = `https://m.cyberbrokers.com/eth/mech/${token}`;
@@ -36,11 +41,29 @@ const fetchMechs = async (token) => {
     card.classList.add('card');
     
     const name = document.createElement("h2");
+    // name.className = 'card-heading';
+
+    const icon = document.createElement('a');
+    icon.setAttribute('href', 'https://opensea.io/assets/ethereum/0xb286ac8eff9f44e2c377c6770cad5fc78bff9ed6/'+mech.tokenId);
+    icon.setAttribute('target', '_blank');
+    icon.onclick = (e) => {e.stopPropagation();};
+    const img = document.createElement('img');
+    img.src = './opensea.png';
+    img.className = 'card-heading-icon';
+    icon.appendChild(img);
+
+    const nameLabel = document.createElement('div');
+    nameLabel.className = 'card-heading';
+    nameLabel.textContent = mech.name;
+    name.appendChild(nameLabel);
+    name.appendChild(icon);
+
+
     const image = document.createElement("img");
     const attributes = document.createElement("div");
   
     // Set the content of the elements
-    name.textContent = mech.name;
+    // name.textContent = mech.name;
     image.setAttribute('crossOrigin', "anonymous");
     image.src = mech.image;
 
@@ -218,7 +241,7 @@ const fetchMechs = async (token) => {
 
   }
 
-  const createFilterCheckboxes = (attribute, container) => {
+  const createFilterCheckboxesModels = (attribute, container) => {
     const values = uniqueAttributes(attribute);
     const filterContainer = document.getElementById(container);
     filterContainer.innerHTML = '';
@@ -232,7 +255,7 @@ const fetchMechs = async (token) => {
     });
     let sorted_values = getSortedKeys(stats);
 
-    sorted_values.forEach((value) => {
+    RARITY_ORDER.forEach((value) => {
         const label = document.createElement("label");
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -244,6 +267,52 @@ const fetchMechs = async (token) => {
         filterContainer.appendChild(label);
     });
   };
+
+  const createFilterCheckboxesStyles = (attribute, container) => {
+    const values = uniqueAttributes(attribute);
+    const filterContainer = document.getElementById(container);
+    filterContainer.innerHTML = '';
+
+    let stats = {};
+    values.forEach((value) => {
+        if(!stats[value]){
+            stats[value] = 0;
+        }
+        stats[value]++;
+    });
+    let sorted_values = getSortedKeys(stats);
+
+    RARITY_ORDER.reverse().forEach((model) => {
+      const label = document.createElement("label");
+      label.textContent = model;
+      filterContainer.appendChild(label);
+
+      STYLE_ORDER[model].forEach((value) => {
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = value;
+        checkbox.className = 'style_filters';
+        // checkbox.checked = selected[value] ? 'checked' : '';
+        checkbox.addEventListener("change", applyFilters);
+        label.appendChild(checkbox);
+        const label2 = document.createElement("label");
+        label2.textContent = value;
+        label2.style.fontWeight = 400;
+        label.appendChild(label2);
+        filterContainer.appendChild(label);
+      });
+
+      const br = document.createElement("br");
+      filterContainer.appendChild(br);
+    });
+  };
+
+  // const createOtherFilters = (container) => {
+  //   const filterContainer = document.getElementById(container);
+  //   filterContainer.appendChild(br);
+  // };
+
   const uniqueAttributes = (attr) => {
     let uniueAtts = {};
 
@@ -261,13 +330,27 @@ const fetchMechs = async (token) => {
     return keys.sort(function(a,b){return obj[a]-obj[b]});
   }
 
+  function getCheckedCheckboxesByClassName(className) {
+    const checkboxes = document.getElementsByClassName(className);
+    const checkedCheckboxes = [];
+  
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].type === 'checkbox' && checkboxes[i].checked) {
+        checkedCheckboxes.push(checkboxes[i]);
+      }
+    }
+  
+    return checkedCheckboxes;
+  }
+
   const applyFilters = (evt) => {
     // debugger;
     // selected[evt.currentTarget.value] = evt.currentTarget.checked == '' ? 0 : 1;
     pageSize = 100;
     loadedCount = 0;
     const modelFilters = document.querySelectorAll("#model-filters input:checked");
-    const styleFilters = document.querySelectorAll("#style-filters input:checked");
+    const styleFilters = getCheckedCheckboxesByClassName('style_filters');
+    // const styleFilters = document.querySelectorAll('.style_filters input[type="checkbox"]:checked');
 
     const models = Array.from(modelFilters).map((filter) => filter.value);
     const styles = Array.from(styleFilters).map((filter) => filter.value);
@@ -275,9 +358,17 @@ const fetchMechs = async (token) => {
     filteredData = metadata.filter((mech) => {
         let style = mech.attributes.find((att)=>att.trait_type == 'Engine').value;
         let model = mech.attributes.find((att)=>att.trait_type == 'Model').value;
+        let speed = mech.attributes.find(attr => attr.trait_type === "Speed").value;
+        let endurance = mech.attributes.find(attr => attr.trait_type === "Endurance").value;
+        let power = mech.attributes.find(attr => attr.trait_type === "Power").value;
+        let styleDiversity = mech.attributes.find(attr => attr.trait_type === "Style Diversity").value;
         return (
             (!models.length || models.includes(model)) &&
-            (!styles.length || styles.includes(style))
+            (!styles.length || styles.includes(style)) &&
+            endurance >= minEndurance &&
+            speed >= minSpeed &&
+            power >= minPower &&
+            styleDiversity <= maxStyleDiversity
         );
     });
     let container = document.querySelector("#mech-container"); 
@@ -301,8 +392,57 @@ const fetchMechs = async (token) => {
   }
 
   window.addEventListener('DOMContentLoaded',()=>{
-    createFilterCheckboxes("Model", "model-filters");
-    createFilterCheckboxes("Engine", "style-filters");
+    createFilterCheckboxesModels("Model", "model-filters");
+    createFilterCheckboxesStyles("Engine", "style-filters");
+    // createOtherFilters();
     filteredData = [].concat(metadata);
     displayMechs();
   })
+
+  let timeout_clear1 = null;
+  function updateEndurance(){
+      let value = parseInt(document.getElementById('endurance').value);
+      document.getElementById('endurance_label').innerHTML = 'Min Endurance: '+value;
+
+      clearTimeout(timeout_clear1);
+      timeout_clear1 = setTimeout(()=>{
+          minEndurance = value;
+          applyFilters();
+      }, 1000)
+  }
+
+  let timeout_clear2 = null;
+  function updateSpeed(){
+      let value = parseInt(document.getElementById('speed').value);
+      document.getElementById('speed_label').innerHTML = 'Min Speed: '+value;
+
+      clearTimeout(timeout_clear2);
+      timeout_clear2 = setTimeout(()=>{
+          minSpeed = value;
+          applyFilters();
+      }, 1000)
+  }
+
+  let timeout_clear3 = null;
+  function updatePower(){
+      let value = parseInt(document.getElementById('power').value);
+      document.getElementById('power_label').innerHTML = 'Min Power: '+value;
+
+      clearTimeout(timeout_clear3);
+      timeout_clear3 = setTimeout(()=>{
+          minPower = value;
+          applyFilters();
+      }, 1000)
+  }
+
+  let timeout_clear4 = null;
+  function updateStyleDiversity(){
+      let value = parseInt(document.getElementById('style').value);
+      document.getElementById('style_label').innerHTML = 'Max Style Diversity: '+value;
+
+      clearTimeout(timeout_clear4);
+      timeout_clear4 = setTimeout(()=>{
+          maxStyleDiversity = value;
+          applyFilters();
+      }, 1000)
+  }

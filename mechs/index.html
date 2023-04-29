@@ -47,13 +47,34 @@
 
             <span class="clickable" onclick="toggle('style-filters')">&#8964; Style:</span>
             <div id="style-filters" class="filter_div"></div>
+
+            <span class="clickable" onclick="toggle('other-filters')">&#8964; Other:</span>
+            <div id="other-filters" class="filter_div">
+              <div class="range_slider">
+                <p id="endurance_label" style="pointer-events: none;user-select: none;position: absolute;color: #fff;font-weight: bold;margin-left: 10px;margin-top: 2px;">Min Endurance: 0</p>
+                <input type="range" min="0" max="30" value="0" class="slider" id="endurance" oninput="updateEndurance()" onchange="updateEndurance()">
+              </div>
+              <div class="range_slider">
+                <p id="speed_label" style="pointer-events: none;user-select: none;position: absolute;color: #fff;font-weight: bold;margin-left: 10px;margin-top: 2px;">Min Speed: 0</p>
+                <input type="range" min="0" max="30" value="0" class="slider" id="speed" oninput="updateSpeed()" onchange="updateSpeed()">
+              </div>
+              <div class="range_slider">
+                <p id="power_label" style="pointer-events: none;user-select: none;position: absolute;color: #fff;font-weight: bold;margin-left: 10px;margin-top: 2px;">Min Power: 0</p>
+                <input type="range" min="0" max="30" value="0" class="slider" id="power" oninput="updatePower()" onchange="updatePower()">
+              </div>
+              <div class="range_slider">
+                <p id="style_label" style="pointer-events: none;user-select: none;position: absolute;color: #fff;font-weight: bold;margin-left: 10px;margin-top: 2px;">Max Style Diversity: 6</p>
+                <input type="range" min="1" max="6" value="6" class="slider" id="style" oninput="updateStyleDiversity()" onchange="updateStyleDiversity()">
+              </div>
+            </div>
           </div>
           <div class="container2" id="mech-container"></div>
           <input type="button" onclick="loadMore()"  id="load_more" value="Load More" style="margin-left: 46.5%;">
         </div>
       </div>
     </div>
-    <script src="metadata.js?v=0.7"></script>
-    <script src="script.js?v=0.7"></script>
+    <script src="../js/util/constants.js?v=0.8"></script>
+    <script src="metadata.js?v=0.8"></script>
+    <script src="script.js?v=0.8"></script>
   </body>
 </html>
