@@ -8,6 +8,26 @@ let minEndurance = 0;
 let minSpeed = 0;
 let minPower = 0;
 let maxStyleDiversity = 6;
+let imageScores = {};
+
+async function getScores(){
+  let url = 'https://mech-models.glitch.me/mech-scores';
+  const response = await fetch(url);
+  const jsonData = await response.json();
+  return jsonData;
+}
+
+async function loadScores(){
+  let scores = await getScores();
+  imageScores = {};
+  // let total = 0;
+  scores.forEach((score)=>{
+      imageScores[score.token_id] = score.score;
+      // total += score.score;
+  })
+  // document.getElementById('total_votes').innerHTML = total + ' Total Votes!';
+  // document.getElementById('total_scores').innerHTML = scores.length + ' Mechs Scored!';
+}
 
 // Fetch the JSON data from the API
 const fetchMechs = async (token) => {
@@ -79,6 +99,8 @@ const fetchMechs = async (token) => {
     html += addSegment('Speed', speed);
     html += addSegment('Endurance', endurance);
     html += addSegment('Power', power);
+    
+    html += '<div style="text-align: center;width: 100%;">'+imageScores[mech.tokenId-1]+' Votes!</div>';
 
     html += '</div>';
 
@@ -88,6 +110,7 @@ const fetchMechs = async (token) => {
     card.appendChild(name);
     card.appendChild(image);
     card.appendChild(attributes);
+
   
     // Add a click event listener to show the modal
     card.addEventListener("click", () => showModal(mech, currentRes));
@@ -395,11 +418,12 @@ const fetchMechs = async (token) => {
     displayMechs();
   }
 
-  window.addEventListener('DOMContentLoaded',()=>{
+  window.addEventListener('DOMContentLoaded',async ()=>{
     createFilterCheckboxesModels("Model", "model-filters");
     createFilterCheckboxesStyles("Engine", "style-filters");
     // createOtherFilters();
     filteredData = [].concat(metadata);
+    await loadScores();
     displayMechs();
   })
 
