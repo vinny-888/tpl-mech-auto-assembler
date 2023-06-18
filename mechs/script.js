@@ -99,7 +99,7 @@ const fetchMechs = async (token) => {
     html += addSegment('Speed', speed);
     html += addSegment('Endurance', endurance);
     html += addSegment('Power', power);
-    
+
     html += '<div style="text-align: center;width: 100%;">'+imageScores[mech.tokenId-1]+' Votes!</div>';
 
     html += '</div>';
@@ -399,13 +399,29 @@ const fetchMechs = async (token) => {
     displayMechs();
   };
 
+  function getSortedKeys(obj) {
+    var keys = Object.keys(obj);
+    return keys.sort(function(a,b){return obj[b].score-obj[a].score});
+}
+
   function displayMechs(){
     let container = document.querySelector("#mech-container"); 
+    container.innerHTML = '';
+
+    let mapping = {};
+    filteredData.forEach((item)=>{
+      mapping[item.tokenId] = {
+        mech: item,
+        score: imageScores[item.tokenId-1]
+      }
+    });
+
+    let mechIds = getSortedKeys(mapping);
     
-    [].concat(filteredData).splice(loadedCount,Math.min(filteredData.length, loadedCount+pageSize)).forEach((mech)=>{
-      container.appendChild(createMechCard(mech));
+    [].concat(mechIds).splice(0,Math.min(mechIds.length, pageSize)).forEach((mech)=>{
+      container.appendChild(createMechCard(mapping[mech].mech));
     })
-    loadedCount = Math.min(filteredData.length, loadedCount+pageSize);
+    // loadedCount = Math.min(filteredData.length, pageSize);
 
 
     document.getElementById('results').innerHTML = filteredData.length + ' Results';
