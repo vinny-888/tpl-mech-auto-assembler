@@ -399,7 +399,7 @@ const fetchMechs = async (token) => {
     displayMechs();
   };
 
-  function getSortedKeys(obj) {
+  function getSortedKeys2(obj) {
     var keys = Object.keys(obj);
     return keys.sort(function(a,b){return obj[b].score-obj[a].score});
 }
@@ -416,7 +416,7 @@ const fetchMechs = async (token) => {
       }
     });
 
-    let mechIds = getSortedKeys(mapping);
+    let mechIds = getSortedKeys2(mapping);
     
     [].concat(mechIds).splice(0,Math.min(mechIds.length, pageSize)).forEach((mech)=>{
       container.appendChild(createMechCard(mapping[mech].mech));
