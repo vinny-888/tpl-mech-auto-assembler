@@ -9,6 +9,17 @@ let minSpeed = 0;
 let minPower = 0;
 let maxStyleDiversity = 6;
 let imageScores = {};
+let walletMechIds = null;
+
+window.addEventListener('DOMContentLoaded',async ()=>{
+  initMechContract();
+  createFilterCheckboxesModels("Model", "model-filters");
+  createFilterCheckboxesStyles("Engine", "style-filters");
+  // createOtherFilters();
+  filteredData = [].concat(metadata);
+  await loadScores();
+  displayMechs();
+})
 
 async function getScores(){
   let url = 'https://mech-models.glitch.me/mech-scores';
@@ -402,7 +413,13 @@ const fetchMechs = async (token) => {
   function getSortedKeys2(obj) {
     var keys = Object.keys(obj);
     return keys.sort(function(a,b){return obj[b].score-obj[a].score});
-}
+  }
+
+  function getSortedKeys3(obj, mapping) {
+    return obj.sort(function(a,b){
+      return mapping[b].score-mapping[a].score;
+    });
+  }
 
   function displayMechs(){
     let container = document.querySelector("#mech-container"); 
@@ -417,10 +434,17 @@ const fetchMechs = async (token) => {
     });
 
     let mechIds = getSortedKeys2(mapping);
-    
-    [].concat(mechIds).splice(0,Math.min(mechIds.length, pageSize)).forEach((mech)=>{
-      container.appendChild(createMechCard(mapping[mech].mech));
-    })
+    if(!walletMechIds){
+      [].concat(mechIds).splice(0,Math.min(mechIds.length, pageSize)).forEach((mech)=>{
+        container.appendChild(createMechCard(mapping[mech].mech));
+      })
+    } else {
+      let filteredWalletMechIds = walletMechIds.filter((id)=> mapping[id] );
+      let walletOrder = getSortedKeys3(filteredWalletMechIds, mapping);
+      walletOrder.forEach((mech)=>{
+        container.appendChild(createMechCard(mapping[mech].mech));
+      })
+    }
     // loadedCount = Math.min(filteredData.length, pageSize);
 
 
@@ -433,15 +457,6 @@ const fetchMechs = async (token) => {
     pageSize += 100;
     displayMechs();
   }
-
-  window.addEventListener('DOMContentLoaded',async ()=>{
-    createFilterCheckboxesModels("Model", "model-filters");
-    createFilterCheckboxesStyles("Engine", "style-filters");
-    // createOtherFilters();
-    filteredData = [].concat(metadata);
-    await loadScores();
-    displayMechs();
-  })
 
   let timeout_clear1 = null;
   function updateEndurance(){
@@ -489,4 +504,19 @@ const fetchMechs = async (token) => {
           maxStyleDiversity = value;
           applyFilters();
       }, 1000)
+  }
+
+  function updateWallet(){
+    let wallet = document.getElementById('wallet').value;
+    console.log(wallet);
+    if(wallet){
+      getMechTokenBalance(wallet).then((ids)=>{
+        walletMechIds = ids;
+        displayMechs();
+      });
+    } else {
+      walletMechIds = null;
+      displayMechs();
+    }
+
   }
