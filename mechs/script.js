@@ -7,6 +7,7 @@ let currentEnv = 1;
 let minEndurance = 0;
 let minSpeed = 0;
 let minPower = 0;
+let minStyleDiversity = 1;
 let maxStyleDiversity = 6;
 let imageScores = {};
 let walletMechIds = null;
@@ -402,7 +403,8 @@ const fetchMechs = async (token) => {
             endurance >= minEndurance &&
             speed >= minSpeed &&
             power >= minPower &&
-            styleDiversity <= maxStyleDiversity
+            styleDiversity <= maxStyleDiversity &&
+            styleDiversity >= minStyleDiversity
         );
     });
     let container = document.querySelector("#mech-container"); 
@@ -502,6 +504,19 @@ const fetchMechs = async (token) => {
       clearTimeout(timeout_clear4);
       timeout_clear4 = setTimeout(()=>{
           maxStyleDiversity = value;
+          applyFilters();
+      }, 1000)
+  }
+
+
+  let timeout_clear5 = null;
+  function updateStyleDiversityMin(){
+      let value = parseInt(document.getElementById('styleMin').value);
+      document.getElementById('styleMin_label').innerHTML = 'Min Style Diversity: '+value;
+
+      clearTimeout(timeout_clear4);
+      timeout_clear5 = setTimeout(()=>{
+          minStyleDiversity = value;
           applyFilters();
       }, 1000)
   }
